@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ADEA92961D53E5A40016B0DB /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEA92951D53E5A40016B0DB /* Card.swift */; };
+		ADEA92981D53F88C0016B0DB /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEA92971D53F88C0016B0DB /* CardViewController.swift */; };
 		ADECA8E81D51540900726AEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADECA8E71D51540900726AEF /* AppDelegate.swift */; };
 		ADECA8EA1D51540900726AEF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADECA8E91D51540900726AEF /* ViewController.swift */; };
 		ADECA8ED1D51540900726AEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADECA8EB1D51540900726AEF /* Main.storyboard */; };
 		ADECA8EF1D51540900726AEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADECA8EE1D51540900726AEF /* Assets.xcassets */; };
 		ADECA8F21D51540900726AEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADECA8F01D51540900726AEF /* LaunchScreen.storyboard */; };
 		ADECA8FD1D51540900726AEF /* MeshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADECA8FC1D51540900726AEF /* MeshTests.swift */; };
+		ADECA9081D515A3F00726AEF /* Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADECA9071D515A3F00726AEF /* Loading.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		ADEA92951D53E5A40016B0DB /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		ADEA92971D53F88C0016B0DB /* CardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
 		ADECA8E41D51540900726AEF /* Mesh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mesh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADECA8E71D51540900726AEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADECA8E91D51540900726AEF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -36,6 +41,7 @@
 		ADECA8F81D51540900726AEF /* MeshTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeshTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADECA8FC1D51540900726AEF /* MeshTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshTests.swift; sourceTree = "<group>"; };
 		ADECA8FE1D51540900726AEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ADECA9071D515A3F00726AEF /* Loading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loading.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,10 +85,13 @@
 			children = (
 				ADECA8E71D51540900726AEF /* AppDelegate.swift */,
 				ADECA8E91D51540900726AEF /* ViewController.swift */,
+				ADECA9071D515A3F00726AEF /* Loading.swift */,
 				ADECA8EB1D51540900726AEF /* Main.storyboard */,
 				ADECA8EE1D51540900726AEF /* Assets.xcassets */,
 				ADECA8F01D51540900726AEF /* LaunchScreen.storyboard */,
 				ADECA8F31D51540900726AEF /* Info.plist */,
+				ADEA92951D53E5A40016B0DB /* Card.swift */,
+				ADEA92971D53F88C0016B0DB /* CardViewController.swift */,
 			);
 			path = Mesh;
 			sourceTree = "<group>";
@@ -200,7 +209,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADECA8EA1D51540900726AEF /* ViewController.swift in Sources */,
+				ADECA9081D515A3F00726AEF /* Loading.swift in Sources */,
 				ADECA8E81D51540900726AEF /* AppDelegate.swift in Sources */,
+				ADEA92981D53F88C0016B0DB /* CardViewController.swift in Sources */,
+				ADEA92961D53E5A40016B0DB /* Card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,6 +420,7 @@
 				ADECA9031D51540900726AEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		ADECA9041D51540900726AEF /* Build configuration list for PBXNativeTarget "MeshTests" */ = {
 			isa = XCConfigurationList;
@@ -416,6 +429,7 @@
 				ADECA9061D51540900726AEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
