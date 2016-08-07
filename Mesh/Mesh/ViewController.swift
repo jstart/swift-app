@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var cards : [CardViewController] = [CardViewController()]
+    var cardStack = CardStack()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -18,20 +18,20 @@ class ViewController: UIViewController {
         //loading.addLoadingView()
         //loading.start()
         
-        let card = cards[0]
-        if childViewControllers.contains(card) {
+        if childViewControllers.contains(cardStack) {
             return
         }
-        addChildViewController(card)
-        view.addSubview(card.view)
+        addChildViewController(cardStack)
+        cardStack.view.frame = view.frame
+        view.addSubview(cardStack.view)
         
-        NSLayoutConstraint(item: card.view, attribute: .height, relatedBy: .equal, toItem: view, attribute: .height, multiplier: 1.0, constant:-60).isActive = true
-        NSLayoutConstraint(item: card.view, attribute: .width, relatedBy: .equal, toItem: view, attribute: .width, multiplier: 1.0, constant:-20).isActive = true
+        NSLayoutConstraint(item: cardStack.view, attribute: .height, relatedBy: .equal, toItem: view, attribute: .height, multiplier: 1.0, constant:0).isActive = true
+        NSLayoutConstraint(item: cardStack.view, attribute: .width, relatedBy: .equal, toItem: view, attribute: .width, multiplier: 1.0, constant:0).isActive = true
         
-        view.centerXAnchor.constraint(equalTo: card.view.centerXAnchor).isActive = true
-        view.centerYAnchor.constraint(equalTo: card.view.centerYAnchor).isActive = true
-
-        card.view.translatesAutoresizingMaskIntoConstraints = false
+        view.centerXAnchor.constraint(equalTo: cardStack.view.centerXAnchor).isActive = true
+        view.centerYAnchor.constraint(equalTo: cardStack.view.centerYAnchor).isActive = true
+        
+        cardStack.view.translatesAutoresizingMaskIntoConstraints = false
     }
 
 }

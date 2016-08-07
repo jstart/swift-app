@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD06B6FB1D541FF7005D349A /* CardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FA1D541FF7005D349A /* CardStack.swift */; };
+		AD06B6FD1D542628005D349A /* Constrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FC1D542628005D349A /* Constrain.swift */; };
 		ADEA92961D53E5A40016B0DB /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEA92951D53E5A40016B0DB /* Card.swift */; };
 		ADEA92981D53F88C0016B0DB /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEA92971D53F88C0016B0DB /* CardViewController.swift */; };
 		ADECA8E81D51540900726AEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADECA8E71D51540900726AEF /* AppDelegate.swift */; };
@@ -29,6 +31,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AD06B6FA1D541FF7005D349A /* CardStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardStack.swift; sourceTree = "<group>"; };
+		AD06B6FC1D542628005D349A /* Constrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constrain.swift; sourceTree = "<group>"; };
 		ADEA92951D53E5A40016B0DB /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		ADEA92971D53F88C0016B0DB /* CardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
 		ADECA8E41D51540900726AEF /* Mesh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mesh.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,7 +95,9 @@
 				ADECA8F01D51540900726AEF /* LaunchScreen.storyboard */,
 				ADECA8F31D51540900726AEF /* Info.plist */,
 				ADEA92951D53E5A40016B0DB /* Card.swift */,
+				AD06B6FA1D541FF7005D349A /* CardStack.swift */,
 				ADEA92971D53F88C0016B0DB /* CardViewController.swift */,
+				AD06B6FC1D542628005D349A /* Constrain.swift */,
 			);
 			path = Mesh;
 			sourceTree = "<group>";
@@ -208,8 +214,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD06B6FD1D542628005D349A /* Constrain.swift in Sources */,
 				ADECA8EA1D51540900726AEF /* ViewController.swift in Sources */,
 				ADECA9081D515A3F00726AEF /* Loading.swift in Sources */,
+				AD06B6FB1D541FF7005D349A /* CardStack.swift in Sources */,
 				ADECA8E81D51540900726AEF /* AppDelegate.swift in Sources */,
 				ADEA92981D53F88C0016B0DB /* CardViewController.swift in Sources */,
 				ADEA92961D53E5A40016B0DB /* Card.swift in Sources */,
