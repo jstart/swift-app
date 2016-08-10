@@ -3,12 +3,21 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		AD06B6FB1D541FF7005D349A /* CardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FA1D541FF7005D349A /* CardStack.swift */; };
 		AD06B6FD1D542628005D349A /* Constrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FC1D542628005D349A /* Constrain.swift */; };
+		AD06B6FF1D56BA5B005D349A /* CardFeedViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FE1D56BA5B005D349A /* CardFeedViewConfig.swift */; };
+		AD06B7011D5900AE005D349A /* CardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD06B7001D5900AE005D349A /* CardViewController.xib */; };
+		AD06B7031D5905D6005D349A /* SwipeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B7021D5905D6005D349A /* SwipeState.swift */; };
+		AD06B7051D59215D005D349A /* SwipeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B7041D59215D005D349A /* SwipeConfig.swift */; };
+		AD4E2E1E1D5A75ED00130811 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4E2E1D1D5A75ED00130811 /* Client.swift */; };
+		AD4E2E201D5A760800130811 /* AuthRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4E2E1F1D5A760800130811 /* AuthRequest.swift */; };
+		AD4E2E221D5AAD5700130811 /* UpdatesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4E2E211D5AAD5700130811 /* UpdatesRequest.swift */; };
+		AD4E2E241D5AAE4300130811 /* MessagesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4E2E231D5AAE4300130811 /* MessagesRequest.swift */; };
+		AD4E2E261D5AAF0B00130811 /* ConnectionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4E2E251D5AAF0B00130811 /* ConnectionRequest.swift */; };
 		ADEA92961D53E5A40016B0DB /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEA92951D53E5A40016B0DB /* Card.swift */; };
 		ADEA92981D53F88C0016B0DB /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEA92971D53F88C0016B0DB /* CardViewController.swift */; };
 		ADECA8E81D51540900726AEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADECA8E71D51540900726AEF /* AppDelegate.swift */; };
@@ -16,23 +25,25 @@
 		ADECA8ED1D51540900726AEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADECA8EB1D51540900726AEF /* Main.storyboard */; };
 		ADECA8EF1D51540900726AEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADECA8EE1D51540900726AEF /* Assets.xcassets */; };
 		ADECA8F21D51540900726AEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADECA8F01D51540900726AEF /* LaunchScreen.storyboard */; };
-		ADECA8FD1D51540900726AEF /* MeshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADECA8FC1D51540900726AEF /* MeshTests.swift */; };
 		ADECA9081D515A3F00726AEF /* Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADECA9071D515A3F00726AEF /* Loading.swift */; };
+		BBA9CA694C61894F6DEA6554 /* Pods_Mesh.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EF9D3831062B1B259E8EE70 /* Pods_Mesh.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		ADECA8F91D51540900726AEF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ADECA8DC1D51540800726AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = ADECA8E31D51540800726AEF;
-			remoteInfo = Mesh;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
+		2AD5F965FA9260BA550C3919 /* Pods-Mesh.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mesh.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mesh/Pods-Mesh.debug.xcconfig"; sourceTree = "<group>"; };
+		5300FC2C816EC2D0EF40E204 /* Pods-Mesh.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mesh.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mesh/Pods-Mesh.release.xcconfig"; sourceTree = "<group>"; };
+		5EF9D3831062B1B259E8EE70 /* Pods_Mesh.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mesh.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD06B6FA1D541FF7005D349A /* CardStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardStack.swift; sourceTree = "<group>"; };
 		AD06B6FC1D542628005D349A /* Constrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constrain.swift; sourceTree = "<group>"; };
+		AD06B6FE1D56BA5B005D349A /* CardFeedViewConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardFeedViewConfig.swift; sourceTree = "<group>"; };
+		AD06B7001D5900AE005D349A /* CardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardViewController.xib; sourceTree = "<group>"; };
+		AD06B7021D5905D6005D349A /* SwipeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeState.swift; sourceTree = "<group>"; };
+		AD06B7041D59215D005D349A /* SwipeConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeConfig.swift; sourceTree = "<group>"; };
+		AD4E2E1D1D5A75ED00130811 /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		AD4E2E1F1D5A760800130811 /* AuthRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthRequest.swift; sourceTree = "<group>"; };
+		AD4E2E211D5AAD5700130811 /* UpdatesRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatesRequest.swift; sourceTree = "<group>"; };
+		AD4E2E231D5AAE4300130811 /* MessagesRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesRequest.swift; sourceTree = "<group>"; };
+		AD4E2E251D5AAF0B00130811 /* ConnectionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionRequest.swift; sourceTree = "<group>"; };
 		ADEA92951D53E5A40016B0DB /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		ADEA92971D53F88C0016B0DB /* CardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
 		ADECA8E41D51540900726AEF /* Mesh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mesh.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -42,9 +53,6 @@
 		ADECA8EE1D51540900726AEF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ADECA8F11D51540900726AEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ADECA8F31D51540900726AEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ADECA8F81D51540900726AEF /* MeshTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeshTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		ADECA8FC1D51540900726AEF /* MeshTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshTests.swift; sourceTree = "<group>"; };
-		ADECA8FE1D51540900726AEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ADECA9071D515A3F00726AEF /* Loading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loading.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -53,25 +61,41 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		ADECA8F51D51540900726AEF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				BBA9CA694C61894F6DEA6554 /* Pods_Mesh.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		59C18668E9263DB0471954F9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2AD5F965FA9260BA550C3919 /* Pods-Mesh.debug.xcconfig */,
+				5300FC2C816EC2D0EF40E204 /* Pods-Mesh.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		AD4E2E1C1D5A75D500130811 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				AD4E2E1D1D5A75ED00130811 /* Client.swift */,
+				AD4E2E1F1D5A760800130811 /* AuthRequest.swift */,
+				AD4E2E211D5AAD5700130811 /* UpdatesRequest.swift */,
+				AD4E2E231D5AAE4300130811 /* MessagesRequest.swift */,
+				AD4E2E251D5AAF0B00130811 /* ConnectionRequest.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		ADECA8DB1D51540800726AEF = {
 			isa = PBXGroup;
 			children = (
 				ADECA8E61D51540900726AEF /* Mesh */,
-				ADECA8FB1D51540900726AEF /* MeshTests */,
 				ADECA8E51D51540900726AEF /* Products */,
+				59C18668E9263DB0471954F9 /* Pods */,
+				D163224E52E4F2D2F80461D0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,7 +103,6 @@
 			isa = PBXGroup;
 			children = (
 				ADECA8E41D51540900726AEF /* Mesh.app */,
-				ADECA8F81D51540900726AEF /* MeshTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -87,6 +110,7 @@
 		ADECA8E61D51540900726AEF /* Mesh */ = {
 			isa = PBXGroup;
 			children = (
+				AD4E2E1C1D5A75D500130811 /* Network */,
 				ADECA8E71D51540900726AEF /* AppDelegate.swift */,
 				ADECA8E91D51540900726AEF /* ViewController.swift */,
 				ADECA9071D515A3F00726AEF /* Loading.swift */,
@@ -95,20 +119,23 @@
 				ADECA8F01D51540900726AEF /* LaunchScreen.storyboard */,
 				ADECA8F31D51540900726AEF /* Info.plist */,
 				ADEA92951D53E5A40016B0DB /* Card.swift */,
+				AD06B6FE1D56BA5B005D349A /* CardFeedViewConfig.swift */,
 				AD06B6FA1D541FF7005D349A /* CardStack.swift */,
+				AD06B7021D5905D6005D349A /* SwipeState.swift */,
+				AD06B7041D59215D005D349A /* SwipeConfig.swift */,
 				ADEA92971D53F88C0016B0DB /* CardViewController.swift */,
+				AD06B7001D5900AE005D349A /* CardViewController.xib */,
 				AD06B6FC1D542628005D349A /* Constrain.swift */,
 			);
 			path = Mesh;
 			sourceTree = "<group>";
 		};
-		ADECA8FB1D51540900726AEF /* MeshTests */ = {
+		D163224E52E4F2D2F80461D0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				ADECA8FC1D51540900726AEF /* MeshTests.swift */,
-				ADECA8FE1D51540900726AEF /* Info.plist */,
+				5EF9D3831062B1B259E8EE70 /* Pods_Mesh.framework */,
 			);
-			path = MeshTests;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,9 +145,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADECA9011D51540900726AEF /* Build configuration list for PBXNativeTarget "Mesh" */;
 			buildPhases = (
+				1989327558156139A57FC202 /* [CP] Check Pods Manifest.lock */,
 				ADECA8E01D51540800726AEF /* Sources */,
 				ADECA8E11D51540800726AEF /* Frameworks */,
 				ADECA8E21D51540800726AEF /* Resources */,
+				C4D22B16B3561AA5C86D6E52 /* [CP] Embed Pods Frameworks */,
+				B31F06ACCE7DC4F1847DADBF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -130,24 +160,6 @@
 			productName = Mesh;
 			productReference = ADECA8E41D51540900726AEF /* Mesh.app */;
 			productType = "com.apple.product-type.application";
-		};
-		ADECA8F71D51540900726AEF /* MeshTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = ADECA9041D51540900726AEF /* Build configuration list for PBXNativeTarget "MeshTests" */;
-			buildPhases = (
-				ADECA8F41D51540900726AEF /* Sources */,
-				ADECA8F51D51540900726AEF /* Frameworks */,
-				ADECA8F61D51540900726AEF /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				ADECA8FA1D51540900726AEF /* PBXTargetDependency */,
-			);
-			name = MeshTests;
-			productName = MeshTests;
-			productReference = ADECA8F81D51540900726AEF /* MeshTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -161,17 +173,14 @@
 				TargetAttributes = {
 					ADECA8E31D51540800726AEF = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 7P284QZ7XV;
+						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
-					};
-					ADECA8F71D51540900726AEF = {
-						CreatedOnToolsVersion = 8.0;
-						ProvisioningStyle = Automatic;
-						TestTargetID = ADECA8E31D51540800726AEF;
 					};
 				};
 			};
 			buildConfigurationList = ADECA8DF1D51540800726AEF /* Build configuration list for PBXProject "Mesh" */;
-			compatibilityVersion = "Xcode 8.0";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -184,7 +193,6 @@
 			projectRoot = "";
 			targets = (
 				ADECA8E31D51540800726AEF /* Mesh */,
-				ADECA8F71D51540900726AEF /* MeshTests */,
 			);
 		};
 /* End PBXProject section */
@@ -194,20 +202,62 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD06B7011D5900AE005D349A /* CardViewController.xib in Resources */,
 				ADECA8F21D51540900726AEF /* LaunchScreen.storyboard in Resources */,
 				ADECA8EF1D51540900726AEF /* Assets.xcassets in Resources */,
 				ADECA8ED1D51540900726AEF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		ADECA8F61D51540900726AEF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1989327558156139A57FC202 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
 			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
-/* End PBXResourcesBuildPhase section */
+		B31F06ACCE7DC4F1847DADBF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mesh/Pods-Mesh-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C4D22B16B3561AA5C86D6E52 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mesh/Pods-Mesh-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		ADECA8E01D51540800726AEF /* Sources */ = {
@@ -216,31 +266,23 @@
 			files = (
 				AD06B6FD1D542628005D349A /* Constrain.swift in Sources */,
 				ADECA8EA1D51540900726AEF /* ViewController.swift in Sources */,
+				AD06B7031D5905D6005D349A /* SwipeState.swift in Sources */,
+				AD4E2E201D5A760800130811 /* AuthRequest.swift in Sources */,
+				AD06B6FF1D56BA5B005D349A /* CardFeedViewConfig.swift in Sources */,
+				AD4E2E1E1D5A75ED00130811 /* Client.swift in Sources */,
 				ADECA9081D515A3F00726AEF /* Loading.swift in Sources */,
+				AD4E2E241D5AAE4300130811 /* MessagesRequest.swift in Sources */,
+				AD4E2E221D5AAD5700130811 /* UpdatesRequest.swift in Sources */,
 				AD06B6FB1D541FF7005D349A /* CardStack.swift in Sources */,
 				ADECA8E81D51540900726AEF /* AppDelegate.swift in Sources */,
 				ADEA92981D53F88C0016B0DB /* CardViewController.swift in Sources */,
+				AD06B7051D59215D005D349A /* SwipeConfig.swift in Sources */,
 				ADEA92961D53E5A40016B0DB /* Card.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		ADECA8F41D51540900726AEF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				ADECA8FD1D51540900726AEF /* MeshTests.swift in Sources */,
+				AD4E2E261D5AAF0B00130811 /* ConnectionRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		ADECA8FA1D51540900726AEF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = ADECA8E31D51540800726AEF /* Mesh */;
-			targetProxy = ADECA8F91D51540900726AEF /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		ADECA8EB1D51540900726AEF /* Main.storyboard */ = {
@@ -280,6 +322,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -330,6 +373,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -357,7 +401,9 @@
 		};
 		ADECA9021D51540900726AEF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2AD5F965FA9260BA550C3919 /* Pods-Mesh.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 7P284QZ7XV;
 				INFOPLIST_FILE = Mesh/Info.plist;
@@ -370,7 +416,9 @@
 		};
 		ADECA9031D51540900726AEF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5300FC2C816EC2D0EF40E204 /* Pods-Mesh.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 7P284QZ7XV;
 				INFOPLIST_FILE = Mesh/Info.plist;
@@ -378,34 +426,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = tinder.Mesh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
-		ADECA9051D51540900726AEF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = 7P284QZ7XV;
-				INFOPLIST_FILE = MeshTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = tinder.MeshTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mesh.app/Mesh";
-			};
-			name = Debug;
-		};
-		ADECA9061D51540900726AEF /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = 7P284QZ7XV;
-				INFOPLIST_FILE = MeshTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = tinder.MeshTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mesh.app/Mesh";
 			};
 			name = Release;
 		};
@@ -426,15 +446,6 @@
 			buildConfigurations = (
 				ADECA9021D51540900726AEF /* Debug */,
 				ADECA9031D51540900726AEF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		ADECA9041D51540900726AEF /* Build configuration list for PBXNativeTarget "MeshTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				ADECA9051D51540900726AEF /* Debug */,
-				ADECA9061D51540900726AEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

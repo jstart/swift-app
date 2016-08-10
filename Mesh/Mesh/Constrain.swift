@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIView {
-    func center(inView:UIView){
+    func center(_ inView:UIView){
         
     }
 }

@@ -12,6 +12,18 @@ enum CardType : String {
     case Person = "Person"
 }
 
+struct Company {
+    var name : String = ""
+    var imageURL : URL?
+}
+
+struct Person {
+    var firstName : String = ""
+    var lastName : String = ""
+    var company : Company?
+}
+
 struct Card {
     var type : CardType
+    var person : Person?
 }

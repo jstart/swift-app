@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CardDelegate {
-    func swiped(direction:UISwipeGestureRecognizerDirection)
+    func swiped(_ direction:UISwipeGestureRecognizerDirection)
 }
 
 class CardStack : UIViewController, CardDelegate {
@@ -31,7 +31,7 @@ class CardStack : UIViewController, CardDelegate {
         }
         let card = cardViews![0]
         card.delegate = self
-        addCard(card: card)
+        addCard(card)
         
 //        let nextCard = CardViewController()
 //        cardViews?.append(nextCard)
@@ -42,14 +42,15 @@ class CardStack : UIViewController, CardDelegate {
         let nextCard = CardViewController()
         nextCard.delegate = self
         cardViews?.append(nextCard)
-        addCard(card: nextCard)
+        addCard(nextCard)
     }
 
-    func addCard(card: CardViewController){
+    func addCard(_ card: CardViewController){
         addChildViewController(card)
-        card.view.alpha = 0.5
+        card.view.alpha = CardFeedViewConfig().behindAlpha
+        let scale = CardFeedViewConfig().behindScale
         let transform =
-            CGAffineTransform(scaleX: 0.5, y: 0.5)
+            CGAffineTransform(scaleX: scale, y: scale)
         card.view.transform = transform;
         view.addSubview(card.view)
         
@@ -73,7 +74,7 @@ class CardStack : UIViewController, CardDelegate {
         
     }
     
-    func swiped(direction: UISwipeGestureRecognizerDirection) {
+    func swiped(_ direction: UISwipeGestureRecognizerDirection) {
         addNewCard()
     }
 }

@@ -17,6 +17,23 @@ class ViewController: UIViewController {
         //let loading = Loading(viewController: self, activityStyle: ActivityStyle(style: .gray, position: .center))
         //loading.addLoadingView()
         //loading.start()
+        let client = Client()
+        client.execute(request: LoginRequest(phone_number: "3103479814", password: "password"), completionHandler: { response in
+            if let JSON = response.result.value {
+                print("JSON: \(JSON)")
+            }
+            if (response.result.error != nil) {
+                print(response.result.error)
+            }
+            client.execute(request: UpdatesRequest(last_update: 0), completionHandler: { response in
+                if let JSON = response.result.value {
+                    print("JSON: \(JSON)")
+                }
+                if (response.result.error != nil) {
+                    print(response.result.error)
+                }
+            })
+        })
         
         if childViewControllers.contains(cardStack) {
             return
