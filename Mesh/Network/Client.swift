@@ -10,7 +10,7 @@ import Alamofire
 
 protocol Request {
     var path : String { get }
-    var method : Method { get }
+    var method : HTTPMethod { get }
     func parameters() -> [String : AnyObject]
 }
 
@@ -26,8 +26,8 @@ class Client {
     var baseURL = "http://dev.mesh.tinderventures.com:1337/"
     var token : String?
     
-    func execute(request : Request, completionHandler: (Response<AnyObject, NSError>) -> Void){
-        Alamofire.request(request.method, baseURL + request.path, parameters: request.parameters(), encoding: .json, headers: ["token" : token ?? ""] )
+    func execute(_ request : Request, completionHandler: (Response<AnyObject, NSError>) -> Void){
+        Alamofire.request(baseURL + request.path, withMethod: request.method, parameters: request.parameters(), encoding: .json, headers: ["token" : token ?? ""] )
             .responseJSON { response in
                 if request is LoginRequest {
                     self.token = UserResponse(JSON: response.result.value as! [String : AnyObject]).token

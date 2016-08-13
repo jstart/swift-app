@@ -11,7 +11,7 @@ import Alamofire
 // TODO
 struct MessagesSendRequest : Request {
     let path = "message"
-    let method = Method.PUT
+    let method = HTTPMethod.put
     
     var _id : Int
     
@@ -22,7 +22,7 @@ struct MessagesSendRequest : Request {
 
 struct MessagesDeleteRequest : Request {
     let path = "message"
-    let method = Method.DELETE
+    let method = HTTPMethod.delete
     
     var _id : Int
     

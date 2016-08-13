@@ -10,7 +10,7 @@ import Alamofire
 
 struct AuthRequest : Request {
     let path = "auth"
-    let method = Method.POST
+    let method = HTTPMethod.post
     
     var phone_number : String
     var password : String
@@ -28,7 +28,7 @@ struct AuthRequest : Request {
 
 struct LoginRequest : Request {
     let path = "login"
-    let method = Method.POST
+    let method = HTTPMethod.post
     
     var phone_number : String
     var password : String
@@ -60,5 +60,5 @@ struct UserResponse {
 
 struct LogoutRequest : Request {
     let path = "logout"
-    let method = Method.POST
+    let method = HTTPMethod.post
 }

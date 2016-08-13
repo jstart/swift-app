@@ -21,6 +21,8 @@ class SwipeState {
     horizontalProgress : CGFloat = 0.0,    // the progress of the current swipe from 0 to 1 on X. 1 is a valid swipe.
     verticalProgress : CGFloat = 0.0    // the progress of the current swipe from 0 to 1 on Y. 1 is a valid swipe.
 
+    var direction : UISwipeGestureRecognizerDirection? = nil
+    
     var config = SwipeConfig()
     
     func start(_ gesture : UIPanGestureRecognizer) {
@@ -39,6 +41,9 @@ class SwipeState {
         // Y //
         changeY = CGFloat(touchPoint.y - startY)
         verticalProgress = min(1, abs(changeY / config.yDistanceMinimumForFling))
+        
+        // Angle //
+        direction = getSwipeDirection();
     }
 
     func stop(_ gesture : UIPanGestureRecognizer) {
@@ -58,11 +63,6 @@ class SwipeState {
     }
 
     func getSwipeDirection() -> UISwipeGestureRecognizerDirection {
-        
-        if horizontalProgress < 1 || verticalProgress < 1 {
-            return UISwipeGestureRecognizerDirection()
-        }
-        
         if (isWithinAngle(config.swipeLeftBoundaryStart, boundaryEnd: config.swipeLeftBoundaryEnd, and: true)) {
             return .left
         }
@@ -85,6 +85,21 @@ class SwipeState {
         }
         else {
             return angle >= boundaryStart || angle <= boundaryEnd
+        }
+    }
+    
+    func meetsDragRequirements(swipeDirection : UISwipeGestureRecognizerDirection) -> (Bool) {
+        switch (swipeDirection as UISwipeGestureRecognizerDirection) {
+            case UISwipeGestureRecognizerDirection.left:
+                fallthrough
+            case UISwipeGestureRecognizerDirection.right:
+                return horizontalProgress == 1 && startX - changeX > 0;
+            case UISwipeGestureRecognizerDirection.up:
+                fallthrough
+            case UISwipeGestureRecognizerDirection.down:
+                return verticalProgress == 1 && startY  - changeY > 0;
+        default:
+            return false;
         }
     }
 }

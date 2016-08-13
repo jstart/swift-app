@@ -10,7 +10,7 @@ import Alamofire
 
 struct UpdatesRequest : Request {
     let path = "updates"
-    let method = Method.POST
+    let method = HTTPMethod.post
     
     var last_update : Int
     

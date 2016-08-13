@@ -10,5 +10,5 @@ import Alamofire
 
 struct ConnectionRequest : Request {
     let path = "connection"
-    let method = Method.GET
+    let method = HTTPMethod.get
 }

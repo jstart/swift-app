@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2397C37A1D5E5A6F005C982E /* QuickPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397C3791D5E5A6F005C982E /* QuickPageControl.swift */; };
 		AD06B6FB1D541FF7005D349A /* CardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FA1D541FF7005D349A /* CardStack.swift */; };
 		AD06B6FD1D542628005D349A /* Constrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FC1D542628005D349A /* Constrain.swift */; };
 		AD06B6FF1D56BA5B005D349A /* CardFeedViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FE1D56BA5B005D349A /* CardFeedViewConfig.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2397C3791D5E5A6F005C982E /* QuickPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickPageControl.swift; sourceTree = "<group>"; };
 		2AD5F965FA9260BA550C3919 /* Pods-Mesh.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mesh.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mesh/Pods-Mesh.debug.xcconfig"; sourceTree = "<group>"; };
 		5300FC2C816EC2D0EF40E204 /* Pods-Mesh.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mesh.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mesh/Pods-Mesh.release.xcconfig"; sourceTree = "<group>"; };
 		5EF9D3831062B1B259E8EE70 /* Pods_Mesh.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mesh.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,6 +121,7 @@
 				ADECA8F01D51540900726AEF /* LaunchScreen.storyboard */,
 				ADECA8F31D51540900726AEF /* Info.plist */,
 				ADEA92951D53E5A40016B0DB /* Card.swift */,
+				2397C3791D5E5A6F005C982E /* QuickPageControl.swift */,
 				AD06B6FE1D56BA5B005D349A /* CardFeedViewConfig.swift */,
 				AD06B6FA1D541FF7005D349A /* CardStack.swift */,
 				AD06B7021D5905D6005D349A /* SwipeState.swift */,
@@ -276,6 +279,7 @@
 				AD06B6FB1D541FF7005D349A /* CardStack.swift in Sources */,
 				ADECA8E81D51540900726AEF /* AppDelegate.swift in Sources */,
 				ADEA92981D53F88C0016B0DB /* CardViewController.swift in Sources */,
+				2397C37A1D5E5A6F005C982E /* QuickPageControl.swift in Sources */,
 				AD06B7051D59215D005D349A /* SwipeConfig.swift in Sources */,
 				ADEA92961D53E5A40016B0DB /* Card.swift in Sources */,
 				AD4E2E261D5AAF0B00130811 /* ConnectionRequest.swift in Sources */,
