@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIView {
-    func center(_ inView:UIView){
-        
+    func constrain(_ attribute : NSLayoutAttribute, constant : CGFloat = 0.0, toItem : UIView? = nil){
+        NSLayoutConstraint(item: self, attribute: attribute, relatedBy: .equal, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : attribute, multiplier: 1.0, constant:constant).isActive = true
     }
 }

@@ -28,13 +28,30 @@ class CardViewController : UIViewController {
         gestureRec?.isEnabled = false
         view.addGestureRecognizer(gestureRec!)
         
-        view.addSubview(control.stack!)
-        control.stack!.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint(item: control.stack!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant:40).isActive = true
-        NSLayoutConstraint(item: control.stack!, attribute: .width, relatedBy: .equal, toItem: view, attribute: .width, multiplier: 1.0, constant:0).isActive = true
-        NSLayoutConstraint(item: control.stack!, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1.0, constant:0).isActive = true
-        NSLayoutConstraint(item: control.stack!, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant:0).isActive = true
+        let stack = UIStackView(arrangedSubviews: [bar(), control.stack!, bar()])
+        stack.distribution = .fillProportionally
+        stack.alignment = .center
+        stack.spacing = 10
 
+        view.addSubview(stack)
+        
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.constrain(.height, constant: 30)
+        stack.constrain(.width, constant: 0, toItem: view)
+        stack.constrain(.centerX, constant: 0, toItem: view)
+        stack.constrain(.centerY, constant: 0, toItem: view)
+
+        control.stack!.constrain(.width, constant: 100)
+    }
+    
+    func bar() -> UIView {
+        let rbar = UIView()
+        rbar.backgroundColor = UIColor.gray
+        
+        rbar.translatesAutoresizingMaskIntoConstraints = false
+        rbar.constrain(.height, constant: 1)
+        rbar.constrain(.width, constant: 40)
+        return rbar
     }
     
     override func viewWillAppear(_ animated: Bool) {

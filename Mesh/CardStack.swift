@@ -54,11 +54,11 @@ class CardStack : UIViewController, CardDelegate {
         card.view.transform = transform;
         view.addSubview(card.view)
         
-        NSLayoutConstraint(item: card.view, attribute: .height, relatedBy: .equal, toItem: view, attribute: .height, multiplier: 1.0, constant:-60).isActive = true
-        NSLayoutConstraint(item: card.view, attribute: .width, relatedBy: .equal, toItem: view, attribute: .width, multiplier: 1.0, constant:-20).isActive = true
+        card.view.constrain(.height, constant: -60, toItem: view)
+        card.view.constrain(.width, constant: -20, toItem: view)
         
-        view.centerXAnchor.constraint(equalTo: card.view.centerXAnchor).isActive = true
-        view.centerYAnchor.constraint(equalTo: card.view.centerYAnchor).isActive = true
+        card.view.constrain(.centerX, toItem: view)
+        card.view.constrain(.centerY, toItem: view)
         
         card.view.translatesAutoresizingMaskIntoConstraints = false
         

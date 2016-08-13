@@ -34,24 +34,50 @@ enum QuickViewCategory {
     func button() -> UIButton {
         let button = UIButton()
         button.setImage(UIImage(named:imageName()), for: .normal)
+        let tintImage = UIImage(named:imageName())?.withRenderingMode(.alwaysTemplate)
+        button.setImage(tintImage, for: .highlighted)
+        button.setImage(tintImage, for: .selected)
+
         return button
     }
 }
 
-struct QuickPageTab {
-    var type : QuickViewCategory
+protocol QuickPageControlDelegate {
+    func selectedIndex(index:Int)
+    
 }
 
-class QuickPageControl {
+class QuickPageControl : NSObject {
 
     var stack : UIStackView? = nil
+    var delegate : QuickPageControlDelegate?
     
     init(categories: [QuickViewCategory]) {
         let array = categories.map({return $0.button()})
+        
         stack = UIStackView(arrangedSubviews: array)
         stack?.spacing = 5
         stack?.distribution = .fillEqually
         stack?.alignment = .center
+        
+        super.init()
+        
+        array.forEach({ button in
+            button.addTarget(self, action: #selector(selected(sender:)), for: .touchUpInside)
+        })
+    }
+    
+    func selectIndex(index:Int){
+        for button in (stack?.subviews)! as! [UIButton] {
+            button.isSelected = true
+        }
+    }
+    
+    func selected(sender : UIButton){
+        for button in (stack?.subviews)! as! [UIButton] {
+            button.isSelected = button == sender
+        }
+        delegate?.selectedIndex(index: (stack?.subviews.index(of: sender))!)
     }
 
 }
