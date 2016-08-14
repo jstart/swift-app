@@ -20,9 +20,6 @@ class CardStack : UIViewController, CardDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //let loading = Loading(viewController: self, activityStyle: ActivityStyle(style: .gray, position: .center))
-        //loading.addLoadingView()
-        //loading.start()
         
         if (cardViews?[0] != nil) {
             return
@@ -32,10 +29,6 @@ class CardStack : UIViewController, CardDelegate {
         let card = cardViews![0]
         card.delegate = self
         addCard(card)
-        
-//        let nextCard = CardViewController()
-//        cardViews?.append(nextCard)
-//        addCard(card: nextCard)
     }
     
     func addNewCard(){

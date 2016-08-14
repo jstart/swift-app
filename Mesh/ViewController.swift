@@ -14,9 +14,6 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //let loading = Loading(viewController: self, activityStyle: ActivityStyle(style: .gray, position: .center))
-        //loading.addLoadingView()
-        //loading.start()
         let client = Client()
         client.execute(LoginRequest(phone_number: "3103479814", password: "password"), completionHandler: { response in
             if let JSON = response.result.value {

@@ -42,7 +42,7 @@ class SwipeConfig {
     velocitySlopY : CGFloat = 0.8,
     xDistanceMinimumForDrag : CGFloat = 600,
     yDistanceMinimumForDrag : CGFloat = 600,
-    xDistanceMinimumForFling : CGFloat = 0.4,
+    xDistanceMinimumForFling : CGFloat = 0.5,
     yDistanceMinimumForFling : CGFloat = 0.2
     
     let angleSwipeRight = DEFAULT_ANGLE_SWIPE_RIGHT

@@ -40,18 +40,18 @@ class CardViewController : UIViewController {
         stack.constrain(.width, constant: 0, toItem: view)
         stack.constrain(.centerX, constant: 0, toItem: view)
         stack.constrain(.centerY, constant: 0, toItem: view)
-
+        
         control.stack!.constrain(.width, constant: 100)
     }
     
     func bar() -> UIView {
-        let rbar = UIView()
-        rbar.backgroundColor = UIColor.gray
+        let bar = UIView()
+        bar.backgroundColor = UIColor.gray
         
-        rbar.translatesAutoresizingMaskIntoConstraints = false
-        rbar.constrain(.height, constant: 1)
-        rbar.constrain(.width, constant: 40)
-        return rbar
+        bar.translatesAutoresizingMaskIntoConstraints = false
+        bar.constrain(.height, constant: 1)
+        bar.constrain(.width, constant: 40)
+        return bar
     }
     
     override func viewWillAppear(_ animated: Bool) {

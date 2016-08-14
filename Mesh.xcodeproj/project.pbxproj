@@ -26,7 +26,6 @@
 		ADECA8ED1D51540900726AEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADECA8EB1D51540900726AEF /* Main.storyboard */; };
 		ADECA8EF1D51540900726AEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADECA8EE1D51540900726AEF /* Assets.xcassets */; };
 		ADECA8F21D51540900726AEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADECA8F01D51540900726AEF /* LaunchScreen.storyboard */; };
-		ADECA9081D515A3F00726AEF /* Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADECA9071D515A3F00726AEF /* Loading.swift */; };
 		BBA9CA694C61894F6DEA6554 /* Pods_Mesh.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EF9D3831062B1B259E8EE70 /* Pods_Mesh.framework */; };
 /* End PBXBuildFile section */
 
@@ -55,7 +54,6 @@
 		ADECA8EE1D51540900726AEF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ADECA8F11D51540900726AEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ADECA8F31D51540900726AEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ADECA9071D515A3F00726AEF /* Loading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loading.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,7 +113,6 @@
 				AD4E2E1C1D5A75D500130811 /* Network */,
 				ADECA8E71D51540900726AEF /* AppDelegate.swift */,
 				ADECA8E91D51540900726AEF /* ViewController.swift */,
-				ADECA9071D515A3F00726AEF /* Loading.swift */,
 				ADECA8EB1D51540900726AEF /* Main.storyboard */,
 				ADECA8EE1D51540900726AEF /* Assets.xcassets */,
 				ADECA8F01D51540900726AEF /* LaunchScreen.storyboard */,
@@ -273,7 +270,6 @@
 				AD4E2E201D5A760800130811 /* AuthRequest.swift in Sources */,
 				AD06B6FF1D56BA5B005D349A /* CardFeedViewConfig.swift in Sources */,
 				AD4E2E1E1D5A75ED00130811 /* Client.swift in Sources */,
-				ADECA9081D515A3F00726AEF /* Loading.swift in Sources */,
 				AD4E2E241D5AAE4300130811 /* MessagesRequest.swift in Sources */,
 				AD4E2E221D5AAD5700130811 /* UpdatesRequest.swift in Sources */,
 				AD06B6FB1D541FF7005D349A /* CardStack.swift in Sources */,

@@ -91,13 +91,13 @@ class SwipeState {
     func meetsDragRequirements(swipeDirection : UISwipeGestureRecognizerDirection) -> (Bool) {
         switch (swipeDirection as UISwipeGestureRecognizerDirection) {
             case UISwipeGestureRecognizerDirection.left:
-                fallthrough
+                return horizontalProgress == 1 && changeX > 0;
             case UISwipeGestureRecognizerDirection.right:
-                return horizontalProgress == 1 && startX - changeX > 0;
+                return horizontalProgress == 1 && changeX < 0;
             case UISwipeGestureRecognizerDirection.up:
-                fallthrough
+                return verticalProgress == 1 && changeY > 0;
             case UISwipeGestureRecognizerDirection.down:
-                return verticalProgress == 1 && startY  - changeY > 0;
+                return verticalProgress == 1 && changeY < 0;
         default:
             return false;
         }
