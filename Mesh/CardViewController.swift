@@ -15,6 +15,12 @@ class CardViewController : UIViewController {
     var gestureRec : UIPanGestureRecognizer?
     var state = SwipeState()
     var control = QuickPageControl(categories: [.connections, .education, .experience, .interests, .events])
+    
+    lazy var image : UIImageView =  {
+        let image = UIImageView(image: #imageLiteral(resourceName: "profile_sample"))
+        return image
+        
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,20 +34,45 @@ class CardViewController : UIViewController {
         gestureRec?.isEnabled = false
         view.addGestureRecognizer(gestureRec!)
         
-        let stack = UIStackView(arrangedSubviews: [bar(), control.stack!, bar()])
-        stack.distribution = .fillProportionally
-        stack.alignment = .center
-        stack.spacing = 10
-
-        view.addSubview(stack)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.constrain(.height, constant: 30)
-        stack.constrain(.width, constant: 0, toItem: view)
-        stack.constrain(.centerX, constant: 0, toItem: view)
-        stack.constrain(.centerY, constant: 0, toItem: view)
+        let quickViewStack = UIStackView(arrangedSubviews: [bar(), control.stack!, bar()])
+        quickViewStack.distribution = .fillProportionally
+        quickViewStack.alignment = .center
+        quickViewStack.spacing = 10
         
-        control.stack!.constrain(.width, constant: 100)
+        let viewExpand = UIView()
+        viewExpand.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint(item: viewExpand, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0).isActive = true
+        
+        let topStack = UIStackView(arrangedSubviews: [image, quickViewStack, viewExpand])
+        topStack.axis = .vertical
+        topStack.distribution = .fillProportionally
+        topStack.alignment = .center
+        topStack.spacing = 10
+        
+        view.addSubview(topStack)
+        
+        topStack.translatesAutoresizingMaskIntoConstraints = false
+        topStack.constrain(.top, toItem: view)
+        topStack.constrain(.height, constant: 0, toItem: view)
+        topStack.constrain(.width, constant: 0, toItem: view)
+        
+        quickViewStack.translatesAutoresizingMaskIntoConstraints = false
+        quickViewStack.constrain(.height, constant: 30)
+        quickViewStack.constrain(.width, constant: 0, toItem: view)
+        quickViewStack.constrain(.centerX, constant: 0, toItem: view)
+        
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.clipsToBounds = true
+        image.contentMode = .scaleAspectFill
+        image.layer.cornerRadius = 5.0
+        image.constrain(.width, constant: 0, toItem: view)
+        // image.constrain(.height, constant: 393/2)
+        
+        gestureRec?.isEnabled = true
     }
     
     func bar() -> UIView {
@@ -54,23 +85,13 @@ class CardViewController : UIViewController {
         return bar
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        gestureRec?.isEnabled = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        gestureRec?.isEnabled = false
-    }
-    
     func pan(_ sender:UIPanGestureRecognizer){
         switch sender.state {
         case .ended:
             state.stop(gestureRec!)
             
             let swipeDirection = state.getSwipeDirection()
-            if (!state.meetsDragRequirements(swipeDirection: swipeDirection)) {
+            if (!state.meetsDragRequirements(swipeDirection)) {
                 // Back to center
                 UIView.animate(withDuration: 0.2, animations: {
                     sender.view?.center = (self.view?.superview?.center)!

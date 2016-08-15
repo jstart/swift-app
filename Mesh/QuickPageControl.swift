@@ -43,7 +43,7 @@ enum QuickViewCategory {
 }
 
 protocol QuickPageControlDelegate {
-    func selectedIndex(index:Int)
+    func selectedIndex(_ index:Int)
     
 }
 
@@ -67,7 +67,7 @@ class QuickPageControl : NSObject {
         })
     }
     
-    func selectIndex(index:Int){
+    func selectIndex(_ index:Int){
         for button in (stack?.subviews)! as! [UIButton] {
             button.isSelected = true
         }
@@ -77,7 +77,7 @@ class QuickPageControl : NSObject {
         for button in (stack?.subviews)! as! [UIButton] {
             button.isSelected = button == sender
         }
-        delegate?.selectedIndex(index: (stack?.subviews.index(of: sender))!)
+        delegate?.selectedIndex((stack?.subviews.index(of: sender))!)
     }
 
 }

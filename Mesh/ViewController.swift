@@ -14,8 +14,8 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let client = Client()
-        client.execute(LoginRequest(phone_number: "3103479814", password: "password"), completionHandler: { response in
+        //let client = Client()
+        /*client.execute(LoginRequest(phone_number: "3103479814", password: "password"), completionHandler: { response in
             if let JSON = response.result.value {
                 print("JSON: \(JSON)")
             }
@@ -30,7 +30,7 @@ class ViewController: UIViewController {
                     print(response.result.error)
                 }
             })
-        })
+        })*/
         
         if childViewControllers.contains(cardStack) {
             return

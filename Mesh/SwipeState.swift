@@ -88,7 +88,7 @@ class SwipeState {
         }
     }
     
-    func meetsDragRequirements(swipeDirection : UISwipeGestureRecognizerDirection) -> (Bool) {
+    func meetsDragRequirements(_ swipeDirection : UISwipeGestureRecognizerDirection) -> (Bool) {
         switch (swipeDirection as UISwipeGestureRecognizerDirection) {
             case UISwipeGestureRecognizerDirection.left:
                 return horizontalProgress == 1 && changeX > 0;
@@ -98,6 +98,22 @@ class SwipeState {
                 return verticalProgress == 1 && changeY > 0;
             case UISwipeGestureRecognizerDirection.down:
                 return verticalProgress == 1 && changeY < 0;
+        default:
+            return false;
+        }
+    }
+    
+    //TODO: track velocity
+    func meetsFlingRequirements(_ swipeDirection : UISwipeGestureRecognizerDirection) -> Bool {
+        switch (swipeDirection) {
+        case UISwipeGestureRecognizerDirection.left:
+            fallthrough
+        case UISwipeGestureRecognizerDirection.right:
+            return true//state.velocityX >= config.velocitySlopX && state.horizontalProgress >= config.xDistanceMinimumForFling;
+        case UISwipeGestureRecognizerDirection.up:
+            fallthrough
+        case UISwipeGestureRecognizerDirection.down:
+            return true//state.velocityY >= config.velocitySlopY && state.verticalProgress >= config.yDistanceMinimumForFling;
         default:
             return false;
         }
