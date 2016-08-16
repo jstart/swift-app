@@ -16,15 +16,10 @@ class CardViewController : UIViewController {
     var state = SwipeState()
     var control = QuickPageControl(categories: [.connections, .education, .experience, .interests, .events])
     
-    lazy var image : UIImageView =  {
-        let image = UIImageView(image: #imageLiteral(resourceName: "profile_sample"))
-        return image
-        
-    }()
+    let image : UIImageView =  UIImageView(image: #imageLiteral(resourceName: "profile_sample"))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        view.backgroundColor = #colorLiteral(red: 0.631372549, green: 0.1568627451, blue: 0.2784313725, alpha: 1)
         
         view.layer.cornerRadius = 5.0
         view.layer.shadowColor = UIColor.lightGray.cgColor
@@ -33,8 +28,8 @@ class CardViewController : UIViewController {
         gestureRec = UIPanGestureRecognizer(target: self, action: #selector(pan))
         gestureRec?.isEnabled = false
         view.addGestureRecognizer(gestureRec!)
-        
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -43,17 +38,32 @@ class CardViewController : UIViewController {
         quickViewStack.alignment = .center
         quickViewStack.spacing = 10
         
-        let viewExpand = UIView()
-        viewExpand.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint(item: viewExpand, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0).isActive = true
+        let viewExpand = ViewPager(views: [pagerView(.red), pagerView(.blue), pagerView(.green), pagerView(.yellow), pagerView(.black)])
+        control.delegate = viewExpand
+        control.selectIndex(0)
         
-        let topStack = UIStackView(arrangedSubviews: [image, quickViewStack, viewExpand])
+        let name = UILabel()
+        name.textColor = .black
+        name.text = "Micha Kaufman"
+        name.constrain(.height, constant: 20)
+        
+        let position = UILabel()
+        position.textColor = .black
+        position.text = "VP of Engineering at Tesla"
+        position.constrain(.height, constant: 20)
+
+        let topStack = UIStackView(arrangedSubviews: [image, name, position, quickViewStack, viewExpand.scroll])
         topStack.axis = .vertical
         topStack.distribution = .fillProportionally
         topStack.alignment = .center
         topStack.spacing = 10
         
         view.addSubview(topStack)
+        viewExpand.scroll.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint(item: viewExpand.scroll, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100).isActive = true
+        viewExpand.scroll.constrain(.width, toItem: view)
+
+        name.constrain(.leading, toItem: position)
         
         topStack.translatesAutoresizingMaskIntoConstraints = false
         topStack.constrain(.top, toItem: view)
@@ -61,18 +71,30 @@ class CardViewController : UIViewController {
         topStack.constrain(.width, constant: 0, toItem: view)
         
         quickViewStack.translatesAutoresizingMaskIntoConstraints = false
-        quickViewStack.constrain(.height, constant: 30)
+        quickViewStack.constrain(.height, constant: 15)
         quickViewStack.constrain(.width, constant: 0, toItem: view)
         quickViewStack.constrain(.centerX, constant: 0, toItem: view)
         
-        image.translatesAutoresizingMaskIntoConstraints = false
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
         image.layer.cornerRadius = 5.0
+        image.translatesAutoresizingMaskIntoConstraints = false
         image.constrain(.width, constant: 0, toItem: view)
-        // image.constrain(.height, constant: 393/2)
+        
+        //let companyLogo = UIImageView(image: #imageLiteral(resourceName: "settings"))
+        //name.addSubview(companyLogo)
         
         gestureRec?.isEnabled = true
+    }
+    
+    func pagerView(_ color : UIColor) -> UIView {
+        let pagerView = UIView()
+        pagerView.isUserInteractionEnabled = false
+        pagerView.backgroundColor = color
+        
+        pagerView.translatesAutoresizingMaskIntoConstraints = false
+        pagerView.constrain(.height, constant: 30)
+        return pagerView
     }
     
     func bar() -> UIView {
@@ -81,11 +103,11 @@ class CardViewController : UIViewController {
         
         bar.translatesAutoresizingMaskIntoConstraints = false
         bar.constrain(.height, constant: 1)
-        bar.constrain(.width, constant: 40)
+        bar.constrain(.width, constant: 80)
         return bar
     }
     
-    func pan(_ sender:UIPanGestureRecognizer){
+    func pan(_ sender: UIPanGestureRecognizer){
         switch sender.state {
         case .ended:
             state.stop(gestureRec!)
@@ -142,7 +164,7 @@ class CardViewController : UIViewController {
             state.drag(gestureRec!)
             let translation = sender.translation(in: view)
             sender.view?.center = CGPoint(x: (sender.view?.center.x)! + translation.x, y: (sender.view?.center.y)! + translation.y)
-//            sender.view?.transform = CGAffineTransform(rotationAngle: CGFloat(180.0) / CGFloat(M_PI))
+            //sender.view?.transform = CGAffineTransform(rotationAngle: CGFloat(180.0) / CGFloat(M_PI))
 
             sender.setTranslation(.zero, in: view)
         default: break

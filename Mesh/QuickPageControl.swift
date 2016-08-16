@@ -44,7 +44,6 @@ enum QuickViewCategory {
 
 protocol QuickPageControlDelegate {
     func selectedIndex(_ index:Int)
-    
 }
 
 class QuickPageControl : NSObject {
@@ -56,7 +55,7 @@ class QuickPageControl : NSObject {
         let array = categories.map({return $0.button()})
         
         stack = UIStackView(arrangedSubviews: array)
-        stack?.spacing = 5
+        stack?.spacing = 20
         stack?.distribution = .fillEqually
         stack?.alignment = .center
         
@@ -69,7 +68,11 @@ class QuickPageControl : NSObject {
     
     func selectIndex(_ index:Int){
         for button in (stack?.subviews)! as! [UIButton] {
-            button.isSelected = true
+            if (stack?.subviews.index(of: button))! == index {
+                button.isSelected = true
+            }else {
+                button.isSelected = false
+            }
         }
     }
     
