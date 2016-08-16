@@ -18,27 +18,37 @@ class CardStack : UIViewController, CardDelegate {
     private var cardViews : [CardViewController]? = nil
     var topCard : CardViewController? = nil
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
+        let person = Person(firstName: "", lastName:"", details: details)
+        cards = [Card(type: .person, person: person)]
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if (cardViews?[0] != nil) {
             return
-        }else {
-            cardViews = [CardViewController()]
+        } else {
+            let cardVC = CardViewController()
+            cardVC.card = cards?.first
+            cardViews = [cardVC]
         }
         let card = cardViews![0]
         card.delegate = self
         addCard(card)
     }
     
-    func addNewCard(){
+    func addNewCard() {
         let nextCard = CardViewController()
+        nextCard.card = cards?.first
         nextCard.delegate = self
         cardViews?.append(nextCard)
         addCard(nextCard)
     }
 
-    func addCard(_ card: CardViewController){
+    func addCard(_ card: CardViewController) {
         addChildViewController(card)
         card.view.alpha = CardFeedViewConfig().behindAlpha
         let scale = CardFeedViewConfig().behindScale
@@ -63,7 +73,7 @@ class CardStack : UIViewController, CardDelegate {
         })
     }
     
-    func showPreviousCard(){
+    func showPreviousCard() {
         
     }
     

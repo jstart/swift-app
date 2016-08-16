@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2397C37A1D5E5A6F005C982E /* QuickPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397C3791D5E5A6F005C982E /* QuickPageControl.swift */; };
+		23A390B81D629B210032F11C /* UserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A390B71D629B210032F11C /* UserDetails.swift */; };
+		23A390BA1D62A5470032F11C /* QuickViewGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A390B91D62A5470032F11C /* QuickViewGenerator.swift */; };
 		23C09D541D624C66003C9183 /* ViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C09D531D624C66003C9183 /* ViewPager.swift */; };
 		AD06B6FB1D541FF7005D349A /* CardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FA1D541FF7005D349A /* CardStack.swift */; };
 		AD06B6FD1D542628005D349A /* Constrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FC1D542628005D349A /* Constrain.swift */; };
@@ -32,6 +34,8 @@
 
 /* Begin PBXFileReference section */
 		2397C3791D5E5A6F005C982E /* QuickPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickPageControl.swift; sourceTree = "<group>"; };
+		23A390B71D629B210032F11C /* UserDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetails.swift; sourceTree = "<group>"; };
+		23A390B91D62A5470032F11C /* QuickViewGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickViewGenerator.swift; sourceTree = "<group>"; };
 		23C09D531D624C66003C9183 /* ViewPager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPager.swift; sourceTree = "<group>"; };
 		2AD5F965FA9260BA550C3919 /* Pods-Mesh.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mesh.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mesh/Pods-Mesh.debug.xcconfig"; sourceTree = "<group>"; };
 		5300FC2C816EC2D0EF40E204 /* Pods-Mesh.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mesh.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mesh/Pods-Mesh.release.xcconfig"; sourceTree = "<group>"; };
@@ -120,6 +124,7 @@
 				ADECA8F01D51540900726AEF /* LaunchScreen.storyboard */,
 				ADECA8F31D51540900726AEF /* Info.plist */,
 				ADEA92951D53E5A40016B0DB /* Card.swift */,
+				23A390B71D629B210032F11C /* UserDetails.swift */,
 				2397C3791D5E5A6F005C982E /* QuickPageControl.swift */,
 				AD06B6FE1D56BA5B005D349A /* CardFeedViewConfig.swift */,
 				AD06B6FA1D541FF7005D349A /* CardStack.swift */,
@@ -127,6 +132,7 @@
 				AD06B7041D59215D005D349A /* SwipeConfig.swift */,
 				ADEA92971D53F88C0016B0DB /* CardViewController.swift */,
 				23C09D531D624C66003C9183 /* ViewPager.swift */,
+				23A390B91D62A5470032F11C /* QuickViewGenerator.swift */,
 				AD06B7001D5900AE005D349A /* CardViewController.xib */,
 				AD06B6FC1D542628005D349A /* Constrain.swift */,
 			);
@@ -291,11 +297,13 @@
 				AD4E2E241D5AAE4300130811 /* MessagesRequest.swift in Sources */,
 				AD4E2E221D5AAD5700130811 /* UpdatesRequest.swift in Sources */,
 				AD06B6FB1D541FF7005D349A /* CardStack.swift in Sources */,
+				23A390BA1D62A5470032F11C /* QuickViewGenerator.swift in Sources */,
 				ADECA8E81D51540900726AEF /* AppDelegate.swift in Sources */,
 				ADEA92981D53F88C0016B0DB /* CardViewController.swift in Sources */,
 				2397C37A1D5E5A6F005C982E /* QuickPageControl.swift in Sources */,
 				AD06B7051D59215D005D349A /* SwipeConfig.swift in Sources */,
 				ADEA92961D53E5A40016B0DB /* Card.swift in Sources */,
+				23A390B81D629B210032F11C /* UserDetails.swift in Sources */,
 				AD4E2E261D5AAF0B00130811 /* ConnectionRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,7 +9,9 @@
 import Foundation
 
 enum CardType : String {
-    case Person = "Person"
+    case person = "Person"
+    case skill = "Skill"
+    case event = "Event"
 }
 
 struct Company {
@@ -18,9 +20,9 @@ struct Company {
 }
 
 struct Person {
-    var firstName : String = ""
-    var lastName : String = ""
-    var company : Company?
+    var firstName : String
+    var lastName : String
+    var details : UserDetails
 }
 
 struct Card {

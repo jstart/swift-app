@@ -9,13 +9,14 @@
 import UIKit
 import Alamofire
 
-class CardViewController : UIViewController {
+class CardViewController : UIViewController, UIGestureRecognizerDelegate {
     var delegate : CardDelegate?
     
     var gestureRec : UIPanGestureRecognizer?
     var state = SwipeState()
-    var control = QuickPageControl(categories: [.connections, .education, .experience, .interests, .events])
-    
+    var control = QuickPageControl(categories: [.connections, .education, .experience, .skills, .events])
+    var card : Card?
+    var viewPager : ViewPager?
     let image : UIImageView =  UIImageView(image: #imageLiteral(resourceName: "profile_sample"))
     
     override func viewDidLoad() {
@@ -26,6 +27,7 @@ class CardViewController : UIViewController {
         view.layer.shadowOpacity = 0.5
         
         gestureRec = UIPanGestureRecognizer(target: self, action: #selector(pan))
+        gestureRec?.delegate = self
         gestureRec?.isEnabled = false
         view.addGestureRecognizer(gestureRec!)
     }
@@ -38,8 +40,10 @@ class CardViewController : UIViewController {
         quickViewStack.alignment = .center
         quickViewStack.spacing = 10
         
-        let viewExpand = ViewPager(views: [pagerView(.red), pagerView(.blue), pagerView(.green), pagerView(.yellow), pagerView(.black)])
-        control.delegate = viewExpand
+        viewPager = ViewPager(views: QuickViewGenerator.viewsForDetails(userDetails: card!.person!.details))
+        viewPager?.scroll.panGestureRecognizer.require(toFail: gestureRec!)
+        control.delegate = viewPager!
+        viewPager?.delegate = control
         control.selectIndex(0)
         
         let name = UILabel()
@@ -52,16 +56,16 @@ class CardViewController : UIViewController {
         position.text = "VP of Engineering at Tesla"
         position.constrain(.height, constant: 20)
 
-        let topStack = UIStackView(arrangedSubviews: [image, name, position, quickViewStack, viewExpand.scroll])
+        let topStack = UIStackView(arrangedSubviews: [image, name, position, quickViewStack, viewPager!.scroll])
         topStack.axis = .vertical
         topStack.distribution = .fillProportionally
         topStack.alignment = .center
         topStack.spacing = 10
         
         view.addSubview(topStack)
-        viewExpand.scroll.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint(item: viewExpand.scroll, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100).isActive = true
-        viewExpand.scroll.constrain(.width, toItem: view)
+        viewPager!.scroll.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint(item: viewPager!.scroll, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100).isActive = true
+        viewPager!.scroll.constrain(.width, toItem: view)
 
         name.constrain(.leading, toItem: position)
         
@@ -71,7 +75,7 @@ class CardViewController : UIViewController {
         topStack.constrain(.width, constant: 0, toItem: view)
         
         quickViewStack.translatesAutoresizingMaskIntoConstraints = false
-        quickViewStack.constrain(.height, constant: 15)
+        quickViewStack.constrain(.height, constant: 50)
         quickViewStack.constrain(.width, constant: 0, toItem: view)
         quickViewStack.constrain(.centerX, constant: 0, toItem: view)
         
@@ -105,6 +109,29 @@ class CardViewController : UIViewController {
         bar.constrain(.height, constant: 1)
         bar.constrain(.width, constant: 80)
         return bar
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        print(gestureRecognizer, otherGestureRecognizer)
+        
+        return true
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        let touchPoint = touch.location(in: gestureRecognizer.view)
+        let subview = gestureRec?.view?.hitTest(touchPoint, with: nil)
+        if (subview?.isDescendant(of: viewPager!.scroll))! {
+            return false
+        }
+        return true
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return false
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return false
     }
     
     func pan(_ sender: UIPanGestureRecognizer){

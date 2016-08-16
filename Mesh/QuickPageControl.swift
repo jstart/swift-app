@@ -12,22 +12,21 @@ enum QuickViewCategory {
     case connections
     case experience
     case education
-    case interests
+    case skills
     case events
     
     func imageName() -> String {
-        return "settings"
         switch self {
         case .connections:
-            return "connections.png"
+            return "connections"
         case .education:
-            return "education.png"
+            return "education"
         case .experience:
-            return "experience.png"
-        case .interests:
-            return "interests.png"
+            return "experience"
+        case .skills:
+            return "skills"
         case .events:
-            return "events.png"
+            return "events"
         }
     }
     
@@ -37,7 +36,7 @@ enum QuickViewCategory {
         let tintImage = UIImage(named:imageName())?.withRenderingMode(.alwaysTemplate)
         button.setImage(tintImage, for: .highlighted)
         button.setImage(tintImage, for: .selected)
-
+        
         return button
     }
 }
@@ -46,7 +45,7 @@ protocol QuickPageControlDelegate {
     func selectedIndex(_ index:Int)
 }
 
-class QuickPageControl : NSObject {
+class QuickPageControl : NSObject, ViewPagerDelegate {
 
     var stack : UIStackView? = nil
     var delegate : QuickPageControlDelegate?
@@ -81,6 +80,10 @@ class QuickPageControl : NSObject {
             button.isSelected = button == sender
         }
         delegate?.selectedIndex((stack?.subviews.index(of: sender))!)
+    }
+    
+    func selectedIndex(index: Int){
+        selectIndex(index)
     }
 
 }

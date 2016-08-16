@@ -1,0 +1,66 @@
+//
+//  QuickViewGenerator.swift
+//  Mesh
+//
+//  Created by Christopher Truman on 8/15/16.
+//  Copyright © 2016 Tinder. All rights reserved.
+//
+
+import UIKit
+
+struct QuickViewGenerator {
+    
+    static func viewsForDetails(userDetails: UserDetails) -> [UIView] {
+        var views : [UIView] = []
+        
+        if userDetails.connections.count == 0 {
+            views.append(tempQuickView())
+        }
+        if userDetails.experiences.count == 0 {
+            views.append(tempQuickView())
+        }
+        if userDetails.educationItems.count == 0 {
+            views.append(tempQuickView())
+        }
+        if userDetails.skills.count == 0 {
+            views.append(tempQuickView())
+        }
+        if userDetails.events.count == 0 {
+            views.append(tempQuickView())
+        }
+        return views
+    }
+    
+    static func tempQuickView() -> UIStackView {
+        var views : [UIView] = []
+        for _ in 1...4 {
+            views.append(square(image: #imageLiteral(resourceName: "settings"), title: "test"))
+        }
+        let stack = stackOf(views: views)
+        return stack
+    }
+    
+    static func stackOf(views: [UIView]) -> UIStackView {
+        let view = UIStackView(arrangedSubviews: views)
+        view.distribution = .fillEqually
+        view.alignment = .center
+        view.spacing = 5
+        return view
+    }
+    
+    static func square(image: UIImage, title: String) -> UIStackView {
+        let label = UILabel()
+        label.text = title
+        label.textAlignment = .center
+        label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.constrain(.height, constant: 20)
+        
+        let icon = UIImageView(image: #imageLiteral(resourceName: "settings"))
+        let view = UIStackView(arrangedSubviews: [icon, label])
+        view.axis = .vertical
+        view.spacing = 5
+        
+        return view
+    }
+}
