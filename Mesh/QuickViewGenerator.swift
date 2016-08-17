@@ -33,11 +33,25 @@ struct QuickViewGenerator {
     
     static func tempQuickView() -> UIStackView {
         var views : [UIView] = []
-        for _ in 1...4 {
-            views.append(square(image: #imageLiteral(resourceName: "settings"), title: "test"))
+        for _ in 1...5 {
+            views.append(square(image: #imageLiteral(resourceName: "settings"), title: "Test"))
         }
         let stack = stackOf(views: views)
-        return stack
+        stack.constrain(.height, constant: 70)
+        
+        let label = UILabel()
+        label.text = "Test"
+        label.textAlignment = .center
+        label.textColor = .lightGray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.constrain(.height, constant: 20)
+        
+        let stackTitle = stackOf(views: [label, stack])
+        stackTitle.distribution = .fillProportionally
+        stackTitle.axis = .vertical
+        stackTitle.alignment = .leading
+
+        return stackTitle
     }
     
     static func stackOf(views: [UIView]) -> UIStackView {
@@ -52,11 +66,15 @@ struct QuickViewGenerator {
         let label = UILabel()
         label.text = title
         label.textAlignment = .center
-        label.textColor = .black
+        label.textColor = .lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         label.constrain(.height, constant: 20)
         
         let icon = UIImageView(image: #imageLiteral(resourceName: "settings"))
+        icon.layer.borderWidth = 1
+        icon.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+        icon.layer.cornerRadius = 5
+        
         let view = UIStackView(arrangedSubviews: [icon, label])
         view.axis = .vertical
         view.spacing = 5

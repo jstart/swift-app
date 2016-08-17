@@ -36,7 +36,6 @@ enum QuickViewCategory {
         let tintImage = UIImage(named:imageName())?.withRenderingMode(.alwaysTemplate)
         button.setImage(tintImage, for: .highlighted)
         button.setImage(tintImage, for: .selected)
-        
         return button
     }
 }
@@ -49,6 +48,7 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
 
     var stack : UIStackView? = nil
     var delegate : QuickPageControlDelegate?
+    var previousIndex = 0
     
     init(categories: [QuickViewCategory]) {
         let array = categories.map({return $0.button()})
@@ -57,7 +57,7 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
         stack?.spacing = 20
         stack?.distribution = .fillEqually
         stack?.alignment = .center
-        
+
         super.init()
         
         array.forEach({ button in
@@ -68,6 +68,7 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
     func selectIndex(_ index:Int){
         for button in (stack?.subviews)! as! [UIButton] {
             if (stack?.subviews.index(of: button))! == index {
+                previousIndex = index
                 button.isSelected = true
             }else {
                 button.isSelected = false
@@ -80,6 +81,7 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
             button.isSelected = button == sender
         }
         delegate?.selectedIndex((stack?.subviews.index(of: sender))!)
+        previousIndex = (stack?.subviews.index(of: sender))!
     }
     
     func selectedIndex(index: Int){

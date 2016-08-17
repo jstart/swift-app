@@ -8,37 +8,67 @@
 
 import Foundation
 
-struct Connection {
+protocol UserDetail {
+    var hasButton : Bool { get }
+    var hasDate : Bool { get }
+    static var category : QuickViewCategory { get }
+}
+
+extension UserDetail {
+    var hasButton : Bool {
+        get {
+            return false
+        }
+    }
+    
+    var hasDate : Bool {
+        get {
+            return false
+        }
+    }
+}
+
+struct Connection : UserDetail {
     var name : String
     var position : String
     var isConnected : Bool
+    
+    static var category = QuickViewCategory.connections
 }
 
-struct Experience {
+struct Experience : UserDetail {
     var company : String
     var position : String
     var startYear : String
     var endYear : String
+    
+    static var category = QuickViewCategory.experience
 }
 
-struct Education {
+struct Education : UserDetail {
     var schoolImage : String
     var schoolName : String
     var degreeType : String
     var startYear : String
     var endYear : String
+    
+    static var category = QuickViewCategory.education
 }
 
-struct Skill {
+struct Skill : UserDetail {
     var name : String
     var numberOfMembers : String
     var isAdded : Bool
+    
+    static var category = QuickViewCategory.skills
 }
 
-struct Event {
+struct Event : UserDetail {
     var name : String
     var date : String
     var isGoing : Bool
+    
+    static var category = QuickViewCategory.events
 }
 
 struct UserDetails {

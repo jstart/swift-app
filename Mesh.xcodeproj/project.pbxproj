@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		233E944C1D63B9CD00919B95 /* CardDetailTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233E944B1D63B9CD00919B95 /* CardDetailTransition.swift */; };
+		233E944E1D63BAE000919B95 /* CardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233E944D1D63BAE000919B95 /* CardDetailViewController.swift */; };
+		233E94501D63DB6F00919B95 /* UserDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233E944F1D63DB6F00919B95 /* UserDetailTableViewController.swift */; };
 		2397C37A1D5E5A6F005C982E /* QuickPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397C3791D5E5A6F005C982E /* QuickPageControl.swift */; };
 		23A390B81D629B210032F11C /* UserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A390B71D629B210032F11C /* UserDetails.swift */; };
 		23A390BA1D62A5470032F11C /* QuickViewGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A390B91D62A5470032F11C /* QuickViewGenerator.swift */; };
@@ -33,6 +36,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		233E944B1D63B9CD00919B95 /* CardDetailTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDetailTransition.swift; sourceTree = "<group>"; };
+		233E944D1D63BAE000919B95 /* CardDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDetailViewController.swift; sourceTree = "<group>"; };
+		233E944F1D63DB6F00919B95 /* UserDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailTableViewController.swift; sourceTree = "<group>"; };
 		2397C3791D5E5A6F005C982E /* QuickPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickPageControl.swift; sourceTree = "<group>"; };
 		23A390B71D629B210032F11C /* UserDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetails.swift; sourceTree = "<group>"; };
 		23A390B91D62A5470032F11C /* QuickViewGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickViewGenerator.swift; sourceTree = "<group>"; };
@@ -131,7 +137,10 @@
 				AD06B7021D5905D6005D349A /* SwipeState.swift */,
 				AD06B7041D59215D005D349A /* SwipeConfig.swift */,
 				ADEA92971D53F88C0016B0DB /* CardViewController.swift */,
+				233E944D1D63BAE000919B95 /* CardDetailViewController.swift */,
+				233E944F1D63DB6F00919B95 /* UserDetailTableViewController.swift */,
 				23C09D531D624C66003C9183 /* ViewPager.swift */,
+				233E944B1D63B9CD00919B95 /* CardDetailTransition.swift */,
 				23A390B91D62A5470032F11C /* QuickViewGenerator.swift */,
 				AD06B7001D5900AE005D349A /* CardViewController.xib */,
 				AD06B6FC1D542628005D349A /* Constrain.swift */,
@@ -287,14 +296,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				233E94501D63DB6F00919B95 /* UserDetailTableViewController.swift in Sources */,
 				AD06B6FD1D542628005D349A /* Constrain.swift in Sources */,
 				ADECA8EA1D51540900726AEF /* ViewController.swift in Sources */,
 				AD06B7031D5905D6005D349A /* SwipeState.swift in Sources */,
 				AD4E2E201D5A760800130811 /* AuthRequest.swift in Sources */,
 				23C09D541D624C66003C9183 /* ViewPager.swift in Sources */,
+				233E944E1D63BAE000919B95 /* CardDetailViewController.swift in Sources */,
 				AD06B6FF1D56BA5B005D349A /* CardFeedViewConfig.swift in Sources */,
 				AD4E2E1E1D5A75ED00130811 /* Client.swift in Sources */,
 				AD4E2E241D5AAE4300130811 /* MessagesRequest.swift in Sources */,
+				233E944C1D63B9CD00919B95 /* CardDetailTransition.swift in Sources */,
 				AD4E2E221D5AAD5700130811 /* UpdatesRequest.swift in Sources */,
 				AD06B6FB1D541FF7005D349A /* CardStack.swift in Sources */,
 				23A390BA1D62A5470032F11C /* QuickViewGenerator.swift in Sources */,

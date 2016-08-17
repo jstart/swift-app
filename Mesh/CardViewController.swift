@@ -9,12 +9,14 @@
 import UIKit
 import Alamofire
 
-class CardViewController : UIViewController, UIGestureRecognizerDelegate {
+class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate {
     var delegate : CardDelegate?
     
     var gestureRec : UIPanGestureRecognizer?
+    var tapRec : UITapGestureRecognizer?
+
     var state = SwipeState()
-    var control = QuickPageControl(categories: [.connections, .education, .experience, .skills, .events])
+    var control = QuickPageControl(categories: [.connections, .experience, .education, .skills, .events])
     var card : Card?
     var viewPager : ViewPager?
     let image : UIImageView =  UIImageView(image: #imageLiteral(resourceName: "profile_sample"))
@@ -28,13 +30,17 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate {
         
         gestureRec = UIPanGestureRecognizer(target: self, action: #selector(pan))
         gestureRec?.delegate = self
-        gestureRec?.isEnabled = false
+        tapRec = UITapGestureRecognizer(target: self, action: #selector(tap))
         view.addGestureRecognizer(gestureRec!)
+        view.addGestureRecognizer(tapRec!)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        if viewPager != nil {
+            return
+        }
         let quickViewStack = UIStackView(arrangedSubviews: [bar(), control.stack!, bar()])
         quickViewStack.distribution = .fillProportionally
         quickViewStack.alignment = .center
@@ -60,45 +66,29 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate {
         topStack.axis = .vertical
         topStack.distribution = .fillProportionally
         topStack.alignment = .center
-        topStack.spacing = 10
         
         view.addSubview(topStack)
+        
         viewPager!.scroll.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint(item: viewPager!.scroll, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100).isActive = true
         viewPager!.scroll.constrain(.width, toItem: view)
 
         name.constrain(.leading, toItem: position)
         
         topStack.translatesAutoresizingMaskIntoConstraints = false
         topStack.constrain(.top, toItem: view)
-        topStack.constrain(.height, constant: 0, toItem: view)
-        topStack.constrain(.width, constant: 0, toItem: view)
+        topStack.constrain(.width, toItem: view)
+        topStack.constrain(.bottom, constant: -10, toItem: view)
         
         quickViewStack.translatesAutoresizingMaskIntoConstraints = false
-        quickViewStack.constrain(.height, constant: 50)
-        quickViewStack.constrain(.width, constant: 0, toItem: view)
-        quickViewStack.constrain(.centerX, constant: 0, toItem: view)
+        quickViewStack.constrain(.height, constant: 30)
+        quickViewStack.constrain(.width, toItem: view)
+        quickViewStack.constrain(.centerX, toItem: view)
         
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
         image.layer.cornerRadius = 5.0
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.constrain(.width, constant: 0, toItem: view)
-        
-        //let companyLogo = UIImageView(image: #imageLiteral(resourceName: "settings"))
-        //name.addSubview(companyLogo)
-        
-        gestureRec?.isEnabled = true
-    }
-    
-    func pagerView(_ color : UIColor) -> UIView {
-        let pagerView = UIView()
-        pagerView.isUserInteractionEnabled = false
-        pagerView.backgroundColor = color
-        
-        pagerView.translatesAutoresizingMaskIntoConstraints = false
-        pagerView.constrain(.height, constant: 30)
-        return pagerView
+        image.constrain(.width, toItem: view)
     }
     
     func bar() -> UIView {
@@ -113,7 +103,6 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate {
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         print(gestureRecognizer, otherGestureRecognizer)
-        
         return true
     }
     
@@ -134,7 +123,17 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate {
         return false
     }
     
-    func pan(_ sender: UIPanGestureRecognizer){
+    func tap(sender: UITapGestureRecognizer) {
+        let details = CardDetailViewController()
+
+
+        details.modalPresentationStyle = .overCurrentContext
+        details.transitioningDelegate = self
+
+        present(details, animated: true, completion: nil)
+    }
+    
+    func pan(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
         case .ended:
             state.stop(gestureRec!)
@@ -198,9 +197,24 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    func removeSelf(){
+    func removeSelf() {
         view.removeFromSuperview()
         removeFromParentViewController()
         delegate?.swiped(.up)
     }
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        let transition = CardDetailTransition()
+        transition.cardVC = self
+        transition.presenting = true
+            
+        return transition
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        let transition = CardDetailTransition()
+        transition.presenting = false
+        return transition
+    }
+    
 }
