@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SwipeState {
+struct SwipeState {
     var angle : CGFloat = 0.0,              // the angle in degrees of the current swipe
     startX : CGFloat = 0.0,                 // the x pointer coord at the start of a swipe
     endX : CGFloat = 0.0,                   // the x pointer coord at the end of a swipe
@@ -25,28 +25,32 @@ class SwipeState {
     
     var config = SwipeConfig()
     
-    func start(_ gesture : UIPanGestureRecognizer) {
+    mutating func start(_ gesture : UIPanGestureRecognizer) {
         let touchPoint = gesture.location(in: gesture.view)
         startX = touchPoint.x
         startY = touchPoint.y
     }
 
-    func drag(_ gesture : UIPanGestureRecognizer) {
+    mutating func drag(_ gesture : UIPanGestureRecognizer) {
         let touchPoint = gesture.location(in: gesture.view)
 
         // X //
         changeX = CGFloat(touchPoint.x - startX)
-        horizontalProgress = min(1, abs(changeX / config.xDistanceMinimumForFling))
-        
+        horizontalProgress = min(1, abs(changeX / config.xDistanceMinimumForDrag))
+
         // Y //
         changeY = CGFloat(touchPoint.y - startY)
-        verticalProgress = min(1, abs(changeY / config.yDistanceMinimumForFling))
-        
+        verticalProgress = min(1, abs(changeY / config.yDistanceMinimumForDrag))
+
         // Angle //
         direction = getSwipeDirection();
+        
+        // Velocity //
+        velocityX = gesture.velocity(in: gesture.view).x
+        velocityY = gesture.velocity(in: gesture.view).y
     }
 
-    func stop(_ gesture : UIPanGestureRecognizer) {
+    mutating func stop(_ gesture : UIPanGestureRecognizer) {
         let touchPoint = gesture.location(in: gesture.view)
         
         // X //
@@ -57,12 +61,19 @@ class SwipeState {
         endY = touchPoint.y
         changeY = touchPoint.y - startY
         
+        // Velocity //
+        velocityX = gesture.velocity(in: gesture.view).x
+        velocityY = gesture.velocity(in: gesture.view).y
+        
         // Angle //
-        angle = (atan2(changeY, -changeX) * ((CGFloat) (180.0 / M_PI)))
-        angle = angle < 0 ? angle + SwipeConfig.DEGREES_360 : angle
+        angle = atan2(velocityY, velocityX) * ((CGFloat) (180.0 / M_PI))
+        if (angle < 0) { angle += 360.0 }
     }
 
-    func getSwipeDirection() -> UISwipeGestureRecognizerDirection {
+    mutating func getSwipeDirection() -> UISwipeGestureRecognizerDirection {
+        angle = atan2(velocityY, velocityX) * ((CGFloat) (180.0 / M_PI))
+        if (angle < 0) { angle += 360.0 }
+
         if (isWithinAngle(config.swipeLeftBoundaryStart, boundaryEnd: config.swipeLeftBoundaryEnd, and: true)) {
             return .left
         }
@@ -76,7 +87,7 @@ class SwipeState {
             return .down
         }
         
-        return .up
+        return UISwipeGestureRecognizerDirection()
     }
 
     func isWithinAngle(_ boundaryStart : CGFloat, boundaryEnd : CGFloat, and : Bool) -> Bool {
@@ -88,12 +99,15 @@ class SwipeState {
         }
     }
     
-    func meetsDragRequirements(_ swipeDirection : UISwipeGestureRecognizerDirection) -> (Bool) {
+    mutating func meetsDragRequirements(_ swipeDirection : UISwipeGestureRecognizerDirection) -> (Bool) {
+        if (!draggingInCurrentDirectionAllowed()) {
+            return false
+        }
         switch (swipeDirection as UISwipeGestureRecognizerDirection) {
             case UISwipeGestureRecognizerDirection.left:
-                return horizontalProgress == 1 && changeX > 0;
-            case UISwipeGestureRecognizerDirection.right:
                 return horizontalProgress == 1 && changeX < 0;
+            case UISwipeGestureRecognizerDirection.right:
+                return horizontalProgress == 1 && changeX > 0;
             case UISwipeGestureRecognizerDirection.up:
                 return verticalProgress == 1 && changeY > 0;
             case UISwipeGestureRecognizerDirection.down:
@@ -103,17 +117,34 @@ class SwipeState {
         }
     }
     
-    //TODO: track velocity
-    func meetsFlingRequirements(_ swipeDirection : UISwipeGestureRecognizerDirection) -> Bool {
+    mutating func meetsFlingRequirements(_ swipeDirection : UISwipeGestureRecognizerDirection) -> Bool {
+        if (!draggingInCurrentDirectionAllowed()) {
+            return false
+        }
         switch (swipeDirection) {
         case UISwipeGestureRecognizerDirection.left:
             fallthrough
         case UISwipeGestureRecognizerDirection.right:
-            return true//state.velocityX >= config.velocitySlopX && state.horizontalProgress >= config.xDistanceMinimumForFling;
+            return abs(velocityX) >= config.velocitySlopX && horizontalProgress >= config.xDistanceMinimumForFling;
         case UISwipeGestureRecognizerDirection.up:
             fallthrough
         case UISwipeGestureRecognizerDirection.down:
-            return true//state.velocityY >= config.velocitySlopY && state.verticalProgress >= config.yDistanceMinimumForFling;
+            return abs(velocityY) >= config.velocitySlopY && verticalProgress >= config.yDistanceMinimumForFling;
+        default:
+            return false;
+        }
+    }
+    
+    mutating func draggingInCurrentDirectionAllowed() -> Bool {
+        switch (getSwipeDirection()) {
+        case UISwipeGestureRecognizerDirection.left:
+            return config.swipeLeftEnabled;
+        case UISwipeGestureRecognizerDirection.right:
+            return config.swipeRightEnabled;
+        case UISwipeGestureRecognizerDirection.up:
+            return config.swipeUpEnabled;
+        case UISwipeGestureRecognizerDirection.down:
+            return config.swipeDownEnabled;
         default:
             return false;
         }

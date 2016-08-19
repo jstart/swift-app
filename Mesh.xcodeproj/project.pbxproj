@@ -14,10 +14,13 @@
 		23A390B81D629B210032F11C /* UserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A390B71D629B210032F11C /* UserDetails.swift */; };
 		23A390BA1D62A5470032F11C /* QuickViewGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A390B91D62A5470032F11C /* QuickViewGenerator.swift */; };
 		23C09D541D624C66003C9183 /* ViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C09D531D624C66003C9183 /* ViewPager.swift */; };
+		23DFB67A1D653E1E00D871A9 /* PositionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DFB6791D653E1E00D871A9 /* PositionRequest.swift */; };
+		23DFB67C1D654B3C00D871A9 /* ProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DFB67B1D654B3C00D871A9 /* ProfileRequest.swift */; };
+		23DFB67E1D66323C00D871A9 /* CardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23DFB67D1D66323C00D871A9 /* CardViewController.xib */; };
+		23DFB6801D6669F700D871A9 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DFB67F1D6669F700D871A9 /* LocationManager.swift */; };
 		AD06B6FB1D541FF7005D349A /* CardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FA1D541FF7005D349A /* CardStack.swift */; };
 		AD06B6FD1D542628005D349A /* Constrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FC1D542628005D349A /* Constrain.swift */; };
 		AD06B6FF1D56BA5B005D349A /* CardFeedViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FE1D56BA5B005D349A /* CardFeedViewConfig.swift */; };
-		AD06B7011D5900AE005D349A /* CardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD06B7001D5900AE005D349A /* CardViewController.xib */; };
 		AD06B7031D5905D6005D349A /* SwipeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B7021D5905D6005D349A /* SwipeState.swift */; };
 		AD06B7051D59215D005D349A /* SwipeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B7041D59215D005D349A /* SwipeConfig.swift */; };
 		AD4E2E1E1D5A75ED00130811 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4E2E1D1D5A75ED00130811 /* Client.swift */; };
@@ -43,13 +46,16 @@
 		23A390B71D629B210032F11C /* UserDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetails.swift; sourceTree = "<group>"; };
 		23A390B91D62A5470032F11C /* QuickViewGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickViewGenerator.swift; sourceTree = "<group>"; };
 		23C09D531D624C66003C9183 /* ViewPager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPager.swift; sourceTree = "<group>"; };
+		23DFB6791D653E1E00D871A9 /* PositionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionRequest.swift; sourceTree = "<group>"; };
+		23DFB67B1D654B3C00D871A9 /* ProfileRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileRequest.swift; sourceTree = "<group>"; };
+		23DFB67D1D66323C00D871A9 /* CardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardViewController.xib; sourceTree = "<group>"; };
+		23DFB67F1D6669F700D871A9 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		2AD5F965FA9260BA550C3919 /* Pods-Mesh.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mesh.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mesh/Pods-Mesh.debug.xcconfig"; sourceTree = "<group>"; };
 		5300FC2C816EC2D0EF40E204 /* Pods-Mesh.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mesh.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mesh/Pods-Mesh.release.xcconfig"; sourceTree = "<group>"; };
 		5EF9D3831062B1B259E8EE70 /* Pods_Mesh.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mesh.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD06B6FA1D541FF7005D349A /* CardStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardStack.swift; sourceTree = "<group>"; };
 		AD06B6FC1D542628005D349A /* Constrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constrain.swift; sourceTree = "<group>"; };
 		AD06B6FE1D56BA5B005D349A /* CardFeedViewConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardFeedViewConfig.swift; sourceTree = "<group>"; };
-		AD06B7001D5900AE005D349A /* CardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardViewController.xib; sourceTree = "<group>"; };
 		AD06B7021D5905D6005D349A /* SwipeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeState.swift; sourceTree = "<group>"; };
 		AD06B7041D59215D005D349A /* SwipeConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeConfig.swift; sourceTree = "<group>"; };
 		AD4E2E1D1D5A75ED00130811 /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
@@ -97,6 +103,8 @@
 				AD4E2E211D5AAD5700130811 /* UpdatesRequest.swift */,
 				AD4E2E231D5AAE4300130811 /* MessagesRequest.swift */,
 				AD4E2E251D5AAF0B00130811 /* ConnectionRequest.swift */,
+				23DFB6791D653E1E00D871A9 /* PositionRequest.swift */,
+				23DFB67B1D654B3C00D871A9 /* ProfileRequest.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -137,13 +145,14 @@
 				AD06B7021D5905D6005D349A /* SwipeState.swift */,
 				AD06B7041D59215D005D349A /* SwipeConfig.swift */,
 				ADEA92971D53F88C0016B0DB /* CardViewController.swift */,
+				23DFB67D1D66323C00D871A9 /* CardViewController.xib */,
 				233E944D1D63BAE000919B95 /* CardDetailViewController.swift */,
 				233E944F1D63DB6F00919B95 /* UserDetailTableViewController.swift */,
 				23C09D531D624C66003C9183 /* ViewPager.swift */,
 				233E944B1D63B9CD00919B95 /* CardDetailTransition.swift */,
 				23A390B91D62A5470032F11C /* QuickViewGenerator.swift */,
-				AD06B7001D5900AE005D349A /* CardViewController.xib */,
 				AD06B6FC1D542628005D349A /* Constrain.swift */,
+				23DFB67F1D6669F700D871A9 /* LocationManager.swift */,
 			);
 			path = Mesh;
 			sourceTree = "<group>";
@@ -221,7 +230,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD06B7011D5900AE005D349A /* CardViewController.xib in Resources */,
+				23DFB67E1D66323C00D871A9 /* CardViewController.xib in Resources */,
 				ADECA8F21D51540900726AEF /* LaunchScreen.storyboard in Resources */,
 				ADECA8EF1D51540900726AEF /* Assets.xcassets in Resources */,
 				ADECA8ED1D51540900726AEF /* Main.storyboard in Resources */,
@@ -298,6 +307,7 @@
 			files = (
 				233E94501D63DB6F00919B95 /* UserDetailTableViewController.swift in Sources */,
 				AD06B6FD1D542628005D349A /* Constrain.swift in Sources */,
+				23DFB67A1D653E1E00D871A9 /* PositionRequest.swift in Sources */,
 				ADECA8EA1D51540900726AEF /* ViewController.swift in Sources */,
 				AD06B7031D5905D6005D349A /* SwipeState.swift in Sources */,
 				AD4E2E201D5A760800130811 /* AuthRequest.swift in Sources */,
@@ -315,7 +325,9 @@
 				2397C37A1D5E5A6F005C982E /* QuickPageControl.swift in Sources */,
 				AD06B7051D59215D005D349A /* SwipeConfig.swift in Sources */,
 				ADEA92961D53E5A40016B0DB /* Card.swift in Sources */,
+				23DFB6801D6669F700D871A9 /* LocationManager.swift in Sources */,
 				23A390B81D629B210032F11C /* UserDetails.swift in Sources */,
+				23DFB67C1D654B3C00D871A9 /* ProfileRequest.swift in Sources */,
 				AD4E2E261D5AAF0B00130811 /* ConnectionRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,6 +461,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = tinder.Mesh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -464,6 +477,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = tinder.Mesh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

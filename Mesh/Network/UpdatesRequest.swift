@@ -18,3 +18,8 @@ struct UpdatesRequest : Request {
         return ["last_update": last_update]
     }
 }
+
+struct RecommendationsRequest : Request {
+    let path = "recommendations"
+    let method = HTTPMethod.post
+}

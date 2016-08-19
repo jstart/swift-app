@@ -10,9 +10,8 @@ import UIKit
 
 class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
     
-    let duration    = 0.4
+    let duration    = 0.2
     var presenting  = true
-    var originFrame = CGRect.zero
     var cardVC : CardViewController?
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?)-> TimeInterval {
@@ -38,16 +37,15 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
             let blurView = UIView()
             blurView.backgroundColor = .black
             blurView.alpha = 0.7
+            blurView.layer.cornerRadius = 5.0
             
             detail.addSubview(blurView)
             blurView.translatesAutoresizingMaskIntoConstraints = false
-            blurView.constrain(.top, toItem: cardVC!.view)
-            blurView.constrain(.width, toItem: cardVC!.view)
-            blurView.constrain(.centerX, toItem: cardVC!.view)
+            blurView.constrain(.top, .width, .centerX, toItem: cardVC!.view)
             blurView.constrain(.height, constant: 80)
             
             containerView.bringSubview(toFront: detail)
-            
+
             UIView.animate(withDuration: duration, animations: {
                     detail.alpha = 1.0
                 }, completion:{_ in

@@ -55,7 +55,7 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
         
         stack = UIStackView(arrangedSubviews: array)
         stack?.spacing = 20
-        stack?.distribution = .fillEqually
+        stack?.distribution = .equalSpacing
         stack?.alignment = .center
 
         super.init()

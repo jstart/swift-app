@@ -53,9 +53,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         view.addSubview(pageController.view)
         pageController.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint(item: pageController.view, attribute: .top, relatedBy: .equal, toItem: control.stack!, attribute: .bottom, multiplier: 1.0, constant: 0.0).isActive = true
-        pageController.view.constrain(.width, toItem: view)
-        pageController.view.constrain(.centerX, toItem: view)
-        pageController.view.constrain(.bottom, toItem: view)
+        pageController.view.constrain(.width, .centerX, .bottom, toItem: view)
         
         pageController.setViewControllers([controllers.first!], direction: .forward, animated: false, completion: nil)
     }

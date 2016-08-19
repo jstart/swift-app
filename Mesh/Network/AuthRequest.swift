@@ -26,6 +26,11 @@ struct AuthRequest : Request {
     }
 }
 
+struct TokenRequest : Request {
+    let path = "token"
+    let method = HTTPMethod.get
+}
+
 struct LoginRequest : Request {
     let path = "login"
     let method = HTTPMethod.post
@@ -41,19 +46,19 @@ struct LoginRequest : Request {
 struct UserResponse {
     var _id : String
     var phone_number : String
-    var first_name : String
-    var last_name : String
-    var company : String
-    var profession : String
+    //var first_name : String
+    //var last_name : String
+    //var company : String
+    //var profession : String
     var token : String
     
     init(JSON: [String : AnyObject]) {
         _id = JSON["_id"] as! String
         phone_number = JSON["phone_number"] as! String
-        first_name = JSON["first_name"] as! String
-        last_name = JSON["last_name"] as! String
-        company = JSON["company"] as! String
-        profession = JSON["profession"] as! String
+        //first_name = JSON["first_name"] as String?
+        //last_name = JSON["last_name"] as String?
+        //company = JSON["company"] as String?
+        //profession = JSON["profession"] as String?
         token = JSON["token"] as! String
     }
 }

@@ -25,12 +25,19 @@ class Client {
     
     var baseURL = "http://dev.mesh.tinderventures.com:1337/"
     var token : String?
-    
+    var uid : String?
     func execute(_ request : Request, completionHandler: (Response<AnyObject, NSError>) -> Void){
-        Alamofire.request(baseURL + request.path, withMethod: request.method, parameters: request.parameters(), encoding: .json, headers: ["token" : token ?? ""] )
+        var params = request.parameters()
+        if uid != nil {
+            params["uid"] = uid
+        }
+        Alamofire.request(baseURL + request.path, withMethod: request.method, parameters: params, encoding: .json, headers: ["token" : token ?? ""] )
             .responseJSON { response in
-                if request is LoginRequest {
-                    self.token = UserResponse(JSON: response.result.value as! [String : AnyObject]).token
+                if request is LoginRequest || request is AuthRequest {
+                    if response.result.error == nil {
+                        self.token = UserResponse(JSON: response.result.value as! [String : AnyObject]).token
+                        self.uid = UserResponse(JSON: response.result.value as! [String : AnyObject])._id
+                    }
                 }
                 completionHandler(response)
         }

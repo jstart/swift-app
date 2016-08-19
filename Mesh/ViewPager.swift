@@ -36,8 +36,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         
         stack.constrain(.leading, constant: 5, toItem: scroll)
         stack.constrain(.trailing, constant: -5, toItem: scroll)
-        stack.constrain(.centerY, toItem: scroll)
-        stack.constrain(.height, toItem: scroll)
+        stack.constrain(.centerY, .height, toItem: scroll)
         
         for view in stack.arrangedSubviews {
             view.constrain(.width, constant: -10, toItem: scroll)

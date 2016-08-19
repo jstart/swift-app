@@ -12,8 +12,8 @@ class SwipeConfig {
     
     static let DEFAULT_ANGLE_SWIPE_RIGHT : CGFloat = 70
     static let DEFAULT_ANGLE_SWIPE_LEFT : CGFloat = 70
-    static let DEFAULT_ANGLE_SWIPE_UP : CGFloat = 15
-    static let DEFAULT_ANGLE_SWIPE_DOWN : CGFloat = 70
+    static let DEFAULT_ANGLE_SWIPE_UP : CGFloat = 80
+    static let DEFAULT_ANGLE_SWIPE_DOWN : CGFloat = 15
     
     static let DEGREES_90 : CGFloat = 90
     static let DEGREES_180 : CGFloat = 180
@@ -40,8 +40,8 @@ class SwipeConfig {
     // Swipe position and speed settings
     var velocitySlopX : CGFloat = 1.5,
     velocitySlopY : CGFloat = 0.8,
-    xDistanceMinimumForDrag : CGFloat = 600,
-    yDistanceMinimumForDrag : CGFloat = 600,
+    xDistanceMinimumForDrag : CGFloat = 20,
+    yDistanceMinimumForDrag : CGFloat = 20,
     xDistanceMinimumForFling : CGFloat = 0.5,
     yDistanceMinimumForFling : CGFloat = 0.2
     
@@ -57,11 +57,11 @@ class SwipeConfig {
         swipeLeftBoundaryStart = CGFloat(SwipeConfig.DEGREES_180 - angleSwipeRight)
         swipeLeftBoundaryEnd = CGFloat(SwipeConfig.DEGREES_180 + angleSwipeRight)
         
-        swipeUpBoundaryStart = CGFloat(SwipeConfig.DEGREES_90 - angleSwipeUp)
-        swipeUpBoundaryEnd = CGFloat(SwipeConfig.DEGREES_90 + angleSwipeUp)
+        swipeDownBoundaryStart = CGFloat(SwipeConfig.DEGREES_90 - angleSwipeDown)
+        swipeDownBoundaryEnd = CGFloat(SwipeConfig.DEGREES_90 + angleSwipeDown)
         
-        swipeDownBoundaryStart = CGFloat(SwipeConfig.DEGREES_270 - angleSwipeDown)
-        swipeDownBoundaryEnd = CGFloat(SwipeConfig.DEGREES_270 + angleSwipeDown)
+        swipeUpBoundaryStart = CGFloat(SwipeConfig.DEGREES_270 - angleSwipeUp)
+        swipeUpBoundaryEnd = CGFloat(SwipeConfig.DEGREES_270 + angleSwipeUp)
         
     }
     

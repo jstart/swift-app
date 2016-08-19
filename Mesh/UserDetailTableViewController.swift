@@ -13,4 +13,9 @@ class UserDetailTableViewController : UITableViewController {
     var details : [UserDetail]?
     var category : QuickViewCategory?
     var index : Int?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.layer.cornerRadius = 5.0
+    }
 }
