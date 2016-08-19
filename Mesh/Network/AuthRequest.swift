@@ -63,7 +63,7 @@ struct UserResponse {
     }
 }
 
-struct LogoutRequest : Request {
+struct LogoutRequest : AuthenticatedRequest {
     let path = "logout"
     let method = HTTPMethod.post
 }

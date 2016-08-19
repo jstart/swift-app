@@ -33,9 +33,9 @@ enum QuickViewCategory {
     func button() -> UIButton {
         let button = UIButton()
         button.setImage(UIImage(named:imageName()), for: .normal)
-        let tintImage = UIImage(named:imageName())?.withRenderingMode(.alwaysTemplate)
-        button.setImage(tintImage, for: .highlighted)
-        button.setImage(tintImage, for: .selected)
+        let activeImage = UIImage(named:imageName() + "Active")
+        button.setImage(activeImage, for: .highlighted)
+        button.setImage(activeImage, for: .selected)
         return button
     }
 }

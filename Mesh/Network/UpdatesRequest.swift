@@ -8,7 +8,7 @@
 
 import Alamofire
 
-struct UpdatesRequest : Request {
+struct UpdatesRequest : AuthenticatedRequest {
     let path = "updates"
     let method = HTTPMethod.post
     
@@ -19,7 +19,7 @@ struct UpdatesRequest : Request {
     }
 }
 
-struct RecommendationsRequest : Request {
+struct RecommendationsRequest : AuthenticatedRequest {
     let path = "recommendations"
     let method = HTTPMethod.post
 }

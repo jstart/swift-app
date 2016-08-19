@@ -37,17 +37,18 @@ struct QuickViewGenerator {
             views.append(square(image: #imageLiteral(resourceName: "settings"), title: "Test"))
         }
         let stack = stackOf(views: views)
-        stack.constrain(.height, constant: 70)
+        stack.constrain(.height, constant: 75)
         
         let label = UILabel()
         label.text = "Test"
+        label.font = UIFont.systemFont(ofSize: 14)
         label.textAlignment = .center
         label.textColor = .lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         label.constrain(.height, constant: 20)
         
         let stackTitle = stackOf(views: [label, stack])
-        stackTitle.distribution = .fillProportionally
+        stackTitle.spacing = 5
         stackTitle.axis = .vertical
         stackTitle.alignment = .leading
 
@@ -56,15 +57,16 @@ struct QuickViewGenerator {
     
     static func stackOf(views: [UIView]) -> UIStackView {
         let view = UIStackView(arrangedSubviews: views)
-        view.distribution = .fillEqually
+        view.distribution = .fillProportionally
         view.alignment = .center
-        view.spacing = 5
+        view.spacing = 20
         return view
     }
     
     static func square(image: UIImage, title: String) -> UIStackView {
         let label = UILabel()
         label.text = title
+        label.font = UIFont.systemFont(ofSize: 12)
         label.textAlignment = .center
         label.textColor = .lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -74,6 +76,8 @@ struct QuickViewGenerator {
         icon.layer.borderWidth = 1
         icon.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
         icon.layer.cornerRadius = 5
+        
+        icon.constrain(.width, .height, constant: 50)
         
         let view = UIStackView(arrangedSubviews: [icon, label])
         view.axis = .vertical

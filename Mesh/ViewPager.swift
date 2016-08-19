@@ -18,7 +18,6 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         scroll.isPagingEnabled = true
         scroll.alwaysBounceHorizontal = true
         scroll.showsHorizontalScrollIndicator = false
-        scroll.constrain(.height, constant: 100)
         return scroll
     }()
     var delegate : ViewPagerDelegate?
@@ -31,15 +30,15 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.distribution = .fill
         stack.alignment = .center
-        stack.spacing = 10
+        stack.spacing = 30
         scroll.addSubview(stack)
         
-        stack.constrain(.leading, constant: 5, toItem: scroll)
-        stack.constrain(.trailing, constant: -5, toItem: scroll)
+        stack.constrain(.leading, constant: 15, toItem: scroll)
+        stack.constrain(.trailing, constant: -15, toItem: scroll)
         stack.constrain(.centerY, .height, toItem: scroll)
         
         for view in stack.arrangedSubviews {
-            view.constrain(.width, constant: -10, toItem: scroll)
+            view.constrain(.width, constant: -30, toItem: scroll)
         }
         
         super.init()

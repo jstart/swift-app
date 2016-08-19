@@ -51,8 +51,8 @@ class CardStack : UIViewController, CardDelegate {
         card.view.transform = transform;
         view.addSubview(card.view)
         
-        card.view.constrain(.height, constant: -60, toItem: view)
-        card.view.constrain(.width, constant: -20, toItem: view)
+        card.view.constrain(.height, constant: -40, toItem: view)
+        card.view.constrain(.width, constant: -13, toItem: view)
         card.view.constrain(.centerX, .centerY, toItem: view)
         card.view.translatesAutoresizingMaskIntoConstraints = false
         

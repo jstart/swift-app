@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 
-struct ProfileRequest : Request {
+struct ProfileRequest : AuthenticatedRequest {
     let path = "profile"
     let method = HTTPMethod.post
     

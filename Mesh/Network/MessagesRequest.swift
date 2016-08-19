@@ -9,7 +9,7 @@
 import Alamofire
 
 // TODO
-struct MessagesSendRequest : Request {
+struct MessagesSendRequest : AuthenticatedRequest {
     let path = "message"
     let method = HTTPMethod.put
     
@@ -20,7 +20,7 @@ struct MessagesSendRequest : Request {
     }
 }
 
-struct MessagesDeleteRequest : Request {
+struct MessagesDeleteRequest : AuthenticatedRequest {
     let path = "message"
     let method = HTTPMethod.delete
     

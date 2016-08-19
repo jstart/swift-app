@@ -36,6 +36,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         view.layer.cornerRadius = 5.0
         view.layer.shadowColor = UIColor.lightGray.cgColor
         view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = CGSize(width: 2, height: 2)
         
         gestureRec = UIPanGestureRecognizer(target: self, action: #selector(pan))
         gestureRec?.delegate = self
@@ -56,11 +57,13 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         
         let name = UILabel()
         name.textColor = .black
+        name.font = UIFont.systemFont(ofSize: 20)
         name.text = "Micha Kaufman"
         name.constrain(.height, constant: 20)
         
         let position = UILabel()
-        position.textColor = .black
+        position.textColor = #colorLiteral(red: 0.7810397744, green: 0.7810582519, blue: 0.7810482979, alpha: 1)
+        position.font = UIFont.systemFont(ofSize: 16)
         position.text = "VP of Engineering at Tesla"
         position.constrain(.height, constant: 20)
 
@@ -76,6 +79,9 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
 
         name.constrain(.leading, toItem: position)
         
+        NSLayoutConstraint(item: image, attribute: .bottom, relatedBy: .equal, toItem: name, attribute: .top, multiplier: 1.0, constant: -11).isActive = true
+        NSLayoutConstraint(item: position, attribute: .bottom, relatedBy: .equal, toItem: quickViewStack, attribute: .top, multiplier: 1.0, constant: -8).isActive = true
+
         topStack.translatesAutoresizingMaskIntoConstraints = false
         topStack.constrain(.top, .width, toItem: view)
         topStack.constrain(.bottom, constant: -10, toItem: view)
@@ -90,6 +96,16 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         image.translatesAutoresizingMaskIntoConstraints = false
         image.constrain(.width, toItem: view)
         
+        let logo = UIImageView(image: #imageLiteral(resourceName: "tesla"))
+        view.addSubview(logo)
+        
+        logo.translatesAutoresizingMaskIntoConstraints = false
+        logo.constrain(.width, .height, constant: 62)
+        logo.constrain(.leading, constant: 15, toItem: view)
+        logo.constrain(.bottom, constant: 62 - 15, toItem: image)
+
+        NSLayoutConstraint(item: name, attribute: .leading, relatedBy: .equal, toItem: logo, attribute: .trailing, multiplier: 1.0, constant: 15).isActive = true
+
         view.addSubview(overlayView)
         overlayView.constrain(.width, .height, .centerX, .centerY, toItem: view)
     }
@@ -107,7 +123,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     
     func bar() -> UIView {
         let bar = UIView()
-        bar.backgroundColor = UIColor.gray
+        bar.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
         
         bar.translatesAutoresizingMaskIntoConstraints = false
         bar.constrain(.height, constant: 1)

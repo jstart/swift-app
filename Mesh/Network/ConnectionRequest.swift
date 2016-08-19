@@ -8,7 +8,7 @@
 
 import Alamofire
 
-struct ConnectionRequest : Request {
+struct ConnectionRequest : AuthenticatedRequest {
     let path = "connection"
     let method = HTTPMethod.get
 }

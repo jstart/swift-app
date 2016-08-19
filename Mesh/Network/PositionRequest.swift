@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 
-struct PositionRequest : Request {
+struct PositionRequest : AuthenticatedRequest {
     let path = "position"
     let method = HTTPMethod.post
     
