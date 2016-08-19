@@ -15,7 +15,7 @@ struct MessagesSendRequest : Request {
     
     var _id : Int
     
-    func parameters() -> [String : AnyObject] {
+    func parameters() -> [String : Any] {
         return ["_id": _id]
     }
 }
@@ -26,7 +26,7 @@ struct MessagesDeleteRequest : Request {
     
     var _id : Int
     
-    func parameters() -> [String : AnyObject] {
+    func parameters() -> [String : Any] {
         return ["_id": _id]
     }
 }

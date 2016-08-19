@@ -11,11 +11,11 @@ import Alamofire
 protocol Request {
     var path : String { get }
     var method : HTTPMethod { get }
-    func parameters() -> [String : AnyObject]
+    func parameters() -> [String : Any]
 }
 
 extension Request {
-    func parameters () -> [String : AnyObject]{
+    func parameters () -> [String : Any]{
         return [:]
     }
 }
@@ -26,7 +26,7 @@ class Client {
     var baseURL = "http://dev.mesh.tinderventures.com:1337/"
     var token : String?
     var uid : String?
-    func execute(_ request : Request, completionHandler: (Response<AnyObject, NSError>) -> Void){
+    func execute(_ request : Request, completionHandler: @escaping (Response<Any, NSError>) -> Void){
         var params = request.parameters()
         if uid != nil {
             params["uid"] = uid
@@ -35,8 +35,8 @@ class Client {
             .responseJSON { response in
                 if request is LoginRequest || request is AuthRequest {
                     if response.result.error == nil {
-                        self.token = UserResponse(JSON: response.result.value as! [String : AnyObject]).token
-                        self.uid = UserResponse(JSON: response.result.value as! [String : AnyObject])._id
+                        self.token = UserResponse(JSON: response.result.value as! [String : Any]).token
+                        self.uid = UserResponse(JSON: response.result.value as! [String : Any])._id
                     }
                 }
                 completionHandler(response)

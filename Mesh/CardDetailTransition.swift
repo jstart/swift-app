@@ -23,7 +23,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
         let containerView = transitionContext.containerView
         
         if presenting {
-            let toView = transitionContext.view(forKey: UITransitionContextToViewKey)!
+            let toView = transitionContext.view(forKey: UITransitionContextViewKey.to)!
             let detail = toView
             containerView.addSubview(toView)
             
@@ -52,7 +52,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
                     transitionContext.completeTransition(true)
             })
         } else {
-            let toView = transitionContext.view(forKey: UITransitionContextFromViewKey)!
+            let toView = transitionContext.view(forKey: UITransitionContextViewKey.from)!
             let detail = toView
             
             containerView.addSubview(toView)

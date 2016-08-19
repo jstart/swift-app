@@ -14,7 +14,7 @@ struct UpdatesRequest : Request {
     
     var last_update : Int
     
-    func parameters() -> [String : AnyObject] {
+    func parameters() -> [String : Any] {
         return ["last_update": last_update]
     }
 }

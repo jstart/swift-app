@@ -21,7 +21,7 @@ struct AuthRequest : Request {
     var company : String
     var profession : String
     
-    func parameters() -> [String : AnyObject] {
+    func parameters() -> [String : Any] {
         return ["phone_number": phone_number, "password" : password, "password_verify" : password_verify, "first_name" : first_name, "last_name" : last_name, "email" : email, "company" : company, "profession" : profession]
     }
 }
@@ -38,7 +38,7 @@ struct LoginRequest : Request {
     var phone_number : String
     var password : String
     
-    func parameters() -> [String : AnyObject] {
+    func parameters() -> [String : Any] {
         return ["phone_number": phone_number, "password" : password]
     }
 }
@@ -52,7 +52,7 @@ struct UserResponse {
     //var profession : String
     var token : String
     
-    init(JSON: [String : AnyObject]) {
+    init(JSON: [String : Any]) {
         _id = JSON["_id"] as! String
         phone_number = JSON["phone_number"] as! String
         //first_name = JSON["first_name"] as String?

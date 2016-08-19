@@ -15,7 +15,7 @@ struct ProfileRequest : Request {
     
     var uid : String
     
-    func parameters() -> [String : AnyObject] {
+    func parameters() -> [String : Any] {
         return ["uid" : uid]
     }
 }

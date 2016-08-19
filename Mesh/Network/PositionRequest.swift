@@ -17,7 +17,7 @@ struct PositionRequest : Request {
     var lon : Double
     var uid : String
     
-    func parameters() -> [String : AnyObject] {
+    func parameters() -> [String : Any] {
         return ["lat" : lat, "lon" : lon, "uid" : uid]
     }
 }

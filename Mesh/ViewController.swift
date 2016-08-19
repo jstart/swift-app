@@ -20,7 +20,7 @@ class ViewController: UIViewController {
         // AuthRequest(phone_number: "3103479815", password: "password", password_verify: "password", first_name: "john", last_name: "doe", email: "whatever@gmail.com", company: "amazing town", profession: "software engineer")
 
         // LoginRequest(phone_number: "3103479814", password: "password")
-        client.execute(LoginRequest(phone_number: "3103479814", password: "password"), completionHandler: { response in
+        client.execute(TokenRequest(), completionHandler: { response in
             if let JSON = response.result.value {
                 print("JSON: \(JSON)")
                 self.locationManager.startTracking()
