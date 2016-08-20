@@ -15,18 +15,16 @@ protocol Request {
     func headers() -> [String : String]
 }
 
-protocol AuthenticatedRequest : Request {
-}
+protocol AuthenticatedRequest : Request {}
 
 extension AuthenticatedRequest {
     func headers() -> [String : String] {
-        
          return ["token" : Token.retrieveToken() ?? ""]
     }
 }
 
 extension Request {
-    func parameters () -> [String : Any]{
+    func parameters () -> [String : Any] {
         return [:]
     }
     func headers() -> [String : String] {
@@ -34,29 +32,30 @@ extension Request {
     }
 }
 
-//["phone_number": "3103479814", "password" : "password", "password_verify" : "password", "first_name" : "chris", "last_name" : "truman", "email" : "christopher@tinderventures.com", "company" : "tinder", "profession" : "iOS"]
 class Client {
-    
     var baseURL = "http://dev.mesh.tinderventures.com:1337/"
     var token : String?
     var uid : String?
-    func execute(_ request : Request, completionHandler: @escaping (Response<Any, NSError>) -> Void){
+    
+    func execute(_ request : Request, completionHandler: @escaping (Response<Any, NSError>) -> Void) {
         var params = request.parameters()
         if uid != nil {
             params["uid"] = uid
         }
-        Alamofire.request(baseURL + request.path, withMethod: request.method, parameters: params, encoding: .json, headers: request.headers() )
+        Alamofire.request(baseURL + request.path, withMethod: request.method, parameters: params, encoding: .json, headers: request.headers())
             .responseJSON { response in
                 if request is LoginRequest || request is AuthRequest {
                     if response.result.error == nil {
                         UserResponse.currentUser = UserResponse(JSON: response.result.value as! [String : Any])
                         self.token = UserResponse.currentUser?.token
                         Token.persistToken(self.token!)
+                        Token.persistLogin((phone_number: request.parameters()["phone_number"] as! String, password: request.parameters()["password"] as! String))
                         self.uid = UserResponse.currentUser?._id
                     }
                 }
                 if request is LogoutRequest {
                     Token.persistToken("")
+                    Token.persistLogin((phone_number: "", password: ""))
                     UserResponse.currentUser = nil
                 }
                 completionHandler(response)

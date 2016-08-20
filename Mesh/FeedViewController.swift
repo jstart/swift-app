@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FeedViewController.swift
 //  Mesh
 //
 //  Created by Christopher Truman on 8/2/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class FeedViewController: UIViewController {
 
     let cardStack = CardStack()
     let locationManager = LocationManager()
@@ -26,23 +26,23 @@ class ViewController: UIViewController {
         // AuthRequest(phone_number: "3103479815", password: "password", password_verify: "password", first_name: "john", last_name: "doe", email: "whatever@gmail.com", company: "amazing town", profession: "software engineer")
 
         // LoginRequest(phone_number: "3103479814", password: "password")
-        client.execute(LoginRequest(phone_number: "3103479814", password: "password"), completionHandler: { response in
+        /*client.execute(LoginRequest(phone_number: "3103479814", password: "password"), completionHandler: { response in
             if let JSON = response.result.value {
                 print("JSON: \(JSON)")
                 self.locationManager.startTracking()
             }
             if (response.result.error != nil) {
                 print(response.result.error)
-            }
-            /*client.execute(RecommendationsRequest(), completionHandler: { response in
+            }*/
+            client.execute(RecommendationsRequest(), completionHandler: { response in
                 if let JSON = response.result.value {
                     print("JSON: \(JSON)")
                 }
                 if (response.result.error != nil) {
                     print(response.result.error)
                 }
-            })*/
-        })
+            })
+        //})
         
         if childViewControllers.contains(cardStack) {
             return

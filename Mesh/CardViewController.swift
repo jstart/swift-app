@@ -20,6 +20,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     var card : Card?
     var viewPager : ViewPager?
     let image : UIImageView =  UIImageView(image: #imageLiteral(resourceName: "profile_sample"))
+    let transition = CardDetailTransition()
     let overlayView : UIView = {
         let overlayView = UIView()
         overlayView.backgroundColor = .black
@@ -29,7 +30,6 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         overlayView.layer.cornerRadius = 5.0
         return overlayView
     }()
-    let transition = CardDetailTransition()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +48,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         let quickViewStack = UIStackView(arrangedSubviews: [bar(), control.stack!, bar()])
         quickViewStack.distribution = .fillProportionally
         quickViewStack.alignment = .center
-        quickViewStack.spacing = 5
+        quickViewStack.spacing = 10
         
         viewPager = ViewPager(views: QuickViewGenerator.viewsForDetails(userDetails: card!.person!.details))
         viewPager?.scroll.panGestureRecognizer.require(toFail: gestureRec!)
@@ -114,8 +114,11 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         overlayView.alpha = 0.0
         overlayView.isHidden = true
+        
+        control.selectIndex(0)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
