@@ -44,6 +44,7 @@ struct LoginRequest : Request {
 }
 
 struct UserResponse {
+    static var currentUser : UserResponse?
     var _id : String
     var phone_number : String
     //var first_name : String

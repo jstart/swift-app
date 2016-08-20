@@ -49,10 +49,15 @@ class Client {
             .responseJSON { response in
                 if request is LoginRequest || request is AuthRequest {
                     if response.result.error == nil {
-                        self.token = UserResponse(JSON: response.result.value as! [String : Any]).token
+                        UserResponse.currentUser = UserResponse(JSON: response.result.value as! [String : Any])
+                        self.token = UserResponse.currentUser?.token
                         Token.persistToken(self.token!)
-                        self.uid = UserResponse(JSON: response.result.value as! [String : Any])._id
+                        self.uid = UserResponse.currentUser?._id
                     }
+                }
+                if request is LogoutRequest {
+                    Token.persistToken("")
+                    UserResponse.currentUser = nil
                 }
                 completionHandler(response)
         }

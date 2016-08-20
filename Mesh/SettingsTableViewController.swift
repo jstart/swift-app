@@ -24,12 +24,16 @@ class SettingsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return section == 0 ? 2 : 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-        cell.textLabel?.text = indexPath.section == 0 ? "Edit Profile" : "Logout"
+        cell.textLabel?.text = (indexPath.section == 0 && indexPath.row == 0) ? "Edit Profile" : "Logout"
+        if (indexPath.section == 0 && indexPath.row == 1)  {
+            cell.textLabel?.text = "Phone: " + UserResponse.currentUser!.phone_number
+            cell.detailTextLabel?.text = "UID: " + UserResponse.currentUser!._id
+        }
         return cell
     }
  

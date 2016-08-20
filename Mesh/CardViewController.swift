@@ -29,7 +29,8 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         overlayView.layer.cornerRadius = 5.0
         return overlayView
     }()
-    
+    let transition = CardDetailTransition()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -70,7 +71,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         let topStack = UIStackView(arrangedSubviews: [image, name, position, quickViewStack, viewPager!.scroll])
         topStack.axis = .vertical
         topStack.distribution = .fillProportionally
-        topStack.alignment = .center
+        topStack.alignment = .fill
         
         view.addSubview(topStack)
         
@@ -94,7 +95,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         image.contentMode = .scaleAspectFill
         image.layer.cornerRadius = 5.0
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.constrain(.width, toItem: view)
+        image.constrain(.width, .centerX, toItem: view)
         
         let logo = UIImageView(image: #imageLiteral(resourceName: "tesla"))
         view.addSubview(logo)
@@ -105,6 +106,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         logo.constrain(.bottom, constant: 62 - 15, toItem: image)
 
         NSLayoutConstraint(item: name, attribute: .leading, relatedBy: .equal, toItem: logo, attribute: .trailing, multiplier: 1.0, constant: 15).isActive = true
+        NSLayoutConstraint(item: position, attribute: .leading, relatedBy: .equal, toItem: logo, attribute: .trailing, multiplier: 1.0, constant: 15).isActive = true
 
         view.addSubview(overlayView)
         overlayView.constrain(.width, .height, .centerX, .centerY, toItem: view)
@@ -127,7 +129,9 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         
         bar.translatesAutoresizingMaskIntoConstraints = false
         bar.constrain(.height, constant: 1)
-        bar.constrain(.width, constant: 80)
+        NSLayoutConstraint(item: bar, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 80).isActive = true
+        NSLayoutConstraint(item: bar, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40).isActive = true
+
         return bar
     }
     
@@ -268,7 +272,6 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        let transition = CardDetailTransition()
         transition.cardVC = self
         transition.presenting = true
             
@@ -276,7 +279,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        let transition = CardDetailTransition()
+        transition.cardVC = self
         transition.presenting = false
         return transition
     }

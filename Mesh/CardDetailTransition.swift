@@ -12,6 +12,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
     
     let duration    = 0.2
     var presenting  = true
+    let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     var cardVC : CardViewController?
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?)-> TimeInterval {
@@ -23,7 +24,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
         let containerView = transitionContext.containerView
         
         if presenting {
-            let toView = transitionContext.view(forKey: UITransitionContextViewKey.to)!
+            let toView = transitionContext.view(forKey: .to)!
             let detail = toView
             containerView.addSubview(toView)
             
@@ -34,19 +35,19 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
             detail.constrain(.centerY, constant: 40, toItem: cardVC!.view)
             detail.alpha = 0.0
 
-            let blurView = UIView()
-            blurView.backgroundColor = .black
-            blurView.alpha = 0.7
             blurView.layer.cornerRadius = 5.0
             
             detail.addSubview(blurView)
             blurView.translatesAutoresizingMaskIntoConstraints = false
             blurView.constrain(.top, .width, .centerX, toItem: cardVC!.view)
-            blurView.constrain(.height, constant: 80)
+            blurView.constrain(.height, constant: 85)
+            blurView.alpha = 0.0
+            cardVC?.image.addSubview(blurView)
             
             containerView.bringSubview(toFront: detail)
 
             UIView.animate(withDuration: duration, animations: {
+                    self.blurView.alpha = 0.9
                     detail.alpha = 1.0
                 }, completion:{_ in
                     transitionContext.completeTransition(true)
@@ -60,7 +61,9 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
             
             UIView.animate(withDuration: duration, animations: {
                             detail.alpha = 0.0
+                            self.blurView.alpha = 0.0
                 }, completion:{_ in
+                    self.blurView.removeFromSuperview()
                     transitionContext.completeTransition(true)
             })
         }
