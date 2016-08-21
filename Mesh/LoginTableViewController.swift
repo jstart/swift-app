@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginTableViewController: UITableViewController {
+class LoginTableViewController: UITableViewController, UITextFieldDelegate {
 
     var phoneField : UITextField?
     var passwordField : UITextField?
@@ -39,6 +39,7 @@ class LoginTableViewController: UITableViewController {
         let field = UITextField()
         field.autocapitalizationType = .none
         field.translatesAutoresizingMaskIntoConstraints = false
+        field.delegate = self
         cell.addSubview(field)
         field.constrain(.leadingMargin, .trailing, .height, .centerY, toItem: cell)
         if indexPath.section == 0 { phoneField = field } else { passwordField = field }
@@ -55,6 +56,13 @@ class LoginTableViewController: UITableViewController {
                 tab.tabBar.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
             }
         })
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == passwordField {
+            login()
+        }
+        return true
     }
  
 }
