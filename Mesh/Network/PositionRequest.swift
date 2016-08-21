@@ -15,9 +15,9 @@ struct PositionRequest : AuthenticatedRequest {
     
     var lat : Double
     var lon : Double
-    var uid : String
+    //var uid : String
     
     func parameters() -> [String : Any] {
-        return ["lat" : lat, "lon" : lon, "uid" : uid]
+        return ["lat" : lat, "lon" : lon]//, "uid" : uid]
     }
 }

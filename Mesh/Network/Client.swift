@@ -35,12 +35,11 @@ extension Request {
 class Client {
     var baseURL = "http://dev.mesh.tinderventures.com:1337/"
     var token : String?
-    var uid : String?
     
     func execute(_ request : Request, completionHandler: @escaping (Response<Any, NSError>) -> Void) {
         var params = request.parameters()
-        if uid != nil {
-            params["uid"] = uid
+        if UserResponse.currentUser?._id != nil {
+            params["uid"] = UserResponse.currentUser?._id
         }
         Alamofire.request(baseURL + request.path, withMethod: request.method, parameters: params, encoding: .json, headers: request.headers())
             .responseJSON { response in
@@ -50,7 +49,6 @@ class Client {
                         self.token = UserResponse.currentUser?.token
                         Token.persistToken(self.token!)
                         Token.persistLogin((phone_number: request.parameters()["phone_number"] as! String, password: request.parameters()["password"] as! String))
-                        self.uid = UserResponse.currentUser?._id
                     }
                 }
                 if request is LogoutRequest {

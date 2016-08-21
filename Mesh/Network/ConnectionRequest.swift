@@ -10,5 +10,22 @@ import Alamofire
 
 struct ConnectionRequest : AuthenticatedRequest {
     let path = "connection"
-    let method = HTTPMethod.get
+    let method = HTTPMethod.put
+    
+    var recipient : String
+    
+    func parameters() -> [String : Any] {
+        return ["recipient": recipient]
+    }
+}
+
+struct ConnectionDeleteRequest : AuthenticatedRequest {
+    let path = "connection"
+    let method = HTTPMethod.delete
+    
+    var connection_id : String
+    
+    func parameters() -> [String : Any] {
+        return ["connection_id": connection_id]
+    }
 }

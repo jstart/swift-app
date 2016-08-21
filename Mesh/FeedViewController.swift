@@ -21,28 +21,26 @@ class FeedViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "qrCode"), style: .plain, target: self, action: #selector(sort))
         view.tintColor = #colorLiteral(red: 0.2, green: 0.7843137255, blue: 0.9960784314, alpha: 1)
         
+        self.locationManager.startTracking()
+        
         let client = Client()
         // AuthRequest(phone_number: "3103479814", password: "password", password_verify: "password", first_name: "chris", last_name: "truman", email: "cleetruman@gmail.com", company: "tinder ventures", profession: "software engineer")
         // AuthRequest(phone_number: "3103479815", password: "password", password_verify: "password", first_name: "john", last_name: "doe", email: "whatever@gmail.com", company: "amazing town", profession: "software engineer")
-
+        //ProfileRequest(first_name: "john", last_name: "doe", email: "whatever@gmail.com", title: "lead product", profession: "software engineer")
         // LoginRequest(phone_number: "3103479814", password: "password")
-        /*client.execute(LoginRequest(phone_number: "3103479814", password: "password"), completionHandler: { response in
-            if let JSON = response.result.value {
-                print("JSON: \(JSON)")
-                self.locationManager.startTracking()
-            }
-            if (response.result.error != nil) {
-                print(response.result.error)
-            }*/
-            client.execute(RecommendationsRequest(), completionHandler: { response in
-                if let JSON = response.result.value {
-                    print("JSON: \(JSON)")
-                }
-                if (response.result.error != nil) {
-                    print(response.result.error)
-                }
-            })
-        //})
+        /*client.execute(ProfileRequest(first_name: "john", last_name: "doe", email: "whatever@gmail.com", title: "lead product", profession: "software engineer", companies: [CompanyModel(id: "tinder", start_month: "January", start_year: "2014", end_month: "March", end_year: "2016", current: true)]), completionHandler: { response in
+            print("JSON: \(response.result.value)")
+            print(response.result.error)
+        })*/
+        
+        client.execute(RecommendationsRequest(), completionHandler: { response in
+            print("JSON: \(response.result.value)")
+            print(response.result.error)
+        })
+        client.execute(UpdatesRequest(last_update: Int(Date().timeIntervalSince1970)), completionHandler: { response in
+            print("JSON: \(response.result.value)")
+            print(response.result.error)
+        })
         
         if childViewControllers.contains(cardStack) {
             return
@@ -57,7 +55,7 @@ class FeedViewController: UIViewController {
         locationManager.locationUpdate = { location in
             print(location)
             
-            client.execute(PositionRequest(lat: location.coordinate.latitude, lon: location.coordinate.longitude, uid: client.uid!), completionHandler: { response in
+            client.execute(PositionRequest(lat: location.coordinate.latitude, lon: location.coordinate.longitude), completionHandler: { response in
                 if let JSON = response.result.value {
                     print("JSON: \(JSON)")
                 }

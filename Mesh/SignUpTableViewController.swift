@@ -53,7 +53,7 @@ class SignUpTableViewController: UITableViewController {
     }
     
     func login() {
-        Client().execute(AuthRequest(phone_number: phoneField!.text!, password: passwordField!.text!, password_verify: passwordField!.text!, first_name: "chris", last_name: "truman", email: "cleetruman@gmail.com", company: "tinder ventures", profession: "software engineer"), completionHandler: { response in
+        Client().execute(AuthRequest(phone_number: phoneField!.text!, password: passwordField!.text!, password_verify: passwordField!.text!), completionHandler: { response in
             if let JSON = response.result.value {
                 print("JSON: \(JSON)")
                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!

@@ -8,18 +8,19 @@
 
 import Alamofire
 
-// TODO
 struct MessagesSendRequest : AuthenticatedRequest {
     let path = "message"
     let method = HTTPMethod.put
     
-    var _id : Int
+    var recipient : String
+    var text : String
     
     func parameters() -> [String : Any] {
-        return ["_id": _id]
+        return ["recipient": recipient, "text" : text]
     }
 }
 
+// TODO:
 struct MessagesDeleteRequest : AuthenticatedRequest {
     let path = "message"
     let method = HTTPMethod.delete

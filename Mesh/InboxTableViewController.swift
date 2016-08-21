@@ -21,6 +21,11 @@ class InboxTableViewController: UITableViewController {
         navigationItem.titleView = searchBar
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.8196078431, green: 0.8196078431, blue: 0.8196078431, alpha: 1)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort))
+        
+        Client().execute(MessagesSendRequest(recipient: "57b63c7f887fb1b3571666b5", text: "POOP"), completionHandler: { response in
+            print("JSON: \(response.result.value)")
+            print(response.result.error)
+        })
     }
     
     func sort() {

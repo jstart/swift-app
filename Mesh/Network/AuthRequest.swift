@@ -15,14 +15,9 @@ struct AuthRequest : Request {
     var phone_number : String
     var password : String
     var password_verify : String
-    var first_name : String
-    var last_name : String
-    var email : String
-    var company : String
-    var profession : String
     
     func parameters() -> [String : Any] {
-        return ["phone_number": phone_number, "password" : password, "password_verify" : password_verify, "first_name" : first_name, "last_name" : last_name, "email" : email, "company" : company, "profession" : profession]
+        return ["phone_number": phone_number, "password" : password, "password_verify" : password_verify]
     }
 }
 
