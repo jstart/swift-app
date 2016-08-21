@@ -36,11 +36,32 @@ class Client {
     var baseURL = "http://dev.mesh.tinderventures.com:1337/"
     var token : String?
     
+    func upload(_ request : PhotoRequest, completionHandler: @escaping (Response<Any, NSError>) -> Void) {
+        Alamofire.upload(
+            multipartFormData: { multipartFormData in
+                multipartFormData.append(request.file, withName: "file")
+            },
+            to: baseURL + request.path,
+            withMethod: .post,
+            headers: request.headers(),
+            encodingCompletion: { result in
+                switch result {
+                case .success(let upload, _, _):
+                    upload.responseJSON(completionHandler: completionHandler)
+                    break
+                case .failure:
+                    break
+                }
+            }
+        )
+    }
+    
     func execute(_ request : Request, completionHandler: @escaping (Response<Any, NSError>) -> Void) {
         var params = request.parameters()
         if UserResponse.currentUser?._id != nil {
             params["uid"] = UserResponse.currentUser?._id
         }
+        
         Alamofire.request(baseURL + request.path, withMethod: request.method, parameters: params, encoding: .json, headers: request.headers())
             .responseJSON { response in
                 if request is LoginRequest || request is AuthRequest {

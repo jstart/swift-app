@@ -24,47 +24,51 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
         let containerView = transitionContext.containerView
         
         if presenting {
-            let toView = transitionContext.view(forKey: .to)!
-            let detail = toView
-            containerView.addSubview(toView)
+            let detail = transitionContext.view(forKey: .to)!
+            containerView.addSubview(detail)
             
             detail.translatesAutoresizingMaskIntoConstraints = false
             detail.constrain(.width, toItem: cardVC!.view)
             detail.constrain(.height, constant: -80, toItem: cardVC!.view)
             detail.constrain(.centerX, toItem: cardVC!.view)
-            detail.constrain(.centerY, constant: 40, toItem: cardVC!.view)
+            detail.constrain(.top, constant: 400, toItem: cardVC!.view)
             detail.alpha = 0.0
+            detail.layoutIfNeeded()
 
             blurView.layer.cornerRadius = 5.0
-            
             detail.addSubview(blurView)
             blurView.translatesAutoresizingMaskIntoConstraints = false
             blurView.constrain(.top, .width, .centerX, toItem: cardVC!.view)
-            blurView.constrain(.height, constant: 85)
+            blurView.constrain(.height, toItem: cardVC!.image)
             blurView.alpha = 0.0
             cardVC?.image.addSubview(blurView)
             
             containerView.bringSubview(toFront: detail)
 
-            UIView.animate(withDuration: duration, animations: {
-                    self.blurView.alpha = 0.9
+            UIView.animate(withDuration: 0.1, animations: {
                     detail.alpha = 1.0
+                    self.blurView.alpha = 0.9
                 }, completion:{_ in
-                    transitionContext.completeTransition(true)
+                    UIView.animate(withDuration: 0.2, animations: {
+                        detail.frame.origin.y = 80 * 2
+                        }, completion: {_ in
+                            transitionContext.completeTransition(true)
+                    })
             })
         } else {
-            let toView = transitionContext.view(forKey: UITransitionContextViewKey.from)!
-            let detail = toView
-            
-            containerView.addSubview(toView)
+            let detail = transitionContext.view(forKey: UITransitionContextViewKey.from)!
+            detail.frame.origin.y = 80 * 2
+            containerView.addSubview(detail)
             containerView.bringSubview(toFront: detail)
-            
-            UIView.animate(withDuration: duration, animations: {
-                            detail.alpha = 0.0
-                            self.blurView.alpha = 0.0
+            UIView.animate(withDuration: 0.2, animations: {
+                detail.alpha = 0.0
+                self.blurView.alpha = 0.0
                 }, completion:{_ in
-                    self.blurView.removeFromSuperview()
-                    transitionContext.completeTransition(true)
+                    UIView.animate(withDuration: 0.2, animations: {
+                        detail.frame.origin.y = 550
+                        }, completion: {_ in
+                            transitionContext.completeTransition(true)
+                    })
             })
         }
         

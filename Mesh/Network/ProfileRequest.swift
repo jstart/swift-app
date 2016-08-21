@@ -43,9 +43,5 @@ struct PhotoRequest : AuthenticatedRequest {
     let method = HTTPMethod.post
     
     var file : Data
-    
-    func parameters() -> [String : Any] {
-        return ["file" : file]
-    }
 }
 
