@@ -10,7 +10,6 @@
 		233E944C1D63B9CD00919B95 /* CardDetailTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233E944B1D63B9CD00919B95 /* CardDetailTransition.swift */; };
 		233E944E1D63BAE000919B95 /* CardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233E944D1D63BAE000919B95 /* CardDetailViewController.swift */; };
 		233E94501D63DB6F00919B95 /* UserDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233E944F1D63DB6F00919B95 /* UserDetailTableViewController.swift */; };
-		235D52D01D6B6BB9007AD4EB /* Source in Resources */ = {isa = PBXBuildFile; fileRef = 235D52CF1D6B6BB9007AD4EB /* Source */; };
 		236E27AE1D67BAC5002ABAB4 /* InboxTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27AD1D67BAC5002ABAB4 /* InboxTableViewController.swift */; };
 		236E27B01D67BFFE002ABAB4 /* EventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27AF1D67BFFE002ABAB4 /* EventsTableViewController.swift */; };
 		236E27B21D67C2F6002ABAB4 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27B11D67C2F6002ABAB4 /* ConversationViewController.swift */; };
@@ -54,7 +53,6 @@
 		233E944B1D63B9CD00919B95 /* CardDetailTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDetailTransition.swift; sourceTree = "<group>"; };
 		233E944D1D63BAE000919B95 /* CardDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDetailViewController.swift; sourceTree = "<group>"; };
 		233E944F1D63DB6F00919B95 /* UserDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailTableViewController.swift; sourceTree = "<group>"; };
-		235D52CF1D6B6BB9007AD4EB /* Source */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Source; path = "/Users/christophertruman/Developer/Tinder/iOS/mesh-ios/Mesh/Source"; sourceTree = "<absolute>"; };
 		236E27AD1D67BAC5002ABAB4 /* InboxTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxTableViewController.swift; sourceTree = "<group>"; };
 		236E27AF1D67BFFE002ABAB4 /* EventsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsTableViewController.swift; sourceTree = "<group>"; };
 		236E27B11D67C2F6002ABAB4 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
@@ -268,7 +266,6 @@
 				23DFB67E1D66323C00D871A9 /* CardViewController.xib in Resources */,
 				ADECA8F21D51540900726AEF /* LaunchScreen.storyboard in Resources */,
 				ADECA8EF1D51540900726AEF /* Assets.xcassets in Resources */,
-				235D52D01D6B6BB9007AD4EB /* Source in Resources */,
 				239E01F11D6A801D0072530B /* UserDetailTableViewCell.xib in Resources */,
 				ADECA8ED1D51540900726AEF /* Main.storyboard in Resources */,
 			);
