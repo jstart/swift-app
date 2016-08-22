@@ -14,6 +14,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
     let control = QuickPageControl(categories: [.connections, .experience, .education, .skills, .events])
     let pageController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     var controllers = [UserDetailTableViewController]()
+    var delegate : QuickPageControlDelegate?
     var transistionToIndex = 0
     
     override func viewDidLoad() {
@@ -29,6 +30,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         for (index, category) in [QuickViewCategory.connections, QuickViewCategory.experience, QuickViewCategory.education, QuickViewCategory.skills, QuickViewCategory.events].enumerated() {
             let table = UserDetailTableViewController()
             table.category = category
+            table.details = []
             table.index = index
             controllers.append(table)
         }
@@ -45,7 +47,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         control.stack!.constrain(.centerX, toItem: view)
         control.stack!.constrain(.height, constant: 40)
         control.delegate = self
-        control.selectIndex(0)
+        control.selectIndex(control.previousIndex)
         
         pageController.delegate = self
         pageController.dataSource = self
@@ -55,7 +57,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         NSLayoutConstraint(item: pageController.view, attribute: .top, relatedBy: .equal, toItem: control.stack!, attribute: .bottom, multiplier: 1.0, constant: 0.0).isActive = true
         pageController.view.constrain(.width, .centerX, .bottom, toItem: view)
         
-        pageController.setViewControllers([controllers.first!], direction: .forward, animated: false, completion: nil)
+        pageController.setViewControllers([controllers[control.previousIndex]], direction: .forward, animated: false, completion: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -97,6 +99,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         if index == control.previousIndex {
             return
         }
+        delegate?.selectedIndex(index)
         pageController.setViewControllers([controllers[index]], direction: (control.previousIndex < index) ? .forward : .reverse, animated: true, completion: nil)
     }
     

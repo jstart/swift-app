@@ -39,7 +39,8 @@ class Client {
     func upload(_ request : PhotoRequest, completionHandler: @escaping (Response<Any, NSError>) -> Void) {
         Alamofire.upload(
             multipartFormData: { multipartFormData in
-                multipartFormData.append(request.file, withName: "file")
+                //multipartFormData.append(request.file, withName: "picture")
+                multipartFormData.append(request.file, withName: "picture", fileName: "file.jpg", mimeType: "image/jpeg")
             },
             to: baseURL + request.path,
             withMethod: .post,

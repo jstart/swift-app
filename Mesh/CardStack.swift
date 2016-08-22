@@ -21,8 +21,8 @@ class CardStack : UIViewController, CardDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
-        let person = Person(firstName: "", lastName:"", details: details)
-        cards = [Card(type: .person, person: person)]
+        let person = Person(user: nil, details: details)
+        cards = [Card(type:.person, person: person)]
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -20,6 +20,8 @@
 		236E27BE1D67FDC2002ABAB4 /* LoginTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27BD1D67FDC2002ABAB4 /* LoginTableViewController.swift */; };
 		236E27C01D67FDDA002ABAB4 /* SignUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27BF1D67FDDA002ABAB4 /* SignUpTableViewController.swift */; };
 		2397C37A1D5E5A6F005C982E /* QuickPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397C3791D5E5A6F005C982E /* QuickPageControl.swift */; };
+		239E01F01D6A801D0072530B /* UserDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239E01EE1D6A801D0072530B /* UserDetailTableViewCell.swift */; };
+		239E01F11D6A801D0072530B /* UserDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 239E01EF1D6A801D0072530B /* UserDetailTableViewCell.xib */; };
 		23A390B81D629B210032F11C /* UserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A390B71D629B210032F11C /* UserDetails.swift */; };
 		23A390BA1D62A5470032F11C /* QuickViewGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A390B91D62A5470032F11C /* QuickViewGenerator.swift */; };
 		23C09D541D624C66003C9183 /* ViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C09D531D624C66003C9183 /* ViewPager.swift */; };
@@ -61,6 +63,8 @@
 		236E27BD1D67FDC2002ABAB4 /* LoginTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTableViewController.swift; sourceTree = "<group>"; };
 		236E27BF1D67FDDA002ABAB4 /* SignUpTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpTableViewController.swift; sourceTree = "<group>"; };
 		2397C3791D5E5A6F005C982E /* QuickPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickPageControl.swift; sourceTree = "<group>"; };
+		239E01EE1D6A801D0072530B /* UserDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailTableViewCell.swift; sourceTree = "<group>"; };
+		239E01EF1D6A801D0072530B /* UserDetailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserDetailTableViewCell.xib; sourceTree = "<group>"; };
 		23A390B71D629B210032F11C /* UserDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetails.swift; sourceTree = "<group>"; };
 		23A390B91D62A5470032F11C /* QuickViewGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickViewGenerator.swift; sourceTree = "<group>"; };
 		23C09D531D624C66003C9183 /* ViewPager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPager.swift; sourceTree = "<group>"; };
@@ -175,6 +179,8 @@
 				23DFB67D1D66323C00D871A9 /* CardViewController.xib */,
 				233E944D1D63BAE000919B95 /* CardDetailViewController.swift */,
 				233E944F1D63DB6F00919B95 /* UserDetailTableViewController.swift */,
+				239E01EE1D6A801D0072530B /* UserDetailTableViewCell.swift */,
+				239E01EF1D6A801D0072530B /* UserDetailTableViewCell.xib */,
 				23C09D531D624C66003C9183 /* ViewPager.swift */,
 				233E944B1D63B9CD00919B95 /* CardDetailTransition.swift */,
 				23A390B91D62A5470032F11C /* QuickViewGenerator.swift */,
@@ -260,6 +266,7 @@
 				23DFB67E1D66323C00D871A9 /* CardViewController.xib in Resources */,
 				ADECA8F21D51540900726AEF /* LaunchScreen.storyboard in Resources */,
 				ADECA8EF1D51540900726AEF /* Assets.xcassets in Resources */,
+				239E01F11D6A801D0072530B /* UserDetailTableViewCell.xib in Resources */,
 				ADECA8ED1D51540900726AEF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,6 +352,7 @@
 				AD4E2E241D5AAE4300130811 /* MessagesRequest.swift in Sources */,
 				233E944C1D63B9CD00919B95 /* CardDetailTransition.swift in Sources */,
 				236E27B61D67C795002ABAB4 /* SettingsTableViewController.swift in Sources */,
+				239E01F01D6A801D0072530B /* UserDetailTableViewCell.swift in Sources */,
 				AD4E2E221D5AAD5700130811 /* UpdatesRequest.swift in Sources */,
 				AD06B6FB1D541FF7005D349A /* CardStack.swift in Sources */,
 				236E27BC1D67F8EE002ABAB4 /* JoinTableViewController.swift in Sources */,

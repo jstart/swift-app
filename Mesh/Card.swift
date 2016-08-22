@@ -20,8 +20,7 @@ struct Company {
 }
 
 struct Person {
-    var firstName : String
-    var lastName : String
+    var user : UserResponse?
     var details : UserDetails
 }
 

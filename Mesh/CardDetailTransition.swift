@@ -28,9 +28,8 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
             containerView.addSubview(detail)
             
             detail.translatesAutoresizingMaskIntoConstraints = false
-            detail.constrain(.width, toItem: cardVC!.view)
+            detail.constrain(.width, .centerX, toItem: cardVC!.view)
             detail.constrain(.height, constant: -80, toItem: cardVC!.view)
-            detail.constrain(.centerX, toItem: cardVC!.view)
             detail.constrain(.top, constant: 400, toItem: cardVC!.view)
             detail.alpha = 0.0
             detail.layoutIfNeeded()
@@ -41,6 +40,9 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
             blurView.constrain(.top, .width, .centerX, toItem: cardVC!.view)
             blurView.constrain(.height, toItem: cardVC!.image)
             blurView.alpha = 0.0
+            let tapRec = UITapGestureRecognizer(target: self, action: #selector(tap(sender:)))
+
+            containerView.addGestureRecognizer(tapRec)
             cardVC?.image.addSubview(blurView)
             
             containerView.bringSubview(toFront: detail)
@@ -49,8 +51,8 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
                     detail.alpha = 1.0
                     self.blurView.alpha = 0.9
                 }, completion:{_ in
-                    UIView.animate(withDuration: 0.2, animations: {
-                        detail.frame.origin.y = 80 * 2
+                    UIView.animate(withDuration: 0.1, animations: {
+                        detail.frame.origin.y = 81 * 2
                         }, completion: {_ in
                             transitionContext.completeTransition(true)
                     })
@@ -60,18 +62,20 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
             detail.frame.origin.y = 80 * 2
             containerView.addSubview(detail)
             containerView.bringSubview(toFront: detail)
-            UIView.animate(withDuration: 0.2, animations: {
+            UIView.animate(withDuration: 0.1, animations: {
                 detail.alpha = 0.0
                 self.blurView.alpha = 0.0
                 }, completion:{_ in
-                    UIView.animate(withDuration: 0.2, animations: {
+                    UIView.animate(withDuration: 0.1, animations: {
                         detail.frame.origin.y = 550
                         }, completion: {_ in
                             transitionContext.completeTransition(true)
                     })
             })
         }
-        
     }
-    
+
+    func tap(sender:UITapGestureRecognizer) {
+        cardVC!.dismiss(animated: true, completion: nil)
+    }
 }

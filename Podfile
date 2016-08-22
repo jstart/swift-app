@@ -3,7 +3,8 @@ use_frameworks!
 
 target 'Mesh'
 
-pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :branch => 'swift3'
+pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :commit => '1dc3992a3854ca369368c8997ea3c45054070e67'
+#pod 'AlamofireImage', :git => 'https://github.com/Alamofire/AlamofireImage.git', :branch => 'swift3'
 pod 'JSQMessagesViewController'
 
 post_install do |installer|

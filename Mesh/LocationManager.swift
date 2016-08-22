@@ -18,10 +18,11 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
 
     func startTracking() -> (enabled: Bool, status: CLAuthorizationStatus) {
         manager.delegate = self
-        manager.distanceFilter = 10
-        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        //manager.distanceFilter = 10
+        //manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         if CLLocationManager.locationServicesEnabled() {
             manager.startMonitoringSignificantLocationChanges()
+            manager.requestLocation()
         }
         if CLLocationManager.authorizationStatus() == .notDetermined {
             manager.requestWhenInUseAuthorization()
@@ -30,11 +31,6 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            manager.startMonitoringSignificantLocationChanges()
-            return
-        }
-        
         switch (status) {
         case .authorizedWhenInUse:
             manager.startMonitoringSignificantLocationChanges()
@@ -62,6 +58,9 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         }
     }
     
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         locationUpdate?(locations.first!)
     }

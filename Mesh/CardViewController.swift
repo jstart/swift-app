@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate {
+class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, QuickPageControlDelegate {
     var delegate : CardDelegate?
     
     var gestureRec : UIPanGestureRecognizer?
@@ -30,6 +30,8 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         overlayView.layer.cornerRadius = 5.0
         return overlayView
     }()
+    let name = UILabel()
+    let position = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,19 +52,17 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         quickViewStack.alignment = .center
         quickViewStack.spacing = 10
         
-        viewPager = ViewPager(views: QuickViewGenerator.viewsForDetails(userDetails: card!.person!.details))
+        viewPager = ViewPager(views: QuickViewGenerator.viewsForDetails(userDetails: card?.person?.details))
         viewPager?.scroll.panGestureRecognizer.require(toFail: gestureRec!)
         control.delegate = viewPager!
         viewPager?.delegate = control
         control.selectIndex(0)
         
-        let name = UILabel()
         name.textColor = .black
         name.font = UIFont.systemFont(ofSize: 20)
-        name.text = "Micha Kaufman"
+        name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! : "Micha Kaufman"
         name.constrain(.height, constant: 20)
         
-        let position = UILabel()
         position.textColor = #colorLiteral(red: 0.7810397744, green: 0.7810582519, blue: 0.7810482979, alpha: 1)
         position.font = UIFont.systemFont(ofSize: 16)
         position.text = "VP of Engineering at Tesla"
@@ -108,17 +108,20 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         NSLayoutConstraint(item: name, attribute: .leading, relatedBy: .equal, toItem: logo, attribute: .trailing, multiplier: 1.0, constant: 15).isActive = true
         NSLayoutConstraint(item: position, attribute: .leading, relatedBy: .equal, toItem: logo, attribute: .trailing, multiplier: 1.0, constant: 15).isActive = true
 
-        view.addSubview(overlayView)
-        overlayView.constrain(.width, .height, .centerX, .centerY, toItem: view)
+        //view.addSubview(overlayView)
+        //overlayView.constrain(.width, .height, .centerX, .centerY, toItem: view)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        overlayView.alpha = 0.0
-        overlayView.isHidden = true
+        //overlayView.alpha = 0.0
+        //overlayView.isHidden = true
         
         control.selectIndex(0)
+        
+        name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! + " " + card!.person!.user!.last_name! : "Micha Kaufman"
+        position.text = card?.person?.user?.title != nil ? card!.person!.user!.title! : "VP of Engineering at Tesla"
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -136,6 +139,11 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         NSLayoutConstraint(item: bar, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40).isActive = true
 
         return bar
+    }
+    
+    func selectedIndex(_ index: Int) {
+        control.selectIndex(index)
+        viewPager?.selectedIndex(index)
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -164,6 +172,8 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     
     func tap(sender: UITapGestureRecognizer) {
         let details = CardDetailViewController()
+        details.delegate = self
+        details.transistionToIndex = control.previousIndex
         details.control.selectIndex(control.previousIndex)
         details.modalPresentationStyle = .overCurrentContext
         details.transitioningDelegate = self
@@ -183,8 +193,8 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
                 UIView.animate(withDuration: 0.2, animations: {
                     sender.view?.center = (self.view?.superview?.center)!
                     sender.view?.transform = CGAffineTransform.identity
-                    self.overlayView.alpha = 0.0
-                    self.overlayView.isHidden = true
+                    //self.overlayView.alpha = 0.0
+                    //self.overlayView.isHidden = true
                 })
                 return
             }
@@ -227,7 +237,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
             
         case .began :
             state.start(gestureRec!)
-            overlayView.isHidden = false
+            //overlayView.isHidden = false
             return;
         case .changed :
             state.drag(gestureRec!)
@@ -249,26 +259,26 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     
     func animateOverlay(direction: UISwipeGestureRecognizerDirection, translation: CGPoint){
         switch direction {
-        case UISwipeGestureRecognizerDirection.up:
+        /*case UISwipeGestureRecognizerDirection.up:
             overlayView.alpha = min(1, ((view.superview!.center.y - view.center.y)/200)) * 0.75
         case UISwipeGestureRecognizerDirection.down:
-            overlayView.alpha = min(1, ((view.center.y - view.superview!.center.y)/200)) * 0.75
+            overlayView.alpha = min(1, ((view.center.y - view.superview!.center.y)/200)) * 0.75*/
         case UISwipeGestureRecognizerDirection.left:
             let progress = min(1, ((view.superview!.center.x - view.center.x)/200)) * 10
             view.transform = CGAffineTransform(rotationAngle:(-progress * CGFloat(M_PI)) / 180)
-            if view.center.x <= view.superview!.center.x {
+            /*if view.center.x <= view.superview!.center.x {
                 overlayView.alpha = min(1, ((view.superview!.center.x - view.center.x)/200)) * 0.75
             } else {
                 overlayView.alpha = min(1, ((view.center.x - view.superview!.center.x)/200)) * 0.75
-            }
+            }*/
         case UISwipeGestureRecognizerDirection.right:
             let progress = min(1, ((view.center.x - view.superview!.center.x)/200)) * 10
             view.transform = CGAffineTransform(rotationAngle:(progress * CGFloat(M_PI)) / 180)
-            if view.center.x >= view.superview!.center.x {
+            /*if view.center.x >= view.superview!.center.x {
                 overlayView.alpha = min(1, ((view.center.x - view.superview!.center.x)/200)) * 0.75
             } else {
                 overlayView.alpha = min(1, ((view.superview!.center.x - view.center.x)/200)) * 0.75
-            }
+            }*/
         default:
             return
         }
