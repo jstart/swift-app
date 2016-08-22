@@ -38,8 +38,9 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         
         view.layer.cornerRadius = 5.0
         view.layer.shadowColor = UIColor.lightGray.cgColor
-        view.layer.shadowOpacity = 0.5
-        view.layer.shadowOffset = CGSize(width: 2, height: 2)
+        view.layer.shadowOpacity = 1.0
+        view.layer.shadowRadius = 5
+        //view.layer.shadowOffset = CGSize(width: 2, height: 2)
         
         gestureRec = UIPanGestureRecognizer(target: self, action: #selector(pan))
         gestureRec?.delegate = self
