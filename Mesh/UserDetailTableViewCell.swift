@@ -26,7 +26,7 @@ class UserDetailTableViewCell: UITableViewCell {
         button.layer.cornerRadius = 5.0
     }
     
-    func configure(detail:UserDetail) {
+    func configure(_ detail:UserDetail) {
         button.isHidden = !detail.hasButton
         year.isHidden = !detail.hasDate
     }

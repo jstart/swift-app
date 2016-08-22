@@ -45,7 +45,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
             alertController.addAction(cancelAction)
             
             let openAction = UIAlertAction(title: "Open Settings", style: .default) { (action) in
-                if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
+                if let url = URL(string:UIApplicationOpenSettingsURLString) {
                     UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
                 }
             }

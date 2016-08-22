@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ViewPagerDelegate {
-    func selectedIndex(index: Int)
+    func selectedIndex(_ index: Int)
 }
 
 class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
@@ -54,7 +54,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         let fractionalPage = scrollView.contentOffset.x / pageWidth
         let page = lround(Double(fractionalPage));
         if (previousPage != page) {
-            delegate?.selectedIndex(index: page)
+            delegate?.selectedIndex(page)
             previousPage = page;
         }
     }

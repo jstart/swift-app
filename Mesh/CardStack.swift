@@ -15,8 +15,9 @@ protocol CardDelegate {
 class CardStack : UIViewController, CardDelegate {
     
     var cards : [Card]? = nil
-    private var cardViews : [CardViewController]? = nil
+    fileprivate var cardViews : [CardViewController]? = nil
     var topCard : CardViewController = CardViewController()
+    var cardIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +29,7 @@ class CardStack : UIViewController, CardDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        topCard.card = cards?.first
+        topCard.card = cards![cardIndex]
         cardViews = [topCard]
 
         let card = cardViews![0]
@@ -37,7 +38,7 @@ class CardStack : UIViewController, CardDelegate {
     }
     
     func addNewCard() {
-        topCard.card = cards?.first
+        topCard.card = cards![cardIndex]
         topCard.delegate = self
         cardViews?.append(topCard)
         addCard(topCard)
@@ -68,6 +69,11 @@ class CardStack : UIViewController, CardDelegate {
     }
     
     func swiped(_ direction: UISwipeGestureRecognizerDirection) {
+        if cardIndex + 1 == cards?.count {
+            cardIndex = 0
+        } else {
+            cardIndex += 1
+        }
         addNewCard()
     }
 }

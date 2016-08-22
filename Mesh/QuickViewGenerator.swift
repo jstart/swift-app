@@ -10,7 +10,7 @@ import UIKit
 
 struct QuickViewGenerator {
     
-    static func viewsForDetails(userDetails: UserDetails?) -> [UIView] {
+    static func viewsForDetails(_ userDetails: UserDetails?) -> [UIView] {
         var views : [UIView] = []
         
         if userDetails?.connections.count == 0 {
@@ -34,9 +34,9 @@ struct QuickViewGenerator {
     static func tempQuickView(_ category: QuickViewCategory) -> UIStackView {
         var views : [UIView] = []
         for _ in 1...5 {
-            views.append(square(image: #imageLiteral(resourceName: "tesla"), title: "Test"))
+            views.append(square(#imageLiteral(resourceName: "tesla"), title: "Test"))
         }
-        let stack = stackOf(views: views)
+        let stack = stackOf(views)
         stack.constrain(.height, constant: 75)
         
         let label = UILabel()
@@ -47,7 +47,7 @@ struct QuickViewGenerator {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.constrain(.height, constant: 20)
         
-        let stackTitle = stackOf(views: [label, stack])
+        let stackTitle = stackOf([label, stack])
         stackTitle.spacing = 5
         stackTitle.axis = .vertical
         stackTitle.alignment = .leading
@@ -55,7 +55,7 @@ struct QuickViewGenerator {
         return stackTitle
     }
     
-    static func stackOf(views: [UIView]) -> UIStackView {
+    static func stackOf(_ views: [UIView]) -> UIStackView {
         let view = UIStackView(arrangedSubviews: views)
         view.distribution = .fillProportionally
         view.alignment = .center
@@ -63,7 +63,7 @@ struct QuickViewGenerator {
         return view
     }
     
-    static func square(image: UIImage, title: String) -> UIStackView {
+    static func square(_ image: UIImage, title: String) -> UIStackView {
         let label = UILabel()
         label.text = title
         label.font = UIFont.systemFont(ofSize: 12)

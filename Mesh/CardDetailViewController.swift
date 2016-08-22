@@ -34,37 +34,38 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
             table.index = index
             controllers.append(table)
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        
         view.addSubview(control.stack!)
         control.stack!.translatesAutoresizingMaskIntoConstraints = false
         control.stack!.constrain(.top, constant: 5, toItem: view)
         control.stack!.constrain(.width, constant: -80, toItem: view)
         control.stack!.constrain(.leading, constant: 40, toItem: view)
         control.stack!.constrain(.trailing, constant: -40, toItem: view)
-        control.stack!.constrain(.centerX, toItem: view)
         control.stack!.constrain(.height, constant: 40)
         control.delegate = self
         control.selectIndex(control.previousIndex)
+        
+        let separator = UIView()
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        separator.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
+        view.addSubview(separator)
+        separator.constrain(.width, .centerX, toItem: view)
+        separator.constrain(.height, constant: 1)
+        NSLayoutConstraint(item: separator, attribute: .top, relatedBy: .equal, toItem: control.stack!, attribute: .bottom, multiplier: 1, constant: 2).isActive = true
         
         pageController.delegate = self
         pageController.dataSource = self
         addChildViewController(pageController)
         view.addSubview(pageController.view)
         pageController.view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint(item: pageController.view, attribute: .top, relatedBy: .equal, toItem: control.stack!, attribute: .bottom, multiplier: 1.0, constant: 0.0).isActive = true
+        NSLayoutConstraint(item: pageController.view, attribute: .top, relatedBy: .equal, toItem: control.stack!, attribute: .bottom, multiplier: 1.0, constant: 3.0).isActive = true
         pageController.view.constrain(.width, .centerX, .bottom, toItem: view)
         
         pageController.setViewControllers([controllers[control.previousIndex]], direction: .forward, animated: false, completion: nil)
+        view.bringSubview(toFront: separator)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
-    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+    open func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         let table = viewController as! UserDetailTableViewController
         let index = table.index!
         if index == 0 {
@@ -74,7 +75,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         return controllers[index - 1]
     }
     
-    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+    open func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         let table = viewController as! UserDetailTableViewController
         let index = table.index!
         if index == controllers.count - 1 {
@@ -103,7 +104,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         pageController.setViewControllers([controllers[index]], direction: (control.previousIndex < index) ? .forward : .reverse, animated: true, completion: nil)
     }
     
-    func tap(sender:UITapGestureRecognizer) {
+    func tap(_ sender:UITapGestureRecognizer) {
         dismiss(animated: true, completion: nil)
     }
 }

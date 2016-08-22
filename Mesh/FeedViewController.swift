@@ -22,14 +22,17 @@ class FeedViewController: UIViewController {
         let client = Client()
         // AuthRequest(phone_number: "3103479814", password: "password", password_verify: "password", first_name: "chris", last_name: "truman", email: "cleetruman@gmail.com", company: "tinder ventures", profession: "software engineer")
         // AuthRequest(phone_number: "3103479815", password: "password", password_verify: "password", first_name: "john", last_name: "doe", email: "whatever@gmail.com", company: "amazing town", profession: "software engineer")
-        client.execute(ProfileRequest(first_name: "john", last_name: "doe", email: "whatever@gmail.com", title: "lead product", profession: "software engineer", companies: [CompanyModel(id: "tinder", start_month: "January", start_year: "2014", end_month: "March", end_year: "2016", current: false)]), completionHandler: { response in
+        /*client.execute(ProfileRequest(first_name: "john", last_name: "doe", email: "whatever@gmail.com", title: "lead product", profession: "software engineer", companies: [CompanyModel(id: "tinder", start_month: "January", start_year: "2014", end_month: "March", end_year: "2016", current: false)]), completionHandler: { response in
             print("JSON: \(response.result.value)")
             print(response.result.error)
-        })
+        })*/
         
         client.execute(RecommendationsRequest(), completionHandler: { response in
             print("JSON: \(response.result.value)")
             if let JSON = response.result.value {
+                if JSON is [String : Any] {
+                    return
+                }
                 let jsonArray = JSON as! [[String : Any]]
                 let array = jsonArray.map({return UserResponse(JSON: $0)})
                 self.cardStack.cards = array.map({

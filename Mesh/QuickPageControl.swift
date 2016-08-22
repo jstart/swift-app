@@ -84,7 +84,7 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
         previousIndex = (stack?.subviews.index(of: sender))!
     }
     
-    func selectedIndex(index: Int){
+    func selectedIndex(_ index: Int){
         selectIndex(index)
     }
 

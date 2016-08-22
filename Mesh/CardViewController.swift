@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 
+
 class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, QuickPageControlDelegate {
     var delegate : CardDelegate?
     
@@ -52,7 +53,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         quickViewStack.alignment = .center
         quickViewStack.spacing = 10
         
-        viewPager = ViewPager(views: QuickViewGenerator.viewsForDetails(userDetails: card?.person?.details))
+        viewPager = ViewPager(views: QuickViewGenerator.viewsForDetails(card?.person?.details))
         viewPager?.scroll.panGestureRecognizer.require(toFail: gestureRec!)
         control.delegate = viewPager!
         viewPager?.delegate = control
@@ -135,8 +136,8 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         
         bar.translatesAutoresizingMaskIntoConstraints = false
         bar.constrain(.height, constant: 1)
-        NSLayoutConstraint(item: bar, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 80).isActive = true
-        NSLayoutConstraint(item: bar, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40).isActive = true
+        NSLayoutConstraint(item: bar, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 80).isActive = true
+        //NSLayoutConstraint(item: bar, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40).isActive = true
 
         return bar
     }
@@ -170,7 +171,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         return false
     }
     
-    func tap(sender: UITapGestureRecognizer) {
+    func tap(_ sender: UITapGestureRecognizer) {
         let details = CardDetailViewController()
         details.delegate = self
         details.transistionToIndex = control.previousIndex
@@ -203,28 +204,28 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
                 UIView.animate(withDuration: 0.2, animations: {
                     sender.view?.frame.origin.y = -800
                     }, completion: { _ in
-                        self.removeSelf(direction: .up)
+                        self.removeSelf(.up)
                 })
                 break
             case UISwipeGestureRecognizerDirection.left:
                 UIView.animate(withDuration: 0.2, animations: {
                     sender.view?.frame.origin.x = -800
                     }, completion: { _ in
-                        self.removeSelf(direction: .left)
+                        self.removeSelf(.left)
                 })
                 break
             case UISwipeGestureRecognizerDirection.right:
                 UIView.animate(withDuration: 0.2, animations: {
                     sender.view?.frame.origin.x = 800
                     }, completion: { _ in
-                        self.removeSelf(direction: .right)
+                        self.removeSelf(.right)
                 })
                 break
             case UISwipeGestureRecognizerDirection.down:
                 UIView.animate(withDuration: 0.2, animations: {
                     sender.view?.frame.origin.y = 800
                     }, completion: { _ in
-                        self.removeSelf(direction: .down)
+                        self.removeSelf(.down)
                 })
                 break
             default:
@@ -244,20 +245,20 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
             let translation = sender.translation(in: view)
             sender.view?.center = CGPoint(x: (sender.view?.center.x)! + translation.x, y: (sender.view?.center.y)! + translation.y)
             if state.draggingInCurrentDirectionAllowed(){
-                animateOverlay(direction: state.getSwipeDirection(), translation: translation)
+                animateOverlay(state.getSwipeDirection(), translation: translation)
             }
             sender.setTranslation(.zero, in: view)
         default: break
         }
     }
     
-    func removeSelf(direction : UISwipeGestureRecognizerDirection) {
+    func removeSelf(_ direction : UISwipeGestureRecognizerDirection) {
         view.removeFromSuperview()
         removeFromParentViewController()
         delegate?.swiped(direction)
     }
     
-    func animateOverlay(direction: UISwipeGestureRecognizerDirection, translation: CGPoint){
+    func animateOverlay(_ direction: UISwipeGestureRecognizerDirection, translation: CGPoint){
         switch direction {
         /*case UISwipeGestureRecognizerDirection.up:
             overlayView.alpha = min(1, ((view.superview!.center.y - view.center.y)/200)) * 0.75
