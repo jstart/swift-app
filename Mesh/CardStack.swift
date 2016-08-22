@@ -15,8 +15,8 @@ protocol CardDelegate {
 class CardStack : UIViewController, CardDelegate {
     
     var cards : [Card]? = nil
-    fileprivate var cardViews : [CardViewController]? = nil
     var topCard : CardViewController = CardViewController()
+    var bottomCard : CardViewController = CardViewController()
     var cardIndex = 0
     
     override func viewDidLoad() {
@@ -24,27 +24,20 @@ class CardStack : UIViewController, CardDelegate {
         let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
         let person = Person(user: nil, details: details)
         cards = [Card(type:.person, person: person)]
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
         topCard.card = cards![cardIndex]
-        cardViews = [topCard]
-
-        let card = cardViews![0]
-        card.delegate = self
-        addCard(card)
+        
+        topCard.delegate = self
+        addCard(topCard)
     }
     
     func addNewCard() {
         topCard.card = cards![cardIndex]
         topCard.delegate = self
-        cardViews?.append(topCard)
         addCard(topCard)
     }
 
-    func addCard(_ card: CardViewController) {
+    func addCard(_ card: CardViewController, animated: Bool = true) {
         addChildViewController(card)
         card.view.alpha = CardFeedViewConfig().behindAlpha
         let scale = CardFeedViewConfig().behindScale
@@ -57,6 +50,9 @@ class CardStack : UIViewController, CardDelegate {
         card.view.constrain(.centerX, .centerY, toItem: view)
         card.view.translatesAutoresizingMaskIntoConstraints = false
         
+        if !animated {
+            return
+        }
         UIView.animate(withDuration: 0.2, animations: {
             card.view.alpha = 1.0
             let transform = CGAffineTransform(scaleX: 1.0, y: 1.0)

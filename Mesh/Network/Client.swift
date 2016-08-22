@@ -78,6 +78,15 @@ class Client {
                     Token.persistLogin((phone_number: "", password: ""))
                     UserResponse.currentUser = nil
                 }
+                
+                if let httpError = response.result.error {
+                    let statusCode = httpError.code
+                    if statusCode == 401 {
+                        Token.persistToken("")
+                        Token.persistLogin((phone_number: "", password: ""))
+                        UserResponse.currentUser = nil
+                    }
+                }
                 completionHandler(response)
         }
     }

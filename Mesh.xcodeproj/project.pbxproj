@@ -108,6 +108,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		239475F61D6B823B00C54787 /* Card Feed */ = {
+			isa = PBXGroup;
+			children = (
+				23A390B71D629B210032F11C /* UserDetails.swift */,
+				ADEA92951D53E5A40016B0DB /* Card.swift */,
+				AD06B6FA1D541FF7005D349A /* CardStack.swift */,
+				ADECA8E91D51540900726AEF /* FeedViewController.swift */,
+				2397C3791D5E5A6F005C982E /* QuickPageControl.swift */,
+				ADEA92971D53F88C0016B0DB /* CardViewController.swift */,
+				23DFB67D1D66323C00D871A9 /* CardViewController.xib */,
+				233E944D1D63BAE000919B95 /* CardDetailViewController.swift */,
+				233E944F1D63DB6F00919B95 /* UserDetailTableViewController.swift */,
+				239E01EE1D6A801D0072530B /* UserDetailTableViewCell.swift */,
+				239E01EF1D6A801D0072530B /* UserDetailTableViewCell.xib */,
+				23C09D531D624C66003C9183 /* ViewPager.swift */,
+				233E944B1D63B9CD00919B95 /* CardDetailTransition.swift */,
+				23A390B91D62A5470032F11C /* QuickViewGenerator.swift */,
+			);
+			name = "Card Feed";
+			sourceTree = "<group>";
+		};
+		239475F71D6B824600C54787 /* Sign Up/Login */ = {
+			isa = PBXGroup;
+			children = (
+				236E27BB1D67F8EE002ABAB4 /* JoinTableViewController.swift */,
+				236E27BD1D67FDC2002ABAB4 /* LoginTableViewController.swift */,
+				236E27BF1D67FDDA002ABAB4 /* SignUpTableViewController.swift */,
+			);
+			name = "Sign Up/Login";
+			sourceTree = "<group>";
+		};
+		239475F81D6B827200C54787 /* Card Gesture */ = {
+			isa = PBXGroup;
+			children = (
+				AD06B6FE1D56BA5B005D349A /* CardFeedViewConfig.swift */,
+				AD06B7021D5905D6005D349A /* SwipeState.swift */,
+				AD06B7041D59215D005D349A /* SwipeConfig.swift */,
+			);
+			name = "Card Gesture";
+			sourceTree = "<group>";
+		};
 		59C18668E9263DB0471954F9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,35 +196,18 @@
 			children = (
 				AD4E2E1C1D5A75D500130811 /* Network */,
 				ADECA8E71D51540900726AEF /* AppDelegate.swift */,
-				ADECA8E91D51540900726AEF /* FeedViewController.swift */,
+				239475F61D6B823B00C54787 /* Card Feed */,
 				236E27AD1D67BAC5002ABAB4 /* InboxTableViewController.swift */,
 				236E27AF1D67BFFE002ABAB4 /* EventsTableViewController.swift */,
 				236E27B11D67C2F6002ABAB4 /* ConversationViewController.swift */,
 				236E27B31D67C40D002ABAB4 /* MessagesViewController.swift */,
 				236E27B51D67C795002ABAB4 /* SettingsTableViewController.swift */,
 				ADECA8EB1D51540900726AEF /* Main.storyboard */,
-				236E27BB1D67F8EE002ABAB4 /* JoinTableViewController.swift */,
-				236E27BD1D67FDC2002ABAB4 /* LoginTableViewController.swift */,
-				236E27BF1D67FDDA002ABAB4 /* SignUpTableViewController.swift */,
+				239475F71D6B824600C54787 /* Sign Up/Login */,
 				ADECA8EE1D51540900726AEF /* Assets.xcassets */,
 				ADECA8F01D51540900726AEF /* LaunchScreen.storyboard */,
 				ADECA8F31D51540900726AEF /* Info.plist */,
-				ADEA92951D53E5A40016B0DB /* Card.swift */,
-				23A390B71D629B210032F11C /* UserDetails.swift */,
-				2397C3791D5E5A6F005C982E /* QuickPageControl.swift */,
-				AD06B6FE1D56BA5B005D349A /* CardFeedViewConfig.swift */,
-				AD06B6FA1D541FF7005D349A /* CardStack.swift */,
-				AD06B7021D5905D6005D349A /* SwipeState.swift */,
-				AD06B7041D59215D005D349A /* SwipeConfig.swift */,
-				ADEA92971D53F88C0016B0DB /* CardViewController.swift */,
-				23DFB67D1D66323C00D871A9 /* CardViewController.xib */,
-				233E944D1D63BAE000919B95 /* CardDetailViewController.swift */,
-				233E944F1D63DB6F00919B95 /* UserDetailTableViewController.swift */,
-				239E01EE1D6A801D0072530B /* UserDetailTableViewCell.swift */,
-				239E01EF1D6A801D0072530B /* UserDetailTableViewCell.xib */,
-				23C09D531D624C66003C9183 /* ViewPager.swift */,
-				233E944B1D63B9CD00919B95 /* CardDetailTransition.swift */,
-				23A390B91D62A5470032F11C /* QuickViewGenerator.swift */,
+				239475F81D6B827200C54787 /* Card Gesture */,
 				AD06B6FC1D542628005D349A /* Constrain.swift */,
 				23DFB67F1D6669F700D871A9 /* LocationManager.swift */,
 			);
@@ -501,6 +525,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 7P284QZ7XV;
 				INFOPLIST_FILE = Mesh/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tinder.Mesh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -517,6 +542,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 7P284QZ7XV;
 				INFOPLIST_FILE = Mesh/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tinder.Mesh;
 				PRODUCT_NAME = "$(TARGET_NAME)";

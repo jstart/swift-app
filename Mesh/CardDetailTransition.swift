@@ -38,12 +38,12 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
             detail.addSubview(blurView)
             blurView.translatesAutoresizingMaskIntoConstraints = false
             blurView.constrain(.top, .width, .centerX, toItem: cardVC!.view)
-            blurView.constrain(.height, toItem: cardVC!.image)
+            blurView.constrain(.height, toItem: cardVC!.imageView)
             blurView.alpha = 0.0
             let tapRec = UITapGestureRecognizer(target: self, action: #selector(tap(sender:)))
 
             containerView.addGestureRecognizer(tapRec)
-            cardVC?.image.addSubview(blurView)
+            cardVC?.imageView.addSubview(blurView)
             
             containerView.bringSubview(toFront: detail)
 

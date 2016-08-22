@@ -9,7 +9,6 @@
 import UIKit
 import Alamofire
 
-
 class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, QuickPageControlDelegate {
     var delegate : CardDelegate?
     
@@ -20,7 +19,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     var control = QuickPageControl(categories: [.connections, .experience, .education, .skills, .events])
     var card : Card?
     var viewPager : ViewPager?
-    let image : UIImageView =  UIImageView(image: #imageLiteral(resourceName: "profile_sample"))
+    let imageView : UIImageView =  UIImageView(image: #imageLiteral(resourceName: "profile_sample"))
     let transition = CardDetailTransition()
     let overlayView : UIView = {
         let overlayView = UIView()
@@ -69,7 +68,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         position.text = "VP of Engineering at Tesla"
         position.constrain(.height, constant: 20)
 
-        let topStack = UIStackView(arrangedSubviews: [image, name, position, quickViewStack, viewPager!.scroll])
+        let topStack = UIStackView(arrangedSubviews: [imageView, name, position, quickViewStack, viewPager!.scroll])
         topStack.axis = .vertical
         topStack.distribution = .fillProportionally
         topStack.alignment = .fill
@@ -81,7 +80,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
 
         name.constrain(.leading, toItem: position)
         
-        NSLayoutConstraint(item: image, attribute: .bottom, relatedBy: .equal, toItem: name, attribute: .top, multiplier: 1.0, constant: -11).isActive = true
+        NSLayoutConstraint(item: imageView, attribute: .bottom, relatedBy: .equal, toItem: name, attribute: .top, multiplier: 1.0, constant: -11).isActive = true
         NSLayoutConstraint(item: position, attribute: .bottom, relatedBy: .equal, toItem: quickViewStack, attribute: .top, multiplier: 1.0, constant: -8).isActive = true
 
         topStack.translatesAutoresizingMaskIntoConstraints = false
@@ -92,11 +91,10 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         quickViewStack.constrain(.height, constant: 30)
         quickViewStack.constrain(.width, .centerX, toItem: view)
         
-        image.clipsToBounds = true
-        image.contentMode = .scaleAspectFill
-        image.layer.cornerRadius = 5.0
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.constrain(.width, .centerX, toItem: view)
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.constrain(.width, .centerX, toItem: view)
         
         let logo = UIImageView(image: #imageLiteral(resourceName: "tesla"))
         view.addSubview(logo)
@@ -104,25 +102,53 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         logo.translatesAutoresizingMaskIntoConstraints = false
         logo.constrain(.width, .height, constant: 62)
         logo.constrain(.leading, constant: 15, toItem: view)
-        logo.constrain(.bottom, constant: 62 - 15, toItem: image)
+        logo.constrain(.bottom, constant: 62 - 15, toItem: imageView)
 
         NSLayoutConstraint(item: name, attribute: .leading, relatedBy: .equal, toItem: logo, attribute: .trailing, multiplier: 1.0, constant: 15).isActive = true
         NSLayoutConstraint(item: position, attribute: .leading, relatedBy: .equal, toItem: logo, attribute: .trailing, multiplier: 1.0, constant: 15).isActive = true
 
-        //view.addSubview(overlayView)
-        //overlayView.constrain(.width, .height, .centerX, .centerY, toItem: view)
+        view.addSubview(overlayView)
+        overlayView.constrain(.width, .height, .centerX, .centerY, toItem: view)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        var rect = imageView.bounds
+        rect.size.width = view.frame.size.width
+        rect.size.height = imageView.frame.size.height + 100
+        let maskPath = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 5.0, height: 5.0))
+        
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = rect
+        maskLayer.path = maskPath.cgPath
+        
+        imageView.layer.mask = maskLayer
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        //overlayView.alpha = 0.0
-        //overlayView.isHidden = true
+        viewDidLayoutSubviews()
+        overlayView.alpha = 0.0
+        overlayView.isHidden = true
         
         control.selectIndex(0)
         
         name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! + " " + card!.person!.user!.last_name! : "Micha Kaufman"
         position.text = card?.person?.user?.title != nil ? card!.person!.user!.title! : "VP of Engineering at Tesla"
+        if card?.person?.user != nil {
+            print(card!.person!.user!.photos!.large!)
+            URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue()).dataTask(with: URL(string: card!.person!.user!.photos!.large!)!, completionHandler: {data, response, error in
+                DispatchQueue.global().async {
+                    let image = UIImage(data: data!)
+                    if image != nil {
+                        self.imageView.image = image
+                    } else {
+                        self.imageView.image = #imageLiteral(resourceName: "profile_sample")
+                    }
+                }
+            }).resume()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -194,8 +220,8 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
                 UIView.animate(withDuration: 0.2, animations: {
                     sender.view?.center = (self.view?.superview?.center)!
                     sender.view?.transform = CGAffineTransform.identity
-                    //self.overlayView.alpha = 0.0
-                    //self.overlayView.isHidden = true
+                    self.overlayView.alpha = 0.0
+                    self.overlayView.isHidden = true
                 })
                 return
             }
@@ -238,7 +264,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
             
         case .began :
             state.start(gestureRec!)
-            //overlayView.isHidden = false
+            overlayView.isHidden = false
             return;
         case .changed :
             state.drag(gestureRec!)
@@ -260,26 +286,26 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     
     func animateOverlay(_ direction: UISwipeGestureRecognizerDirection, translation: CGPoint){
         switch direction {
-        /*case UISwipeGestureRecognizerDirection.up:
+        case UISwipeGestureRecognizerDirection.up:
             overlayView.alpha = min(1, ((view.superview!.center.y - view.center.y)/200)) * 0.75
         case UISwipeGestureRecognizerDirection.down:
-            overlayView.alpha = min(1, ((view.center.y - view.superview!.center.y)/200)) * 0.75*/
+            overlayView.alpha = min(1, ((view.center.y - view.superview!.center.y)/200)) * 0.75
         case UISwipeGestureRecognizerDirection.left:
             let progress = min(1, ((view.superview!.center.x - view.center.x)/200)) * 10
             view.transform = CGAffineTransform(rotationAngle:(-progress * CGFloat(M_PI)) / 180)
-            /*if view.center.x <= view.superview!.center.x {
+            if view.center.x <= view.superview!.center.x {
                 overlayView.alpha = min(1, ((view.superview!.center.x - view.center.x)/200)) * 0.75
             } else {
                 overlayView.alpha = min(1, ((view.center.x - view.superview!.center.x)/200)) * 0.75
-            }*/
+            }
         case UISwipeGestureRecognizerDirection.right:
             let progress = min(1, ((view.center.x - view.superview!.center.x)/200)) * 10
             view.transform = CGAffineTransform(rotationAngle:(progress * CGFloat(M_PI)) / 180)
-            /*if view.center.x >= view.superview!.center.x {
+            if view.center.x >= view.superview!.center.x {
                 overlayView.alpha = min(1, ((view.center.x - view.superview!.center.x)/200)) * 0.75
             } else {
                 overlayView.alpha = min(1, ((view.superview!.center.x - view.center.x)/200)) * 0.75
-            }*/
+            }
         default:
             return
         }
