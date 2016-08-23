@@ -34,8 +34,8 @@ enum QuickViewCategory {
         let button = UIButton()
         button.setImage(UIImage(named:imageName()), for: .normal)
         let activeImage = UIImage(named:imageName() + "Active")
-        button.setImage(activeImage, for: .highlighted)
         button.setImage(activeImage, for: .selected)
+        button.backgroundColor = .white
         return button
     }
 }
@@ -54,8 +54,8 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
         let array = categories.map({return $0.button()})
         
         stack = UIStackView(arrangedSubviews: array)
-        stack?.spacing = 20
-        stack?.distribution = .equalSpacing
+        stack?.spacing = 0
+        stack?.distribution = .fillEqually
         stack?.alignment = .center
 
         super.init()

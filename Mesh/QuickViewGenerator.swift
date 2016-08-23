@@ -40,6 +40,7 @@ struct QuickViewGenerator {
         stack.constrain(.height, constant: 75)
         
         let label = UILabel()
+        label.backgroundColor = .white
         label.text = category.imageName().capitalized
         label.font = UIFont.systemFont(ofSize: 14)
         label.textAlignment = .center
@@ -66,6 +67,7 @@ struct QuickViewGenerator {
     static func square(_ image: UIImage, title: String) -> UIStackView {
         let label = UILabel()
         label.text = title
+        label.backgroundColor = .white
         label.font = UIFont.systemFont(ofSize: 12)
         label.textAlignment = .center
         label.textColor = .lightGray
@@ -74,6 +76,7 @@ struct QuickViewGenerator {
         
         let icon = UIImageView(image: image)
         icon.layer.borderWidth = 1
+        icon.backgroundColor = .white
         icon.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
         icon.layer.cornerRadius = 5
         

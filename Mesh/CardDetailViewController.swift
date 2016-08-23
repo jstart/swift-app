@@ -65,6 +65,13 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         view.bringSubview(toFront: separator)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if presentingViewController != nil {
+            presentingViewController!.dismiss(animated: false, completion: nil)
+        }
+    }
+    
     open func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         let table = viewController as! UserDetailTableViewController
         let index = table.index!

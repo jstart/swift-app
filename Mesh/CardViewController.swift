@@ -40,6 +40,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         view.layer.shadowColor = UIColor.lightGray.cgColor
         view.layer.shadowOpacity = 1.0
         view.layer.shadowRadius = 5
+        view.backgroundColor = .white
         //view.layer.shadowOffset = CGSize(width: 2, height: 2)
         
         gestureRec = UIPanGestureRecognizer(target: self, action: #selector(pan))
@@ -60,11 +61,13 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         control.selectIndex(0)
         
         name.textColor = .black
+        name.backgroundColor = .white
         name.font = UIFont.systemFont(ofSize: 20)
         name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! : "Micha Kaufman"
         name.constrain(.height, constant: 20)
         
         position.textColor = #colorLiteral(red: 0.7810397744, green: 0.7810582519, blue: 0.7810482979, alpha: 1)
+        position.backgroundColor = .white
         position.font = UIFont.systemFont(ofSize: 16)
         position.text = "VP of Engineering at Tesla"
         position.constrain(.height, constant: 20)
@@ -77,6 +80,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         view.addSubview(topStack)
         
         viewPager!.scroll.translatesAutoresizingMaskIntoConstraints = false
+        viewPager!.scroll.backgroundColor = .white
         viewPager!.scroll.constrain(.width, toItem: view)
 
         name.constrain(.leading, toItem: position)
@@ -93,6 +97,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         quickViewStack.constrain(.width, .centerX, toItem: view)
         
         imageView.clipsToBounds = true
+        imageView.backgroundColor = .white
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.constrain(.width, .centerX, toItem: view)
@@ -134,6 +139,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         overlayView.isHidden = true
         
         control.selectIndex(0)
+        viewPager?.selectedIndex(0)
         
         name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! + " " + card!.person!.user!.last_name! : "Micha Kaufman"
         position.text = card?.person?.user?.title != nil ? card!.person!.user!.title! : "VP of Engineering at Tesla"
@@ -142,10 +148,12 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
             URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue()).dataTask(with: URL(string: card!.person!.user!.photos!.large!)!, completionHandler: {data, response, error in
                 DispatchQueue.global().async {
                     let image = UIImage(data: data!)
-                    if image != nil {
-                        self.imageView.image = image
-                    } else {
-                        self.imageView.image = #imageLiteral(resourceName: "profile_sample")
+                    DispatchQueue.main.sync {
+                        if image != nil {
+                            self.imageView.image = image
+                        } else {
+                            self.imageView.image = #imageLiteral(resourceName: "profile_sample")
+                        }
                     }
                 }
             }).resume()
@@ -154,7 +162,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        dismiss(animated: true, completion: nil)
+        
     }
     
     func bar() -> UIView {

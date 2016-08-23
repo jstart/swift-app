@@ -49,7 +49,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         scroll.setContentOffset(CGPoint(x: scroll.frame.size.width * CGFloat(index), y: 0), animated: true)
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageWidth = scrollView.frame.size.width
         let fractionalPage = scrollView.contentOffset.x / pageWidth
         let page = lround(Double(fractionalPage));
