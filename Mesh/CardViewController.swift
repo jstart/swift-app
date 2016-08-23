@@ -160,11 +160,6 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-    }
-    
     func bar() -> UIView {
         let bar = UIView()
         bar.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
@@ -290,6 +285,9 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     func removeSelf(_ direction : UISwipeGestureRecognizerDirection) {
         view.removeFromSuperview()
         removeFromParentViewController()
+        if presentingViewController != nil {
+            presentingViewController?.dismiss(animated: true, completion: nil)
+        }
         delegate?.swiped(direction)
     }
     

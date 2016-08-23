@@ -20,7 +20,7 @@ class InboxTableViewController: UITableViewController {
         super.viewDidLoad()
         navigationItem.titleView = searchBar
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort))
-        //Client().execute(ConnectionRequest(recipient: "57ba71e15c45a6ac2173c004"), completionHandler: { _ in})
+        //Client().execute(ConnectionRequest(recipient: "57ba725d87223ad6215ecaf9"), completionHandler: { _ in})
         /*Client().execute(MessagesSendRequest(recipient: "57b63c7f887fb1b3571666b5", text: "POOP"), completionHandler: { response in
             print("JSON: \(response.result.value)")
             print(response.result.error)
@@ -56,6 +56,25 @@ class InboxTableViewController: UITableViewController {
             cell.profile.image = #imageLiteral(resourceName: "profile_sample")
             cell.company.image = #imageLiteral(resourceName: "tesla")
             cell.message.text = "The new discounting feature for Tinder is going well. Subs are up by 14%. Things going as planned, super good, hooray"
+            cell.pressedAction = ({
+                UIView.animate(withDuration: 0.2, animations: {
+                    UIApplication.shared.isStatusBarHidden = true
+                    let quickCell = tableView.dequeueReusableCell(withIdentifier: "MessageTableViewCell", for: indexPath) as! MessageTableViewCell
+                    quickCell.contentView.translatesAutoresizingMaskIntoConstraints = false
+                    quickCell.contentView.backgroundColor = .white
+                    quickCell.reply.isHidden = true
+                    quickCell.name.text = "Elon Musk"
+                    quickCell.name.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
+                    quickCell.profile.image = #imageLiteral(resourceName: "profile_sample")
+                    quickCell.company.image = #imageLiteral(resourceName: "tesla")
+                    quickCell.message.text = "The new discounting feature for Tinder is going well. Subs are up by 14%. Things going as planned, super good, hooray"
+                    quickCell.message.numberOfLines = 2
+                    //quickCell.constrain(.width, toView: self.view)
+                    let window = UIApplication.shared.delegate!.window!
+                    UIApplication.shared.delegate!.window!?.addSubview(quickCell.contentView)
+                    quickCell.contentView.constrain(.width, .top, .leading, toItem: window)
+                })
+            })
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ConnectionTableViewCell", for: indexPath) as! ConnectionTableViewCell
@@ -90,8 +109,12 @@ class InboxTableViewController: UITableViewController {
         conversationVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(conversationVC, animated: true)
         } else {
+            let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
+            let person = Person(user: nil, details: details)
+            
             let cardVC = CardViewController()
-            cardVC.modalPresentationStyle = .formSheet
+            cardVC.card = Card(type:.person, person: person)
+            cardVC.modalPresentationStyle = .overCurrentContext
             present(cardVC, animated: true, completion: nil)
         }
     }

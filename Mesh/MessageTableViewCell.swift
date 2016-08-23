@@ -17,6 +17,8 @@ class MessageTableViewCell: UITableViewCell {
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var reply: UIButton!
     
+    var pressedAction : (() -> Void)? = nil
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         profile.clipsToBounds = true
@@ -30,6 +32,6 @@ class MessageTableViewCell: UITableViewCell {
     }
     
     @IBAction func pressed(_ sender: AnyObject) {
-        
+        pressedAction?()
     }
 }

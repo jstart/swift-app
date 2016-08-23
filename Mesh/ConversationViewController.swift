@@ -16,7 +16,10 @@ class ConversationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "LoginName"
+        title = "Connection Name"
+        
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(image: #imageLiteral(resourceName: "chatOverflow"), style: .plain, target: self, action: #selector(overflow)),
+                                              UIBarButtonItem(image: #imageLiteral(resourceName: "chatMarkAsUnread"), style: .plain, target: self, action: #selector(toggleReadState))]
         
         addChildViewController(messagesVC)
         view.addSubview(messagesVC.view)
@@ -24,4 +27,11 @@ class ConversationViewController: UIViewController {
         messagesVC.view.translatesAutoresizingMaskIntoConstraints = false
     }
 
+    func toggleReadState() {
+        
+    }
+    
+    func overflow() {
+        
+    }
 }
