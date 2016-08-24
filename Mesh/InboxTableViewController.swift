@@ -76,6 +76,16 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return section == 0 ? "2 new messages" : "258 Connections"
     }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel().then({
+            $0.text = section == 0 ? "    TO DO" : "    258 CONNECTIONS"
+            $0.backgroundColor  = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
+            $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
+            $0.font = .systemFont(ofSize: 12)
+        })
+        return label
+    }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
@@ -116,6 +126,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     
     func quickReplyView() -> UIView {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MessageTableViewCell") as! MessageTableViewCell
+        
         cell.contentView.translatesAutoresizingMaskIntoConstraints = false
         cell.contentView.backgroundColor = .white
         cell.reply.isHidden = true

@@ -16,7 +16,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     
     var locationUpdate : ((CLLocation) -> Void)? = nil
 
-    func startTracking() -> (enabled: Bool, status: CLAuthorizationStatus) {
+    func startTracking() {// -> (enabled: Bool, status: CLAuthorizationStatus) {
         manager.delegate = self
         //manager.distanceFilter = 10
         //manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -27,7 +27,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         if CLLocationManager.authorizationStatus() == .notDetermined {
             manager.requestWhenInUseAuthorization()
         }
-        return (CLLocationManager.locationServicesEnabled(), CLLocationManager.authorizationStatus())
+        //return (CLLocationManager.locationServicesEnabled(), CLLocationManager.authorizationStatus())
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {

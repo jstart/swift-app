@@ -59,7 +59,7 @@ extension Int {
 protocol Then {}
 
 extension Then where Self: AnyObject {
-    func then( block: (Self) -> Void) -> Self {
+    func then(_ block: (Self) -> Void) -> Self {
         block(self)
         return self
     }

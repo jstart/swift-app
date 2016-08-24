@@ -12,7 +12,6 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
     
     var searchController : UISearchController!
     var quickCell : UIView?
-    var field : UITextField = UITextField()
     let searchResults = InboxSearchTableViewController()
     
     override func viewDidLoad() {

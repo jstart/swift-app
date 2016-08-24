@@ -6,6 +6,7 @@ target 'Mesh'
 pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :commit => '1dc3992a3854ca369368c8997ea3c45054070e67'
 #pod 'AlamofireImage', :git => 'https://github.com/Alamofire/AlamofireImage.git', :branch => 'swift3'
 pod 'JSQMessagesViewController'
+#pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'master', :submodules => 'true'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

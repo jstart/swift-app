@@ -21,20 +21,18 @@ class SignUpTableViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(login))
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        phoneField?.becomeFirstResponder()
+    }
+    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "Phone Number"
-        case 1:
-            return "Password"
-        default:
-            return ""
-        }
+        return section == 0 ? "Phone Number" : "Password"
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -63,6 +61,5 @@ class SignUpTableViewController: UITableViewController {
             }
         })
     }
-
 
 }

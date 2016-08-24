@@ -11,7 +11,7 @@ import UIKit
 class InboxSearchTableViewController: UITableViewController {
 
     var showRecents = true
-    var recents = [String]()
+    var recents = ["Tinder", "Product Manager", "Paul"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +20,6 @@ class InboxSearchTableViewController: UITableViewController {
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.tableFooterView = UIView()
-        recents = ["Tinder", "Product Manager", "Paul"]
     }
 
     // MARK: - Table view data source
