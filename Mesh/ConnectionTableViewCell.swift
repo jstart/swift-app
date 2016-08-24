@@ -19,6 +19,8 @@ class ConnectionTableViewCell: UITableViewCell {
         profile.layer.cornerRadius = 5.0
         company.clipsToBounds = true
         company.layer.cornerRadius = 5.0
+        
+        name.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
     }
     
 }

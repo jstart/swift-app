@@ -22,6 +22,13 @@ class MessagesViewController: JSQMessagesViewController {
         imageButton.setImage(#imageLiteral(resourceName: "chatUploadPhoto"), for: .normal)
         inputToolbar.contentView.leftBarButtonItem = imageButton
         inputToolbar.contentView.textView.placeHolder = "Send a message..."
+        JSQMessagesCollectionViewCell.registerMenuAction(#selector(editMessage(_:)))
+        JSQMessagesCollectionViewCell.registerMenuAction(#selector(deleteMessage(_:)))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showTypingIndicator = true
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -57,9 +64,44 @@ class MessagesViewController: JSQMessagesViewController {
         return kJSQMessagesCollectionViewCellLabelHeightDefault
     }
     
-    
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
         return nil
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+        if action == #selector(editMessage(_:)) || action == #selector(deleteMessage(_:)){
+            return true
+        }
+        return super.collectionView(collectionView, canPerformAction: action, forItemAt: indexPath, withSender: sender)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
+        if action == #selector(editMessage(_:)){
+            editMessage(indexPath)
+        }
+        
+        if action == #selector(deleteMessage(_:)){
+            deleteMessage(indexPath)
+        }
+        super.collectionView(collectionView, performAction: action, forItemAt: indexPath, withSender: sender)
+    }
+    
+    override func didReceiveMenuWillShow(_ notification: Notification!) {
+        let menu = notification.object as! UIMenuController
+        menu.menuItems = [UIMenuItem(title: "Edit", action: #selector(editMessage(_:))),
+                            UIMenuItem(title: "Delete", action: #selector(deleteMessage(_:)))]
+        super.didReceiveMenuWillShow(notification)
+    }
+    
+    func editMessage(_ indexPath: IndexPath) {
+        let message = messages[indexPath.row]
+        print(message)
+
+    }
+    
+    func deleteMessage(_ indexPath: IndexPath) {
+        let message = messages[indexPath.row]
+        print(message)
     }
     
     override func didPressAccessoryButton(_ sender: UIButton!) {

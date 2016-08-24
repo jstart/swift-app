@@ -8,31 +8,60 @@
 
 import UIKit
 
-class InboxTableViewController: UITableViewController {
+class InboxTableViewController: UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
 
-    let searchBar = { () -> UISearchBar in 
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "Search for people and messages"
-        return searchBar
-    }()
-    
+    var searchController : UISearchController!
+    var quickCell : UIView?
+    var field : UITextField = UITextField()
+    let searchResults = InboxSearchTableViewController()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.titleView = searchBar
+        searchController = UISearchController(searchResultsController: searchResults)
+        searchController.searchResultsUpdater = self
+        searchController.delegate = self
+        searchController.searchBar.placeholder = "Search for people and messages"
+        searchController.searchBar.delegate = self
+        
+        searchController.hidesNavigationBarDuringPresentation = false
+        definesPresentationContext = true
+        
+        navigationItem.titleView = searchController.searchBar
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort))
         //Client().execute(ConnectionRequest(recipient: "57ba725d87223ad6215ecaf9"), completionHandler: { _ in})
         /*Client().execute(MessagesSendRequest(recipient: "57b63c7f887fb1b3571666b5", text: "POOP"), completionHandler: { response in
             print("JSON: \(response.result.value)")
             print(response.result.error)
         })*/
-        tableView.register(UINib(nibName: "ConnectionTableViewCell", bundle: nil), forCellReuseIdentifier: "ConnectionTableViewCell")
-        tableView.register(UINib(nibName: "MessageTableViewCell", bundle: nil), forCellReuseIdentifier: "MessageTableViewCell")
+        tableView.register(ConnectionTableViewCell.self, MessageTableViewCell.self)
+
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        searchController.searchBar.resignFirstResponder()
+        searchController.isActive = false
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        navigationItem.setRightBarButton(nil, animated: true)
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        navigationItem.setRightBarButton(UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort)), animated: true)
+    }
+    
+    public func updateSearchResults(for searchController: UISearchController) {
+        let search = searchController.searchResultsController as! InboxSearchTableViewController
+        search.view.isHidden = false
+        search.showRecents = searchController.searchBar.text == ""
+        search.tableView.reloadData()
+    }
+    
     func sort() {
-        
     }
 
     // MARK: - Table view data source
@@ -52,34 +81,32 @@ class InboxTableViewController: UITableViewController {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MessageTableViewCell", for: indexPath) as! MessageTableViewCell
             cell.name.text = "Elon Musk"
-            cell.name.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
             cell.profile.image = #imageLiteral(resourceName: "profile_sample")
             cell.company.image = #imageLiteral(resourceName: "tesla")
             cell.message.text = "The new discounting feature for Tinder is going well. Subs are up by 14%. Things going as planned, super good, hooray"
             cell.pressedAction = ({
+                if self.quickCell == nil {
+                    self.quickCell = self.quickReplyView()
+                }
+                let window = UIApplication.shared.delegate!.window!
+                if (window?.subviews.contains(self.quickCell!))! {
+                    return
+                }
+                self.quickCell!.alpha = 0.0
+                UIApplication.shared.delegate!.window!?.addSubview(self.quickCell!)
+
                 UIView.animate(withDuration: 0.2, animations: {
-                    UIApplication.shared.isStatusBarHidden = true
-                    let quickCell = tableView.dequeueReusableCell(withIdentifier: "MessageTableViewCell", for: indexPath) as! MessageTableViewCell
-                    quickCell.contentView.translatesAutoresizingMaskIntoConstraints = false
-                    quickCell.contentView.backgroundColor = .white
-                    quickCell.reply.isHidden = true
-                    quickCell.name.text = "Elon Musk"
-                    quickCell.name.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
-                    quickCell.profile.image = #imageLiteral(resourceName: "profile_sample")
-                    quickCell.company.image = #imageLiteral(resourceName: "tesla")
-                    quickCell.message.text = "The new discounting feature for Tinder is going well. Subs are up by 14%. Things going as planned, super good, hooray"
-                    quickCell.message.numberOfLines = 2
-                    //quickCell.constrain(.width, toView: self.view)
-                    let window = UIApplication.shared.delegate!.window!
-                    UIApplication.shared.delegate!.window!?.addSubview(quickCell.contentView)
-                    quickCell.contentView.constrain(.width, .top, .leading, toItem: window)
+                    UIApplication.shared.delegate?.window??.windowLevel = UIWindowLevelStatusBar + 1
+                    //UIApplication.shared.isStatusBarHidden = true
+                    self.quickCell!.alpha = 1.0
+                    self.quickCell!.constrain(.width, .height, .top, .leading, toItem: window)
+                    self.field.becomeFirstResponder()
                 })
             })
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ConnectionTableViewCell", for: indexPath) as! ConnectionTableViewCell
             cell.name.text = "Elon Musk"
-            cell.name.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
             cell.profile.image = #imageLiteral(resourceName: "profile_sample")
             cell.company.image = #imageLiteral(resourceName: "tesla")
 
@@ -87,36 +114,79 @@ class InboxTableViewController: UITableViewController {
         }
     }
     
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
- 
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            // tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    func quickReplyView() -> UIView {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MessageTableViewCell") as! MessageTableViewCell
+        cell.contentView.translatesAutoresizingMaskIntoConstraints = false
+        cell.contentView.backgroundColor = .white
+        cell.reply.isHidden = true
+        cell.name.text = "Elon Musk"
+        cell.profile.image = #imageLiteral(resourceName: "profile_sample")
+        cell.company.image = #imageLiteral(resourceName: "tesla")
+        cell.message.text = "The new discounting feature for Tinder is going well. Subs are up by 14%. Things going as planned, super good, hooray"
+        cell.message.numberOfLines = 2
+        
+        let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        let tapGeesture = UITapGestureRecognizer(target: self, action: #selector(dismissQuickReply))
+        blurView.addGestureRecognizer(tapGeesture)
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        
+        blurView.addSubview(cell.contentView)
+        cell.contentView.constrain(.width, .top, .leading, toItem: blurView)
+        
+        field.placeholder = "Send a message..."
+        let spacer = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        spacer.backgroundColor = .white
+        field.leftView = spacer;
+        
+        let right = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 15))
+        right.setTitleColor(.lightGray, for: .normal)
+        right.setTitle("Send", for: .normal)
+        field.rightView = right
+        
+        field.rightViewMode = .always
+        field.leftViewMode = .always
+        field.layer.borderColor = UIColor.lightGray.cgColor
+        field.layer.borderWidth = 1.0
+        field.backgroundColor = .white
+        field.translatesAutoresizingMaskIntoConstraints = false
+        blurView.addSubview(field)
+        field.constrain(.height, constant: 50)
+        field.constrain(.width, constant: 2, toItem: cell.contentView)
+        field.constrain(.leading, constant: -1, toItem: cell.contentView)
+        NSLayoutConstraint(item: field, attribute: .top, relatedBy: .equal, toItem: cell.contentView, attribute: .bottom, multiplier: 1.0, constant: 0.0).isActive = true
+        return blurView
     }
     
+    func dismissQuickReply() {
+        UIView.animate(withDuration: 0.2, animations: {
+            UIApplication.shared.delegate?.window??.windowLevel = UIWindowLevelNormal
+            //UIApplication.shared.isStatusBarHidden = false
+            self.quickCell!.alpha = 0.0
+            self.field.resignFirstResponder()
+        }, completion: { _ in
+            self.quickCell!.removeFromSuperview()
+        })
+    }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-        let conversationVC = ConversationViewController()
-        conversationVC.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(conversationVC, animated: true)
+            let conversationVC = ConversationViewController()
+                
+            conversationVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(conversationVC, animated: true)
         } else {
             let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
             let person = Person(user: nil, details: details)
             
             let cardVC = CardViewController()
             cardVC.card = Card(type:.person, person: person)
-            cardVC.modalPresentationStyle = .overCurrentContext
+            cardVC.modalPresentationStyle = .overFullScreen
             present(cardVC, animated: true, completion: nil)
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        return [UITableViewRowAction(style: .default, title: "Mark Unread", handler: {_,_ in })]
     }
 
 }

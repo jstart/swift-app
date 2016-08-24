@@ -29,6 +29,8 @@ class MessageTableViewCell: UITableViewCell {
         reply.layer.borderColor = #colorLiteral(red: 0.1647058824, green: 0.7098039216, blue: 0.9960784314, alpha: 1).cgColor
         reply.layer.borderWidth = 1.5
         reply.layer.cornerRadius = 5.0
+
+        name.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
     }
     
     @IBAction func pressed(_ sender: AnyObject) {
