@@ -62,4 +62,11 @@ class SignUpTableViewController: UITableViewController {
         })
     }
 
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == passwordField {
+            login()
+        }
+        return true
+    }
+    
 }

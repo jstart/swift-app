@@ -13,13 +13,11 @@ protocol ViewPagerDelegate {
 }
 
 class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
-    let scroll : UIScrollView = {
-        let scroll = UIScrollView()
-        scroll.isPagingEnabled = true
-        scroll.alwaysBounceHorizontal = true
-        scroll.showsHorizontalScrollIndicator = false
-        return scroll
-    }()
+    let scroll = UIScrollView().then {
+        $0.isPagingEnabled = true
+        $0.alwaysBounceHorizontal = true
+        $0.showsHorizontalScrollIndicator = false
+    }
     var delegate : ViewPagerDelegate?
     var views : [UIView] = []
     var previousPage = 0

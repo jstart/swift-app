@@ -15,6 +15,7 @@ class JoinTableViewController: UITableViewController {
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo"))
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
     }
+    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -26,7 +27,6 @@ class JoinTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
         cell.textLabel?.text = indexPath.row == 0 ? "Log in" : "Sign Up"
         return cell
     }

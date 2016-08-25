@@ -40,6 +40,7 @@ extension UIView {
             self.addSubview($0)
         }
     }
+
 }
 
 extension Int {

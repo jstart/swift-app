@@ -127,7 +127,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     func quickReplyView() -> UIView {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MessageTableViewCell") as! MessageTableViewCell
         
-        cell.contentView.translatesAutoresizingMaskIntoConstraints = false
+        //cell.contentView.translatesAutoresizingMaskIntoConstraints = false
         cell.contentView.backgroundColor = .white
         cell.reply.isHidden = true
         cell.name.text = "Elon Musk"
@@ -139,7 +139,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
         let tapGeesture = UITapGestureRecognizer(target: self, action: #selector(dismissQuickReply))
         blurView.addGestureRecognizer(tapGeesture)
-        blurView.translatesAutoresizingMaskIntoConstraints = false
+        //blurView.translatesAutoresizingMaskIntoConstraints = false
         
         blurView.addSubview(cell.contentView)
         cell.contentView.constrain(.width, .top, .leading, toItem: blurView)
@@ -159,7 +159,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         field.layer.borderColor = UIColor.lightGray.cgColor
         field.layer.borderWidth = 1.0
         field.backgroundColor = .white
-        field.translatesAutoresizingMaskIntoConstraints = false
+        //field.translatesAutoresizingMaskIntoConstraints = false
         blurView.addSubview(field)
         field.constrain(.height, constant: 50)
         field.constrain(.width, constant: 2, toItem: cell.contentView)

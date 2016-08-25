@@ -12,7 +12,11 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
     
     let duration    = 0.2
     var presenting  = true
-    let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark)).then {
+        $0.layer.cornerRadius = 5.0
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.alpha = 0.0
+    }
     var cardVC : CardViewController?
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?)-> TimeInterval {
@@ -20,59 +24,57 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        presenting ? present(transitionContext) : dismiss(transitionContext)
+    }
+    
+    func present(_ context: UIViewControllerContextTransitioning) {
+        let containerView = context.containerView
+        let detail = context.view(forKey: .to)!
+        containerView.addSubview(detail)
         
-        let containerView = transitionContext.containerView
+        detail.translatesAutoresizingMaskIntoConstraints = false
+        detail.constrain(.width, .centerX, toItem: cardVC!.view)
+        detail.constrain(.height, constant: -80, toItem: cardVC!.view)
+        detail.constrain(.top, constant: 400, toItem: cardVC!.view)
+        detail.alpha = 0.0
         
-        if presenting {
-            let detail = transitionContext.view(forKey: .to)!
-            containerView.addSubview(detail)
-            
-            detail.translatesAutoresizingMaskIntoConstraints = false
-            detail.constrain(.width, .centerX, toItem: cardVC!.view)
-            detail.constrain(.height, constant: -80, toItem: cardVC!.view)
-            detail.constrain(.top, constant: 400, toItem: cardVC!.view)
+        detail.addSubview(blurView)
+        blurView.constrain(.top, .width, .centerX, toItem: cardVC!.view)
+        blurView.constrain(.height, toItem: cardVC!.imageView)
+        
+        let tapRec = UITapGestureRecognizer(target: self, action: #selector(tap(sender:)))
+        containerView.addGestureRecognizer(tapRec)
+        
+        cardVC?.imageView.addSubview(blurView)
+        
+        UIView.animate(withDuration: 0.1, animations: {
+            detail.alpha = 1.0
+            self.blurView.alpha = 0.9
+            }, completion:{_ in
+                UIView.animate(withDuration: 0.1, animations: {
+                    detail.frame.origin.y = 81 * 2
+                    }, completion: {_ in
+                        context.completeTransition(true)
+                })
+        })
+    }
+    
+    func dismiss(_ context: UIViewControllerContextTransitioning) {
+        let containerView = context.containerView
+        let detail = context.view(forKey: UITransitionContextViewKey.from)!
+        detail.frame.origin.y = 80 * 2
+        containerView.addSubview(detail)
+        
+        UIView.animate(withDuration: 0.1, animations: {
             detail.alpha = 0.0
-            detail.layoutIfNeeded()
-
-            blurView.layer.cornerRadius = 5.0
-            detail.addSubview(blurView)
-            blurView.translatesAutoresizingMaskIntoConstraints = false
-            blurView.constrain(.top, .width, .centerX, toItem: cardVC!.view)
-            blurView.constrain(.height, toItem: cardVC!.imageView)
-            blurView.alpha = 0.0
-            let tapRec = UITapGestureRecognizer(target: self, action: #selector(tap(sender:)))
-
-            containerView.addGestureRecognizer(tapRec)
-            cardVC?.imageView.addSubview(blurView)
-            
-            containerView.bringSubview(toFront: detail)
-
-            UIView.animate(withDuration: 0.1, animations: {
-                    detail.alpha = 1.0
-                    self.blurView.alpha = 0.9
-                }, completion:{_ in
-                    UIView.animate(withDuration: 0.1, animations: {
-                        detail.frame.origin.y = 81 * 2
-                        }, completion: {_ in
-                            transitionContext.completeTransition(true)
-                    })
-            })
-        } else {
-            let detail = transitionContext.view(forKey: UITransitionContextViewKey.from)!
-            detail.frame.origin.y = 80 * 2
-            containerView.addSubview(detail)
-            containerView.bringSubview(toFront: detail)
-            UIView.animate(withDuration: 0.1, animations: {
-                detail.alpha = 0.0
-                self.blurView.alpha = 0.0
-                }, completion:{_ in
-                    UIView.animate(withDuration: 0.1, animations: {
-                        detail.frame.origin.y = 550
-                        }, completion: {_ in
-                            transitionContext.completeTransition(true)
-                    })
-            })
-        }
+            self.blurView.alpha = 0.0
+            }, completion:{_ in
+                UIView.animate(withDuration: 0.1, animations: {
+                    detail.frame.origin.y = 550
+                    }, completion: {_ in
+                        context.completeTransition(true)
+                })
+        })
     }
 
     func tap(sender:UITapGestureRecognizer) {

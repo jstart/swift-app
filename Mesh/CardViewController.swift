@@ -19,17 +19,17 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     var control = QuickPageControl(categories: [.connections, .experience, .education, .skills, .events])
     var card : Card?
     var viewPager : ViewPager?
-    let imageView : UIImageView =  UIImageView(image: #imageLiteral(resourceName: "profile_sample"))
+    let imageView : UIImageView = UIImageView(image: #imageLiteral(resourceName: "profile_sample"))
     let transition = CardDetailTransition()
-    let overlayView : UIView = {
-        let overlayView = UIView()
-        overlayView.backgroundColor = .black
-        overlayView.alpha = 0.0
-        overlayView.isHidden = true
-        overlayView.translatesAutoresizingMaskIntoConstraints = false
-        overlayView.layer.cornerRadius = 5.0
-        return overlayView
-    }()
+    
+    let overlayView  = UIView().then {
+        $0.backgroundColor = .black
+        $0.alpha = 0.0
+        $0.isHidden = true
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.layer.cornerRadius = 5.0
+    }
+    
     let name = UILabel()
     let position = UILabel()
 
@@ -144,7 +144,6 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! + " " + card!.person!.user!.last_name! : "Micha Kaufman"
         position.text = card?.person?.user?.title != nil ? card!.person!.user!.title! : "VP of Engineering at Tesla"
         if card?.person?.user != nil {
-            print(card!.person!.user!.photos!.large!)
             URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue()).dataTask(with: URL(string: card!.person!.user!.photos!.large!)!, completionHandler: {data, response, error in
                 DispatchQueue.global().async {
                     let image = UIImage(data: data!)
@@ -283,8 +282,8 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     }
     
     func removeSelf(_ direction : UISwipeGestureRecognizerDirection) {
-        view.removeFromSuperview()
-        removeFromParentViewController()
+        viewWillDisappear(true)
+        viewDidDisappear(true)
         if presentingViewController != nil {
             presentingViewController?.dismiss(animated: true, completion: nil)
         }

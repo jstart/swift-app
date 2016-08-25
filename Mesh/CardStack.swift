@@ -38,13 +38,13 @@ class CardStack : UIViewController, CardDelegate {
     }
 
     func addCard(_ card: CardViewController, animated: Bool = true) {
-        addChildViewController(card)
+        card.viewWillAppear(animated)
         card.view.alpha = CardFeedViewConfig().behindAlpha
         let scale = CardFeedViewConfig().behindScale
         let transform = CGAffineTransform(scaleX: scale, y: scale)
         card.view.transform = transform;
         view.addSubview(card.view)
-        
+        card.viewDidAppear(animated)
         card.view.constrain(.height, constant: -40, toItem: view)
         card.view.constrain(.width, constant: -13, toItem: view)
         card.view.constrain(.centerX, .centerY, toItem: view)

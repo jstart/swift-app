@@ -51,7 +51,6 @@ class FeedViewController: UIViewController {
             return
         }
         addChildViewController(cardStack)
-        cardStack.view.frame = view.frame
         view.addSubview(cardStack.view)
         
         cardStack.view.constrain(.height, .width, .centerX, .centerY, toItem: view)

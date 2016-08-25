@@ -41,7 +41,7 @@ struct QuickViewGenerator {
         
         let label = UILabel()
         label.backgroundColor = .white
-        label.text = category.imageName().capitalized
+        label.text = category.rawValue.capitalized
         label.font = UIFont.systemFont(ofSize: 14)
         label.textAlignment = .center
         label.textColor = .lightGray

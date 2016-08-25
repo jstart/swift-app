@@ -8,35 +8,20 @@
 
 import UIKit
 
-enum QuickViewCategory {
-    case connections
-    case experience
-    case education
-    case skills
-    case events
-    
-    func imageName() -> String {
-        switch self {
-        case .connections:
-            return "connections"
-        case .education:
-            return "education"
-        case .experience:
-            return "experience"
-        case .skills:
-            return "skills"
-        case .events:
-            return "events"
-        }
-    }
+enum QuickViewCategory : String  {
+    case connections = "connections"
+    case experience = "education"
+    case education = "experience"
+    case skills = "skills"
+    case events = "events"
     
     func button() -> UIButton {
-        let button = UIButton()
-        button.setImage(UIImage(named:imageName()), for: .normal)
-        let activeImage = UIImage(named:imageName() + "Active")
-        button.setImage(activeImage, for: .selected)
-        button.backgroundColor = .white
-        return button
+        return UIButton().then {
+            $0.setImage(UIImage(named:rawValue), for: .normal)
+            let activeImage = UIImage(named:rawValue + "Active")
+            $0.setImage(activeImage, for: .selected)
+            $0.backgroundColor = .white
+        }
     }
 }
 

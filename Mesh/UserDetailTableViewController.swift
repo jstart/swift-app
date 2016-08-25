@@ -28,12 +28,12 @@ class UserDetailTableViewController : UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return category?.imageName()
+        return category?.rawValue
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
-        label.text = "     " + (category?.imageName())!.capitalized
+        label.text = "     " + (category?.rawValue)!.capitalized
         label.textColor = .lightGray
         label.backgroundColor = .white
         return label
