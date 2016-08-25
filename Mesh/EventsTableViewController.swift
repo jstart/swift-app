@@ -53,7 +53,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
         navigationItem.setRightBarButton(UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort)), animated: true)
     }
     
-    public func updateSearchResults(for searchController: UISearchController) {
+    open func updateSearchResults(for searchController: UISearchController) {
         let search = searchController.searchResultsController as! InboxSearchTableViewController
         search.view.isHidden = false
         search.showRecents = searchController.searchBar.text == ""

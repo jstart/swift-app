@@ -143,20 +143,22 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         
         name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! + " " + card!.person!.user!.last_name! : "Micha Kaufman"
         position.text = card?.person?.user?.title != nil ? card!.person!.user!.title! : "VP of Engineering at Tesla"
-        if card?.person?.user != nil {
-            URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue()).dataTask(with: URL(string: card!.person!.user!.photos!.large!)!, completionHandler: {data, response, error in
-                DispatchQueue.global().async {
-                    let image = UIImage(data: data!)
-                    DispatchQueue.main.sync {
-                        if image != nil {
-                            self.imageView.image = image
-                        } else {
-                            self.imageView.image = #imageLiteral(resourceName: "profile_sample")
-                        }
+        
+        guard let user = card?.person?.user else {
+            return
+        }
+        URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue()).dataTask(with: URL(string: user.photos!.large!)!, completionHandler: {data, response, error in
+            DispatchQueue.global().async {
+                let image = UIImage(data: data!)
+                DispatchQueue.main.sync {
+                    if image != nil {
+                        self.imageView.image = image
+                    } else {
+                        self.imageView.image = #imageLiteral(resourceName: "profile_sample")
                     }
                 }
-            }).resume()
-        }
+            }
+        }).resume()
     }
     
     func bar() -> UIView {

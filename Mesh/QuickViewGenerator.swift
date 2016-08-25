@@ -33,7 +33,10 @@ struct QuickViewGenerator {
     
     static func tempQuickView(_ category: QuickViewCategory) -> UIStackView {
         var views : [UIView] = []
-        for _ in 1...5 {
+        
+        let viewCount = Int(UIScreen.main.bounds.size.width / 70)
+        
+        for _ in 1...viewCount {
             views.append(square(#imageLiteral(resourceName: "tesla"), title: "Test"))
         }
         let stack = stackOf(views)

@@ -46,7 +46,7 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
         super.init()
         
         array.forEach({ button in
-            button.addTarget(self, action: #selector(selected(sender:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(selected), for: .touchUpInside)
         })
     }
     
@@ -61,7 +61,7 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
         }
     }
     
-    func selected(sender : UIButton){
+    func selected(_ sender : UIButton){
         for button in (stack?.subviews)! as! [UIButton] {
             button.isSelected = button == sender
         }
