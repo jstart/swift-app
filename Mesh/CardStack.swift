@@ -65,6 +65,12 @@ class CardStack : UIViewController, CardDelegate {
     }
     
     func swiped(_ direction: UISwipeGestureRecognizerDirection) {
+        let request : AuthenticatedRequest = direction == .right ? LikeRequest(_id: "57bf18cac29533c6daed9546") : PassRequest(_id: "57bf18cac29533c6daed9546")
+        
+        Client().execute(request, completionHandler: {_ in
+            
+        })
+        
         if cardIndex + 1 == cards?.count {
             cardIndex = 0
         } else {

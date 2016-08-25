@@ -59,11 +59,11 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
             return
         }
         Client().execute(LogoutRequest(), completionHandler: { response in
+            let vc = JoinTableViewController(style: .grouped)
+            UIApplication.shared.delegate!.window??.rootViewController = UINavigationController(rootViewController: vc)
+            
             if let JSON = response.result.value {
                 print("JSON: \(JSON)")
-                
-                let vc = JoinTableViewController(style: .grouped)
-                UIApplication.shared.delegate!.window??.rootViewController = UINavigationController(rootViewController: vc)
             }
             if (response.result.error != nil) {
                 print(response.result.error)

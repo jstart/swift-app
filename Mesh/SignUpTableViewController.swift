@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignUpTableViewController: UITableViewController {
+class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
 
     var phoneField : UITextField?
     var passwordField : UITextField?
@@ -18,7 +18,7 @@ class SignUpTableViewController: UITableViewController {
         title = "Sign Up"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(login))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(signUp))
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,6 +42,7 @@ class SignUpTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
         let field = UITextField()
+        field.delegate = self
         field.autocapitalizationType = .none
         field.translatesAutoresizingMaskIntoConstraints = false
         cell.addSubview(field)
@@ -50,7 +51,7 @@ class SignUpTableViewController: UITableViewController {
         return cell
     }
     
-    func login() {
+    func signUp() {
         Client().execute(AuthRequest(phone_number: phoneField!.text!, password: passwordField!.text!, password_verify: passwordField!.text!), completionHandler: { response in
             if let JSON = response.result.value {
                 print("JSON: \(JSON)")
@@ -64,9 +65,24 @@ class SignUpTableViewController: UITableViewController {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == passwordField {
-            login()
+            signUp()
         }
         return true
     }
     
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    override var keyCommands: [UIKeyCommand]? {
+        return [
+            UIKeyCommand(input: "l", modifierFlags: [.command, .alternate], action: #selector(fill), discoverabilityTitle: "Convenience")
+        ]
+    }
+    
+    func fill(command: UIKeyCommand) {
+        phoneField?.text = "3103479814"
+        passwordField?.text = "password"
+        signUp()
+    }
 }

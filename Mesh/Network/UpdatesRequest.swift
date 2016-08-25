@@ -23,3 +23,27 @@ struct RecommendationsRequest : AuthenticatedRequest {
     let path = "recommendations"
     let method = HTTPMethod.post
 }
+
+struct LikeRequest : AuthenticatedRequest {
+    let path = "recommendations/like"
+    let method = HTTPMethod.put
+    
+    var _id : String
+    
+    func parameters() -> [String : Any] {
+        return ["_id": _id]
+    }
+}
+
+struct PassRequest : AuthenticatedRequest {
+    let path = "recommendations/pass"
+    let method = HTTPMethod.put
+    
+    var _id : String
+    
+    func parameters() -> [String : Any] {
+        return ["_id": _id]
+    }
+}
+
+

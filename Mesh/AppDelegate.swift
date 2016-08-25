@@ -47,4 +47,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
     }
 
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    override var keyCommands: [UIKeyCommand]? {
+        return [
+            UIKeyCommand(input: "l", modifierFlags: [.command, .alternate], action: #selector(fill), discoverabilityTitle: "Convenience")
+        ]
+    }
+    
+    func fill(command: UIKeyCommand) {
+        Token.persistToken("")
+        Token.persistLogin((phone_number: "", password: ""))
+        UserResponse.currentUser = nil
+        let vc = JoinTableViewController(style: .grouped)
+        window?.rootViewController = UINavigationController(rootViewController: vc)
+    }
 }
