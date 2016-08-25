@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let vc = JoinTableViewController(style: .grouped)
             window?.rootViewController = UINavigationController(rootViewController: vc)
         }
-        
+
         window?.makeKeyAndVisible()
         
         return true
