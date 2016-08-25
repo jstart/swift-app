@@ -43,6 +43,12 @@ extension UIView {
 
 }
 
+extension UIViewController {
+    func withNav() -> UINavigationController {
+        return UINavigationController(rootViewController: self)
+    }
+}
+
 extension Int {
     func perform(_ closure: () -> Void) {
         (0..<self).forEach { _ in

@@ -17,7 +17,7 @@ class FeedViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo"))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "qrCode"), style: .plain, target: self, action: #selector(sort))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "qrCode"), style: .plain, target: self, action: #selector(qr))
         
         let client = Client()
         // AuthRequest(phone_number: "3103479814", password: "password", password_verify: "password", first_name: "chris", last_name: "truman", email: "cleetruman@gmail.com", company: "tinder ventures", profession: "software engineer")
@@ -75,5 +75,10 @@ class FeedViewController: UIViewController {
 
     func sort(){
         
+    }
+    
+    func qr() {
+        
+        present(ScanViewController().withNav(), animated: true, completion: nil)
     }
 }

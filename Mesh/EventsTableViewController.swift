@@ -19,7 +19,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
         searchController = UISearchController(searchResultsController: searchResults)
         searchController.searchResultsUpdater = self
         searchController.delegate = self
-        searchController.searchBar.placeholder = "Search for people and messages"
+        searchController.searchBar.placeholder = "Search for events"
         searchController.searchBar.delegate = self
         
         searchController.hidesNavigationBarDuringPresentation = false
@@ -33,10 +33,11 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
          print("JSON: \(response.result.value)")
          print(response.result.error)
          })*/
-        tableView.register(ConnectionTableViewCell.self, MessageTableViewCell.self)
+        tableView.register(ConnectionTableViewCell.self)
         
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.tableFooterView = UIView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -65,20 +66,35 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 0
+        return 2
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return section == 0 ? 2 : 3
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return ""
+        return section == 0 ? "TOPICS" : "PREVIOUS EVENTS"
     }
     
-    /*override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return nil
-    }*/
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel().then({
+            $0.text = section == 0 ? "    TOPICS" : "    PREVIOUS EVENTS"
+            $0.backgroundColor  = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
+            $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
+            $0.font = .systemFont(ofSize: 12)
+        })
+        return label
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ConnectionTableViewCell", for: indexPath) as! ConnectionTableViewCell
+        cell.name.text = "Java"
+        cell.profile.image = #imageLiteral(resourceName: "tesla")
+        cell.company.image = nil
+        
+        return cell
+    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         

@@ -66,6 +66,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Take a photo</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Sync contacts to build your network</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Need location for nearby matches</string>
 	<key>NSPhotoLibraryUsageDescription</key>

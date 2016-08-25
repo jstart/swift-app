@@ -24,7 +24,7 @@ class ConversationViewController: UIViewController {
         addChildViewController(messagesVC)
         view.addSubview(messagesVC.view)
         messagesVC.view.constrain(.width, .height, .centerX, .centerY, toItem: view)
-        //messagesVC.view.translatesAutoresizingMaskIntoConstraints = false
+        messagesVC.view.translatesAutoresizingMaskIntoConstraints = false
     }
 
     func toggleReadState() {

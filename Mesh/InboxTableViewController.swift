@@ -8,12 +8,14 @@
 
 import UIKit
 
-class InboxTableViewController: UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
+class InboxTableViewController: UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate, UIPopoverPresentationControllerDelegate {
 
     var searchController : UISearchController!
     var quickCell : UIView?
     var field : UITextField = UITextField()
     let searchResults = InboxSearchTableViewController()
+    var sortItem : UIBarButtonItem?
+    var addItem : UIBarButtonItem?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +29,9 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         definesPresentationContext = true
         
         navigationItem.titleView = searchController.searchBar
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort))
+        sortItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort))
+        addItem = UIBarButtonItem(image: #imageLiteral(resourceName: "addFriends"), style: .plain, target: self, action: #selector(add))
+        navigationItem.rightBarButtonItems = [sortItem!, addItem!]
         //Client().execute(ConnectionRequest(recipient: "57ba725d87223ad6215ecaf9"), completionHandler: { _ in})
         /*Client().execute(MessagesSendRequest(recipient: "57b63c7f887fb1b3571666b5", text: "POOP"), completionHandler: { response in
             print("JSON: \(response.result.value)")
@@ -38,6 +41,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
 
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.tableFooterView = UIView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -47,11 +51,11 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        navigationItem.setRightBarButton(nil, animated: true)
+        navigationItem.setRightBarButtonItems(nil, animated: true)
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        navigationItem.setRightBarButton(UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort)), animated: true)
+        navigationItem.rightBarButtonItems = [sortItem!, addItem!]
     }
     
     open func updateSearchResults(for searchController: UISearchController) {
@@ -62,6 +66,21 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
     
     func sort() {
+        //navigationItem.rightBarButtonItems?[0].image = #imageLiteral(resourceName: "sortConnectionsClose")
+        let pop = UITableViewController()
+        pop.preferredContentSize = CGSize(width: view.frame.size.width - 20, height: 210)
+        pop.modalPresentationStyle = .popover
+        pop.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItems?[0]
+        pop.popoverPresentationController?.delegate = self
+        present(pop, animated: true, completion: nil)
+    }
+    
+    func add() {
+        
+    }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
 
     // MARK: - Table view data source
