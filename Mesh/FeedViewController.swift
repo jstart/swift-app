@@ -36,12 +36,9 @@ class FeedViewController: UIViewController {
         
         let recs = {
                 client.execute(RecommendationsRequest(), completionHandler: { response in
-                print("JSON: \(response.result.value)")
                 if let JSON = response.result.value {
-                    if JSON is [String : Any] {
-                        return
-                    }
-                    let jsonArray = JSON as! [[String : Any]]
+                    print("JSON: \(JSON)")
+                    guard let jsonArray = JSON as? [[String : Any]] else { return }
                     let array = jsonArray.map({return UserResponse(JSON: $0)})
                     self.cardStack.cards = array.map({
                         let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])

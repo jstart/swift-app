@@ -43,8 +43,8 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         scroll.delegate = self
     }
     
-    func selectedIndex(_ index:Int){
-        scroll.setContentOffset(CGPoint(x: scroll.frame.size.width * CGFloat(index), y: 0), animated: true)
+    func selectedIndex(_ index:Int, animated: Bool = true){
+        scroll.setContentOffset(CGPoint(x: scroll.frame.size.width * CGFloat(index), y: 0), animated: animated)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

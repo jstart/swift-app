@@ -139,7 +139,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         overlayView.isHidden = true
         
         control.selectIndex(0)
-        viewPager?.selectedIndex(0)
+        viewPager?.selectedIndex(0, animated: false)
         
         name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! + " " + card!.person!.user!.last_name! : "Micha Kaufman"
         position.text = card?.person?.user?.title != nil ? card!.person!.user!.title! : "VP of Engineering at Tesla"
@@ -173,7 +173,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         return bar
     }
     
-    func selectedIndex(_ index: Int) {
+    func selectedIndex(_ index: Int, animated: Bool) {
         control.selectIndex(index)
         viewPager?.selectedIndex(index)
     }

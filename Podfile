@@ -7,6 +7,7 @@ pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :commit =
 #pod 'AlamofireImage', :git => 'https://github.com/Alamofire/AlamofireImage.git', :branch => 'swift3'
 pod 'JSQMessagesViewController'
 #pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'master', :submodules => 'true'
+pod 'Starscream', :git => 'https://github.com/daltoniam/Starscream.git', :branch => 'swift3'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

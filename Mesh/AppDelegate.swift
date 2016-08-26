@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import Starscream
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, WebSocketDelegate {
 
     var window: UIWindow?
+    let socket = WebSocket(url: URL(string: "ws://dev.mesh.tinderventures.com:2000/")!)
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         window = UIWindow()
@@ -26,9 +28,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let vc = JoinTableViewController(style: .grouped)
             window?.rootViewController = UINavigationController(rootViewController: vc)
         }
+        
+        socket.delegate = self
+        socket.connect()
 
         window?.makeKeyAndVisible()
         return true
+    }
+    
+    func websocketDidConnect(_ socket: WebSocket) {
+        
+    }
+    func websocketDidDisconnect(_ socket: WebSocket, error: NSError?){
+        print(error)
+    }
+    func websocketDidReceiveMessage(_ socket: WebSocket, text: String){
+        
+    }
+    func websocketDidReceiveData(_ socket: WebSocket, data: Data){
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

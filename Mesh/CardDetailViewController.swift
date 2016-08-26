@@ -95,7 +95,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if finished && completed {
             control.selectIndex(transistionToIndex)
-            delegate?.selectedIndex(transistionToIndex)
+            delegate?.selectedIndex(transistionToIndex, animated: true)
         }
     }
     
@@ -104,12 +104,12 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         transistionToIndex = table.index!
     }
     
-    func selectedIndex(_ index:Int) {
+    func selectedIndex(_ index:Int, animated:Bool) {
         if index == control.previousIndex {
             return
         }
-        delegate?.selectedIndex(index)
-        pageController.setViewControllers([controllers[index]], direction: (control.previousIndex < index) ? .forward : .reverse, animated: true, completion: nil)
+        delegate?.selectedIndex(index, animated: animated)
+        pageController.setViewControllers([controllers[index]], direction: (control.previousIndex < index) ? .forward : .reverse, animated: animated, completion: nil)
     }
     
     func tap(_ sender:UITapGestureRecognizer) {
