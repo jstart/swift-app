@@ -74,7 +74,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         dismiss(animated: true, completion: nil)
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        let data = UIImageJPEGRepresentation(image, 0)
+        let data = UIImageJPEGRepresentation(image, 1.0)
         Client().upload(PhotoRequest(file: data!), completionHandler: { response in
                 print("JSON: \(response.result.value)")
                 print(response.result.error)

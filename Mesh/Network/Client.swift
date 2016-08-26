@@ -58,12 +58,7 @@ class Client {
     }
     
     func execute(_ request : Request, completionHandler: @escaping (Response<Any, NSError>) -> Void) {
-        var params = request.parameters()
-        if UserResponse.currentUser?._id != nil {
-            params["uid"] = UserResponse.currentUser?._id
-        }
-        
-        Alamofire.request(baseURL + request.path, withMethod: request.method, parameters: params, encoding: .json, headers: request.headers())
+        Alamofire.request(baseURL + request.path, withMethod: request.method, parameters: request.parameters().count == 0 ? nil : request.parameters(), encoding: .json, headers: request.headers())
             .responseJSON { response in
                 if request is LoginRequest || request is AuthRequest {
                     if response.result.error == nil {
@@ -77,6 +72,7 @@ class Client {
                     Token.persistToken("")
                     Token.persistLogin((phone_number: "", password: ""))
                     UserResponse.currentUser = nil
+                    URLCache.shared.removeAllCachedResponses()
                 }
                 
                 if let httpError = response.result.error {

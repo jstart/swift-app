@@ -144,10 +144,10 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! + " " + card!.person!.user!.last_name! : "Micha Kaufman"
         position.text = card?.person?.user?.title != nil ? card!.person!.user!.title! : "VP of Engineering at Tesla"
         
-        guard let user = card?.person?.user else {
+        guard let largeURL = card?.person?.user?.photos?.large else {
             return
         }
-        URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue()).dataTask(with: URL(string: user.photos!.large!)!, completionHandler: {data, response, error in
+        URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue()).dataTask(with: URL(string: largeURL)!, completionHandler: {data, response, error in
             DispatchQueue.global().async {
                 let image = UIImage(data: data!)
                 DispatchQueue.main.sync {

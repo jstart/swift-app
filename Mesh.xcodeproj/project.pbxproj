@@ -13,6 +13,7 @@
 		2322B9901D6BCAA700921699 /* MessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2322B98E1D6BCAA700921699 /* MessageTableViewCell.xib */; };
 		23272ADA1D6F8195007438D9 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23272AD91D6F8195007438D9 /* ScanViewController.swift */; };
 		23272ADC1D6F914A007438D9 /* ContactsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23272ADB1D6F914A007438D9 /* ContactsManager.swift */; };
+		23272ADF1D6FA2B6007438D9 /* ContactsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23272ADE1D6FA2B6007438D9 /* ContactsTableViewController.swift */; };
 		232DFE731D6D13C100714025 /* InboxSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232DFE721D6D13C100714025 /* InboxSearchTableViewController.swift */; };
 		232DFE751D6D289900714025 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232DFE741D6D289900714025 /* Extensions.swift */; };
 		233E944C1D63B9CD00919B95 /* CardDetailTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233E944B1D63B9CD00919B95 /* CardDetailTransition.swift */; };
@@ -64,6 +65,7 @@
 		2322B98E1D6BCAA700921699 /* MessageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageTableViewCell.xib; sourceTree = "<group>"; };
 		23272AD91D6F8195007438D9 /* ScanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		23272ADB1D6F914A007438D9 /* ContactsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsManager.swift; sourceTree = "<group>"; };
+		23272ADE1D6FA2B6007438D9 /* ContactsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTableViewController.swift; sourceTree = "<group>"; };
 		232DFE721D6D13C100714025 /* InboxSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxSearchTableViewController.swift; sourceTree = "<group>"; };
 		232DFE741D6D289900714025 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		233E944B1D63B9CD00919B95 /* CardDetailTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDetailTransition.swift; sourceTree = "<group>"; };
@@ -145,6 +147,14 @@
 				23272AD91D6F8195007438D9 /* ScanViewController.swift */,
 			);
 			name = QR;
+			sourceTree = "<group>";
+		};
+		23272ADD1D6FA2A4007438D9 /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				23272ADE1D6FA2B6007438D9 /* ContactsTableViewController.swift */,
+			);
+			name = Contacts;
 			sourceTree = "<group>";
 		};
 		239475F61D6B823B00C54787 /* Card Feed */ = {
@@ -233,6 +243,7 @@
 		ADECA8E61D51540900726AEF /* Mesh */ = {
 			isa = PBXGroup;
 			children = (
+				23272ADD1D6FA2A4007438D9 /* Contacts */,
 				23272AD81D6F817F007438D9 /* QR */,
 				AD4E2E1C1D5A75D500130811 /* Network */,
 				ADECA8E71D51540900726AEF /* AppDelegate.swift */,
@@ -413,6 +424,7 @@
 				AD4E2E201D5A760800130811 /* AuthRequest.swift in Sources */,
 				23C09D541D624C66003C9183 /* ViewPager.swift in Sources */,
 				233E944E1D63BAE000919B95 /* CardDetailViewController.swift in Sources */,
+				23272ADF1D6FA2B6007438D9 /* ContactsTableViewController.swift in Sources */,
 				AD06B6FF1D56BA5B005D349A /* CardFeedViewConfig.swift in Sources */,
 				AD4E2E1E1D5A75ED00130811 /* Client.swift in Sources */,
 				AD4E2E241D5AAE4300130811 /* MessagesRequest.swift in Sources */,

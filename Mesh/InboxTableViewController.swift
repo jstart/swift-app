@@ -76,7 +76,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
     
     func add() {
-        
+        navigationController?.pushViewController(ContactsTableViewController(), animated: true)
     }
     
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {

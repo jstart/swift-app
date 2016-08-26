@@ -21,7 +21,7 @@ struct UpdatesRequest : AuthenticatedRequest {
 
 struct RecommendationsRequest : AuthenticatedRequest {
     let path = "recommendations"
-    let method = HTTPMethod.post
+    let method = HTTPMethod.get
 }
 
 struct LikeRequest : AuthenticatedRequest {

@@ -65,7 +65,17 @@ class CardStack : UIViewController, CardDelegate {
     }
     
     func swiped(_ direction: UISwipeGestureRecognizerDirection) {
-        let request : AuthenticatedRequest = direction == .right ? LikeRequest(_id: "57bf18cac29533c6daed9546") : PassRequest(_id: "57bf18cac29533c6daed9546")
+        let card = cards?[cardIndex]
+        guard let id = card?.person?.user?._id else {
+            if cardIndex + 1 == cards?.count {
+                cardIndex = 0
+            } else {
+                cardIndex += 1
+            }
+            addNewCard()
+            return
+        }
+        let request : AuthenticatedRequest = direction == .right ? LikeRequest(_id: id) : PassRequest(_id: id)
         
         Client().execute(request, completionHandler: {_ in
             

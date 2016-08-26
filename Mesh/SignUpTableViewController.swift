@@ -70,14 +70,10 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
         return true
     }
     
-    override var canBecomeFirstResponder: Bool {
-        return true
-    }
+    override var canBecomeFirstResponder: Bool { return true }
     
     override var keyCommands: [UIKeyCommand]? {
-        return [
-            UIKeyCommand(input: "l", modifierFlags: [.command, .alternate], action: #selector(fill), discoverabilityTitle: "Convenience")
-        ]
+        return [UIKeyCommand(input: "l", modifierFlags: [.command, .alternate], action: #selector(fill), discoverabilityTitle: "Convenience")]
     }
     
     func fill(command: UIKeyCommand) {

@@ -20,7 +20,7 @@ class ContactsManager : NSObject {
         CNContactImageDataAvailableKey,
         CNContactThumbnailImageDataKey] as [Any]
     
-    func requestForAccess(completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
+    func requestAccess(completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
         let authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
         
         switch authorizationStatus {
@@ -61,7 +61,6 @@ class ContactsManager : NSObject {
     }
     
     func contacts() -> [CNContact] {
-        // Get all the containers
         var allContainers: [CNContainer] = []
         do {
             allContainers = try store.containers(matching: nil)
@@ -73,7 +72,6 @@ class ContactsManager : NSObject {
         
         for container in allContainers {
             let fetchPredicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
-            
             do {
                 let containerResults = try store.unifiedContacts(matching: fetchPredicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
                 results.append(contentsOf: containerResults)
@@ -85,24 +83,39 @@ class ContactsManager : NSObject {
         return results
     }
     
-    func allContacts(results: ([CNContact]) -> Void) {
-        results(contacts())
+    func allContacts(results: @escaping ([CNContact]) -> Void) {
+        DispatchQueue.global().async {
+            let contacts = self.contacts()
+            DispatchQueue.main.async {
+                results(contacts)
+            }
+        }
     }
-    
-    func contacts(forName: String, results: ([CNContact]) -> Void) {
+
+    func contacts(forName: String) -> [CNContact] {
         let predicate = CNContact.predicateForContacts(matchingName: forName)
         var contacts = [CNContact]()
-        
+
         do {
             contacts = try store.unifiedContacts(matching: predicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
-            results(contacts)
             if contacts.count == 0 {
                 print("No contacts were found matching the given name.")
             }
+            return contacts
+            
         }
         catch {
             print("Unable to fetch contacts.")
-            results([])
+            return contacts
+        }
+    }
+
+    func contacts(forName: String, results: @escaping ([CNContact]) -> Void) {
+        DispatchQueue.global().async {
+            let contacts = self.contacts(forName: forName)
+            DispatchQueue.main.async {
+                results(contacts)
+            }
         }
     }
 
