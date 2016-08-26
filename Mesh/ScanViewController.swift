@@ -13,7 +13,11 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     var captureSession:AVCaptureSession?
     var videoPreviewLayer:AVCaptureVideoPreviewLayer?
-    var qrCodeFrameView:UIView?
+    var qrCodeFrameView:UIView = UIView().then {
+        $0.layer.borderColor = UIColor.green.cgColor
+        $0.layer.borderWidth = 2
+    }
+
     
     let supportedBarCodes = [AVMetadataObjectTypeQRCode]
     
@@ -46,13 +50,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             
             captureSession?.startRunning()
             
-            qrCodeFrameView = UIView()
-            if let qrCodeFrameView = qrCodeFrameView {
-                qrCodeFrameView.layer.borderColor = UIColor.green.cgColor
-                qrCodeFrameView.layer.borderWidth = 2
-                view.addSubview(qrCodeFrameView)
-                view.bringSubview(toFront: qrCodeFrameView)
-            }
+            view.addSubview(qrCodeFrameView)
+            view.bringSubview(toFront: qrCodeFrameView)
         } catch {
             print(error)
             return
@@ -61,14 +60,14 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         if metadataObjects == nil || metadataObjects.count == 0 {
-            qrCodeFrameView?.frame = CGRect.zero
+            qrCodeFrameView.frame = CGRect.zero
             return
         }
         
         let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
         
         let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
-        qrCodeFrameView?.frame = barCodeObject!.bounds
+        qrCodeFrameView.frame = barCodeObject!.bounds
         
         if metadataObj.stringValue != nil {
             print(metadataObj.stringValue)
