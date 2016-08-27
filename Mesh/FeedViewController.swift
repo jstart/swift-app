@@ -46,6 +46,12 @@ class FeedViewController: UIViewController {
                     })
                 }
                 print(response.result.error)
+                if TARGET_OS_SIMULATOR == 1 {
+                    client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
+                         print("JSON: \(response.result.value)")
+                         print(response.result.error)
+                     })
+                }
             })
         }
         client.execute(UpdatesRequest(last_update: Int(Date().timeIntervalSince1970)), completionHandler: { response in
@@ -57,17 +63,11 @@ class FeedViewController: UIViewController {
         locationManager.locationUpdate = { location in
             print(location)
             client.execute(PositionRequest(lat: location.coordinate.latitude, lon: location.coordinate.longitude), completionHandler: { response in
-                    print("JSON: \(response.result.value)")
-                    print(response.result.error)
-            })
-        }
-        if TARGET_OS_SIMULATOR == 1 {
-            /*client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
                 print("JSON: \(response.result.value)")
                 print(response.result.error)
-            })*/
+            })
         }
-        
+       
         self.locationManager.startTracking()
     }
 
@@ -76,7 +76,6 @@ class FeedViewController: UIViewController {
     }
     
     func qr() {
-        
         present(ScanViewController().withNav(), animated: true, completion: nil)
     }
 }

@@ -19,7 +19,12 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     var control = QuickPageControl(categories: [.connections, .experience, .education, .skills, .events])
     var card : Card?
     var viewPager : ViewPager?
-    let imageView : UIImageView = UIImageView(image: #imageLiteral(resourceName: "profile_sample"))
+    let imageView = UIImageView(image: #imageLiteral(resourceName: "profile_sample")).then {
+        $0.clipsToBounds = true
+        $0.backgroundColor = .white
+        $0.contentMode = .scaleAspectFill
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     let transition = CardDetailTransition()
     
     let overlayView  = UIView().then {
@@ -30,8 +35,18 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         $0.layer.cornerRadius = 5.0
     }
     
-    let name = UILabel()
-    let position = UILabel()
+    let name = UILabel().then {
+        $0.textColor = .black
+        $0.backgroundColor = .white
+        $0.font = UIFont.systemFont(ofSize: 20)
+        $0.constrain(.height, constant: 20)
+    }
+    let position = UILabel().then {
+        $0.textColor = #colorLiteral(red: 0.7810397744, green: 0.7810582519, blue: 0.7810482979, alpha: 1)
+        $0.backgroundColor = .white
+        $0.font = UIFont.systemFont(ofSize: 16)
+        $0.constrain(.height, constant: 20)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,18 +74,10 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         control.delegate = viewPager!
         viewPager?.delegate = control
         control.selectIndex(0)
-        
-        name.textColor = .black
-        name.backgroundColor = .white
-        name.font = UIFont.systemFont(ofSize: 20)
+
         name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! : "Micha Kaufman"
-        name.constrain(.height, constant: 20)
         
-        position.textColor = #colorLiteral(red: 0.7810397744, green: 0.7810582519, blue: 0.7810482979, alpha: 1)
-        position.backgroundColor = .white
-        position.font = UIFont.systemFont(ofSize: 16)
         position.text = "VP of Engineering at Tesla"
-        position.constrain(.height, constant: 20)
 
         let topStack = UIStackView(arrangedSubviews: [imageView, name, position, quickViewStack, viewPager!.scroll])
         topStack.axis = .vertical
@@ -96,10 +103,6 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         quickViewStack.constrain(.height, constant: 30)
         quickViewStack.constrain(.width, .centerX, toItem: view)
         
-        imageView.clipsToBounds = true
-        imageView.backgroundColor = .white
-        imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.constrain(.width, .centerX, toItem: view)
         
         let logo = UIImageView(image: #imageLiteral(resourceName: "tesla"))
@@ -134,7 +137,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewDidLayoutSubviews()
+        //viewDidLayoutSubviews()
         overlayView.alpha = 0.0
         overlayView.isHidden = true
         
@@ -147,6 +150,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         guard let largeURL = card?.person?.user?.photos?.large else {
             return
         }
+        imageView.alpha = 0.0
         URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue()).dataTask(with: URL(string: largeURL)!, completionHandler: {data, response, error in
             DispatchQueue.global().async {
                 let image = UIImage(data: data!)
@@ -156,21 +160,23 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
                     } else {
                         self.imageView.image = #imageLiteral(resourceName: "profile_sample")
                     }
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.imageView.alpha = 1.0
+                    })
                 }
             }
         }).resume()
     }
     
     func bar() -> UIView {
-        let bar = UIView()
-        bar.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
-        
-        bar.translatesAutoresizingMaskIntoConstraints = false
-        bar.constrain(.height, constant: 1)
-        NSLayoutConstraint(item: bar, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 80).isActive = true
-        //NSLayoutConstraint(item: bar, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40).isActive = true
-
-        return bar
+        return UIView().then {
+            $0.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
+            
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.constrain(.height, constant: 1)
+            NSLayoutConstraint(item: $0, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 80).isActive = true
+            //NSLayoutConstraint(item: $0, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40).isActive = true
+        }
     }
     
     func selectedIndex(_ index: Int, animated: Bool) {

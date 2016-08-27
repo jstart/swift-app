@@ -78,13 +78,12 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel().then({
+        return UILabel().then {
             $0.text = section == 0 ? "    TOPICS" : "    PREVIOUS EVENTS"
             $0.backgroundColor  = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
             $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
             $0.font = .systemFont(ofSize: 12)
-        })
-        return label
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
