@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import AlamofireImage
 
 class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, QuickPageControlDelegate {
     var delegate : CardDelegate?
@@ -150,21 +151,11 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
             return
         }
         imageView.alpha = 0.0
-        URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue()).dataTask(with: URL(string: largeURL)!, completionHandler: {data, response, error in
-            DispatchQueue.global().async {
-                let image = UIImage(data: data!)
-                DispatchQueue.main.sync {
-                    if image != nil {
-                        self.imageView.image = image
-                    } else {
-                        self.imageView.image = #imageLiteral(resourceName: "profile_sample")
-                    }
-                    UIView.animate(withDuration: 0.2, animations: {
-                        self.imageView.alpha = 1.0
-                    })
-                }
-            }
-        }).resume()
+        imageView.af_setImage(withURL: URL(string: largeURL)!, completion: { response in
+            UIView.animate(withDuration: 0.2, animations: {
+                self.imageView.alpha = 1.0
+            })
+        })
     }
     
     func bar() -> UIView {
