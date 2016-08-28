@@ -29,10 +29,8 @@ class ContactsManager : NSObject {
             
         case .denied, .notDetermined:
             store.requestAccess(for: .contacts, completionHandler: { (access, accessError) -> Void in
-                if access {
-                    completionHandler(access)
-                }
-                else if authorizationStatus == CNAuthorizationStatus.denied {
+                completionHandler(access)
+                if authorizationStatus == .denied || authorizationStatus == .restricted {
                     DispatchQueue.main.async {
                         let message = "\(accessError!.localizedDescription)\n\nPlease allow the app to access your contacts through the Settings."
                         let alertController = UIAlertController(
@@ -44,9 +42,8 @@ class ContactsManager : NSObject {
                         alertController.addAction(cancelAction)
                         
                         let openAction = UIAlertAction(title: "Open Settings", style: .default) { (action) in
-                            if let url = URL(string:UIApplicationOpenSettingsURLString) {
-                                UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
-                            }
+                            guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
+                            UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
                         }
                         alertController.addAction(openAction)
                         

@@ -16,6 +16,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     let searchResults = InboxSearchTableViewController()
     var sortItem : UIBarButtonItem?
     var addItem : UIBarButtonItem?
+    var connectionCount = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +43,21 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.tableFooterView = UIView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Client().execute(UpdatesRequest(last_update: Int(Date().timeIntervalSince1970)), completionHandler: { response in
+            guard let json = response.result.value as? [String : Any] else { return }
+            guard let connections = json["connections"] as? [String : Any] else { return }
+            guard let connectionsInner = connections["connections"] as? [[String : Any]] else { return }
+            UserResponse.connections = connectionsInner.map({return UserResponse(JSON: $0)}).sorted(by: {return $0.first_name! < $1.first_name!})
+            
+            guard let messages = json["messages"] as? [String : Any] else { return }
+            guard let messagesInner = messages["messages"] as? [[String : Any]] else { return }
+            UserResponse.messages = messagesInner.map({return MessageResponse(JSON: $0)})
+        })
+        connectionCount = UserResponse.connections?.count ?? 258
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -89,16 +105,16 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 2 : 258
+        return section == 0 ? 2 : connectionCount
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 0 ? "2 new messages" : "258 Connections"
+        return section == 0 ? "2 new messages" : String(connectionCount) + " Connections"
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return UILabel().then {
-            $0.text = section == 0 ? "    TO DO" : "    258 CONNECTIONS"
+            $0.text = section == 0 ? "    TO DO" : "    " + String(connectionCount) + " CONNECTIONS"
             $0.backgroundColor  = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
             $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
             $0.font = .systemFont(ofSize: 12)
@@ -137,6 +153,9 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             cell.name.text = "Elon Musk"
             cell.profile.image = #imageLiteral(resourceName: "profile_sample")
             cell.company.image = #imageLiteral(resourceName: "tesla")
+            
+            guard let user = UserResponse.connections?[indexPath.row] else { return cell }
+            cell.configure(user: user)
 
             return cell
         }
@@ -198,9 +217,11 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
+        if indexPath.section == 1 {
             let conversationVC = ConversationViewController()
-                
+            guard let user = UserResponse.connections?[indexPath.row] else { return }
+            conversationVC.recipient = user
+
             conversationVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(conversationVC, animated: true)
         } else {

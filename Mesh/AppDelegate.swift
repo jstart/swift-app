@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Fabric
+import TwitterKit
+
 import Starscream
 
 @UIApplicationMain
@@ -18,7 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WebSocketDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         window = UIWindow()
         window?.tintColor = #colorLiteral(red: 0.2, green: 0.7843137255, blue: 0.9960784314, alpha: 1)
-        
+
+        Fabric.with([Twitter.self])
+
         if (Token.retrieveToken() != nil && Token.retrieveToken() != "") {
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
             window?.rootViewController = vc
@@ -28,11 +33,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WebSocketDelegate {
             let vc = JoinTableViewController(style: .grouped)
             window?.rootViewController = UINavigationController(rootViewController: vc)
         }
-        
+
         socket.delegate = self
         socket.connect()
 
         window?.makeKeyAndVisible()
+
         return true
     }
     

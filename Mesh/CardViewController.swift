@@ -76,7 +76,6 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         control.selectIndex(0)
 
         name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! : "Micha Kaufman"
-        
         position.text = "VP of Engineering at Tesla"
 
         let topStack = UIStackView(arrangedSubviews: [imageView, name, position, quickViewStack, viewPager!.scroll])
@@ -171,7 +170,6 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     func bar() -> UIView {
         return UIView().then {
             $0.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
-            
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.constrain(.height, constant: 1)
             NSLayoutConstraint(item: $0, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 80).isActive = true

@@ -38,10 +38,29 @@ struct LoginRequest : Request {
     }
 }
 
+struct MessageResponse {
+    var _id : String
+    var ts : Int
+    var sender : String
+    var recipient : String
+    var text : String?
+    
+    init(JSON: [String : Any]) {
+        _id = JSON["_id"] as! String
+        ts = JSON["ts"] as! Int
+        sender = JSON["sender"] as! String
+        recipient = JSON["recipient"] as! String
+        text = (JSON["text"] as? String) ?? ""
+    }
+}
+
 struct UserResponse {
     static var currentUser : UserResponse?
+    static var connections : [UserResponse]?
+    static var messages : [MessageResponse]?
+
     var _id : String
-    var phone_number : String
+    var phone_number : String?
     var first_name : String?
     var last_name : String?
     var companies : [CompanyModel]?
@@ -53,7 +72,8 @@ struct UserResponse {
     
     init(JSON: [String : Any]) {
         _id = JSON["_id"] as! String
-        phone_number = JSON["phone_number"] as! String
+        _id = (JSON["user_id"] as? String?)! ?? _id
+        phone_number = (JSON["phone_number"] as? String?)!
         first_name = (JSON["first_name"] as? String?)!
         last_name = (JSON["last_name"] as? String?)!
         title = (JSON["title"] as? String?)!

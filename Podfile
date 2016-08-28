@@ -9,6 +9,10 @@ pod 'JSQMessagesViewController'
 #pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'master', :submodules => 'true'
 pod 'Starscream', :git => 'https://github.com/daltoniam/Starscream.git', :branch => 'swift3'
 
+pod 'TwitterKit'
+pod 'TwitterCore'
+pod 'Fabric'
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|

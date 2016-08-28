@@ -37,7 +37,7 @@ struct QuickViewGenerator {
         let viewCount = Int(UIScreen.main.bounds.size.width / 70)
         
         for _ in 1...viewCount {
-            views.append(square(#imageLiteral(resourceName: "tesla"), title: "Test"))
+            views.append(square(#imageLiteral(resourceName: "tesla"), title: category.rawValue.capitalized))
         }
         let stack = stackOf(views)
         stack.constrain(.height, constant: 75)

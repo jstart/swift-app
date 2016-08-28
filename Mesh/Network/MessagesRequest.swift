@@ -34,10 +34,19 @@ struct MessagesEditRequest : AuthenticatedRequest {
 }
 
 struct MessagesDeleteRequest : AuthenticatedRequest {
-    let path = "message"
+    var path : String {
+        get {
+           return "message" + "/" + _id
+        }
+    }
+    
     let method = HTTPMethod.delete
     
-    var _id : Int
+    var _id : String
+    
+    init(id : String) {
+        _id = id
+    }
     
     func parameters() -> [String : Any] {
         return ["_id": _id]

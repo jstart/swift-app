@@ -12,6 +12,7 @@ import JSQMessagesViewController
 class ConversationViewController: UIViewController {
 
     let messagesVC = MessagesViewController()
+    var recipient : UserResponse?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,7 @@ class ConversationViewController: UIViewController {
         view.addSubview(messagesVC.view)
         messagesVC.view.constrain(.width, .height, .centerX, .centerY, toItem: view)
         messagesVC.view.translatesAutoresizingMaskIntoConstraints = false
+        messagesVC.recipient = recipient
     }
 
     func toggleReadState() {

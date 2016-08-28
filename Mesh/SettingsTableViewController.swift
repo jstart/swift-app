@@ -33,7 +33,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
 
         if (indexPath.section == 0 && indexPath.row == 1)  {
             if UserResponse.currentUser != nil {
-                cell.textLabel?.text = "Phone: " + UserResponse.currentUser!.phone_number
+                cell.textLabel?.text = "Phone: " + UserResponse.currentUser!.phone_number!
                 cell.detailTextLabel?.text = "UID: " + UserResponse.currentUser!._id
             } else {
                 cell.textLabel?.text = ""
@@ -76,8 +76,8 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         let data = UIImageJPEGRepresentation(image, 1.0)
         Client().upload(PhotoRequest(file: data!), completionHandler: { response in
-                print("JSON: \(response.result.value)")
-                print(response.result.error)
+            print("JSON: \(response.result.value)")
+            print(response.result.error)
         })
     }
 

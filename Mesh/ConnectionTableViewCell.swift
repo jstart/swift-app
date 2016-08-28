@@ -23,4 +23,7 @@ class ConnectionTableViewCell: UITableViewCell {
         name.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
     }
     
+    func configure(user: UserResponse){
+        name.text = user.first_name! + " " + user.last_name!
+    }
 }

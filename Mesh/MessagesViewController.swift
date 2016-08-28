@@ -8,14 +8,17 @@
 
 import UIKit
 import JSQMessagesViewController
+import TwitterKit
 
 class MessagesViewController: JSQMessagesViewController {
     var messages = [JSQMessage]()
+    var recipient : UserResponse?
+    var meshMessages : [MessageResponse]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        senderId = "1"
-        senderDisplayName = "MatchName"
+        senderId = UserResponse.currentUser?._id ?? "1"
+        senderDisplayName = UserResponse.currentUser?.first_name ?? "Name"
         
         let imageButton = UIButton(type: .custom)
         imageButton.addTarget(self, action: #selector(image), for: .touchUpInside)
@@ -24,10 +27,26 @@ class MessagesViewController: JSQMessagesViewController {
         inputToolbar.contentView.textView.placeHolder = "Send a message..."
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(editMessage(_:)))
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(deleteMessage(_:)))
+        
+        TWTRAPIClient().loadTweet(withID: "631879971628183552") { (tweet, error) in
+            guard let unwrappedTweet = tweet else {
+                print("Tweet load error:\(error!.localizedDescription)")
+                return
+            }
+            let media = TwitterMessageMedia(TWTRTweetView(tweet: unwrappedTweet))
+            let message = JSQMessage(senderId: self.senderId, displayName: self.senderDisplayName, media: media)
+            self.messages.append(message!)
+            self.collectionView.reloadData()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        meshMessages = UserResponse.messages?.filter({return $0.recipient == recipient?._id && $0.text != ""})
+        meshMessages?.forEach({
+            let message = JSQMessage(senderId: self.senderId, senderDisplayName: self.senderDisplayName, date: Date(timeIntervalSince1970: TimeInterval($0.ts/1000)), text: $0.text)!
+            self.messages.append(message)
+        })
         showTypingIndicator = true
     }
     
@@ -40,10 +59,10 @@ class MessagesViewController: JSQMessagesViewController {
     }
     
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
-        Client().execute(MessagesSendRequest(recipient: "57ba725d87223ad6215ecaf9", text: text), completionHandler: { response in
+        Client().execute(MessagesSendRequest(recipient: recipient?._id ?? "57ba725d87223ad6215ecaf9", text: text), completionHandler: { response in
             print("JSON: \(response.result.value)")
             print(response.result.error)
-            self.messages.append(JSQMessage(senderId: senderId, senderDisplayName: "My User", date: Date(), text: text))
+            self.messages.append(JSQMessage(senderId: senderId, displayName: senderDisplayName, text: text))
             self.finishSendingMessage(animated: true)
         })
     }
@@ -94,14 +113,19 @@ class MessagesViewController: JSQMessagesViewController {
     }
     
     func editMessage(_ indexPath: IndexPath) {
-        let message = messages[indexPath.row]
-        print(message)
-
+        //guard let meshMessage = meshMessages?[indexPath.row] else { return }
+        /*Client().execute(MessagesEditRequest(_id: meshMessage._id), completionHandler: { response in
+         let message = messages[indexPath.row]
+         self.collectionView.reloadData()
+        })*/
     }
     
     func deleteMessage(_ indexPath: IndexPath) {
-        let message = messages[indexPath.row]
-        print(message)
+        guard let meshMessage = meshMessages?[indexPath.row] else { return }
+        Client().execute(MessagesDeleteRequest(id: meshMessage._id), completionHandler: { response in
+            self.messages.remove(at: indexPath.row)
+            self.collectionView.reloadData()
+        })
     }
     
     override func didPressAccessoryButton(_ sender: UIButton!) {
