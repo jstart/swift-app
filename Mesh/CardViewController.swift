@@ -144,7 +144,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         control.selectIndex(0)
         viewPager?.selectedIndex(0, animated: false)
         
-        name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! + " " + card!.person!.user!.last_name! : "Micha Kaufman"
+        name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.fullName() : "Micha Kaufman"
         position.text = card?.person?.user?.title != nil ? card!.person!.user!.title! : "VP of Engineering at Tesla"
         
         guard let largeURL = card?.person?.user?.photos?.large else {

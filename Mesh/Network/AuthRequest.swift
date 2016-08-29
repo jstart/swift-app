@@ -77,7 +77,9 @@ struct UserResponse {
         first_name = (JSON["first_name"] as? String?)!
         last_name = (JSON["last_name"] as? String?)!
         title = (JSON["title"] as? String?)!
-        //TODO: companies = (JSON["company"] as? String?)!
+        if let companiesJSON = JSON["companies"] as? [[String : Any]]{
+            companies = companiesJSON.map({return CompanyModel(JSON: $0)})
+        }
         profession = (JSON["profession"] as? String?)!
         token = (JSON["token"] as? String?)!
         if JSON["profile_photo"] != nil{
@@ -86,6 +88,15 @@ struct UserResponse {
         if JSON["position"] != nil{
             position = PositionResponse(JSON:(JSON["position"] as! [String : Any]))
         }
+    }
+    
+    func fullName() -> String {
+        return (first_name ?? "") + " " + (last_name ?? "")
+    }
+    
+    func searchText() -> String {
+        let companyNames = companies?.map({return $0.id}).joined(separator: " ")
+        return fullName() + (title ?? "") + (companyNames ?? "") // profession?
     }
 }
 

@@ -78,6 +78,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         let search = searchController.searchResultsController as! InboxSearchTableViewController
         search.view.isHidden = false
         search.showRecents = searchController.searchBar.text == ""
+        search.filterBy(text: searchController.searchBar.text!)
         search.tableView.reloadData()
     }
     

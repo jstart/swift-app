@@ -36,6 +36,16 @@ struct CompanyModel {
     func parameters() -> [String : Any] {
         return ["id" : id, "start_month" : start_month, "start_year" : start_year, "end_month" : end_month, "end_year" : end_year, "current" : current]
     }
+    
+    init(JSON: [String : Any]) {
+        id = JSON["id"] as? String ?? ""
+        start_month = JSON["start_month"] as? String ?? ""
+
+        start_year = JSON["start_year"] as? String ?? ""
+        end_month = JSON["end_month"] as? String ?? ""
+        end_year = JSON["end_year"] as? String ?? ""
+        current = JSON["current"] as? Bool ?? false
+    }
 }
 
 struct PhotoRequest : AuthenticatedRequest {

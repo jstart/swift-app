@@ -12,7 +12,8 @@ class InboxSearchTableViewController: UITableViewController {
 
     var showRecents = true
     var recents = ["Tinder", "Product Manager", "Paul"]
-    
+    var filteredConnections : [UserResponse]?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(ConnectionTableViewCell.self)
@@ -22,13 +23,14 @@ class InboxSearchTableViewController: UITableViewController {
         tableView.tableFooterView = UIView()
     }
 
+
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return showRecents ? recents.count : 5
+        return showRecents ? recents.count :  filteredConnections?.count ?? 5
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -42,8 +44,18 @@ class InboxSearchTableViewController: UITableViewController {
             cell.name.text = "Elon Musk"
             cell.profile.image = #imageLiteral(resourceName: "profile_sample")
             cell.company.image = #imageLiteral(resourceName: "tesla")
+            
+            guard let connection = filteredConnections?[indexPath.row] else { return cell }
+            cell.configure(user: connection)
+            
             return cell
         }
+    }
+    
+    func filterBy(text: String) {
+        filteredConnections =  UserResponse.connections?.filter({return $0.searchText().localizedCaseInsensitiveContains(text)})
+
+        tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -61,8 +73,10 @@ class InboxSearchTableViewController: UITableViewController {
         if showRecents {
             return
         }
+        guard let connection = filteredConnections?[indexPath.row] else { return }
+
         let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
-        let person = Person(user: nil, details: details)
+        let person = Person(user: connection, details: details)
         
         let cardVC = CardViewController()
         cardVC.card = Card(type:.person, person: person)

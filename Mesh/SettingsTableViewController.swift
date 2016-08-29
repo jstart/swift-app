@@ -9,9 +9,16 @@
 import UIKit
 
 class SettingsTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableViewAutomaticDimension
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -30,15 +37,29 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
         cell.textLabel?.text = (indexPath.section == 0 && indexPath.row == 0) ? "Upload Photo" : "Logout"
-
+        
         if (indexPath.section == 0 && indexPath.row == 1)  {
-            if UserResponse.currentUser != nil {
-                cell.textLabel?.text = "Phone: " + UserResponse.currentUser!.phone_number!
-                cell.detailTextLabel?.text = "UID: " + UserResponse.currentUser!._id
+            if let user = UserResponse.currentUser {
+                cell.textLabel?.numberOfLines = 0
+                cell.textLabel?.text = "\nName: " + user.first_name! + " " + user.last_name!
+                cell.detailTextLabel?.text = "UID: " + user._id
             } else {
                 cell.textLabel?.text = ""
             }
         }
+        /*cell.imageView?.image = nil
+
+        guard (indexPath.section == 0 && indexPath.row == 0) else {
+            return cell
+        }
+        guard let smallURL = UserResponse.currentUser?.photos?.small else {
+            return cell
+        }
+        cell.imageView?.af_setImage(withURL: URL(string: smallURL)!, completion: { _ in
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        })*/
         return cell
     }
  

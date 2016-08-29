@@ -13,6 +13,8 @@ class ConnectionTableViewCell: UITableViewCell {
     @IBOutlet weak var profile: UIImageView!
     @IBOutlet weak var company: UIImageView!
     @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var title: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         profile.clipsToBounds = true
@@ -24,6 +26,8 @@ class ConnectionTableViewCell: UITableViewCell {
     }
     
     func configure(user: UserResponse){
-        name.text = user.first_name! + " " + user.last_name!
+        name.text = user.fullName()
+        guard let company = user.companies?.first else { return }
+        title.text = (user.title ?? "") + " at " + company.id
     }
 }

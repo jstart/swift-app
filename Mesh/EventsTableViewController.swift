@@ -89,6 +89,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ConnectionTableViewCell", for: indexPath) as! ConnectionTableViewCell
         cell.name.text = "Java"
+        cell.title.text = nil
         cell.profile.image = #imageLiteral(resourceName: "tesla")
         cell.company.image = nil
         
@@ -100,7 +101,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        return [UITableViewRowAction(style: .default, title: "Mark Unread", handler: {_,_ in })]
+        return [UITableViewRowAction(style: .default, title: "Unfollow", handler: {_,_ in })]
     }
 
 }
