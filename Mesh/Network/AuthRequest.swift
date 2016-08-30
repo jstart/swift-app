@@ -45,7 +45,7 @@ struct MessageResponse {
     var recipient : String
     var text : String?
     
-    init(JSON: [String : Any]) {
+    init(JSON: JSONDictionary) {
         _id = JSON["_id"] as! String
         ts = JSON["ts"] as! Int
         sender = JSON["sender"] as! String
@@ -70,23 +70,23 @@ struct UserResponse {
     var position : PositionResponse?
     var token : String?
     
-    init(JSON: [String : Any]) {
+    init(JSON: JSONDictionary) {
         _id = JSON["_id"] as! String
         _id = (JSON["user_id"] as? String?)! ?? _id
         phone_number = (JSON["phone_number"] as? String?)!
         first_name = (JSON["first_name"] as? String?)!
         last_name = (JSON["last_name"] as? String?)!
         title = (JSON["title"] as? String?)!
-        if let companiesJSON = JSON["companies"] as? [[String : Any]]{
+        if let companiesJSON = JSON["companies"] as? JSONArray{
             companies = companiesJSON.map({return CompanyModel(JSON: $0)})
         }
         profession = (JSON["profession"] as? String?)!
         token = (JSON["token"] as? String?)!
         if JSON["profile_photo"] != nil{
-            photos = PhotoResponse(JSON:(JSON["profile_photo"] as! [String : Any]))
+            photos = PhotoResponse(JSON:(JSON["profile_photo"] as! JSONDictionary))
         }
         if JSON["position"] != nil{
-            position = PositionResponse(JSON:(JSON["position"] as! [String : Any]))
+            position = PositionResponse(JSON:(JSON["position"] as! JSONDictionary))
         }
     }
     

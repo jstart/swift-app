@@ -37,7 +37,7 @@ struct CompanyModel {
         return ["id" : id, "start_month" : start_month, "start_year" : start_year, "end_month" : end_month, "end_year" : end_year, "current" : current]
     }
     
-    init(JSON: [String : Any]) {
+    init(JSON: JSONDictionary) {
         id = JSON["id"] as? String ?? ""
         start_month = JSON["start_month"] as? String ?? ""
 

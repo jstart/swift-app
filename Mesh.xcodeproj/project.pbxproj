@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		23202F221D7541F4007B38AF /* AlertTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23202F211D7541F4007B38AF /* AlertTransition.swift */; };
 		23202F241D755EFD007B38AF /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23202F231D755EFD007B38AF /* CameraManager.swift */; };
+		23202F261D760A91007B38AF /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23202F251D760A91007B38AF /* EmptyView.swift */; };
 		2322B98B1D6BCA5500921699 /* ConnectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2322B9891D6BCA5500921699 /* ConnectionTableViewCell.swift */; };
 		2322B98C1D6BCA5500921699 /* ConnectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2322B98A1D6BCA5500921699 /* ConnectionTableViewCell.xib */; };
 		2322B98F1D6BCAA700921699 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2322B98D1D6BCAA700921699 /* MessageTableViewCell.swift */; };
@@ -66,6 +67,7 @@
 /* Begin PBXFileReference section */
 		23202F211D7541F4007B38AF /* AlertTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertTransition.swift; sourceTree = "<group>"; };
 		23202F231D755EFD007B38AF /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
+		23202F251D760A91007B38AF /* EmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		2322B9891D6BCA5500921699 /* ConnectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionTableViewCell.swift; sourceTree = "<group>"; };
 		2322B98A1D6BCA5500921699 /* ConnectionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectionTableViewCell.xib; sourceTree = "<group>"; };
 		2322B98D1D6BCAA700921699 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 				236E27AF1D67BFFE002ABAB4 /* EventsTableViewController.swift */,
 				236E27B51D67C795002ABAB4 /* SettingsTableViewController.swift */,
 				23E33EE41D753A48000A6A6F /* AlertViewController.swift */,
+				23202F251D760A91007B38AF /* EmptyView.swift */,
 				23202F211D7541F4007B38AF /* AlertTransition.swift */,
 				ADECA8EB1D51540900726AEF /* Main.storyboard */,
 				239475F71D6B824600C54787 /* Sign Up/Login */,
@@ -454,6 +457,7 @@
 				AD06B6FB1D541FF7005D349A /* CardStack.swift in Sources */,
 				236E27BC1D67F8EE002ABAB4 /* JoinTableViewController.swift in Sources */,
 				236E27C01D67FDDA002ABAB4 /* SignUpTableViewController.swift in Sources */,
+				23202F261D760A91007B38AF /* EmptyView.swift in Sources */,
 				23272ADA1D6F8195007438D9 /* ScanViewController.swift in Sources */,
 				236E27B01D67BFFE002ABAB4 /* EventsTableViewController.swift in Sources */,
 				23A390BA1D62A5470032F11C /* QuickViewGenerator.swift in Sources */,

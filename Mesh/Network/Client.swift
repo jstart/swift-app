@@ -8,6 +8,9 @@
 
 import Alamofire
 
+typealias JSONDictionary = [String : Any]
+typealias JSONArray = [JSONDictionary]
+
 protocol Request {
     var path : String { get }
     var method : HTTPMethod { get }
@@ -62,7 +65,7 @@ class Client {
             .responseJSON { response in
                 if request is LoginRequest || request is AuthRequest {
                     if response.result.error == nil {
-                        UserResponse.currentUser = UserResponse(JSON: response.result.value as! [String : Any])
+                        UserResponse.currentUser = UserResponse(JSON: response.result.value as! JSONDictionary)
                         self.token = UserResponse.currentUser?.token
                         Token.persistToken(self.token!)
                         Token.persistLogin((phone_number: request.parameters()["phone_number"] as! String, password: request.parameters()["password"] as! String))

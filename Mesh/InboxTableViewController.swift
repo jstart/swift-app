@@ -29,7 +29,6 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         searchController.hidesNavigationBarDuringPresentation = false
         definesPresentationContext = true
         
-        navigationItem.titleView = searchController.searchBar
         sortItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort))
         addItem = UIBarButtonItem(image: #imageLiteral(resourceName: "addFriends"), style: .plain, target: self, action: #selector(add))
         navigationItem.rightBarButtonItems = [sortItem!, addItem!]
@@ -48,16 +47,18 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Client().execute(UpdatesRequest(last_update: Int(Date().timeIntervalSince1970)), completionHandler: { response in
-            guard let json = response.result.value as? [String : Any] else { return }
-            guard let connections = json["connections"] as? [String : Any] else { return }
-            guard let connectionsInner = connections["connections"] as? [[String : Any]] else { return }
+            guard let json = response.result.value as? JSONDictionary else { return }
+            guard let connections = json["connections"] as? JSONDictionary else { return }
+            guard let connectionsInner = connections["connections"] as? JSONArray else { return }
             UserResponse.connections = connectionsInner.map({return UserResponse(JSON: $0)}).sorted(by: {return $0.first_name! < $1.first_name!})
             
-            guard let messages = json["messages"] as? [String : Any] else { return }
-            guard let messagesInner = messages["messages"] as? [[String : Any]] else { return }
+            guard let messages = json["messages"] as? JSONDictionary else { return }
+            guard let messagesInner = messages["messages"] as? JSONArray else { return }
             UserResponse.messages = messagesInner.map({return MessageResponse(JSON: $0)})
         })
         connectionCount = UserResponse.connections?.count ?? 258
+        
+        searchController.searchBar.becomeFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -93,7 +94,8 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
     
     func add() {
-        navigationController?.pushViewController(ContactsTableViewController(), animated: true)
+        present(ContactsTableViewController().withNav(), animated: true, completion: nil)
+        //navigationController?.pushViewController(ContactsTableViewController(), animated: true)
     }
     
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {

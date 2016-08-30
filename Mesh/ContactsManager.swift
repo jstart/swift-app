@@ -19,6 +19,7 @@ class ContactsManager : NSObject {
         CNContactPhoneNumbersKey,
         CNContactImageDataAvailableKey,
         CNContactThumbnailImageDataKey] as [Any]
+    var viewController : UIViewController?
     
     func requestAccess(completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
         let authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
@@ -43,15 +44,14 @@ class ContactsManager : NSObject {
                         
                         let openAction = UIAlertAction(title: "Open Settings", style: .default) { (action) in
                             guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
-                            if #available(iOS 10.0, *) {
-                                UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
-                            } else {
-                                UIApplication.shared.openURL(url as URL)
-                            }
+                            UIApplication.shared.openURL(url as URL)
                         }
                         alertController.addAction(openAction)
-                        
-                        UIApplication.shared.keyWindow!.rootViewController!.present(alertController, animated: true, completion: nil)
+                        guard let vc = self.viewController else {
+                            UIApplication.shared.keyWindow!.rootViewController!.present(alertController, animated: true, completion: nil)
+                            return
+                        }
+                        vc.present(alertController, animated: true, completion: nil)
                     }
                 }
             })

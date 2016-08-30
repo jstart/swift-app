@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WebSocketDelegate {
         }
 
         socket.delegate = self
-        socket.connect()
+        //socket.connect()
 
         window?.makeKeyAndVisible()
 

@@ -1,5 +1,5 @@
 //
-//  AlertViewController.swift
+//  Emptyswift
 //  Mesh
 //
 //  Created by Christopher Truman on 8/29/16.
@@ -8,15 +8,7 @@
 
 import UIKit
 
-struct AlertAction {
-    static let defaultBackground = #colorLiteral(red: 0.4196078431, green: 0.768627451, blue: 0.9647058824, alpha: 1)
-    var title : String
-    var backgroundColor : UIColor
-    var titleColor = UIColor.white
-    var handler : (() -> Void)
-}
-
-class AlertViewController: UIViewController, UIViewControllerTransitioningDelegate {
+class EmptyView: UIView {
 
     var imageView = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -43,52 +35,43 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
         self.init()
         actions = newActions
         imageView.image = image
-        transitioningDelegate = self
+        configure()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.layer.cornerRadius = 10
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.gray.cgColor
-        view.clipsToBounds = true
-        view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.constrain(.width, .height, constant: 325)
+    func configure() {
+        backgroundColor = .white
         
-        view.addSubview(imageView)
-        imageView.constrain(.centerX, toItem: view)
-        imageView.constrain(.top, constant: 40, toItem: view)
+        addSubview(imageView)
+        imageView.constrain(.centerX, toItem: self)
+        imageView.constrain(.top, constant: 40, toItem: self)
         
-        view.addSubview(titleLabel)
-        titleLabel.constrain(.width, .centerX, toItem:view)
+        addSubview(titleLabel)
+        titleLabel.constrain(.width, .centerX, toItem:self)
         titleLabel.constrain(.top, constant: 20, toItem: imageView, toAttribute: .bottom)
         
-        view.addSubview(textLabel)
-        textLabel.constrain(.centerX, toItem:view)
-        textLabel.constrain(.width, constant: -40, toItem:view)
+        addSubview(textLabel)
+        textLabel.constrain(.centerX, toItem:self)
+        textLabel.constrain(.width, constant: -40, toItem:self)
         textLabel.constrain(.top, toItem: titleLabel, toAttribute: .bottom)
-        //textLabel.constrain(.bottom, constant: -50, toItem: view)
 
         guard let actions = actions else { return }
         for action in actions {
             let button = UIButton()
+            button.layer.cornerRadius = 5
             button.setTitle(action.title, for: .normal)
+            button.titleLabel?.font = .boldSystemFont(ofSize:14)
             button.setTitleColor(action.titleColor, for: .normal)
             button.backgroundColor = action.backgroundColor
             button.addTarget(self, action: #selector(buttonPress(sender:)), for: .touchUpInside)
             
-            view.addSubview(button)
+            addSubview(button)
             button.translatesAutoresizingMaskIntoConstraints = false
-            button.constrain(.width, toItem: view)
-            button.constrain(.height, constant: 50)
-            button.constrain(.leading, .trailing, .bottom, toItem: view)
+            button.constrain(.top, constant: 20, toItem: textLabel, toAttribute: .bottom)
+            button.constrain(.width, constant: 150)
+            button.constrain(.height, constant: 35)
+            button.constrain(.centerX, toItem: self)
             buttons.append(button)
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
     }
 
     func buttonPress(sender: UIButton) {
@@ -102,14 +85,5 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
         }
     }
     
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return AlertTransition().then {
-            $0.presenting = false
-        }
-    }
-    
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return AlertTransition()
-    }
 }
 

@@ -45,7 +45,7 @@ class FeedViewController: UIViewController {
             client.execute(RecommendationsRequest(), completionHandler: { response in
                 guard let JSON = response.result.value else { return }
                 print("JSON: \(JSON)")
-                guard let jsonArray = JSON as? [[String : Any]] else { return }
+                guard let jsonArray = JSON as? JSONArray else { return }
                 let array = jsonArray.map({return UserResponse(JSON: $0)})
                 self.cardStack.cards = array.map({
                     let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
@@ -55,7 +55,7 @@ class FeedViewController: UIViewController {
                 print(response.result.error)
                 if TARGET_OS_SIMULATOR == 1 {
                     client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
-                        UserResponse.currentUser = UserResponse(JSON: response.result.value as! [String : Any])
+                        UserResponse.currentUser = UserResponse(JSON: response.result.value as! JSONDictionary)
                          print("JSON: \(response.result.value)")
                          print(response.result.error)
                     })
@@ -64,13 +64,13 @@ class FeedViewController: UIViewController {
         }
         client.execute(UpdatesRequest(last_update: Int(Date().timeIntervalSince1970)), completionHandler: { response in
             print("JSON: \(response.result.value)")
-            guard let json = response.result.value as? [String : Any] else { return }
-            guard let connections = json["connections"] as? [String : Any] else { return }
-            guard let connectionsInner = connections["connections"] as? [[String : Any]] else { return }
+            guard let json = response.result.value as? JSONDictionary else { return }
+            guard let connections = json["connections"] as? JSONDictionary else { return }
+            guard let connectionsInner = connections["connections"] as? JSONArray else { return }
             UserResponse.connections = connectionsInner.map({return UserResponse(JSON: $0)}).sorted(by: {return $0.first_name! < $1.first_name!})
             
-            guard let messages = json["messages"] as? [String : Any] else { return }
-            guard let messagesInner = messages["messages"] as? [[String : Any]] else { return }
+            guard let messages = json["messages"] as? JSONDictionary else { return }
+            guard let messagesInner = messages["messages"] as? JSONArray else { return }
             UserResponse.messages = messagesInner.map({return MessageResponse(JSON: $0)})
             print(response.result.error)
             recs()
@@ -79,7 +79,7 @@ class FeedViewController: UIViewController {
         locationManager.locationUpdate = { location in
             print(location)
             client.execute(PositionRequest(lat: location.coordinate.latitude, lon: location.coordinate.longitude), completionHandler: { response in
-                UserResponse.currentUser = UserResponse(JSON: response.result.value as! [String : Any])
+                UserResponse.currentUser = UserResponse(JSON: response.result.value as! JSONDictionary)
                 print("JSON: \(response.result.value)")
                 print(response.result.error)
             })
@@ -112,11 +112,19 @@ class FeedViewController: UIViewController {
     }
     
     func qr() {
-        let alert = AlertViewController([AlertAction(title: "OKAY", backgroundColor: .blue, titleColor: .white, handler: {
+        if CameraManager.authStatus() == .authorized {
+            self.present(ScanViewController().withNav(), animated: true, completion: nil)
+            return
+        }
+        let alert = AlertViewController([AlertAction(title: "OKAY", backgroundColor: AlertAction.defaultBackground, titleColor: .white, handler: {
             self.dismiss(animated: true, completion: {
-                self.present(ScanViewController().withNav(), animated: true, completion: nil)
+                CameraManager.requestAccess(completionHandler: { access in
+                    if access {
+                        self.present(ScanViewController().withNav(), animated: true, completion: nil)
+                    }
+                })
             })
-        })], image: #imageLiteral(resourceName: "settings"))
+        })], image: #imageLiteral(resourceName: "enableCameraAccess"))
         alert.titleLabel.text = "Camera Access"
         alert.textLabel.text = "We need access to your camera in order to use this feature and scan codes"
         alert.modalPresentationStyle = .overCurrentContext

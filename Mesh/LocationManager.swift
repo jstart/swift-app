@@ -18,8 +18,8 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
 
     func startTracking() {// -> (enabled: Bool, status: CLAuthorizationStatus) {
         manager.delegate = self
-        //manager.distanceFilter = 10
-        //manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        manager.distanceFilter = 10
+        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         if CLLocationManager.locationServicesEnabled() {
             manager.startMonitoringSignificantLocationChanges()
             manager.requestLocation()
@@ -45,13 +45,8 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
             alertController.addAction(cancelAction)
             
             let openAction = UIAlertAction(title: "Open Settings", style: .default) { (action) in
-                if let url = URL(string:UIApplicationOpenSettingsURLString) {
-                    if #available(iOS 10.0, *) {
-                        UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
-                    } else {
-                        UIApplication.shared.openURL(url as URL)
-                    }
-                }
+                guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
+                UIApplication.shared.openURL(url as URL)
             }
             alertController.addAction(openAction)
             
