@@ -11,18 +11,24 @@ import Alamofire
 import AlamofireImage
 
 class SettingsTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    let profileImage = UIBarButtonItem(image: nil, style: .plain, target: nil, action: nil)
+    let profileImage = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.constrain(.height, .width, constant: 50)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
-        navigationItem.rightBarButtonItem = profileImage
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: profileImage)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        
+        guard let smallURL = UserResponse.currentUser?.photos?.small else { return }
+        profileImage.af_setImage(withURL: URL(string: smallURL)!)
     }
 
     // MARK: - Table view data source

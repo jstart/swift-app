@@ -112,6 +112,14 @@ class FeedViewController: UIViewController {
     }
     
     func qr() {
-        present(ScanViewController().withNav(), animated: true, completion: nil)
+        let alert = AlertViewController([AlertAction(title: "OKAY", backgroundColor: .blue, titleColor: .white, handler: {
+            self.dismiss(animated: true, completion: {
+                self.present(ScanViewController().withNav(), animated: true, completion: nil)
+            })
+        })], image: #imageLiteral(resourceName: "settings"))
+        alert.titleLabel.text = "Camera Access"
+        alert.textLabel.text = "We need access to your camera in order to use this feature and scan codes"
+        alert.modalPresentationStyle = .overCurrentContext
+        present(alert, animated: true, completion: nil)
     }
 }
