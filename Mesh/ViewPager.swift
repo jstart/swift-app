@@ -36,6 +36,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         stack.constrain(.centerY, .height, toItem: scroll)
         
         for view in stack.arrangedSubviews {
+            view.translatesAutoresizingMaskIntoConstraints = false
             view.constrain(.width, constant: -30, toItem: scroll)
         }
         

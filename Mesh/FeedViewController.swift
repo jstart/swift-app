@@ -55,7 +55,11 @@ class FeedViewController: UIViewController {
                 print(response.result.error)
                 if TARGET_OS_SIMULATOR == 1 {
                     client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
-                        UserResponse.currentUser = UserResponse(JSON: response.result.value as! JSONDictionary)
+                        guard let JSON = response.result.value as? JSONDictionary else {
+                            print(response.result.error)
+                            return
+                        }
+                        UserResponse.currentUser = UserResponse(JSON: JSON)
                          print("JSON: \(response.result.value)")
                          print(response.result.error)
                     })
@@ -79,9 +83,12 @@ class FeedViewController: UIViewController {
         locationManager.locationUpdate = { location in
             print(location)
             client.execute(PositionRequest(lat: location.coordinate.latitude, lon: location.coordinate.longitude), completionHandler: { response in
-                UserResponse.currentUser = UserResponse(JSON: response.result.value as! JSONDictionary)
+                guard let JSON = response.result.value as? JSONDictionary else {
+                    print(response.result.error)
+                    return
+                }
+                UserResponse.currentUser = UserResponse(JSON: JSON)
                 print("JSON: \(response.result.value)")
-                print(response.result.error)
             })
         }
        

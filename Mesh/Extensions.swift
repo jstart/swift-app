@@ -8,6 +8,14 @@
 
 import UIKit
 
+extension UIAlertController {
+    func addActions(_ actions: UIAlertAction...) {
+        for action in actions {
+            addAction(action)
+        }
+    }
+}
+
 extension UITableView {
     func register(_ cellClasses: AnyClass...) {
         for aClass in cellClasses {

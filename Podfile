@@ -1,4 +1,4 @@
-platform :ios, '9.0'
+platform :ios, '9.3'
 use_frameworks!
 
 target 'Mesh'
@@ -6,7 +6,10 @@ target 'Mesh'
 pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :commit => '3cc5b4e8453bec9fd6b973d60e6b0605a38e4cf4'
 #pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
 pod 'AlamofireImage', :git => 'https://github.com/Alamofire/AlamofireImage.git', :commit => 'b02916e89cb7158994df04bf282b3170964e1eaa'
+
 pod 'JSQMessagesViewController'
+pod 'Shimmer'
+
 #pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'master', :submodules => 'true'
 pod 'Starscream', :git => 'https://github.com/daltoniam/Starscream.git', :branch => 'swift3'
 
