@@ -23,7 +23,7 @@ class CardStack : UIViewController, CardDelegate {
         super.viewDidLoad()
         let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
         let person = Person(user: nil, details: details)
-        cards = [Card(type:.person, person: person)]
+        cards = [Card(type:.person, person: person), Card(type:.tweet, person: nil)]
         
         topCard.card = cards![cardIndex]
         
@@ -32,12 +32,25 @@ class CardStack : UIViewController, CardDelegate {
     }
     
     func addNewCard() {
-        topCard.card = cards![cardIndex]
-        topCard.delegate = self
-        addCard(topCard)
+        let card = cards![cardIndex]
+        switch card.type {
+        case .person:
+            topCard.card = card
+            topCard.delegate = self
+            addCard(topCard)
+            break
+        case .tweet:
+            topCard.view.alpha = 0.0
+            let tweet = TweetCardViewController()
+            tweet.delegate = self
+            addChildViewController(tweet)
+            addCard(tweet)
+        default:
+            return
+        }
     }
 
-    func addCard(_ card: CardViewController, animated: Bool = true) {
+    func addCard(_ card: UIViewController, animated: Bool = true) {
         card.viewWillAppear(animated)
         card.view.alpha = CardFeedViewConfig().behindAlpha
         let scale = CardFeedViewConfig().behindScale

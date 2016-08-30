@@ -137,7 +137,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //viewDidLayoutSubviews()
+        viewDidLayoutSubviews()
         overlayView.alpha = 0.0
         overlayView.isHidden = true
         
@@ -163,8 +163,8 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
             $0.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.constrain(.height, constant: 1)
-            NSLayoutConstraint(item: $0, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 80).isActive = true
-            //NSLayoutConstraint(item: $0, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40).isActive = true
+            NSLayoutConstraint(item: $0, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 80).isActive = true
+            NSLayoutConstraint(item: $0, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40).isActive = true
         }
     }
     

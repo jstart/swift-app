@@ -105,6 +105,11 @@ class MessagesViewController: JSQMessagesViewController {
         super.collectionView(collectionView, performAction: action, forItemAt: indexPath, withSender: sender)
     }
     
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let jsqCell = cell as! JSQMessagesCollectionViewCell
+        jsqCell.textView?.delegate = self
+    }
+    
     override func didReceiveMenuWillShow(_ notification: Notification!) {
         let menu = notification.object as! UIMenuController
         menu.menuItems = [UIMenuItem(title: "Edit", action: #selector(editMessage(_:))),
@@ -126,6 +131,18 @@ class MessagesViewController: JSQMessagesViewController {
             self.messages.remove(at: indexPath.row)
             self.collectionView.reloadData()
         })
+    }
+    
+    override func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
+        
+        if URL.scheme == "http" || URL.scheme == "https" {
+            let articleVC = ArticleViewController()
+            articleVC.url = URL.absoluteString
+            navigationController?.pushViewController(articleVC, animated: true)
+            return false
+        }
+        
+        return true
     }
     
     override func didPressAccessoryButton(_ sender: UIButton!) {

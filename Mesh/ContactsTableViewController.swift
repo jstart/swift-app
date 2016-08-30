@@ -25,9 +25,8 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         searchController.hidesNavigationBarDuringPresentation = false
         definesPresentationContext = true
         
-        //navigationItem.titleView = searchController.searchBar
+        navigationItem.titleView = searchController.searchBar
         title = "Contacts"
-        
         tableView.register(ConnectionTableViewCell.self)
         
         tableView.estimatedRowHeight = 100
@@ -37,6 +36,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.topItem?.title = ""
         ContactsManager().requestAccess(completionHandler: { authorized in
             if authorized {
                 ContactsManager().allContacts(results: { contactResults in
@@ -73,11 +73,11 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ConnectionTableViewCell", for: indexPath) as! ConnectionTableViewCell
+        let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath) as! ConnectionTableViewCell
         let contact = contacts[indexPath.row]
         cell.name.text = contact.givenName + " " + contact.familyName
         cell.company.image = nil
-
+        cell.title.text = contact.organizationName
         guard let data = contact.thumbnailImageData else {
             cell.profile.image = nil
             return cell

@@ -87,7 +87,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ConnectionTableViewCell", for: indexPath) as! ConnectionTableViewCell
+        let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath) as! ConnectionTableViewCell
         cell.name.text = "Java"
         cell.title.text = nil
         cell.profile.image = #imageLiteral(resourceName: "tesla")

@@ -15,6 +15,11 @@ extension UITableView {
             register(UINib(nibName: string, bundle: nil), forCellReuseIdentifier: string)
         }
     }
+    
+    func dequeue(_ cellClass: AnyClass, indexPath: IndexPath) -> UITableViewCell{
+        let string = String(describing: cellClass)
+        return dequeueReusableCell(withIdentifier: string, for: indexPath)
+    }
 }
 
 extension UIView {

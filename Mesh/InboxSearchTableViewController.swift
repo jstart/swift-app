@@ -21,8 +21,9 @@ class InboxSearchTableViewController: UITableViewController {
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.tableFooterView = UIView()
+        automaticallyAdjustsScrollViewInsets = false
+        tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
     }
-
 
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -40,7 +41,7 @@ class InboxSearchTableViewController: UITableViewController {
             cell.imageView?.image = #imageLiteral(resourceName: "recentSearches")
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ConnectionTableViewCell", for: indexPath) as! ConnectionTableViewCell
+            let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath) as! ConnectionTableViewCell
             cell.name.text = "Elon Musk"
             cell.profile.image = #imageLiteral(resourceName: "profile_sample")
             cell.company.image = #imageLiteral(resourceName: "tesla")

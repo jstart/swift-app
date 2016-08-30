@@ -7,6 +7,13 @@
 //
 
 import UIKit
+import Alamofire
+
+/*struct MediumRequest : Request {
+    let path = "browse/top?format=json"
+    
+    let method : HTTPMethod = .get
+}*/
 
 class FeedViewController: UIViewController {
 
@@ -44,6 +51,7 @@ class FeedViewController: UIViewController {
                     let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
                     return Card(type: .person, person: Person(user: $0, details: details))
                 })
+                self.cardStack.cards?.append(Card(type: .tweet, person: nil))
                 print(response.result.error)
                 if TARGET_OS_SIMULATOR == 1 {
                     client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
@@ -85,8 +93,20 @@ class FeedViewController: UIViewController {
                 print(response.result.error)
             })
         }*/
+        
+        /*let request = MediumRequest()
+        Alamofire.request("https://medium.com/" + request.path, withMethod: request.method, encoding: .json)
+            .responseString(completionHandler: { response in
+                let json = response.result.value!.substring(from: response.result.value!.index(response.result.value!.startIndex, offsetBy: 16))
+                print(json)
+                do {
+                    let jsonObject = try JSONSerialization.jsonObject(with: json.data(using: .utf8)!, options: JSONSerialization.ReadingOptions.allowFragments)
+                    print(jsonObject)
+                } catch {
+                }
+            })*/
     }
-
+    
     func sort(){
         
     }

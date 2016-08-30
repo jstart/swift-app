@@ -40,6 +40,7 @@
 		23DFB67C1D654B3C00D871A9 /* ProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DFB67B1D654B3C00D871A9 /* ProfileRequest.swift */; };
 		23DFB67E1D66323C00D871A9 /* CardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23DFB67D1D66323C00D871A9 /* CardViewController.xib */; };
 		23DFB6801D6669F700D871A9 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DFB67F1D6669F700D871A9 /* LocationManager.swift */; };
+		23F6BA991D74CFE000B7F43F /* TweetCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F6BA981D74CFE000B7F43F /* TweetCardViewController.swift */; };
 		AD06B6FB1D541FF7005D349A /* CardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FA1D541FF7005D349A /* CardStack.swift */; };
 		AD06B6FF1D56BA5B005D349A /* CardFeedViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FE1D56BA5B005D349A /* CardFeedViewConfig.swift */; };
 		AD06B7031D5905D6005D349A /* SwipeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B7021D5905D6005D349A /* SwipeState.swift */; };
@@ -93,6 +94,7 @@
 		23DFB67B1D654B3C00D871A9 /* ProfileRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileRequest.swift; sourceTree = "<group>"; };
 		23DFB67D1D66323C00D871A9 /* CardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardViewController.xib; sourceTree = "<group>"; };
 		23DFB67F1D6669F700D871A9 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		23F6BA981D74CFE000B7F43F /* TweetCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetCardViewController.swift; sourceTree = "<group>"; };
 		2AD5F965FA9260BA550C3919 /* Pods-Mesh.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mesh.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mesh/Pods-Mesh.debug.xcconfig"; sourceTree = "<group>"; };
 		5300FC2C816EC2D0EF40E204 /* Pods-Mesh.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mesh.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mesh/Pods-Mesh.release.xcconfig"; sourceTree = "<group>"; };
 		5EF9D3831062B1B259E8EE70 /* Pods_Mesh.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mesh.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -168,6 +170,7 @@
 				AD06B6FA1D541FF7005D349A /* CardStack.swift */,
 				ADECA8E91D51540900726AEF /* FeedViewController.swift */,
 				2397C3791D5E5A6F005C982E /* QuickPageControl.swift */,
+				23F6BA981D74CFE000B7F43F /* TweetCardViewController.swift */,
 				ADEA92971D53F88C0016B0DB /* CardViewController.swift */,
 				23DFB67D1D66323C00D871A9 /* CardViewController.xib */,
 				233E944D1D63BAE000919B95 /* CardDetailViewController.swift */,
@@ -442,6 +445,7 @@
 				23272ADA1D6F8195007438D9 /* ScanViewController.swift in Sources */,
 				236E27B01D67BFFE002ABAB4 /* EventsTableViewController.swift in Sources */,
 				23A390BA1D62A5470032F11C /* QuickViewGenerator.swift in Sources */,
+				23F6BA991D74CFE000B7F43F /* TweetCardViewController.swift in Sources */,
 				ADECA8E81D51540900726AEF /* AppDelegate.swift in Sources */,
 				ADEA92981D53F88C0016B0DB /* CardViewController.swift in Sources */,
 				232DFE731D6D13C100714025 /* InboxSearchTableViewController.swift in Sources */,

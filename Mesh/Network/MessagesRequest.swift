@@ -20,7 +20,7 @@ struct MessagesSendRequest : AuthenticatedRequest {
     }
 }
 
-// TODO: edit & delete
+// TODO: edit
 struct MessagesEditRequest : AuthenticatedRequest {
     let path = "message"
     let method = HTTPMethod.put

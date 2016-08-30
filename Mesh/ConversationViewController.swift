@@ -14,10 +14,21 @@ class ConversationViewController: UIViewController {
     let messagesVC = MessagesViewController()
     var recipient : UserResponse?
     
+    let label = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.constrain(.height, constant: 44)
+    }
+    
+    let imageView = UIImageView().then {
+        $0.layer.cornerRadius = 5.0
+        $0.clipsToBounds = true
+        $0.backgroundColor = .gray
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.constrain(.width, .height, constant: 30)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        title = "Connection Name"
         
         navigationItem.rightBarButtonItems = [UIBarButtonItem(image: #imageLiteral(resourceName: "chatOverflow"), style: .plain, target: self, action: #selector(overflow)),
                                               UIBarButtonItem(image: #imageLiteral(resourceName: "chatMarkAsUnread"), style: .plain, target: self, action: #selector(toggleReadState))]
@@ -27,6 +38,25 @@ class ConversationViewController: UIViewController {
         messagesVC.view.constrain(.width, .height, .centerX, .centerY, toItem: view)
         messagesVC.view.translatesAutoresizingMaskIntoConstraints = false
         messagesVC.recipient = recipient
+        
+        let container = UIStackView(arrangedSubviews: [imageView, label]).then{
+            $0.axis = .horizontal
+            $0.alignment = .center
+            $0.distribution = .fillProportionally
+            $0.spacing = 10
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.constrain(.height, constant: 44)
+        }
+        navigationItem.titleView = container
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        label.text = recipient?.fullName() ?? ""
+
+        guard let url = recipient?.photos?.large else { return }
+        imageView.af_setImage(withURL: URL(string: url)!)
     }
 
     func toggleReadState() {

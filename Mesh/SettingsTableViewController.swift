@@ -7,13 +7,17 @@
 //
 
 import UIKit
+import Alamofire
+import AlamofireImage
 
 class SettingsTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    let profileImage = UIBarButtonItem(image: nil, style: .plain, target: nil, action: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
+        navigationItem.rightBarButtonItem = profileImage
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,25 +45,12 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         if (indexPath.section == 0 && indexPath.row == 1)  {
             if let user = UserResponse.currentUser {
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "\nName: " + user.first_name! + " " + user.last_name!
+                cell.textLabel?.text = "\nName: " + user.fullName()
                 cell.detailTextLabel?.text = "UID: " + user._id
             } else {
                 cell.textLabel?.text = ""
             }
         }
-        /*cell.imageView?.image = nil
-
-        guard (indexPath.section == 0 && indexPath.row == 0) else {
-            return cell
-        }
-        guard let smallURL = UserResponse.currentUser?.photos?.small else {
-            return cell
-        }
-        cell.imageView?.af_setImage(withURL: URL(string: smallURL)!, completion: { _ in
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        })*/
         return cell
     }
  
@@ -91,7 +82,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
             }
         })
     }
-    
+        
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         dismiss(animated: true, completion: nil)
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage

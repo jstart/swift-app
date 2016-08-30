@@ -124,7 +124,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MessageTableViewCell", for: indexPath) as! MessageTableViewCell
+            let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath) as! MessageTableViewCell
             cell.name.text = "Elon Musk"
             cell.profile.image = #imageLiteral(resourceName: "profile_sample")
             cell.company.image = #imageLiteral(resourceName: "tesla")
@@ -150,7 +150,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             })
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ConnectionTableViewCell", for: indexPath) as! ConnectionTableViewCell
+            let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath) as! ConnectionTableViewCell
             cell.name.text = "Elon Musk"
             cell.profile.image = #imageLiteral(resourceName: "profile_sample")
             cell.company.image = #imageLiteral(resourceName: "tesla")
