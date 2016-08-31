@@ -8,6 +8,7 @@ pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :commit =
 pod 'AlamofireImage', :git => 'https://github.com/Alamofire/AlamofireImage.git', :commit => 'b02916e89cb7158994df04bf282b3170964e1eaa'
 
 pod 'JSQMessagesViewController'
+pod 'MGSwipeTableCell'
 pod 'Shimmer'
 
 #pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'master', :submodules => 'true'
@@ -18,9 +19,10 @@ pod 'TwitterCore'
 pod 'Fabric'
 
 post_install do |installer|
-  installer.pods_project.targets.each do |target|
-      target.build_configurations.each do |config|
-            config.build_settings['SWIFT_VERSION'] = '3.0'
+	installer.pods_project.targets.each do |target|
+		target.build_configurations.each do |config|
+			config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.3'
+			config.build_settings['SWIFT_VERSION'] = '3.0'
 		end
 	end
 end

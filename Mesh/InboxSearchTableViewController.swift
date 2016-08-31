@@ -47,7 +47,7 @@ class InboxSearchTableViewController: UITableViewController {
             cell.company.image = #imageLiteral(resourceName: "tesla")
             
             guard let connection = filteredConnections?[indexPath.row] else { return cell }
-            cell.configure(user: connection)
+            cell.configure(connection)
             
             return cell
         }

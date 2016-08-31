@@ -31,7 +31,7 @@ class ConnectionTableViewCell: UITableViewCell {
         button.layer.cornerRadius = 5.0
     }
     
-    func configure(user: UserResponse){
+    func configure(_ user: UserResponse){
         name.text = user.fullName()
         guard let company = user.companies?.first else {
             title.text = (user.title ?? "")

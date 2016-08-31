@@ -127,21 +127,18 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath) as! MessageTableViewCell
-            cell.name.text = "Elon Musk"
-            cell.profile.image = #imageLiteral(resourceName: "profile_sample")
-            cell.company.image = #imageLiteral(resourceName: "tesla")
-            cell.message.text = "The new discounting feature for Tinder is going well. Subs are up by 14%. Things going as planned, super good, hooray"
+            guard let message = UserResponse.messages?[indexPath.row] else { return cell }
+            let user = UserResponse.connections?.filter({ return $0._id == message.recipient }).first
+
+            cell.configure(message, user: user!)
             cell.pressedAction = ({
-                if self.quickCell == nil {
-                    self.quickCell = self.quickReplyView()
-                }
+                self.quickCell = self.quickReplyView()
                 let window = UIApplication.shared.delegate!.window!
                 if (window?.subviews.contains(self.quickCell!))! {
                     return
                 }
                 self.quickCell!.alpha = 0.0
                 UIApplication.shared.delegate!.window!?.addSubview(self.quickCell!)
-
                 UIView.animate(withDuration: 0.2, animations: {
                     UIApplication.shared.delegate?.window??.windowLevel = UIWindowLevelStatusBar + 1
                     //UIApplication.shared.isStatusBarHidden = true
@@ -158,13 +155,16 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             cell.company.image = #imageLiteral(resourceName: "tesla")
             
             guard let user = UserResponse.connections?[indexPath.row] else { return cell }
-            cell.configure(user: user)
+            cell.configure(user)
 
             return cell
         }
     }
     
     func quickReplyView() -> UIView {
+        if self.quickCell != nil {
+            return self.quickCell!
+        }
         let cell = tableView.dequeueReusableCell(withIdentifier: "MessageTableViewCell") as! MessageTableViewCell
         
         cell.contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -228,13 +228,14 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             conversationVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(conversationVC, animated: true)
         } else {
-            let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
-            let person = Person(user: nil, details: details)
+            let conversationVC = ConversationViewController()
+            guard let message = UserResponse.messages?[indexPath.row] else { return }
+            let user = UserResponse.connections?.filter({ return $0._id == message.recipient }).first
+            conversationVC.recipient = user ?? nil
             
-            let cardVC = CardViewController()
-            cardVC.card = Card(type:.person, person: person)
-            cardVC.modalPresentationStyle = .overFullScreen
-            present(cardVC, animated: true, completion: nil)
+            conversationVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(conversationVC, animated: true)
+
         }
     }
     

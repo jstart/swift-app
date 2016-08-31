@@ -53,6 +53,13 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         outline.constrain(.top, constant: 105, toItem: pager!.scroll, toAttribute: .bottom)
         outline.constrain(.centerX, toItem: view)
         
+        let shimmer = FBShimmeringView()
+        view.addSubview(shimmer)
+        shimmer.translatesAutoresizingMaskIntoConstraints = false
+        shimmer.constrain(.width, .height, .centerX, .centerY, toItem: outline)
+        shimmer.contentView = outline
+        shimmer.isShimmering = true
+
         if TARGET_OS_SIMULATOR == 1 {
             return
         }

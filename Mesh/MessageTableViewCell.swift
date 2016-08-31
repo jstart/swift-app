@@ -33,6 +33,18 @@ class MessageTableViewCell: UITableViewCell {
         name.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
     }
     
+    func configure(_ aMessage: MessageResponse, user: UserResponse) {
+        name.text = user.fullName()
+        company.image = nil
+        message.text = aMessage.text ?? ""
+        
+        guard let small = user.photos?.small else {
+            profile.image = nil
+            return
+        }
+        profile.af_setImage(withURL: URL(string: small)!)
+    }
+    
     @IBAction func pressed(_ sender: AnyObject) {
         pressedAction?()
     }
