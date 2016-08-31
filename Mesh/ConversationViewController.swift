@@ -32,12 +32,17 @@ class ConversationViewController: UIViewController {
         
         navigationItem.rightBarButtonItems = [UIBarButtonItem(image: #imageLiteral(resourceName: "chatOverflow"), style: .plain, target: self, action: #selector(overflow)),
                                               UIBarButtonItem(image: #imageLiteral(resourceName: "chatMarkAsUnread"), style: .plain, target: self, action: #selector(toggleReadState))]
-        
         addChildViewController(messagesVC)
         view.addSubview(messagesVC.view)
         messagesVC.view.constrain(.width, .height, .centerX, .centerY, toItem: view)
         messagesVC.view.translatesAutoresizingMaskIntoConstraints = false
         messagesVC.recipient = recipient
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        label.text = recipient?.fullName() ?? ""
         
         let container = UIStackView(arrangedSubviews: [imageView, label]).then{
             $0.axis = .horizontal
@@ -48,13 +53,7 @@ class ConversationViewController: UIViewController {
             $0.constrain(.height, constant: 44)
         }
         navigationItem.titleView = container
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
-        label.text = recipient?.fullName() ?? ""
-
         guard let url = recipient?.photos?.large else { return }
         imageView.af_setImage(withURL: URL(string: url)!)
     }

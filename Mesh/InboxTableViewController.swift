@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MGSwipeTableCell
 
 class InboxTableViewController: UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate, UIPopoverPresentationControllerDelegate {
 
@@ -17,6 +18,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     var sortItem : UIBarButtonItem?
     var addItem : UIBarButtonItem?
     var connectionCount = 0
+    var todoCount = 2
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +30,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         
         searchController.hidesNavigationBarDuringPresentation = false
         definesPresentationContext = true
-        
+        navigationItem.titleView = searchController.searchBar
         sortItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort))
         addItem = UIBarButtonItem(image: #imageLiteral(resourceName: "addFriends"), style: .plain, target: self, action: #selector(add))
         navigationItem.rightBarButtonItems = [sortItem!, addItem!]
@@ -56,9 +58,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             guard let messagesInner = messages["messages"] as? JSONArray else { return }
             UserResponse.messages = messagesInner.map({return MessageResponse(JSON: $0)})
         })
-        connectionCount = UserResponse.connections?.count ?? 258
-        
-        searchController.searchBar.becomeFirstResponder()
+        connectionCount = UserResponse.connections?.count ?? 258        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -108,7 +108,10 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 2 : connectionCount
+        if todoCount > 0 && section == 0 {
+            return todoCount
+        }
+        return section == 0 ? todoCount : connectionCount
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -118,7 +121,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return UILabel().then {
             $0.text = section == 0 ? "    TO DO" : "    " + String(connectionCount) + " CONNECTIONS"
-            $0.backgroundColor  = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
+            $0.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
             $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
             $0.font = .systemFont(ofSize: 12)
         }
@@ -129,7 +132,12 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath) as! MessageTableViewCell
             guard let message = UserResponse.messages?[indexPath.row] else { return cell }
             let user = UserResponse.connections?.filter({ return $0._id == message.recipient }).first
-
+            cell.leftButtons = [MGSwipeButton(title: "Skip", backgroundColor: .green, callback: { sender in
+                self.todoCount -= 1
+                let currentIndex = tableView.indexPath(for: sender!)!
+                tableView.deleteRows(at: [currentIndex], with: .automatic)
+                return true
+            })]
             cell.configure(message, user: user!)
             cell.pressedAction = ({
                 self.quickCell = self.quickReplyView()
@@ -211,7 +219,6 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     func dismissQuickReply() {
         UIView.animate(withDuration: 0.2, animations: {
             UIApplication.shared.delegate?.window??.windowLevel = UIWindowLevelNormal
-            //UIApplication.shared.isStatusBarHidden = false
             self.quickCell!.alpha = 0.0
             self.field.resignFirstResponder()
         }, completion: { _ in
@@ -235,12 +242,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             
             conversationVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(conversationVC, animated: true)
-
         }
-    }
-    
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        return [UITableViewRowAction(style: .default, title: "Mark Unread", handler: {_,_ in })]
     }
 
 }

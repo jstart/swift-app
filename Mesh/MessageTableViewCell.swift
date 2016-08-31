@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MGSwipeTableCell
 
-class MessageTableViewCell: UITableViewCell {
+class MessageTableViewCell: MGSwipeTableCell {
 
     @IBOutlet weak var profile: UIImageView!
     @IBOutlet weak var company: UIImageView!
