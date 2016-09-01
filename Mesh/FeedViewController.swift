@@ -119,6 +119,7 @@ class FeedViewController: UIViewController {
     }
     
     func qr() {
+        guard UserResponse.currentUser != nil else { return }
         if CameraManager.authStatus() == .authorized {
             self.present(ScanViewController().withNav(), animated: true, completion: nil)
             return

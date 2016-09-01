@@ -33,7 +33,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
          print("JSON: \(response.result.value)")
          print(response.result.error)
          })*/
-        tableView.register(ConnectionTableViewCell.self)
+        tableView.registerNib(ConnectionTableViewCell.self)
         
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension

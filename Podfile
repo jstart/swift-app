@@ -7,7 +7,7 @@ pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :commit =
 #pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
 pod 'AlamofireImage', :git => 'https://github.com/Alamofire/AlamofireImage.git', :commit => 'b02916e89cb7158994df04bf282b3170964e1eaa'
 
-pod 'JSQMessagesViewController'
+pod 'JSQMessagesViewController'#, :git => 'https://github.com/jessesquires/JSQMessagesViewController.git', :commit => 'e919ff9e509b36e1d6e9e70d7197932a713bd625'
 pod 'MGSwipeTableCell'
 pod 'Shimmer'
 

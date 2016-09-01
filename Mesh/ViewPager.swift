@@ -21,9 +21,10 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
     var delegate : ViewPagerDelegate?
     var views : [UIView] = []
     var previousPage = 0
+    let stack : UIStackView
 
     init(views : [UIView]) {
-        let stack = UIStackView(arrangedSubviews: views)
+        stack = UIStackView(arrangedSubviews: views)
 
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.distribution = .fill
@@ -44,15 +45,30 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         scroll.delegate = self
     }
     
+    func insertView(_ view: UIView, atIndex: Int) {
+        stack.insertArrangedSubview(view, at: atIndex)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.constrain(.width, constant: -30, toItem: scroll)
+    }
+    
+    func currentView() -> UIView {
+        return stack.arrangedSubviews[previousPage]
+    }
+    
+    func removeView(atIndex: Int) {
+        stack.arrangedSubviews[atIndex].removeFromSuperview()
+    }
+    
     func selectedIndex(_ index:Int, animated: Bool = true){
-        scroll.setContentOffset(CGPoint(x: scroll.frame.size.width * CGFloat(index), y: 0), animated: animated)
+        guard index >= 0 else { return }
+        scroll.setContentOffset(CGPoint(x: scroll.frame.size.width * CGFloat(index), y: scroll.contentOffset.y), animated: animated)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageWidth = scrollView.frame.size.width
         let fractionalPage = scrollView.contentOffset.x / pageWidth
         let page = lround(Double(fractionalPage));
-        if (previousPage != page) {
+        if (previousPage != page && page >= 0) {
             delegate?.selectedIndex(page)
             previousPage = page;
         }

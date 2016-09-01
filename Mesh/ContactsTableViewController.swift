@@ -30,7 +30,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         //tableView.tableHeaderView = searchController.searchBar
         
         title = "Contacts"
-        tableView.register(ConnectionTableViewCell.self)
+        tableView.registerNib(ConnectionTableViewCell.self)
         
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension

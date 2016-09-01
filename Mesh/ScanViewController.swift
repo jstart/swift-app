@@ -9,6 +9,11 @@
 import UIKit
 import AVFoundation
 import Shimmer
+    
+struct QRCard {
+    var index : Int
+    // fields
+}
 
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
@@ -24,6 +29,13 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         $0.constrain(.height, constant: 190)
     }
     
+    let editCard = EditCardView(UserResponse.currentUser!).then {
+        $0.alpha = 0.0
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    var cards = [QRCard(index:0)]
+    var editMode : Bool = false
     let supportedBarCodes = [AVMetadataObjectTypeQRCode]
     
     override func viewDidLoad() {
@@ -38,7 +50,14 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "backArrow"), style: .plain, target: self, action: #selector(close))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "connectionsOverflow"), style: .plain, target: self, action: #selector(overflow))
 
-        pager = ViewPager(views: [cardView(), cardView()])
+        var cardViews = [UIView]()
+        for card in cards {
+           cardViews.append(QRCardView(UserResponse.currentUser!))
+        }
+        
+        cardViews.append(AddCardView(touchHandler: { self.add() }))
+        
+        pager = ViewPager(views: cardViews)
         view.addSubview(pager!.scroll)
         pager?.scroll.translatesAutoresizingMaskIntoConstraints = false
         pager?.scroll.constrain(.height, constant: 180)
@@ -59,7 +78,15 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         shimmer.constrain(.width, .height, .centerX, .centerY, toItem: outline)
         shimmer.contentView = outline
         shimmer.isShimmering = true*/
-
+        
+        editCard.cancelHandler = {
+            self.edit()
+        }
+        
+        editCard.doneHandler = {
+            self.edit()
+        }
+        
         if TARGET_OS_SIMULATOR == 1 {
             return
         }
@@ -91,6 +118,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         }
         view.bringSubview(toFront: pager!.scroll)
         view.bringSubview(toFront: outline)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -122,35 +150,118 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         }
     }
     
-    func cardView() -> UIView {
-        return UIView().then {
-            $0.layer.shadowColor = UIColor.darkGray.cgColor
-            $0.layer.shadowOpacity = 0.75
-            $0.layer.shadowRadius = 5
-            $0.backgroundColor = .white
-            $0.layer.cornerRadius = 5
-            $0.constrain(.height, constant: 180)
-        }
-    }
-    
     func close() {
         dismiss(animated: true, completion: nil)
     }
     
+    func add(){
+        cards.append(QRCard(index: 1))
+        pager?.insertView(QRCardView(UserResponse.currentUser!), atIndex: pager!.previousPage)
+        
+        if cards.count == 3 {
+            pager?.removeView(atIndex: 3)
+        }
+            
+        if pager!.previousPage == cards.count - 1 && cards.count == 3 {
+            let view = self.pager!.currentView()
+            view.alpha = 0.0
+            UIView.animate(withDuration: 0.2, animations: {
+                view.alpha = 1.0
+            })
+            pager?.selectedIndex(pager!.previousPage, animated: true)
+        } else if pager!.previousPage == cards.count - 1 {
+            let view = self.pager!.currentView()
+            view.alpha = 0.0
+            UIView.animate(withDuration: 0.2, animations: {
+                view.alpha = 1.0
+            })
+            pager?.selectedIndex(pager!.previousPage, animated: true)
+        } else {
+            pager?.selectedIndex(pager!.previousPage + 1, animated: true)
+        }
+    }
+    
+    func edit() {
+        let current = pager?.currentView()
+
+        if editMode {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.editCard.heightConstraint.constant = 180
+                self.view.constraintFor(attribute: .centerY, toItem: self.editCard).constant = 0
+                self.view.layoutIfNeeded()
+                }, completion: { _ in
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.editCard.alpha = 0.0
+                        }, completion: { _ in
+                            self.editCard.removeFromSuperview()
+                    })
+            })
+            
+            editMode = false
+            pager?.scroll.isScrollEnabled = true
+            return
+        }
+        editCard.removeConstraints(editCard.constraints)
+        view.addSubview(editCard)
+        
+        editCard.constrain(.centerX, .centerY, .width, toItem: current!)
+        editCard.constrain(.height, constant: 180)
+        UIView.animate(withDuration: 0.2, animations: {
+            self.editCard.alpha = 1.0
+            }, completion: { _ in
+                self.editCard.layoutIfNeeded()
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.editCard.heightConstraint.constant = 255
+                    self.view.constraintFor(attribute: .centerY, toItem: self.editCard).constant = 17
+                    self.view.layoutIfNeeded()
+                })
+        })
+        editMode = true
+        pager?.scroll.isScrollEnabled = false
+    }
+    
+    func delete() {
+        let index = pager?.previousPage ?? 0
+        pager?.removeView(atIndex: index)
+        cards.remove(at: index)
+        pager?.selectedIndex(index - 1, animated: true)
+        
+        for view in pager!.stack.arrangedSubviews {
+            if view is AddCardView { return }
+        }
+        pager?.insertView(AddCardView(touchHandler: {
+            self.add()
+        }), atIndex: cards.count)
+    }
+    
     func overflow() {
         let add = UIAlertAction(title: "Add Card", style: .default, handler: { _ in
-            
+            self.add()
         })
         let edit = UIAlertAction(title: "Edit Card", style: .default, handler: { _ in
-            
+            self.edit()
         })
         let delete = UIAlertAction(title: "Delete Card", style: .default, handler: { _ in
-            
+            self.delete()
         })
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        sheet.addActions(add, edit, delete, cancel)
+        
+        let view = pager?.currentView()
+        if view is AddCardView {
+            sheet.addActions(add, cancel)
+        } else {
+            if pager?.previousPage == 0 && cards.count < 3 {
+                sheet.addActions(add, edit, cancel)
+            } else if pager?.previousPage == 0 && cards.count == 3 {
+                sheet.addActions(edit, cancel)
+            } else if cards.count > 1 && cards.count < 3 {
+                sheet.addActions(add, edit, delete, cancel)
+            } else {
+                sheet.addActions(edit, delete, cancel)
+            }
+        }
 
         present(sheet, animated: true, completion: nil)
     }

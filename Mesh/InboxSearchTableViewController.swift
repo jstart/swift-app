@@ -16,7 +16,7 @@ class InboxSearchTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(ConnectionTableViewCell.self)
+        tableView.registerNib(ConnectionTableViewCell.self)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension

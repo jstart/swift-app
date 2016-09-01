@@ -10,14 +10,20 @@ import UIKit
 
 extension UIAlertController {
     func addActions(_ actions: UIAlertAction...) {
-        for action in actions {
-            addAction(action)
-        }
+        for action in actions { addAction(action) }
     }
 }
 
 extension UITableView {
-    func register(_ cellClasses: AnyClass...) {
+    
+    func registerClass(_ cellClasses: AnyClass...) {
+        for aClass in cellClasses {
+            let string = String(describing: aClass)
+            register(aClass, forCellReuseIdentifier: string)
+        }
+    }
+    
+    func registerNib(_ cellClasses: AnyClass...) {
         for aClass in cellClasses {
             let string = String(describing: aClass)
             register(UINib(nibName: string, bundle: nil), forCellReuseIdentifier: string)
@@ -31,7 +37,8 @@ extension UITableView {
 }
 
 extension UIView {
-    func constrain(_ attributes : NSLayoutAttribute..., relatedBy: NSLayoutRelation = .equal, constant : CGFloat = 0.0, toItem : UIView? = nil, toAttribute : NSLayoutAttribute = .notAnAttribute){
+    
+    func constrain(_ attributes: NSLayoutAttribute..., relatedBy: NSLayoutRelation = .equal, constant: CGFloat = 0.0, toItem: UIView? = nil, toAttribute: NSLayoutAttribute = .notAnAttribute){
         for attribute in attributes {
             let toAttributeChoice = toAttribute == .notAnAttribute ? attribute : toAttribute
             let constraint = NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : toAttributeChoice, multiplier: 1.0, constant:constant)
@@ -39,20 +46,27 @@ extension UIView {
         }
     }
     
-    func constraints(_ attributes : NSLayoutAttribute..., relatedBy: NSLayoutRelation = .equal, constant : CGFloat = 0.0, toItem : UIView? = nil) -> [NSLayoutConstraint]{
-        var constraints = [NSLayoutConstraint]()
-        for attribute in attributes {
-            let constraint = NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : attribute, multiplier: 1.0, constant:constant)
-            constraint.isActive = true
-            constraints.append(constraint)
+    var heightConstraint : NSLayoutConstraint { get { return constraintFor(attribute: .height) } }
+    
+    var widthConstraint : NSLayoutConstraint { get { return constraintFor(attribute: .width) } }
+    
+    var topConstraint : NSLayoutConstraint { get { return constraintFor(attribute: .top) } }
+    
+    var bottomConstraint : NSLayoutConstraint { get { return constraintFor(attribute: .bottom) } }
+    
+    var leadingConstraint : NSLayoutConstraint { get { return constraintFor(attribute: .leading) } }
+    
+    var trailingConstraint : NSLayoutConstraint {  get { return constraintFor(attribute: .trailing) } }
+    
+    func constraintFor(attribute: NSLayoutAttribute, toItem: UIView? = nil) -> NSLayoutConstraint {
+        guard let item = toItem else {
+            return constraints.filter({ return $0.firstAttribute == attribute }).first!
         }
-        return constraints
+        return constraints.filter({ return $0.firstAttribute == attribute && $0.firstItem as! UIView == item }).first!
     }
     
-    func addSubviews(_ views: [UIView]) {
-        views.forEach {
-            self.addSubview($0)
-        }
+    func addSubviews(_ views: UIView...) {
+        views.forEach { self.addSubview($0) }
     }
 
 }

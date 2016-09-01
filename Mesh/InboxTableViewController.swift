@@ -39,7 +39,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             print("JSON: \(response.result.value)")
             print(response.result.error)
         })*/
-        tableView.register(ConnectionTableViewCell.self, MessageTableViewCell.self)
+        tableView.registerNib(ConnectionTableViewCell.self, MessageTableViewCell.self)
 
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -58,7 +58,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             guard let messagesInner = messages["messages"] as? JSONArray else { return }
             UserResponse.messages = messagesInner.map({return MessageResponse(JSON: $0)})
         })
-        connectionCount = UserResponse.connections?.count ?? 258        
+        connectionCount = UserResponse.connections?.count ?? 258
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -132,7 +132,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath) as! MessageTableViewCell
             guard let message = UserResponse.messages?[indexPath.row] else { return cell }
             let user = UserResponse.connections?.filter({ return $0._id == message.recipient }).first
-            cell.leftButtons = [MGSwipeButton(title: "Skip", backgroundColor: .green, callback: { sender in
+            cell.leftButtons = [MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: { sender in
                 self.todoCount -= 1
                 let currentIndex = tableView.indexPath(for: sender!)!
                 tableView.deleteRows(at: [currentIndex], with: .automatic)
