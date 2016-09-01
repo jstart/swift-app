@@ -34,7 +34,6 @@ platform :ios do
 	increment_build_number
 	gym(scheme:'Mesh') # Build your app - more options available
     pilot
-
   end
 
   desc "Deploy a new version to the App Store"
@@ -44,8 +43,14 @@ platform :ios do
     deliver(force: true)
   end
 
+  lane :icon do
+    appicon(appicon_image_file: 'ic_launcher.png',
+	    appicon_devices: [:iphone])
+  end
+
   after_all do |lane|
 	notification(subtitle: "Fastlane Complete", message: "")
+	clean_build_artifacts
 	# slack(
     #   message: "Successfully deployed new App Update."
     # )
