@@ -45,13 +45,15 @@ platform :ios do
   end
 
   after_all do |lane|
-    # slack(
+	notification(subtitle: "Fastlane Complete", message: "")
+	# slack(
     #   message: "Successfully deployed new App Update."
     # )
   end
 
   error do |lane, exception|
-    # slack(
+    notification(subtitle: "Error", message: exception.message)
+	# slack(
     #   message: exception.message,
     #   success: false
     # )
