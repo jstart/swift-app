@@ -46,6 +46,13 @@ extension UIView {
         }
     }
     
+    func constraint(_ attribute: NSLayoutAttribute, relatedBy: NSLayoutRelation = .equal, constant: CGFloat = 0.0, toItem: UIView? = nil, toAttribute: NSLayoutAttribute = .notAnAttribute) -> NSLayoutConstraint {
+        let toAttributeChoice = toAttribute == .notAnAttribute ? attribute : toAttribute
+        let constraint = NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : toAttributeChoice, multiplier: 1.0, constant:constant)
+        constraint.isActive = true
+        return constraint
+    }
+    
     var heightConstraint : NSLayoutConstraint { get { return constraintFor(attribute: .height) } }
     
     var widthConstraint : NSLayoutConstraint { get { return constraintFor(attribute: .width) } }

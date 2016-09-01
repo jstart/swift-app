@@ -22,6 +22,8 @@ class FeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.clipsToBounds = true
+        
         addChildViewController(cardStack)
         view.addSubview(cardStack.view)
         

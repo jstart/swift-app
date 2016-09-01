@@ -29,6 +29,8 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
     
     func present(_ context: UIViewControllerContextTransitioning) {
         let containerView = context.containerView
+        containerView.clipsToBounds = true
+        containerView.frame.size.height = (cardVC?.view.frame.size.height)! + 81
         let detail = context.view(forKey: .to)!
         containerView.addSubview(detail)
         
@@ -53,7 +55,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
             }, completion:{_ in
                 UIView.animate(withDuration: 0.1, animations: {
                     detail.frame.origin.y = 81 * 2
-                    }, completion: {_ in
+                    }, completion: { _ in
                         context.completeTransition(true)
                 })
         })
@@ -61,19 +63,17 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
     
     func dismiss(_ context: UIViewControllerContextTransitioning) {
         let containerView = context.containerView
+        containerView.frame.size.height = (cardVC?.view.frame.size.height)! + 81
         let detail = context.view(forKey: UITransitionContextViewKey.from)!
-        detail.frame.origin.y = 80 * 2
+        detail.frame.origin.y = 81 * 3
         containerView.addSubview(detail)
         
         UIView.animate(withDuration: 0.1, animations: {
+            detail.frame.origin.y = 550
             detail.alpha = 0.0
             self.blurView.alpha = 0.0
             }, completion:{_ in
-                UIView.animate(withDuration: 0.1, animations: {
-                    detail.frame.origin.y = 550
-                    }, completion: {_ in
-                        context.completeTransition(true)
-                })
+                context.completeTransition(true)
         })
     }
 
