@@ -57,6 +57,7 @@ class CardStack : UIViewController, CardDelegate {
         let transform = CGAffineTransform(scaleX: scale, y: scale)
         card.view.transform = transform;
         view.addSubview(card.view)
+        addChildViewController(card)
         card.viewDidAppear(animated)
         card.view.constrain(.height, constant: -40, toItem: view)
         card.view.constrain(.width, constant: -13, toItem: view)

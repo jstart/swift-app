@@ -37,7 +37,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
         detail.translatesAutoresizingMaskIntoConstraints = false
         detail.constrain(.width, .centerX, toItem: cardVC!.view)
         detail.constrain(.height, constant: -80, toItem: cardVC!.view)
-        detail.constrain(.top, constant: 400, toItem: cardVC!.view)
+        detail.constrain(.top, constant: 425, toItem: cardVC!.view)
         detail.alpha = 0.0
         
         detail.addSubview(blurView)
@@ -53,7 +53,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
             detail.alpha = 1.0
             self.blurView.alpha = 0.9
             }, completion:{_ in
-                UIView.animate(withDuration: 0.1, animations: {
+                UIView.animate(withDuration: self.duration, animations: {
                     detail.frame.origin.y = 81 * 2
                     }, completion: { _ in
                         context.completeTransition(true)
@@ -68,7 +68,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
         detail.frame.origin.y = 81 * 3
         containerView.addSubview(detail)
         
-        UIView.animate(withDuration: 0.1, animations: {
+        UIView.animate(withDuration: duration, animations: {
             detail.frame.origin.y = 550
             detail.alpha = 0.0
             self.blurView.alpha = 0.0

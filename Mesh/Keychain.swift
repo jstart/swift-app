@@ -14,9 +14,11 @@ struct Keychain {
     static func fetchLogin() -> (username: String, password: String) {
         let query : [NSString : AnyObject] = [
             kSecClass : kSecClassGenericPassword,
-            kSecAttrService : "Mesh" as AnyObject,
-            kSecReturnAttributes : true as AnyObject,   // return dictionary in result parameter
-            kSecReturnData : true as AnyObject          // include the password value
+            kSecAttrService : "Mesh" as CFString,
+            kSecAttrLabel : "Mesh Password" as CFString,
+            kSecReturnAttributes : kCFBooleanTrue,   // return dictionary in result parameter
+            kSecReturnData : kCFBooleanTrue,          // include the password value
+            kSecMatchLimit : kSecMatchLimitOne
         ]
         var result : AnyObject?
         let err = SecItemCopyMatching(query as CFDictionary, &result)
@@ -41,12 +43,21 @@ struct Keychain {
     static func addLogin(phone: String, password: String) -> OSStatus {
         let query : [NSString : AnyObject] = [
             kSecClass : kSecClassGenericPassword,
-            kSecAttrService : "Mesh" as AnyObject,
-            kSecAttrLabel : "Mesh Password" as AnyObject,
-            kSecAttrAccount : phone as AnyObject,
-            kSecValueData : password.data(using: String.Encoding.utf8)! as AnyObject
+            kSecAttrService : "Mesh" as CFString,
+            kSecAttrLabel : "Mesh Password"  as CFString,
+            kSecAttrAccount : phone as CFString,
+            kSecValueData : password.data(using: String.Encoding.utf8)! as CFData
         ]
         return SecItemAdd(query as CFDictionary, nil)
+    }
+    
+    static func deleteLogin() {
+        let query : [NSString : AnyObject] = [
+            kSecClass : kSecClassGenericPassword,
+            kSecAttrService : "Mesh" as CFString,
+            kSecAttrLabel : "Mesh Password"  as CFString
+        ]
+        SecItemDelete(query as CFDictionary)
     }
     
 }

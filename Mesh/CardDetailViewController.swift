@@ -32,6 +32,9 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
             table.category = category
             table.details = []
             table.index = index
+            table.dismissHandler = {
+                self.presentingViewController?.dismiss(animated: true, completion: nil)
+            }
             controllers.append(table)
         }
         
@@ -115,4 +118,6 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
     func tap(_ sender:UITapGestureRecognizer) {
         dismiss(animated: true, completion: nil)
     }
+    
+    
 }

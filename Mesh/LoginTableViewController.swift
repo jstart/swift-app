@@ -58,8 +58,10 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
                 UIApplication.shared.delegate!.window??.rootViewController = vc
                 let tab = UIApplication.shared.delegate!.window??.rootViewController as! UITabBarController
                 tab.tabBar.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+                Keychain.deleteLogin()
                 let status = Keychain.addLogin(phone: self.phoneField!.text!, password: self.passwordField!.text!)
                 print(status)
+                print(Keychain.fetchLogin())
             }
         })
     }

@@ -13,6 +13,7 @@ class UserDetailTableViewController : UITableViewController {
     var details : [UserDetail]?
     var category : QuickViewCategory?
     var index : Int?
+    var dismissHandler : (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,5 +53,11 @@ class UserDetailTableViewController : UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y < -20 {
+            dismissHandler?()
+        }
     }
 }
