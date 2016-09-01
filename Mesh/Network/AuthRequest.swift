@@ -78,7 +78,7 @@ struct UserResponse {
         last_name = (JSON["last_name"] as? String?)!
         title = (JSON["title"] as? String?)!
         if let companiesJSON = JSON["companies"] as? JSONArray{
-            companies = companiesJSON.map({return CompanyModel(JSON: $0)})
+            companies = companiesJSON.map({return CompanyModel.create(JSON: $0)})
         }
         profession = (JSON["profession"] as? String?)!
         token = (JSON["token"] as? String?)!

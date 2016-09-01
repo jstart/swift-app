@@ -37,14 +37,16 @@ struct CompanyModel {
         return ["id" : id, "start_month" : start_month, "start_year" : start_year, "end_month" : end_month, "end_year" : end_year, "current" : current]
     }
     
-    init(JSON: JSONDictionary) {
-        id = JSON["id"] as? String ?? ""
-        start_month = JSON["start_month"] as? String ?? ""
+    static func create(JSON: JSONDictionary) -> CompanyModel{
+        let id = JSON["id"] as? String ?? ""
+        let start_month = JSON["start_month"] as? String ?? ""
 
-        start_year = JSON["start_year"] as? String ?? ""
-        end_month = JSON["end_month"] as? String ?? ""
-        end_year = JSON["end_year"] as? String ?? ""
-        current = JSON["current"] as? Bool ?? false
+        let start_year = JSON["start_year"] as? String ?? ""
+        let end_month = JSON["end_month"] as? String ?? ""
+        let end_year = JSON["end_year"] as? String ?? ""
+        let current = JSON["current"] as? Bool ?? false
+        
+        return CompanyModel(id: id, start_month: start_month, start_year: start_year, end_month: end_month, end_year: end_year, current: current)
     }
 }
 

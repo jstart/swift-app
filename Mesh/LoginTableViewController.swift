@@ -53,11 +53,13 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     
     func login() {
         Client().execute(LoginRequest(phone_number: phoneField!.text!, password: passwordField!.text!), completionHandler: { response in
-            if let JSON = response.result.value {
+            if response.result.value != nil {
                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
                 UIApplication.shared.delegate!.window??.rootViewController = vc
                 let tab = UIApplication.shared.delegate!.window??.rootViewController as! UITabBarController
                 tab.tabBar.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+                let status = Keychain.addLogin(phone: self.phoneField!.text!, password: self.passwordField!.text!)
+                print(status)
             }
         })
     }

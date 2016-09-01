@@ -20,7 +20,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         super.viewDidLoad()
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: profileImage)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileImage)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,7 +41,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 2 : 1
+        return section == 0 ? 3 : 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -56,6 +56,8 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
             } else {
                 cell.textLabel?.text = ""
             }
+        } else if indexPath.row == 2 {
+            cell.textLabel?.text = "Edit Profile"
         }
         return cell
     }
@@ -70,6 +72,9 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
                 present(picker, animated: true, completion: nil)
                 break
             case 1:
+                break
+            case 2:
+                navigationController?.pushViewController(EditTableViewController(style: .grouped), animated: true)
                 break
             default:
                 break
