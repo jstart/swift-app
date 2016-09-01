@@ -10,13 +10,13 @@ import UIKit
 import Fabric
 import TwitterKit
 
-import Starscream
+//import Starscream
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, WebSocketDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
 
     var window: UIWindow?
-    let socket = WebSocket(url: URL(string: "ws://dev.mesh.tinderventures.com:2000/")!)
+    //let socket = WebSocket(url: URL(string: "ws://dev.mesh.tinderventures.com:2000/")!)
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         window = UIWindow()
@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WebSocketDelegate {
             window?.rootViewController = UINavigationController(rootViewController: vc)
         }
 
-        socket.delegate = self
+        //socket.delegate = self
         //socket.connect()
 
         window?.makeKeyAndVisible()
@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WebSocketDelegate {
         return true
     }
     
-    func websocketDidConnect(_ socket: WebSocket) {
+    /*func websocketDidConnect(_ socket: WebSocket) {
         
     }
     func websocketDidDisconnect(_ socket: WebSocket, error: NSError?){
@@ -53,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WebSocketDelegate {
     }
     func websocketDidReceiveData(_ socket: WebSocket, data: Data){
         
-    }
+    }*/
 
     func applicationWillResignActive(_ application: UIApplication) {
     }

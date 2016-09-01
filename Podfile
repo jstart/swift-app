@@ -9,10 +9,10 @@ pod 'AlamofireImage', :git => 'https://github.com/Alamofire/AlamofireImage.git',
 
 pod 'JSQMessagesViewController'#, :git => 'https://github.com/jessesquires/JSQMessagesViewController.git', :commit => 'e919ff9e509b36e1d6e9e70d7197932a713bd625'
 pod 'MGSwipeTableCell'
-pod 'Shimmer'
+#pod 'Shimmer'
 
 #pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'master', :submodules => 'true'
-pod 'Starscream', :git => 'https://github.com/daltoniam/Starscream.git', :branch => 'swift3'
+#pod 'Starscream', :git => 'https://github.com/daltoniam/Starscream.git', :branch => 'swift3'
 
 pod 'TwitterKit'
 pod 'TwitterCore'

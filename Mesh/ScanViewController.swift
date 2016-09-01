@@ -8,7 +8,7 @@
 
 import UIKit
 import AVFoundation
-import Shimmer
+//import Shimmer
     
 struct QRCard {
     var index : Int
