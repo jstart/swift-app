@@ -36,8 +36,6 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         navigationItem.rightBarButtonItems = [sortItem!, addItem!]
         //Client().execute(ConnectionRequest(recipient: "57ba725d87223ad6215ecaf9"), completionHandler: { _ in})
         /*Client().execute(MessagesSendRequest(recipient: "57b63c7f887fb1b3571666b5", text: "POOP"), completionHandler: { response in
-            print("JSON: \(response.result.value)")
-            print(response.result.error)
         })*/
         tableView.registerNib(ConnectionTableViewCell.self, MessageTableViewCell.self)
 

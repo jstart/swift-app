@@ -60,8 +60,6 @@ class MessagesViewController: JSQMessagesViewController {
     
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
         Client().execute(MessagesSendRequest(recipient: recipient?._id ?? "57ba725d87223ad6215ecaf9", text: text), completionHandler: { response in
-            print("JSON: \(response.result.value)")
-            print(response.result.error)
             self.messages.append(JSQMessage(senderId: senderId, displayName: senderDisplayName, text: text))
             self.finishSendingMessage(animated: true)
         })

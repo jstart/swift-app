@@ -15,7 +15,6 @@ extension UIAlertController {
 }
 
 extension UITableView {
-    
     func registerClass(_ cellClasses: AnyClass...) {
         for aClass in cellClasses {
             let string = String(describing: aClass)
@@ -37,7 +36,6 @@ extension UITableView {
 }
 
 extension UIView {
-    
     func constrain(_ attributes: NSLayoutAttribute..., relatedBy: NSLayoutRelation = .equal, constant: CGFloat = 0.0, toItem: UIView? = nil, toAttribute: NSLayoutAttribute = .notAnAttribute){
         for attribute in attributes {
             let toAttributeChoice = toAttribute == .notAnAttribute ? attribute : toAttribute
@@ -75,7 +73,6 @@ extension UIView {
     func addSubviews(_ views: UIView...) {
         views.forEach { self.addSubview($0) }
     }
-
 }
 
 extension UIViewController {
@@ -99,12 +96,10 @@ extension Int {
 }
 
 protocol Then {}
-
 extension Then where Self: AnyObject {
     func then(_ block: (Self) -> Void) -> Self {
         block(self)
         return self
     }
 }
-
 extension NSObject: Then {}

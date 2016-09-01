@@ -79,13 +79,6 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         Client().execute(LogoutRequest(), completionHandler: { response in
             let vc = JoinTableViewController(style: .grouped)
             UIApplication.shared.delegate!.window??.rootViewController = UINavigationController(rootViewController: vc)
-            
-            if let JSON = response.result.value {
-                print("JSON: \(JSON)")
-            }
-            if (response.result.error != nil) {
-                print(response.result.error)
-            }
         })
     }
         
@@ -94,8 +87,6 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         let data = UIImageJPEGRepresentation(image, 1.0)
         Client().upload(PhotoRequest(file: data!), completionHandler: { response in
-            print("JSON: \(response.result.value)")
-            print(response.result.error)
         })
     }
 

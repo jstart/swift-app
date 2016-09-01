@@ -142,8 +142,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         if metadataObj.stringValue != nil {
             outline.layer.sublayers?.forEach({$0.removeFromSuperlayer()})
             outline.addDashedBorder(color: .green)
-            print(metadataObj.stringValue)
             guard presentedViewController == nil else { return }
+            print(metadataObj.stringValue)
             let alert = UIAlertController(title: "Code Found", message: metadataObj.stringValue, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)

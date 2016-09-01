@@ -54,7 +54,6 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     func login() {
         Client().execute(LoginRequest(phone_number: phoneField!.text!, password: passwordField!.text!), completionHandler: { response in
             if let JSON = response.result.value {
-                print("JSON: \(JSON)")
                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
                 UIApplication.shared.delegate!.window??.rootViewController = vc
                 let tab = UIApplication.shared.delegate!.window??.rootViewController as! UITabBarController
