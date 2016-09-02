@@ -21,13 +21,16 @@ class ContactsManager : NSObject {
         CNContactThumbnailImageDataKey] as [Any]
     var viewController : UIViewController?
     
+    static var authStatus : CNAuthorizationStatus {
+        get { return CNContactStore.authorizationStatus(for: .contacts) }
+    }
+    
     func requestAccess(completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
         let authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
         
         switch authorizationStatus {
         case .authorized:
             completionHandler(true)
-            
         case .denied, .notDetermined:
             store.requestAccess(for: .contacts, completionHandler: { (access, accessError) -> Void in
                 completionHandler(access)
@@ -55,7 +58,6 @@ class ContactsManager : NSObject {
                     }
                 }
             })
-            
         default:
             completionHandler(false)
         }

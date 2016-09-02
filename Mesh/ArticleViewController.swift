@@ -12,7 +12,9 @@ import WebKit
 class ArticleViewController: UIViewController {
 
     let web = WKWebView()
-    var url : String? = "https://hackernoon.com/instagram-just-slapped-snapchat-in-the-face-and-kicked-its-dog-5e3135abef06"
+    var url: String? = "https://hackernoon.com/instagram-just-slapped-snapchat-in-the-face-and-kicked-its-dog-5e3135abef06"
+    var user: UserResponse?
+    var message: MessageResponse?
     
     override func viewDidLoad() {
         super.viewDidLoad()

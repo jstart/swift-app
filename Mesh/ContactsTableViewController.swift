@@ -45,7 +45,10 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         navigationController?.navigationBar.topItem?.title = ""
         searchController.isActive = false
         searchController.searchBar.becomeFirstResponder()
-        
+        guard ContactsManager.authStatus != .authorized else {
+            fetchContacts()
+            return
+        }
         emptyView = EmptyView([AlertAction(title: "Sync Contacts", backgroundColor: AlertAction.defaultBackground, titleColor: .white, handler: {
             self.fetchContacts()
         })], image: #imageLiteral(resourceName: "connectionsAddContacts"))
@@ -69,8 +72,10 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
                 self.contacts = contactResults
                 self.tableView.reloadData()
             })
-            guard let empty = self.emptyView else { return}
-            empty.removeFromSuperview()
+            DispatchQueue.main.async {
+                guard let empty = self.emptyView else { return }
+                empty.removeFromSuperview()
+            }
         })
     }
     

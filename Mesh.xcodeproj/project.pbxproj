@@ -53,6 +53,7 @@
 		23F817951D77CF8C006AE3F3 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F817941D77CF8C006AE3F3 /* Colors.swift */; };
 		23F817981D78CA67006AE3F3 /* EditTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F817971D78CA67006AE3F3 /* EditTableViewController.swift */; };
 		23F8179A1D78D2D6006AE3F3 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F817991D78D2D6006AE3F3 /* Keychain.swift */; };
+		23F8179E1D78F790006AE3F3 /* MGSwipeTableCell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F8179D1D78F790006AE3F3 /* MGSwipeTableCell.framework */; };
 		AD06B6FB1D541FF7005D349A /* CardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FA1D541FF7005D349A /* CardStack.swift */; };
 		AD06B6FF1D56BA5B005D349A /* CardFeedViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B6FE1D56BA5B005D349A /* CardFeedViewConfig.swift */; };
 		AD06B7031D5905D6005D349A /* SwipeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD06B7021D5905D6005D349A /* SwipeState.swift */; };
@@ -100,6 +101,8 @@
 		236E27BB1D67F8EE002ABAB4 /* JoinTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinTableViewController.swift; sourceTree = "<group>"; };
 		236E27BD1D67FDC2002ABAB4 /* LoginTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTableViewController.swift; sourceTree = "<group>"; };
 		236E27BF1D67FDDA002ABAB4 /* SignUpTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpTableViewController.swift; sourceTree = "<group>"; };
+		237B78661D78FB2E0018347A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		237B78681D78FD000018347A /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = Carthage/Build/iOS/AlamofireImage.framework; sourceTree = "<group>"; };
 		2397C3791D5E5A6F005C982E /* QuickPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickPageControl.swift; sourceTree = "<group>"; };
 		239E01EE1D6A801D0072530B /* UserDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailTableViewCell.swift; sourceTree = "<group>"; };
 		239E01EF1D6A801D0072530B /* UserDetailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserDetailTableViewCell.xib; sourceTree = "<group>"; };
@@ -120,6 +123,7 @@
 		23F817971D78CA67006AE3F3 /* EditTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTableViewController.swift; sourceTree = "<group>"; };
 		23F817991D78D2D6006AE3F3 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		23F8179B1D78D87E006AE3F3 /* Mesh.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mesh.entitlements; sourceTree = "<group>"; };
+		23F8179D1D78F790006AE3F3 /* MGSwipeTableCell.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MGSwipeTableCell.framework; path = Carthage/Build/iOS/MGSwipeTableCell.framework; sourceTree = "<group>"; };
 		2AD5F965FA9260BA550C3919 /* Pods-Mesh.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mesh.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mesh/Pods-Mesh.debug.xcconfig"; sourceTree = "<group>"; };
 		5300FC2C816EC2D0EF40E204 /* Pods-Mesh.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mesh.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mesh/Pods-Mesh.release.xcconfig"; sourceTree = "<group>"; };
 		5EF9D3831062B1B259E8EE70 /* Pods_Mesh.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mesh.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +152,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23F8179E1D78F790006AE3F3 /* MGSwipeTableCell.framework in Frameworks */,
 				BBA9CA694C61894F6DEA6554 /* Pods_Mesh.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,6 +325,9 @@
 		D163224E52E4F2D2F80461D0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				237B78681D78FD000018347A /* AlamofireImage.framework */,
+				237B78661D78FB2E0018347A /* Alamofire.framework */,
+				23F8179D1D78F790006AE3F3 /* MGSwipeTableCell.framework */,
 				5EF9D3831062B1B259E8EE70 /* Pods_Mesh.framework */,
 			);
 			name = Frameworks;
@@ -339,6 +347,7 @@
 				C4D22B16B3561AA5C86D6E52 /* [CP] Embed Pods Frameworks */,
 				B31F06ACCE7DC4F1847DADBF /* [CP] Copy Pods Resources */,
 				234418191D602D4000FBA0BD /* ShellScript */,
+				23F8179C1D78F6D0006AE3F3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -369,7 +378,7 @@
 								enabled = 1;
 							};
 							com.apple.DataProtection = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Keychain = {
 								enabled = 1;
@@ -440,7 +449,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "TAGS=\"TODO|FIXME\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n\"${PODS_ROOT}/Fabric/run\" 989edf1546be462b4dee7b5abb41d7a67588ac19 b318dae747787f6717b90194e252a3b0a3c425dc2741b71820e4d9e754948cb0";
+			shellScript = "TAGS=\"TODO|FIXME\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\nif [[ $SDK_NAME =~ \"simulator\" ]]; then\n    echo \"Don't run Fabric on simulator\"\nelse\n    \"${PODS_ROOT}/Fabric/run\" 989edf1546be462b4dee7b5abb41d7a67588ac19 b318dae747787f6717b90194e252a3b0a3c425dc2741b71820e4d9e754948cb0\nfi";
+		};
+		23F8179C1D78F6D0006AE3F3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/MGSwipeTableCell.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "carthage copy-frameworks";
 		};
 		B31F06ACCE7DC4F1847DADBF /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -664,6 +687,10 @@
 				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6YTW2279GH;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Mesh/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -683,6 +710,10 @@
 				CODE_SIGN_ENTITLEMENTS = Mesh/Mesh.entitlements;
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 6YTW2279GH;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Mesh/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

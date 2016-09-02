@@ -22,7 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         window = UIWindow()
         window?.tintColor = #colorLiteral(red: 0.2, green: 0.7843137255, blue: 0.9960784314, alpha: 1)
 
-        Fabric.with([Twitter.self])
+        if TARGET_IPHONE_SIMULATOR == 0 {
+            Fabric.with([Twitter.self])
+        }
 
         if (Token.retrieveToken() != nil && Token.retrieveToken() != "") {
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
