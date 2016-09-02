@@ -8,9 +8,9 @@
 
 import UIKit
 
-class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
+class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControllerAnimatedTransitioning {
     
-    let duration    = 0.2
+//    override var duration: CGFloat = 0.2
     var presenting  = true
     let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark)).then {
         $0.layer.cornerRadius = 5.0
@@ -20,7 +20,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
     var cardVC : CardViewController?
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?)-> TimeInterval {
-        return duration
+        return TimeInterval(duration)
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -53,7 +53,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
             detail.alpha = 1.0
             self.blurView.alpha = 0.9
             }, completion:{_ in
-                UIView.animate(withDuration: self.duration, animations: {
+                UIView.animate(withDuration: 0.2, animations: {
                     detail.frame.origin.y = 81 * 2
                     }, completion: { _ in
                         context.completeTransition(true)
@@ -68,7 +68,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
         detail.frame.origin.y = 81 * 3
         containerView.addSubview(detail)
         
-        UIView.animate(withDuration: duration, animations: {
+        UIView.animate(withDuration: 0.2, animations: {
             detail.frame.origin.y = 550
             detail.alpha = 0.0
             self.blurView.alpha = 0.0
@@ -76,6 +76,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
                 context.completeTransition(true)
         })
     }
+    
 
     func tap(_ sender:UITapGestureRecognizer) {
         cardVC!.dismiss(animated: true, completion: nil)

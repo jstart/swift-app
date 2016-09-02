@@ -26,7 +26,6 @@ class EditCardTableViewCell : UITableViewCell {
         selectionStyle = .none
         addSubviews(icon, contactField, check)
         
-        icon.image = #imageLiteral(resourceName: "qrName")
         icon.constrain(.leading, constant: 16, toItem: self)
         icon.constrain(.centerY, toItem: self)
         icon.constrain(.trailing, constant: -16, toItem: contactField, toAttribute: .leading)

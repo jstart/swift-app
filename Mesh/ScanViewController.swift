@@ -16,6 +16,23 @@ enum ProfileFields : Int {
     case title
     case email
     case phone
+    
+    var name : String {
+        get {
+            switch self {
+            case .name: return "name"
+            case .title: return "title"
+            case .email: return "email"
+            case .phone: return "phone"
+            }
+        }
+    }
+    
+    var image : UIImage {
+        get {
+            return UIImage(named: name)!
+        }
+    }
 }
 
 struct QRCard {

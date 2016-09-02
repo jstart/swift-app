@@ -16,6 +16,7 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
 
     let tableView = UITableView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.separatorStyle = .none
         $0.tableFooterView = UIView()
         $0.registerClass(EditCardTableViewCell.self)
     }
@@ -31,7 +32,7 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
     let done = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("DONE", for: .normal)
-        $0.backgroundColor = AlertAction.defaultBackground
+        $0.backgroundColor = Colors.brand
         $0.setTitleColor(.white, for: .normal)
         $0.constrain(.height, constant: 50)
     }
@@ -50,6 +51,7 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         tableView.constrain(.width, .centerX, .top, toItem: self)
         tableView.constrain(.height, constant: -50, toItem: self)
         cancel.constrain(.leading, toItem: self)
@@ -75,18 +77,22 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeue(EditCardTableViewCell.self, indexPath: indexPath) as! EditCardTableViewCell
         switch indexPath.row {
         case 0:
+            cell.icon.image = ProfileFields.name.image
             cell.contactField.text = UserResponse.currentUser?.fullName()
             cell.setChecked(fields?.contains(.name) ?? false)
             break
         case 1:
+            cell.icon.image = ProfileFields.title.image
             cell.contactField.text = UserResponse.currentUser?.fullTitle()
             cell.setChecked(fields?.contains(.title) ?? false)
             break
         case 2:
+            cell.icon.image = ProfileFields.email.image
             cell.contactField.text = "example@mail.com"//UserResponse.currentUser?.email
             cell.setChecked(fields?.contains(.email) ?? false)
             break
         case 3:
+            cell.icon.image = ProfileFields.phone.image
             cell.contactField.text = UserResponse.currentUser?.phone_number
             cell.setChecked(fields?.contains(.phone) ?? false)
             break

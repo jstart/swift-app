@@ -148,6 +148,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         position.text = card?.person?.user?.title != nil ? card!.person!.user!.title! : "VP of Engineering at Tesla"
         
         guard let largeURL = card?.person?.user?.photos?.large else {
+            imageView.image = nil
             return
         }
         imageView.alpha = 0.0
@@ -326,5 +327,17 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         transition.presenting = false
         return transition
     }
+//TODO:     
+//    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+//        transition.cardVC = self
+//        transition.presenting = true
+//        //TODO: return transition
+//    }
+//    
+//    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+//        transition.cardVC = self
+//        transition.presenting = false
+//        return transition
+//    }
     
 }
