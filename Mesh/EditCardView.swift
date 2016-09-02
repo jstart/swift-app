@@ -11,10 +11,12 @@ import UIKit
 class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
     
     var cancelHandler : (() -> Void)?
-    var doneHandler : (() -> Void)?
+    var doneHandler : (([ProfileFields]) -> Void)?
+    var fields : [ProfileFields]?
 
     let tableView = UITableView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.tableFooterView = UIView()
         $0.registerClass(EditCardTableViewCell.self)
     }
     
@@ -59,26 +61,52 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
         tableView.reloadData()
     }
     
-    func cancelPressed(sender: UIButton){ cancelHandler?()  }
+    func cancelPressed(sender: UIButton){ cancelHandler?() }
     
-    func donePressed(sender: UIButton){ doneHandler?() }
+    func donePressed(sender: UIButton){ doneHandler?(fields!) }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+    func numberOfSections(in tableView: UITableView) -> Int { return 1 }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(EditCardTableViewCell.self, indexPath: indexPath) as! EditCardTableViewCell
-        cell.contactField.text = "Greg Blatt"
+        switch indexPath.row {
+        case 0:
+            cell.contactField.text = UserResponse.currentUser?.fullName()
+            cell.setChecked(fields?.contains(.name) ?? false)
+            break
+        case 1:
+            cell.contactField.text = UserResponse.currentUser?.fullTitle()
+            cell.setChecked(fields?.contains(.title) ?? false)
+            break
+        case 2:
+            cell.contactField.text = "example@mail.com"//UserResponse.currentUser?.email
+            cell.setChecked(fields?.contains(.email) ?? false)
+            break
+        case 3:
+            cell.contactField.text = UserResponse.currentUser?.phone_number
+            cell.setChecked(fields?.contains(.phone) ?? false)
+            break
+        default:
+            break
+        }
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! EditCardTableViewCell
-        cell.check(true)
+        guard let fields = fields else { return }
+        let field = ProfileFields(rawValue: indexPath.row)!
+        cell.setChecked(!fields.contains(field))
+        if !fields.contains(field) {
+            self.fields?.append(field)
+        }else {
+            let index = self.fields?.index(of: field)
+            self.fields?.remove(at: index!)
+        }
     }
 }

@@ -23,17 +23,24 @@ class QRCardView: CardView {
         $0.font = .boldSystemFont(ofSize: 22)
     }
     
-    convenience init(_ user: UserResponse) {
+    let title = QRCardView.detailLabel("")
+    let email = QRCardView.detailLabel("")
+    let phone = QRCardView.detailLabel("")
+
+    convenience init(_ user: UserResponse, fields: [ProfileFields]) {
         self.init()
         addSubview(qrImage)
         qrImage.constrain(.leading, constant: 15, toItem: self)
         qrImage.constrain(.centerY, toItem: self)
         
         name.text = user.fullName()
-        let phone = detailLabel(user.phone_number ?? "")
-        let title = detailLabel(user.title ?? "")
+        title.text = user.fullTitle()
+        email.text = "email@test.com"
+        phone.text = user.phone_number ?? ""
+        
+        viewsForFields(fields).forEach({ $0.isHidden = false })
 
-        stackView = UIStackView(arrangedSubviews: [name, title, phone]).then {
+        stackView = UIStackView(arrangedSubviews: [name, title, email, phone]).then {
             $0.axis = .vertical
             $0.distribution = .equalSpacing
             $0.alignment = .leading
@@ -51,11 +58,38 @@ class QRCardView: CardView {
         stackView?.constrain(.bottom, relatedBy: .lessThanOrEqual, constant: -10, toItem: self)
     }
     
-    func detailLabel(_ text: String) -> UILabel {
+    func updateFields(_ fields: [ProfileFields]) {
+        stackView?.arrangedSubviews.forEach({ $0.isHidden = true })
+        viewsForFields(fields).forEach({ $0.isHidden = false })
+    }
+    
+    func viewsForFields(_ fields: [ProfileFields]) -> [UIView] {
+        var views = [UIView]()
+        for field in fields {
+            switch field {
+            case .name:
+                views.append(name)
+                break
+            case .title:
+                views.append(title)
+                break
+            case .email:
+                views.append(email)
+                break
+            case .phone:
+                views.append(phone)
+                break
+            }
+        }
+        return views
+    }
+    
+    static func detailLabel(_ text: String) -> UILabel {
         return UILabel().then {
             $0.textColor = .lightGray
             $0.font = .systemFont(ofSize: 16)
             $0.text = text
+            $0.isHidden = true
         }
     }
 

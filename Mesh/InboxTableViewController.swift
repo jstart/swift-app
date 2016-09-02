@@ -140,7 +140,9 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 })]
                 cell.configure(message, user: user!)
                 cell.pressedAction = ({
-                    self.navigationController?.pushViewController(ArticleViewController(), animated: true)
+                    let article = ArticleViewController()
+                    article.hidesBottomBarWhenPushed = true
+                    self.navigationController?.pushViewController(article, animated: true)
                 })
                 return cell
             }else {

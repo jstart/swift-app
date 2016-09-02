@@ -18,7 +18,6 @@ class ArticleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         title = "Reed Hastings shared this with you"
         view.addSubview(web)
         web.translatesAutoresizingMaskIntoConstraints = false

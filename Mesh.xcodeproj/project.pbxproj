@@ -34,7 +34,6 @@
 		236E27BC1D67F8EE002ABAB4 /* JoinTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27BB1D67F8EE002ABAB4 /* JoinTableViewController.swift */; };
 		236E27BE1D67FDC2002ABAB4 /* LoginTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27BD1D67FDC2002ABAB4 /* LoginTableViewController.swift */; };
 		236E27C01D67FDDA002ABAB4 /* SignUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27BF1D67FDDA002ABAB4 /* SignUpTableViewController.swift */; };
-		237B78791D7906160018347A /* NSURLSessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237B786F1D7906160018347A /* NSURLSessionExtension.swift */; };
 		237B787A1D7906160018347A /* PreviewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237B78701D7906160018347A /* PreviewError.swift */; };
 		237B787B1D7906160018347A /* PreviewErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237B78711D7906160018347A /* PreviewErrorTypes.swift */; };
 		237B787C1D7906160018347A /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237B78721D7906160018347A /* Regex.swift */; };
@@ -111,7 +110,6 @@
 		236E27BF1D67FDDA002ABAB4 /* SignUpTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpTableViewController.swift; sourceTree = "<group>"; };
 		237B78661D78FB2E0018347A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		237B78681D78FD000018347A /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = Carthage/Build/iOS/AlamofireImage.framework; sourceTree = "<group>"; };
-		237B786F1D7906160018347A /* NSURLSessionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLSessionExtension.swift; sourceTree = "<group>"; };
 		237B78701D7906160018347A /* PreviewError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewError.swift; sourceTree = "<group>"; };
 		237B78711D7906160018347A /* PreviewErrorTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewErrorTypes.swift; sourceTree = "<group>"; };
 		237B78721D7906160018347A /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
@@ -218,7 +216,6 @@
 		237B786A1D7906160018347A /* SwiftLinkPreview */ = {
 			isa = PBXGroup;
 			children = (
-				237B786F1D7906160018347A /* NSURLSessionExtension.swift */,
 				237B78701D7906160018347A /* PreviewError.swift */,
 				237B78711D7906160018347A /* PreviewErrorTypes.swift */,
 				237B78721D7906160018347A /* Regex.swift */,
@@ -555,7 +552,6 @@
 				23568E981D776E5B008A3CBB /* AddCardView.swift in Sources */,
 				AD4E2E241D5AAE4300130811 /* MessagesRequest.swift in Sources */,
 				233E944C1D63B9CD00919B95 /* CardDetailTransition.swift in Sources */,
-				237B78791D7906160018347A /* NSURLSessionExtension.swift in Sources */,
 				23F817981D78CA67006AE3F3 /* EditTableViewController.swift in Sources */,
 				236E27B61D67C795002ABAB4 /* SettingsTableViewController.swift in Sources */,
 				23D409661D713D3A00059126 /* TwitterMessageMedia.swift in Sources */,

@@ -49,6 +49,8 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
                 self.articleTitle.isHidden = false
                 self.articleImage.isHidden = false
                 self.viewArticle.isHidden = false
+                let tap = UITapGestureRecognizer(target: self, action: #selector(self.pressed(_:)))
+                self.articleHolder.addGestureRecognizer(tap)
                 print("\(result)")
             }, onError: { error in
                 print("\(error)")

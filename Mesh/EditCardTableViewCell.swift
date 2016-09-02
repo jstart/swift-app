@@ -36,7 +36,7 @@ class EditCardTableViewCell : UITableViewCell {
         check.constrain(.centerY, toItem: self)
     }
     
-    func check(_ selected: Bool) {
+    func setChecked(_ selected: Bool) {
         check.image = selected ? #imageLiteral(resourceName: "checkMark") : nil
     }
     

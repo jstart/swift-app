@@ -1,4 +1,4 @@
-    //
+//
 //  ScanViewController.swift
 //  Mesh
 //
@@ -8,11 +8,19 @@
 
 import UIKit
 import AVFoundation
+import AudioToolbox
 //import Shimmer
     
+enum ProfileFields : Int {
+    case name
+    case title
+    case email
+    case phone
+}
+
 struct QRCard {
     var index : Int
-    // fields
+    var fields : [ProfileFields]
 }
 
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
@@ -34,7 +42,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    var cards = [QRCard(index:0)]
+    var cards = [QRCard(index:0, fields: [.name, .title])]
     var editMode : Bool = false
     let supportedBarCodes = [AVMetadataObjectTypeQRCode]
     
@@ -52,7 +60,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 
         var cardViews = [UIView]()
         for card in cards {
-           cardViews.append(QRCardView(UserResponse.currentUser!))
+            cardViews.append(QRCardView(UserResponse.currentUser!, fields: card.fields))
         }
         
         cardViews.append(AddCardView(touchHandler: { self.add() }))
@@ -83,7 +91,15 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             self.edit()
         }
         
-        editCard.doneHandler = {
+        editCard.doneHandler = { fields in
+            var card = self.cards[(self.pager?.previousPage)!]
+            card.fields = fields
+            self.cards.remove(at: (self.pager?.previousPage)!)
+            self.cards.insert(card, at: (self.pager?.previousPage)!)
+            
+            guard let qr = self.pager?.currentView() as? QRCardView else { return }
+            qr.updateFields(fields)
+            
             self.edit()
         }
         
@@ -143,6 +159,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             outline.layer.sublayers?.forEach({$0.removeFromSuperlayer()})
             outline.addDashedBorder(.green)
             guard presentedViewController == nil else { return }
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
             print(metadataObj.stringValue)
             let alert = UIAlertController(title: "Code Found", message: metadataObj.stringValue, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -155,8 +172,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     }
     
     func add(){
-        cards.append(QRCard(index: 1))
-        pager?.insertView(QRCardView(UserResponse.currentUser!), atIndex: pager!.previousPage)
+        cards.append(QRCard(index: 1, fields: [.name, .title]))
+        pager?.insertView(QRCardView(UserResponse.currentUser!, fields: [.name, .title]), atIndex: pager!.previousPage)
         
         if cards.count == 3 {
             pager?.removeView(atIndex: 3)
@@ -203,6 +220,9 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         }
         editCard.removeConstraints(editCard.constraints)
         view.addSubview(editCard)
+        
+        let card = cards[(pager?.previousPage)!]
+        self.editCard.fields = card.fields
         
         editCard.constrain(.centerX, .centerY, .width, toItem: current!)
         editCard.constrain(.height, constant: 180)

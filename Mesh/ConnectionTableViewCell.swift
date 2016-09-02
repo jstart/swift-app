@@ -33,11 +33,7 @@ class ConnectionTableViewCell: UITableViewCell {
     
     func configure(_ user: UserResponse){
         name.text = user.fullName()
-        guard let company = user.companies?.first else {
-            title.text = (user.title ?? "")
-            return
-        }
-        title.text = (user.title ?? "") + " at " + company.id
+        title.text = user.fullTitle()
     }
     
     @IBAction func pressed(_ sender: AnyObject) {
