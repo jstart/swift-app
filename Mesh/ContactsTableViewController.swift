@@ -138,7 +138,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         button.isSelected = !button.isSelected
     }
     
-    func connect(connection: UserResponse, button: UIButton) {
+    func connect(_ connection: UserResponse, button: UIButton) {
         Client().execute(ConnectionRequest(recipient: connection._id), completionHandler: { _ in
             button.isSelected = true
         })

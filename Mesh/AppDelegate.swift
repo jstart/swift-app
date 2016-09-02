@@ -78,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         return [UIKeyCommand(input: "l", modifierFlags: [.command, .alternate], action: #selector(logout), discoverabilityTitle: "Convenience")]
     }
     
-    func logout(command: UIKeyCommand) {
+    func logout(_ command: UIKeyCommand) {
         Token.persistToken("")
         Token.persistLogin((phone_number: "", password: ""))
         UserResponse.currentUser = nil

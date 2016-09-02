@@ -79,7 +79,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         return [UIKeyCommand(input: "l", modifierFlags: [.command, .alternate], action: #selector(fill), discoverabilityTitle: "Convenience")]
     }
     
-    func fill(command: UIKeyCommand) {
+    func fill(_ command: UIKeyCommand) {
         phoneField?.text = "3103479814"
         passwordField?.text = "password"
         login()

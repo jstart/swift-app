@@ -37,7 +37,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         //Client().execute(ConnectionRequest(recipient: "57ba725d87223ad6215ecaf9"), completionHandler: { _ in})
         /*Client().execute(MessagesSendRequest(recipient: "57b63c7f887fb1b3571666b5", text: "POOP"), completionHandler: { response in
         })*/
-        tableView.registerNib(ConnectionTableViewCell.self, MessageTableViewCell.self)
+        tableView.registerNib(ConnectionTableViewCell.self, MessageTableViewCell.self, MessagePreviewTableViewCell.self)
 
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -127,7 +127,25 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath) as! MessageTableViewCell
+            if indexPath.row == 0 {
+                let cell = tableView.dequeue(MessagePreviewTableViewCell.self, indexPath: indexPath) as! MessagePreviewTableViewCell
+                
+                guard let message = UserResponse.messages?[indexPath.row] else { return cell }
+                let user = UserResponse.connections?.filter({ return $0._id == message.recipient }).first
+                cell.leftButtons = [MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: { sender in
+                    self.todoCount -= 1
+                    let currentIndex = tableView.indexPath(for: sender!)!
+                    tableView.deleteRows(at: [currentIndex], with: .automatic)
+                    return true
+                })]
+                cell.configure(message, user: user!)
+                cell.pressedAction = ({
+                    self.navigationController?.pushViewController(ArticleViewController(), animated: true)
+                })
+                return cell
+            }else {
+                let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath) as! MessageTableViewCell
+
             guard let message = UserResponse.messages?[indexPath.row] else { return cell }
             let user = UserResponse.connections?.filter({ return $0._id == message.recipient }).first
             cell.leftButtons = [MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: { sender in
@@ -154,6 +172,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 })
             })
             return cell
+            }
         } else {
             let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath) as! ConnectionTableViewCell
             cell.name.text = "Elon Musk"

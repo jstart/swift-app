@@ -27,7 +27,7 @@ struct Keychain {
             // username and password from the dictionary.
             if let result = result as? [NSString : AnyObject],
             let username = result[kSecAttrAccount] as? String,
-            let passdata = result[kSecValueData] as? NSData,
+            let passdata = result[kSecValueData] as? Data,
             let password = NSString(data:passdata as Data, encoding:String.Encoding.utf8.rawValue) as? String {
                 return (username, password)
             }

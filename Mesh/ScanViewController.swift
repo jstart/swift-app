@@ -123,14 +123,14 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        outline.addDashedBorder(color: .white)
+        outline.addDashedBorder(.white)
     }
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         if metadataObjects == nil || metadataObjects.count == 0 {
             qrCodeFrameView.frame = CGRect.zero
             outline.layer.sublayers?.forEach({$0.removeFromSuperlayer()})
-            outline.addDashedBorder(color: .white)
+            outline.addDashedBorder(.white)
             return
         }
         
@@ -141,7 +141,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         if metadataObj.stringValue != nil {
             outline.layer.sublayers?.forEach({$0.removeFromSuperlayer()})
-            outline.addDashedBorder(color: .green)
+            outline.addDashedBorder(.green)
             guard presentedViewController == nil else { return }
             print(metadataObj.stringValue)
             let alert = UIAlertController(title: "Code Found", message: metadataObj.stringValue, preferredStyle: .alert)
@@ -187,7 +187,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         if editMode {
             UIView.animate(withDuration: 0.2, animations: {
                 self.editCard.heightConstraint.constant = 180
-                self.view.constraintFor(attribute: .centerY, toItem: self.editCard).constant = 0
+                self.view.constraintFor(.centerY, toItem: self.editCard).constant = 0
                 self.view.layoutIfNeeded()
                 }, completion: { _ in
                     UIView.animate(withDuration: 0.2, animations: {
@@ -212,7 +212,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
                 self.editCard.layoutIfNeeded()
                 UIView.animate(withDuration: 0.2, animations: {
                     self.editCard.heightConstraint.constant = 255
-                    self.view.constraintFor(attribute: .centerY, toItem: self.editCard).constant = 17
+                    self.view.constraintFor(.centerY, toItem: self.editCard).constant = 17
                     self.view.layoutIfNeeded()
                 })
         })
@@ -268,7 +268,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 }
 
 extension UIView {
-    func addDashedBorder(color: UIColor) {
+    func addDashedBorder(_ color: UIColor) {
         let shapeLayer = CAShapeLayer()
         let frameSize = frame.size
         let shapeRect = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)

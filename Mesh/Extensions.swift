@@ -51,19 +51,19 @@ extension UIView {
         return constraint
     }
     
-    var heightConstraint : NSLayoutConstraint { get { return constraintFor(attribute: .height) } }
+    var heightConstraint : NSLayoutConstraint { get { return constraintFor(.height) } }
     
-    var widthConstraint : NSLayoutConstraint { get { return constraintFor(attribute: .width) } }
+    var widthConstraint : NSLayoutConstraint { get { return constraintFor(.width) } }
     
-    var topConstraint : NSLayoutConstraint { get { return constraintFor(attribute: .top) } }
+    var topConstraint : NSLayoutConstraint { get { return constraintFor(.top) } }
     
-    var bottomConstraint : NSLayoutConstraint { get { return constraintFor(attribute: .bottom) } }
+    var bottomConstraint : NSLayoutConstraint { get { return constraintFor(.bottom) } }
     
-    var leadingConstraint : NSLayoutConstraint { get { return constraintFor(attribute: .leading) } }
+    var leadingConstraint : NSLayoutConstraint { get { return constraintFor(.leading) } }
     
-    var trailingConstraint : NSLayoutConstraint {  get { return constraintFor(attribute: .trailing) } }
+    var trailingConstraint : NSLayoutConstraint {  get { return constraintFor(.trailing) } }
     
-    func constraintFor(attribute: NSLayoutAttribute, toItem: UIView? = nil) -> NSLayoutConstraint {
+    func constraintFor(_ attribute: NSLayoutAttribute, toItem: UIView? = nil) -> NSLayoutConstraint {
         guard let item = toItem else {
             return constraints.filter({ return $0.firstAttribute == attribute }).first!
         }

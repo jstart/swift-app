@@ -95,7 +95,7 @@ class ContactsManager : NSObject {
         }
     }
 
-    func contacts(forName: String) -> [CNContact] {
+    func contacts(_ forName: String) -> [CNContact] {
         let predicate = CNContact.predicateForContacts(matchingName: forName)
         var contacts = [CNContact]()
 
@@ -113,9 +113,9 @@ class ContactsManager : NSObject {
         }
     }
 
-    func contacts(forName: String, results: @escaping ([CNContact]) -> Void) {
+    func contacts(_ forName: String, results: @escaping ([CNContact]) -> Void) {
         DispatchQueue.global().async {
-            let contacts = self.contacts(forName: forName)
+            let contacts = self.contacts(forName)
             DispatchQueue.main.async {
                 results(contacts)
             }

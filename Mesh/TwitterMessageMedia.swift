@@ -18,19 +18,19 @@ class TwitterMessageMedia: NSObject, JSQMessageMediaData {
         super.init()
     }
     
-    public func mediaView() -> UIView! {
+    open func mediaView() -> UIView! {
         return tweet
     }
 
-    public func mediaViewDisplaySize() -> CGSize {
+    open func mediaViewDisplaySize() -> CGSize {
         return tweet.frame.size
     }
 
-    public func mediaPlaceholderView() -> UIView! {
+    open func mediaPlaceholderView() -> UIView! {
         return TWTRTweetView()
     }
 
-    public func mediaHash() -> UInt {
+    open func mediaHash() -> UInt {
         return UInt(tweet.tweet.tweetID) ?? 1
     }
     
