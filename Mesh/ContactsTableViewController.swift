@@ -25,6 +25,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         searchController.searchBar.delegate = self
         
         searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
         navigationItem.titleView = searchController.searchBar
         //tableView.tableHeaderView = searchController.searchBar
@@ -52,8 +53,8 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         emptyView = EmptyView([AlertAction(title: "Sync Contacts", backgroundColor: AlertAction.defaultBackground, titleColor: .white, handler: {
             self.fetchContacts()
         })], image: #imageLiteral(resourceName: "connectionsAddContacts"))
-        emptyView!.titleLabel.text = "Add Contacts"
-        emptyView!.textLabel.text = "Find who you already know on Ripple. Connect and stay up to date with them."
+        emptyView!.titleLabel.text = ContactsManager.authStatus == .denied ? "Permissions Are Turned Off" : "Add Contacts"
+        emptyView!.textLabel.text = ContactsManager.authStatus == .denied ? "Contact permissions can be enabled under your iPhone settings for Ripple" : "Find who you already know on Ripple. Connect and stay up to date with them."
         emptyView!.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(emptyView!)
         emptyView!.constrain(.width, .height, .centerX, .centerY, toItem: view)
@@ -96,51 +97,75 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         if searchController.searchBar.text == "" {
             filteredContacts = contacts
         }else {
-            filteredContacts = contacts.filter({return $0.givenName.localizedCaseInsensitiveContains(searchController.searchBar.text!)})
+            filteredContacts = contacts.filter({return $0.searchText.localizedCaseInsensitiveContains(searchController.searchBar.text!)})
         }
         tableView.reloadData()
     }
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return section == 0 ? "People on Mesh" : "Invite"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return UserResponse.connections?.count ?? 0
+        }
         return searchController.isActive ? filteredContacts.count : contacts.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath) as! ConnectionTableViewCell
         cell.button.isHidden = false
-        cell.button.setTitle(" Connect ", for: .normal)
-        cell.button.setTitle("Connected", for: .selected)
-        
-        let contact =  searchController.isActive ? filteredContacts[indexPath.row] : contacts[indexPath.row]
-        cell.buttonHandler = {
-            self.invite(contact, button: cell.button)
-        }
-        cell.name.text = contact.givenName + " " + contact.familyName
         cell.company.image = nil
-        cell.title.text = contact.organizationName
-        guard let data = contact.thumbnailImageData else {
-            cell.profile.image = nil
-            cell.profile.backgroundColor = .lightGray
-            return cell
+        
+        if indexPath.section == 0 {
+            let user = UserResponse.connections![indexPath.row]
+            cell.name.text = user.fullName()
+            cell.title.text = user.fullTitle()
+            cell.button.setTitle(" Connect ", for: .normal)
+            cell.button.setTitle("Connected", for: .selected)
+            cell.buttonHandler = {
+                self.connect(user, button: cell.button)
+            }
+            guard let small = user.photos?.small else {
+                let firstName = user.first_name ?? " "
+                let lastName = user.last_name ?? " "
+                cell.showInitials(firstName: firstName, lastName: lastName)
+                return cell
+            }
+            cell.profile.af_setImage(withURL: URL(string: small)!)
+        } else {
+            let contact = searchController.isActive ? filteredContacts[indexPath.row] : contacts[indexPath.row]
+            cell.name.text = contact.givenName + " " + contact.familyName
+            cell.title.text = "Invite Contact"
+            cell.button.setTitle("  Add  ", for: .normal)
+            cell.button.setTitle(" Added ", for: .selected)
+            
+            cell.buttonHandler = {
+                self.invite(contact, button: cell.button)
+            }
+            
+            guard let data = contact.thumbnailImageData else {
+                cell.showInitials(firstName: contact.givenName, lastName: contact.familyName)
+                return cell
+            }
+            cell.profile.image = UIImage(data: data)
         }
-        cell.profile.image = UIImage(data: data)
         
         return cell
     }
     
     func invite(_ connection: CNContact, button: UIButton) {
-        button.layer.borderWidth = button.isSelected ? 1 : 0
-        button.isSelected = !button.isSelected
+        //TODO:
     }
     
     func connect(_ connection: UserResponse, button: UIButton) {
         Client().execute(ConnectionRequest(recipient: connection._id), completionHandler: { _ in
-            button.isSelected = true
         })
     }
 

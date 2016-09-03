@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11198.2" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11198.2" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -45,15 +45,23 @@
                             <action selector="pressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="lX6-bc-kAX"/>
                         </connections>
                     </button>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CQu-At-0RE">
+                        <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottomMargin" secondItem="VL6-KE-beo" secondAttribute="bottom" constant="8" id="3sX-3s-H6c"/>
                     <constraint firstItem="645-uL-DIc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="4Uv-yz-S5F"/>
                     <constraint firstAttribute="trailingMargin" secondItem="hZD-gg-LGe" secondAttribute="trailing" id="9hG-WC-4gG"/>
                     <constraint firstAttribute="trailingMargin" secondItem="eRu-7B-g3X" secondAttribute="trailing" id="D7T-mI-Dt6"/>
+                    <constraint firstItem="CQu-At-0RE" firstAttribute="width" secondItem="645-uL-DIc" secondAttribute="width" id="FXU-zh-bon"/>
                     <constraint firstItem="hZD-gg-LGe" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="FbO-7r-1iJ"/>
                     <constraint firstItem="645-uL-DIc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="4" id="Gh0-Nh-wN8"/>
                     <constraint firstItem="hZD-gg-LGe" firstAttribute="leading" secondItem="MNl-z4-Zl3" secondAttribute="trailing" constant="8" id="HAt-zp-D9a"/>
+                    <constraint firstItem="CQu-At-0RE" firstAttribute="centerX" secondItem="645-uL-DIc" secondAttribute="centerX" id="Jp2-0i-ci6"/>
+                    <constraint firstItem="CQu-At-0RE" firstAttribute="centerY" secondItem="645-uL-DIc" secondAttribute="centerY" id="NKX-uP-obC"/>
                     <constraint firstItem="MNl-z4-Zl3" firstAttribute="leading" secondItem="645-uL-DIc" secondAttribute="trailing" constant="8" id="Ng4-eu-fdR"/>
                     <constraint firstItem="MNl-z4-Zl3" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="2" id="Og9-vZ-eaM"/>
                     <constraint firstItem="645-uL-DIc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="4" id="ZQu-vs-Y8O"/>
@@ -62,11 +70,13 @@
                     <constraint firstItem="hZD-gg-LGe" firstAttribute="leading" secondItem="VL6-KE-beo" secondAttribute="trailing" constant="8" id="ldQ-my-xJg"/>
                     <constraint firstItem="VL6-KE-beo" firstAttribute="top" secondItem="MNl-z4-Zl3" secondAttribute="bottom" constant="8" id="qAx-fP-lqH"/>
                     <constraint firstItem="eRu-7B-g3X" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="vai-VB-iOq"/>
+                    <constraint firstItem="CQu-At-0RE" firstAttribute="height" secondItem="645-uL-DIc" secondAttribute="height" id="yE4-rV-SqD"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="button" destination="eRu-7B-g3X" id="6AF-ia-ke3"/>
                 <outlet property="company" destination="hZD-gg-LGe" id="9P6-hj-VbC"/>
+                <outlet property="initials" destination="CQu-At-0RE" id="Sg6-CT-W1O"/>
                 <outlet property="name" destination="MNl-z4-Zl3" id="WZf-VY-Bfg"/>
                 <outlet property="profile" destination="645-uL-DIc" id="KSA-0I-tBe"/>
                 <outlet property="title" destination="VL6-KE-beo" id="st1-iI-5bD"/>

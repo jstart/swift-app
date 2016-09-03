@@ -15,7 +15,23 @@ class ConnectionTableViewCell: UITableViewCell {
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var initials: UILabel!
     var buttonHandler : (() -> Void)?
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        name.text = nil
+        title.text = nil
+        button.isHidden = true
+        button.isSelected = false
+        button.layer.borderWidth = 1
+        profile.image = nil
+        company.image = nil
+        buttonHandler = nil
+        initials.isHidden = true
+        initials.text = nil
+        profile.backgroundColor = .clear
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,6 +47,14 @@ class ConnectionTableViewCell: UITableViewCell {
         button.layer.cornerRadius = 5.0
     }
     
+    func showInitials(firstName: String, lastName: String) {
+        profile.backgroundColor = .gray
+        initials.isHidden = false
+        let firstInitial = firstName.characters.first ?? Character(" ")
+        let lastInitial = lastName.characters.first ?? Character(" ")
+        initials.text = ([firstInitial, lastInitial] as NSArray).componentsJoined(by: "").replace("\"", with: "").uppercased()
+    }
+    
     func configure(_ user: UserResponse){
         name.text = user.fullName()
         title.text = user.fullTitle()
@@ -38,7 +62,7 @@ class ConnectionTableViewCell: UITableViewCell {
     
     @IBAction func pressed(_ sender: AnyObject) {
         button.layer.borderWidth = 0
-        guard (buttonHandler != nil) else { return }
-        buttonHandler!()
+        button.isSelected = true
+        buttonHandler?()
     }
 }

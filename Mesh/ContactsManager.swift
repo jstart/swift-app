@@ -10,6 +10,14 @@ import Foundation
 import Contacts
 import UIKit
 
+extension CNContact {
+    var searchText : String {
+        get {
+            return [givenName, familyName].joined(separator: " ")
+        }
+    }
+}
+
 class ContactsManager : NSObject {
     
     let store = CNContactStore()
