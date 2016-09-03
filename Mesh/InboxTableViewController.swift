@@ -247,14 +247,14 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 {
-            let conversationVC = ConversationViewController()
+            let conversationVC = MessagesViewController()
             guard let user = UserResponse.connections?[indexPath.row] else { return }
             conversationVC.recipient = user
 
             conversationVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(conversationVC, animated: true)
         } else {
-            let conversationVC = ConversationViewController()
+            let conversationVC = MessagesViewController()
             guard let message = UserResponse.messages?[indexPath.row] else { return }
             let user = UserResponse.connections?.filter({ return $0._id == message.recipient }).first
             conversationVC.recipient = user ?? nil

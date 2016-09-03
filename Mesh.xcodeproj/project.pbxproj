@@ -27,7 +27,6 @@
 		23568E981D776E5B008A3CBB /* AddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23568E971D776E5B008A3CBB /* AddCardView.swift */; };
 		236E27AE1D67BAC5002ABAB4 /* InboxTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27AD1D67BAC5002ABAB4 /* InboxTableViewController.swift */; };
 		236E27B01D67BFFE002ABAB4 /* EventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27AF1D67BFFE002ABAB4 /* EventsTableViewController.swift */; };
-		236E27B21D67C2F6002ABAB4 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27B11D67C2F6002ABAB4 /* ConversationViewController.swift */; };
 		236E27B41D67C40D002ABAB4 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27B31D67C40D002ABAB4 /* MessagesViewController.swift */; };
 		236E27B61D67C795002ABAB4 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27B51D67C795002ABAB4 /* SettingsTableViewController.swift */; };
 		236E27B81D67C9D2002ABAB4 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27B71D67C9D2002ABAB4 /* Token.swift */; };
@@ -102,7 +101,6 @@
 		23568E971D776E5B008A3CBB /* AddCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardView.swift; sourceTree = "<group>"; };
 		236E27AD1D67BAC5002ABAB4 /* InboxTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxTableViewController.swift; sourceTree = "<group>"; };
 		236E27AF1D67BFFE002ABAB4 /* EventsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsTableViewController.swift; sourceTree = "<group>"; };
-		236E27B11D67C2F6002ABAB4 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		236E27B31D67C40D002ABAB4 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		236E27B51D67C795002ABAB4 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		236E27B71D67C9D2002ABAB4 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
@@ -182,7 +180,6 @@
 				237B787F1D790C560018347A /* MessagePreviewTableViewCell.swift */,
 				237B78801D790C560018347A /* MessagePreviewTableViewCell.xib */,
 				236E27AD1D67BAC5002ABAB4 /* InboxTableViewController.swift */,
-				236E27B11D67C2F6002ABAB4 /* ConversationViewController.swift */,
 				236E27B31D67C40D002ABAB4 /* MessagesViewController.swift */,
 				2322B9891D6BCA5500921699 /* ConnectionTableViewCell.swift */,
 				2322B98A1D6BCA5500921699 /* ConnectionTableViewCell.xib */,
@@ -583,7 +580,6 @@
 				AD06B7051D59215D005D349A /* SwipeConfig.swift in Sources */,
 				236E27B81D67C9D2002ABAB4 /* Token.swift in Sources */,
 				23A0BEF61D6CEAF200C97D40 /* ArticleViewController.swift in Sources */,
-				236E27B21D67C2F6002ABAB4 /* ConversationViewController.swift in Sources */,
 				ADEA92961D53E5A40016B0DB /* Card.swift in Sources */,
 				236E27BE1D67FDC2002ABAB4 /* LoginTableViewController.swift in Sources */,
 				23F817931D77CD5D006AE3F3 /* EditCardTableViewCell.swift in Sources */,

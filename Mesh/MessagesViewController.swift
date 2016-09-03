@@ -14,9 +14,24 @@ class MessagesViewController: JSQMessagesViewController {
     var messages = [JSQMessage]()
     var recipient : UserResponse?
     var meshMessages : [MessageResponse]?
-
+    let label = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.constrain(.height, constant: 44)
+    }
+    
+    let imageView = UIImageView().then {
+        $0.layer.cornerRadius = 5.0
+        $0.clipsToBounds = true
+        $0.backgroundColor = .gray
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.constrain(.width, .height, constant: 30)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(image: #imageLiteral(resourceName: "chatOverflow"), style: .plain, target: self, action: #selector(overflow)),
+                                              UIBarButtonItem(image: #imageLiteral(resourceName: "chatMarkAsUnread"), style: .plain, target: self, action: #selector(toggleReadState))]
         
         let imageButton = UIButton(type: .custom)
         imageButton.addTarget(self, action: #selector(image), for: .touchUpInside)
@@ -25,7 +40,7 @@ class MessagesViewController: JSQMessagesViewController {
         inputToolbar.contentView?.textView?.placeHolder = "Send a message..."
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(editMessage(_:)))
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(deleteMessage(_:)))
-        
+        inputToolbar.preferredDefaultHeight = 200
         TWTRAPIClient().loadTweet(withID: "631879971628183552") { (tweet, error) in
             guard let unwrappedTweet = tweet else {
                 print("Tweet load error:\(error!.localizedDescription)")
@@ -34,10 +49,9 @@ class MessagesViewController: JSQMessagesViewController {
             let media = TwitterMessageMedia(TWTRTweetView(tweet: unwrappedTweet))
             let message = JSQMessage(senderId: self.senderId(), displayName: self.senderDisplayName(), media: media)
             self.messages.append(message)
-            self.collectionView?.reloadData()
         }
     }
-    
+
     override func senderId() -> String {
         return UserResponse.currentUser?._id ?? "1"
     }
@@ -52,8 +66,43 @@ class MessagesViewController: JSQMessagesViewController {
         meshMessages?.forEach({
             let message = JSQMessage(senderId: self.senderId(), senderDisplayName: self.senderDisplayName(), date: Date(timeIntervalSince1970: TimeInterval($0.ts/1000)), text: $0.text!)
             self.messages.append(message)
+            self.collectionView?.reloadData()
         })
         showTypingIndicator = true
+        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        collectionView?.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 44, right: 0)
+        collectionView?.collectionViewLayout.invalidateLayout()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        label.text = recipient?.fullName() ?? ""
+        
+        let container = UIStackView(arrangedSubviews: [imageView, label]).then{
+            $0.axis = .horizontal
+            $0.alignment = .center
+            $0.distribution = .fillProportionally
+            $0.spacing = 10
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.constrain(.height, constant: 44)
+        }
+        navigationItem.titleView = container
+
+        guard let url = recipient?.photos?.large else { return }
+        imageView.af_setImage(withURL: URL(string: url)!)
+    }
+    
+    func toggleReadState() {
+        
+    }
+    
+    func overflow() {
+        
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -138,7 +187,8 @@ class MessagesViewController: JSQMessagesViewController {
     }
     
     override func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
-        
+        return true
+
         if URL.scheme == "http" || URL.scheme == "https" {
             let articleVC = ArticleViewController()
             articleVC.url = URL.absoluteString
