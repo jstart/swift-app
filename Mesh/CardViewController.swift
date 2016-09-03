@@ -148,7 +148,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         position.text = card?.person?.user?.title != nil ? card!.person!.user!.title! : "VP of Engineering at Tesla"
         
         guard let largeURL = card?.person?.user?.photos?.large else {
-            imageView.image = nil
+            imageView.image = #imageLiteral(resourceName: "profile_sample")
             return
         }
         imageView.alpha = 0.0

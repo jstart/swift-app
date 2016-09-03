@@ -18,7 +18,7 @@ class TwitterMessageMedia: NSObject, JSQMessageMediaData {
         super.init()
     }
     
-    open func mediaView() -> UIView! {
+    open func mediaView() -> UIView? {
         return tweet
     }
 
@@ -26,7 +26,7 @@ class TwitterMessageMedia: NSObject, JSQMessageMediaData {
         return tweet.frame.size
     }
 
-    open func mediaPlaceholderView() -> UIView! {
+    open func mediaPlaceholderView() -> UIView {
         return TWTRTweetView()
     }
 

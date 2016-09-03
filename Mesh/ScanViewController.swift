@@ -40,7 +40,7 @@ struct QRCard {
     var fields : [ProfileFields]
 }
 
-class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, ViewPagerDelegate {
     
     var captureSession: AVCaptureSession?
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
@@ -77,12 +77,15 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 
         var cardViews = [UIView]()
         for card in cards {
-            cardViews.append(QRCardView(UserResponse.currentUser!, fields: card.fields))
+            let qr = QRCardView(UserResponse.currentUser!, fields: card.fields)
+            qr.pageControl.numberOfPages = min(cards.count + 1, 3)
+            cardViews.append(qr)
         }
         
         cardViews.append(AddCardView(touchHandler: { self.add() }))
         
         pager = ViewPager(views: cardViews)
+        pager?.delegate = self
         view.addSubview(pager!.scroll)
         pager?.scroll.translatesAutoresizingMaskIntoConstraints = false
         pager?.scroll.constrain(.height, constant: 180)
@@ -157,6 +160,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         outline.addDashedBorder(.white)
+        
+        Snackbar(title: "Connected").presentIn(view: view)
     }
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
@@ -190,7 +195,15 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     func add(){
         cards.append(QRCard(index: 1, fields: [.name, .title]))
-        pager?.insertView(QRCardView(UserResponse.currentUser!, fields: [.name, .title]), atIndex: pager!.previousPage)
+        pager?.stack.arrangedSubviews.forEach({
+            if let qr = $0 as? QRCardView {
+                qr.pageControl.numberOfPages = min(cards.count + 1, 3)
+            }
+        })
+        let qr = QRCardView(UserResponse.currentUser!, fields: [.name, .title])
+        qr.pageControl.numberOfPages = min(cards.count + 1, 3)
+        qr.pageControl.currentPage = pager!.previousPage
+        pager?.insertView(qr, atIndex: pager!.previousPage)
         
         if cards.count == 3 {
             pager?.removeView(atIndex: 3)
@@ -261,6 +274,11 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         let index = pager?.previousPage ?? 0
         pager?.removeView(atIndex: index)
         cards.remove(at: index)
+        pager?.stack.arrangedSubviews.forEach({
+            if let qr = $0 as? QRCardView {
+                qr.pageControl.numberOfPages = min(cards.count + 1, 3)
+            }
+        })
         pager?.selectedIndex(index - 1, animated: true)
         
         for view in pager!.stack.arrangedSubviews {
@@ -269,6 +287,14 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         pager?.insertView(AddCardView(touchHandler: {
             self.add()
         }), atIndex: cards.count)
+    }
+    
+    func selectedIndex(_ index: Int) {
+        pager?.stack.arrangedSubviews.forEach({
+            if let qr = $0 as? QRCardView {
+                qr.pageControl.currentPage = index
+            }
+        })
     }
     
     func overflow() {
@@ -301,24 +327,5 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         }
 
         present(sheet, animated: true, completion: nil)
-    }
-}
-
-extension UIView {
-    func addDashedBorder(_ color: UIColor) {
-        let shapeLayer = CAShapeLayer()
-        let frameSize = frame.size
-        let shapeRect = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
-        
-        shapeLayer.bounds = shapeRect
-        shapeLayer.position = CGPoint(x: frameSize.width/2, y: frameSize.height/2)
-        shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.strokeColor = color.cgColor
-        shapeLayer.lineWidth = 4
-        shapeLayer.lineJoin = kCALineJoinMiter
-        shapeLayer.lineDashPattern = [10,12]
-        shapeLayer.path = UIBezierPath(roundedRect: shapeRect, cornerRadius: 0).cgPath
-        
-        layer.addSublayer(shapeLayer)
     }
 }

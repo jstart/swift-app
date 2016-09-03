@@ -42,6 +42,7 @@
 		237B78811D790C560018347A /* MessagePreviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237B787F1D790C560018347A /* MessagePreviewTableViewCell.swift */; };
 		237B78821D790C560018347A /* MessagePreviewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 237B78801D790C560018347A /* MessagePreviewTableViewCell.xib */; };
 		2397C37A1D5E5A6F005C982E /* QuickPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397C3791D5E5A6F005C982E /* QuickPageControl.swift */; };
+		239DFAD11D7A2E8500997447 /* Snackbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239DFAD01D7A2E8500997447 /* Snackbar.swift */; };
 		239E01F01D6A801D0072530B /* UserDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239E01EE1D6A801D0072530B /* UserDetailTableViewCell.swift */; };
 		239E01F11D6A801D0072530B /* UserDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 239E01EF1D6A801D0072530B /* UserDetailTableViewCell.xib */; };
 		23A0BEF61D6CEAF200C97D40 /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A0BEF41D6CEAF200C97D40 /* ArticleViewController.swift */; };
@@ -118,6 +119,7 @@
 		237B787F1D790C560018347A /* MessagePreviewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePreviewTableViewCell.swift; sourceTree = "<group>"; };
 		237B78801D790C560018347A /* MessagePreviewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessagePreviewTableViewCell.xib; sourceTree = "<group>"; };
 		2397C3791D5E5A6F005C982E /* QuickPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickPageControl.swift; sourceTree = "<group>"; };
+		239DFAD01D7A2E8500997447 /* Snackbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Snackbar.swift; sourceTree = "<group>"; };
 		239E01EE1D6A801D0072530B /* UserDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailTableViewCell.swift; sourceTree = "<group>"; };
 		239E01EF1D6A801D0072530B /* UserDetailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserDetailTableViewCell.xib; sourceTree = "<group>"; };
 		23A0BEF41D6CEAF200C97D40 /* ArticleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleViewController.swift; sourceTree = "<group>"; };
@@ -345,6 +347,7 @@
 				23202F231D755EFD007B38AF /* CameraManager.swift */,
 				23F817991D78D2D6006AE3F3 /* Keychain.swift */,
 				23DFB67F1D6669F700D871A9 /* LocationManager.swift */,
+				239DFAD01D7A2E8500997447 /* Snackbar.swift */,
 				23272ADB1D6F914A007438D9 /* ContactsManager.swift */,
 				23A0BEF41D6CEAF200C97D40 /* ArticleViewController.swift */,
 				23F817941D77CF8C006AE3F3 /* Colors.swift */,
@@ -553,6 +556,7 @@
 				AD4E2E241D5AAE4300130811 /* MessagesRequest.swift in Sources */,
 				233E944C1D63B9CD00919B95 /* CardDetailTransition.swift in Sources */,
 				23F817981D78CA67006AE3F3 /* EditTableViewController.swift in Sources */,
+				239DFAD11D7A2E8500997447 /* Snackbar.swift in Sources */,
 				236E27B61D67C795002ABAB4 /* SettingsTableViewController.swift in Sources */,
 				23D409661D713D3A00059126 /* TwitterMessageMedia.swift in Sources */,
 				239E01F01D6A801D0072530B /* UserDetailTableViewCell.swift in Sources */,
@@ -721,7 +725,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Mesh/Mesh.entitlements;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -745,7 +749,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Mesh/Mesh.entitlements;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

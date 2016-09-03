@@ -23,6 +23,14 @@ class QRCardView: CardView {
         $0.font = .boldSystemFont(ofSize: 22)
     }
     
+    let pageControl = UIPageControl().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.currentPageIndicatorTintColor = Colors.brand
+        $0.pageIndicatorTintColor = .lightGray
+        $0.constrain(.height, constant: 5)
+        $0.constrain(.width, constant: 100)
+    }
+    
     let title = QRCardView.detailLabel("")
     let email = QRCardView.detailLabel("")
     let phone = QRCardView.detailLabel("")
@@ -56,6 +64,11 @@ class QRCardView: CardView {
         stackView?.constrain(.centerY, toItem: self)
         stackView?.constrain(.top, relatedBy: .greaterThanOrEqual, constant: 10, toItem: self)
         stackView?.constrain(.bottom, relatedBy: .lessThanOrEqual, constant: -10, toItem: self)
+        
+        addSubview(pageControl)
+
+        pageControl.constrain(.centerX, toItem: self)
+        pageControl.constrain(.bottom, constant: -10, toItem: self)
     }
     
     func updateFields(_ fields: [ProfileFields]) {

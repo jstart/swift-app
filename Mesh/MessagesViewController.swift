@@ -17,14 +17,12 @@ class MessagesViewController: JSQMessagesViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        senderId = UserResponse.currentUser?._id ?? "1"
-        senderDisplayName = UserResponse.currentUser?.first_name ?? "Name"
         
         let imageButton = UIButton(type: .custom)
         imageButton.addTarget(self, action: #selector(image), for: .touchUpInside)
         imageButton.setImage(#imageLiteral(resourceName: "chatUploadPhoto"), for: .normal)
-        inputToolbar.contentView.leftBarButtonItem = imageButton
-        inputToolbar.contentView.textView.placeHolder = "Send a message..."
+        inputToolbar.contentView?.leftBarButtonItem = imageButton
+        inputToolbar.contentView?.textView?.placeHolder = "Send a message..."
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(editMessage(_:)))
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(deleteMessage(_:)))
         
@@ -34,17 +32,25 @@ class MessagesViewController: JSQMessagesViewController {
                 return
             }
             let media = TwitterMessageMedia(TWTRTweetView(tweet: unwrappedTweet))
-            let message = JSQMessage(senderId: self.senderId, displayName: self.senderDisplayName, media: media)
-            self.messages.append(message!)
-            self.collectionView.reloadData()
+            let message = JSQMessage(senderId: self.senderId(), displayName: self.senderDisplayName(), media: media)
+            self.messages.append(message)
+            self.collectionView?.reloadData()
         }
+    }
+    
+    override func senderId() -> String {
+        return UserResponse.currentUser?._id ?? "1"
+    }
+    
+    override func senderDisplayName() -> String {
+        return UserResponse.currentUser?.first_name ?? "Name"
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         meshMessages = UserResponse.messages?.filter({return $0.recipient == recipient?._id && $0.text != ""})
         meshMessages?.forEach({
-            let message = JSQMessage(senderId: self.senderId, senderDisplayName: self.senderDisplayName, date: Date(timeIntervalSince1970: TimeInterval($0.ts/1000)), text: $0.text)!
+            let message = JSQMessage(senderId: self.senderId(), senderDisplayName: self.senderDisplayName(), date: Date(timeIntervalSince1970: TimeInterval($0.ts/1000)), text: $0.text!)
             self.messages.append(message)
         })
         showTypingIndicator = true
@@ -54,34 +60,34 @@ class MessagesViewController: JSQMessagesViewController {
         return messages.count
     }
     
-    override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, messageDataForItemAt indexPath: IndexPath) -> JSQMessageData {
         return messages[indexPath.item]
     }
     
-    override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
+    override func didPressSend(_ button: UIButton, withMessageText text: String, senderId: String, senderDisplayName: String, date: Date) {
         Client().execute(MessagesSendRequest(recipient: recipient?._id ?? "57ba725d87223ad6215ecaf9", text: text), completionHandler: { response in
             self.messages.append(JSQMessage(senderId: senderId, displayName: senderDisplayName, text: text))
             self.finishSendingMessage(animated: true)
         })
     }
     
-    override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
-        if messages[indexPath.row].senderId == senderId {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, messageBubbleImageDataForItemAt indexPath: IndexPath) -> JSQMessageBubbleImageDataSource {
+        if messages[indexPath.row].senderId == senderId() {
             return JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: .gray)
         }
         return JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: .blue)
     }
     
-    override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellBottomLabelAt indexPath: IndexPath!) -> NSAttributedString! {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, attributedTextForCellBottomLabelAt indexPath: IndexPath) -> NSAttributedString? {
         let message = messages[indexPath.row]
         return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date)
     }
     
-    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellBottomLabelAt indexPath: IndexPath!) -> CGFloat {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout, heightForCellBottomLabelAt indexPath: IndexPath) -> CGFloat {
         return kJSQMessagesCollectionViewCellLabelHeightDefault
     }
     
-    override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? {
         return nil
     }
     
@@ -108,7 +114,7 @@ class MessagesViewController: JSQMessagesViewController {
         jsqCell.textView?.delegate = self
     }
     
-    override func didReceiveMenuWillShow(_ notification: Notification!) {
+    override func didReceiveMenuWillShow(_ notification: Notification) {
         let menu = notification.object as! UIMenuController
         menu.menuItems = [UIMenuItem(title: "Edit", action: #selector(editMessage(_:))),
                             UIMenuItem(title: "Delete", action: #selector(deleteMessage(_:)))]
@@ -127,7 +133,7 @@ class MessagesViewController: JSQMessagesViewController {
         guard let meshMessage = meshMessages?[indexPath.row] else { return }
         Client().execute(MessagesDeleteRequest(id: meshMessage._id), completionHandler: { response in
             self.messages.remove(at: indexPath.row)
-            self.collectionView.reloadData()
+            self.collectionView?.reloadData()
         })
     }
     
@@ -143,7 +149,7 @@ class MessagesViewController: JSQMessagesViewController {
         return true
     }
     
-    override func didPressAccessoryButton(_ sender: UIButton!) {
+    override func didPressAccessoryButton(_ sender: UIButton) {
 
     }
     
