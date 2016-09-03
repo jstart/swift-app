@@ -59,8 +59,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
         search.tableView.reloadData()
     }
     
-    func sort() {
-    }
+    func sort() { }
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -95,7 +94,6 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {

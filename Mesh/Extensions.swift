@@ -8,6 +8,55 @@
 
 import UIKit
 
+extension String {
+    private var qrImage: CIImage? {
+        let textData = data(using: .isoLatin1, allowLossyConversion: false)
+        let filter = CIFilter(name: "CIQRCodeGenerator")
+        
+        filter?.setValue(textData, forKey: "inputMessage")
+        filter?.setValue("Q", forKey: "inputCorrectionLevel")
+        
+        return filter?.outputImage
+    }
+    
+    func qrImage(withSize size: CGSize, foreground: UIColor = .black, background: UIColor = .white) -> UIImage? {
+        return qrImage?.scaledWithSize(size).colored(withForeground: foreground, background: background)?.uiImage
+    }
+}
+
+private extension CIImage {
+    var uiImage: UIImage? { return UIImage(ciImage: self) }
+    
+    func scaledWithSize(_ size: CGSize) -> CIImage {
+        let scaleX = size.width / extent.size.width
+        let scaleY = size.height / extent.size.height
+        
+        return applying(CGAffineTransform(scaleX: scaleX, y: scaleY))
+    }
+    
+    func colored(withForeground foreground: UIColor, background: UIColor) -> CIImage? {
+        let foregroundCoreColor = CIColor(uiColor: foreground)
+        let backgroundCoreColor = CIColor(uiColor: background)
+        
+        let colorFilter = CIFilter(name: "CIFalseColor", withInputParameters: [
+            "inputImage": self,
+            "inputColor0":foregroundCoreColor,
+            "inputColor1":backgroundCoreColor
+            ])
+        
+        return colorFilter?.outputImage
+    }
+}
+
+private extension CIColor {
+    convenience init(uiColor: UIColor) {
+        let foregroundColorRef = uiColor.cgColor
+        let foregroundColorString = CIColor(cgColor: foregroundColorRef).stringRepresentation
+        
+        self.init(string: foregroundColorString)
+    }
+}
+
 extension UIAlertController {
     func addActions(_ actions: UIAlertAction...) {
         for action in actions { addAction(action) }
@@ -51,17 +100,17 @@ extension UIView {
         return constraint
     }
     
-    var heightConstraint : NSLayoutConstraint { get { return constraintFor(.height) } }
+    var heightConstraint: NSLayoutConstraint { return constraintFor(.height) }
     
-    var widthConstraint : NSLayoutConstraint { get { return constraintFor(.width) } }
+    var widthConstraint: NSLayoutConstraint { return constraintFor(.width) }
     
-    var topConstraint : NSLayoutConstraint { get { return constraintFor(.top) } }
+    var topConstraint: NSLayoutConstraint { return constraintFor(.top) }
     
-    var bottomConstraint : NSLayoutConstraint { get { return constraintFor(.bottom) } }
+    var bottomConstraint: NSLayoutConstraint { return constraintFor(.bottom) }
     
-    var leadingConstraint : NSLayoutConstraint { get { return constraintFor(.leading) } }
+    var leadingConstraint: NSLayoutConstraint { return constraintFor(.leading) }
     
-    var trailingConstraint : NSLayoutConstraint {  get { return constraintFor(.trailing) } }
+    var trailingConstraint: NSLayoutConstraint { return constraintFor(.trailing) }
     
     func constraintFor(_ attribute: NSLayoutAttribute, toItem: UIView? = nil) -> NSLayoutConstraint {
         guard let item = toItem else {
@@ -70,9 +119,7 @@ extension UIView {
         return constraints.filter({ return $0.firstAttribute == attribute && $0.firstItem as! UIView == item }).first!
     }
     
-    func addSubviews(_ views: UIView...) {
-        views.forEach { self.addSubview($0) }
-    }
+    func addSubviews(_ views: UIView...) { views.forEach { self.addSubview($0) } }
     
     func addDashedBorder(_ color: UIColor) {
         let shapeLayer = CAShapeLayer()
@@ -93,22 +140,16 @@ extension UIView {
 }
 
 extension UIViewController {
-    func withNav() -> UINavigationController {
-        return UINavigationController(rootViewController: self)
-    }
+    func withNav() -> UINavigationController { return UINavigationController(rootViewController: self) }
 }
 
 extension Int {
     func perform(_ closure: () -> Void) {
-        (0..<self).forEach { _ in
-            closure()
-        }
+        (0..<self).forEach { _ in closure() }
     }
     
     func performIndex(_ closure: @escaping (Int) -> Void) {
-        (0..<self).forEach { index in
-            closure(index)
-        }
+        (0..<self).forEach { index in closure(index) }
     }
 }
 

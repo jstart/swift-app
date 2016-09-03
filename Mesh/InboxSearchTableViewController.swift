@@ -71,9 +71,7 @@ class InboxSearchTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if showRecents {
-            return
-        }
+        guard showRecents else { return }
         guard let connection = filteredConnections?[indexPath.row] else { return }
 
         let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])

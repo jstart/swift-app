@@ -17,7 +17,6 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
         super.viewDidLoad()
         title = "Sign Up"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(signUp))
     }
     
@@ -41,10 +40,12 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-        let field = UITextField()
-        field.delegate = self
-        field.autocapitalizationType = .none
-        field.translatesAutoresizingMaskIntoConstraints = false
+        let field = UITextField().then {
+            $0.delegate = self
+            $0.autocapitalizationType = .none
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
         cell.addSubview(field)
         field.constrain(.leadingMargin, .trailing, .height, .centerY, toItem: cell)
         if indexPath.section == 0 { phoneField = field } else { passwordField = field }
@@ -63,9 +64,7 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == passwordField {
-            signUp()
-        }
+        if textField == passwordField { signUp() }
         return true
     }
     

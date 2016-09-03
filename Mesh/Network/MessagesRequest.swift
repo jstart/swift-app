@@ -9,24 +9,18 @@
 import Alamofire
 
 struct MessagesSendRequest : AuthenticatedRequest {
-    let path = "message"
-    let method = HTTPMethod.put
+    let path = "message", method = HTTPMethod.put
     
-    var recipient : String
-    var text : String
+    let recipient : String, text : String
     
-    func parameters() -> [String : Any] {
-        return ["recipient": recipient, "text" : text]
-    }
+    func parameters() -> [String : Any] { return ["recipient": recipient, "text" : text] }
 }
 
 // TODO: edit
 struct MessagesEditRequest : AuthenticatedRequest {
-    let path = "message"
-    let method = HTTPMethod.put
+    let path = "message", method = HTTPMethod.put
     
-    var _id : String
-    var message : String
+    let _id : String, message : String
     
     func parameters() -> [String : Any] {
         return ["_id": _id, "message" : message]
@@ -34,21 +28,12 @@ struct MessagesEditRequest : AuthenticatedRequest {
 }
 
 struct MessagesDeleteRequest : AuthenticatedRequest {
-    var path : String {
-        get {
-           return "message" + "/" + _id
-        }
-    }
-    
+    var path : String { return "message" + "/" + _id }
     let method = HTTPMethod.delete
     
-    var _id : String
+    let _id : String
     
-    init(id : String) {
-        _id = id
-    }
+    init(id : String) { _id = id }
     
-    func parameters() -> [String : Any] {
-        return ["_id": _id]
-    }
+    func parameters() -> [String : Any] { return ["_id": _id] }
 }

@@ -9,12 +9,6 @@
 import UIKit
 import Alamofire
 
-/*struct MediumRequest : Request {
-    let path = "browse/top?format=json"
-    
-    let method : HTTPMethod = .get
-}*/
-
 class FeedViewController: UIViewController {
 
     let cardStack = CardStack()
@@ -75,6 +69,18 @@ class FeedViewController: UIViewController {
                 UserResponse.currentUser = UserResponse(JSON: JSON)
             })
         }
+        
+        client.execute(CardsRequest(), completionHandler: { response in
+            guard let JSON = response.result.value as? JSONArray else { return }
+            let array = JSON.map({ return CardResponse(JSON: $0) })
+            print(array)
+        })
+        
+        client.execute(CardCreateRequest(position: 0, first_name: true, last_name: true, email: false, phone_number: true, title: false), completionHandler: { response in
+            guard let JSON = response.result.value as? JSONArray else { return }
+            //let array = JSON.map({ return CardResponse(JSON: $0) })
+            //print(array)
+        })
        
         locationManager.startTracking()
         /*for index in 0..<cardStack.cards!.count {
@@ -82,23 +88,9 @@ class FeedViewController: UIViewController {
             client.execute(ConnectionRequest(recipient: recIds), completionHandler: { response in
             })
         }*/
-        
-        /*let request = MediumRequest()
-        Alamofire.request("https://medium.com/" + request.path, withMethod: request.method, encoding: .json)
-            .responseString(completionHandler: { response in
-                let json = response.result.value!.substring(from: response.result.value!.index(response.result.value!.startIndex, offsetBy: 16))
-                print(json)
-                do {
-                    let jsonObject = try JSONSerialization.jsonObject(with: json.data(using: .utf8)!, options: JSONSerialization.ReadingOptions.allowFragments)
-                    print(jsonObject)
-                } catch {
-                }
-            })*/
     }
     
-    func sort(){
-        
-    }
+    func sort(){ }
     
     func qr() {
         guard UserResponse.currentUser != nil else { return }

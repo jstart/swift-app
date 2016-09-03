@@ -11,11 +11,7 @@ import Contacts
 import UIKit
 
 extension CNContact {
-    var searchText : String {
-        get {
-            return [givenName, familyName].joined(separator: " ")
-        }
-    }
+    var searchText : String { return [givenName, familyName].joined(separator: " ") }
 }
 
 class ContactsManager : NSObject {
@@ -30,7 +26,7 @@ class ContactsManager : NSObject {
     var viewController : UIViewController?
     
     static var authStatus : CNAuthorizationStatus {
-        get { return CNContactStore.authorizationStatus(for: .contacts) }
+        return CNContactStore.authorizationStatus(for: .contacts)
     }
     
     func requestAccess(completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
@@ -113,10 +109,9 @@ class ContactsManager : NSObject {
                 print("No contacts were found matching the given name.")
             }
             return contacts
-            
         }
         catch {
-            print("Unable to fetch contacts.")
+            print("Unable to fetch contacts. \(error)")
             return contacts
         }
     }

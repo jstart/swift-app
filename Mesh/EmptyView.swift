@@ -56,13 +56,14 @@ class EmptyView: UIView {
 
         guard let actions = actions else { return }
         for action in actions {
-            let button = UIButton()
-            button.layer.cornerRadius = 5
-            button.setTitle(action.title, for: .normal)
-            button.titleLabel?.font = .boldSystemFont(ofSize:14)
-            button.setTitleColor(action.titleColor, for: .normal)
-            button.backgroundColor = action.backgroundColor
-            button.addTarget(self, action: #selector(buttonPress(sender:)), for: .touchUpInside)
+            let button = UIButton().then {
+                $0.layer.cornerRadius = 5
+                $0.setTitle(action.title, for: .normal)
+                $0.titleLabel?.font = .boldSystemFont(ofSize:14)
+                $0.setTitleColor(action.titleColor, for: .normal)
+                $0.backgroundColor = action.backgroundColor
+                $0.addTarget(self, action: #selector(buttonPress(sender:)), for: .touchUpInside)
+            }
             
             addSubview(button)
             button.translatesAutoresizingMaskIntoConstraints = false

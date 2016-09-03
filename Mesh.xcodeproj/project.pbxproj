@@ -33,6 +33,7 @@
 		236E27BC1D67F8EE002ABAB4 /* JoinTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27BB1D67F8EE002ABAB4 /* JoinTableViewController.swift */; };
 		236E27BE1D67FDC2002ABAB4 /* LoginTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27BD1D67FDC2002ABAB4 /* LoginTableViewController.swift */; };
 		236E27C01D67FDDA002ABAB4 /* SignUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27BF1D67FDDA002ABAB4 /* SignUpTableViewController.swift */; };
+		237827231D7B50B20059AB37 /* CardRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237827221D7B50B20059AB37 /* CardRequest.swift */; };
 		237B787A1D7906160018347A /* PreviewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237B78701D7906160018347A /* PreviewError.swift */; };
 		237B787B1D7906160018347A /* PreviewErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237B78711D7906160018347A /* PreviewErrorTypes.swift */; };
 		237B787C1D7906160018347A /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237B78721D7906160018347A /* Regex.swift */; };
@@ -107,6 +108,7 @@
 		236E27BB1D67F8EE002ABAB4 /* JoinTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinTableViewController.swift; sourceTree = "<group>"; };
 		236E27BD1D67FDC2002ABAB4 /* LoginTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTableViewController.swift; sourceTree = "<group>"; };
 		236E27BF1D67FDDA002ABAB4 /* SignUpTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpTableViewController.swift; sourceTree = "<group>"; };
+		237827221D7B50B20059AB37 /* CardRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardRequest.swift; sourceTree = "<group>"; };
 		237B78661D78FB2E0018347A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		237B78681D78FD000018347A /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = Carthage/Build/iOS/AlamofireImage.framework; sourceTree = "<group>"; };
 		237B78701D7906160018347A /* PreviewError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewError.swift; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 				23DFB6791D653E1E00D871A9 /* PositionRequest.swift */,
 				23DFB67B1D654B3C00D871A9 /* ProfileRequest.swift */,
 				236E27B71D67C9D2002ABAB4 /* Token.swift */,
+				237827221D7B50B20059AB37 /* CardRequest.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				23C09D541D624C66003C9183 /* ViewPager.swift in Sources */,
 				23E33EE51D753A48000A6A6F /* AlertViewController.swift in Sources */,
 				233E944E1D63BAE000919B95 /* CardDetailViewController.swift in Sources */,
+				237827231D7B50B20059AB37 /* CardRequest.swift in Sources */,
 				23202F241D755EFD007B38AF /* CameraManager.swift in Sources */,
 				23272ADF1D6FA2B6007438D9 /* ContactsTableViewController.swift in Sources */,
 				AD06B6FF1D56BA5B005D349A /* CardFeedViewConfig.swift in Sources */,
@@ -721,7 +725,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Mesh/Mesh.entitlements;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -745,7 +749,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Mesh/Mesh.entitlements;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

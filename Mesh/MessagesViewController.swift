@@ -52,13 +52,9 @@ class MessagesViewController: JSQMessagesViewController {
         }
     }
 
-    override func senderId() -> String {
-        return UserResponse.currentUser?._id ?? "1"
-    }
+    override func senderId() -> String { return UserResponse.currentUser?._id ?? "1" }
     
-    override func senderDisplayName() -> String {
-        return UserResponse.currentUser?.first_name ?? "Name"
-    }
+    override func senderDisplayName() -> String { return UserResponse.currentUser?.first_name ?? "Name" }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -69,7 +65,6 @@ class MessagesViewController: JSQMessagesViewController {
             self.collectionView?.reloadData()
         })
         showTypingIndicator = true
-        
     }
     
     override func viewWillLayoutSubviews() {
@@ -83,7 +78,7 @@ class MessagesViewController: JSQMessagesViewController {
         
         label.text = recipient?.fullName() ?? ""
         
-        let container = UIStackView(arrangedSubviews: [imageView, label]).then{
+        let container = UIStackView(arrangedSubviews: [imageView, label]).then {
             $0.axis = .horizontal
             $0.alignment = .center
             $0.distribution = .fillProportionally
@@ -97,13 +92,9 @@ class MessagesViewController: JSQMessagesViewController {
         imageView.af_setImage(withURL: URL(string: url)!)
     }
     
-    func toggleReadState() {
-        
-    }
+    func toggleReadState() { }
     
-    func overflow() {
-        
-    }
+    func overflow() { }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
@@ -114,7 +105,7 @@ class MessagesViewController: JSQMessagesViewController {
     }
     
     override func didPressSend(_ button: UIButton, withMessageText text: String, senderId: String, senderDisplayName: String, date: Date) {
-        Client().execute(MessagesSendRequest(recipient: recipient?._id ?? "57ba725d87223ad6215ecaf9", text: text), completionHandler: { response in
+        Client().execute(MessagesSendRequest(recipient: recipient?._id ?? "", text: text), completionHandler: { response in
             self.messages.append(JSQMessage(senderId: senderId, displayName: senderDisplayName, text: text))
             self.finishSendingMessage(animated: true)
         })
@@ -199,11 +190,7 @@ class MessagesViewController: JSQMessagesViewController {
         return true
     }
     
-    override func didPressAccessoryButton(_ sender: UIButton) {
-
-    }
+    override func didPressAccessoryButton(_ sender: UIButton) {  }
     
-    func image() {
-        
-    }
+    func image() { }
 }

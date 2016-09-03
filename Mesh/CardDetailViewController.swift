@@ -70,17 +70,13 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if presentingViewController != nil {
-            presentingViewController!.dismiss(animated: false, completion: nil)
-        }
+        presentingViewController?.dismiss(animated: false, completion: nil)
     }
     
     open func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         let table = viewController as! UserDetailTableViewController
         let index = table.index!
-        if index == 0 {
-            return nil
-        }
+        if index == 0 {  return nil }
 
         return controllers[index - 1]
     }
@@ -88,9 +84,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
     open func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         let table = viewController as! UserDetailTableViewController
         let index = table.index!
-        if index == controllers.count - 1 {
-            return nil
-        }
+        if index == controllers.count - 1 { return nil }
         
         return controllers[index + 1]
     }
@@ -118,6 +112,5 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
     func tap(_ sender:UITapGestureRecognizer) {
         dismiss(animated: true, completion: nil)
     }
-    
     
 }

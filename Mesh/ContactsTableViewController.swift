@@ -18,17 +18,18 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "Contacts"
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.delegate = self
         searchController.searchBar.placeholder = "Search for people"
         searchController.searchBar.delegate = self
         
-        searchController.hidesNavigationBarDuringPresentation = false
         searchController.dimsBackgroundDuringPresentation = false
-        definesPresentationContext = true
-        navigationItem.titleView = searchController.searchBar
-        //tableView.tableHeaderView = searchController.searchBar
+        //definesPresentationContext = true
+        //navigationItem.titleView = searchController.searchBar
+        tableView.tableHeaderView = searchController.searchBar
         
         title = "Contacts"
         tableView.registerNib(ConnectionTableViewCell.self)
@@ -37,8 +38,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.tableFooterView = UIView()
         tableView.allowsSelection = false
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close   ", style: .plain, target: self, action: #selector(close))
+        //navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close   ", style: .plain, target: self, action: #selector(close))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -162,9 +162,12 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     
     func invite(_ connection: CNContact, button: UIButton) {
         //TODO:
+        button.setTitle(" Added ", for: .selected)
+
     }
     
     func connect(_ connection: UserResponse, button: UIButton) {
+        button.setTitle("Connected", for: .selected)
         Client().execute(ConnectionRequest(recipient: connection._id), completionHandler: { _ in
         })
     }

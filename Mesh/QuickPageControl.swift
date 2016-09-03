@@ -38,10 +38,11 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
     init(categories: [QuickViewCategory]) {
         let array = categories.map({return $0.button()})
         
-        stack = UIStackView(arrangedSubviews: array)
-        stack?.spacing = 0
-        stack?.distribution = .fillEqually
-        stack?.alignment = .center
+        stack = UIStackView(arrangedSubviews: array).then {
+            $0.spacing = 0
+            $0.distribution = .fillEqually
+            $0.alignment = .center
+        }
 
         super.init()
         

@@ -62,7 +62,6 @@ class SwipeConfig {
         
         swipeUpBoundaryStart = CGFloat(SwipeConfig.DEGREES_270 - angleSwipeUp)
         swipeUpBoundaryEnd = CGFloat(SwipeConfig.DEGREES_270 + angleSwipeUp)
-        
     }
     
 }

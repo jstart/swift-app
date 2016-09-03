@@ -12,27 +12,18 @@ import AudioToolbox
 //import Shimmer
     
 enum ProfileFields : Int {
-    case name
-    case title
-    case email
-    case phone
+    case name, title, email, phone
     
     var name : String {
-        get {
-            switch self {
+        switch self {
             case .name: return "name"
             case .title: return "title"
             case .email: return "email"
             case .phone: return "phone"
-            }
         }
     }
     
-    var image : UIImage {
-        get {
-            return UIImage(named: name)!
-        }
-    }
+    var image : UIImage { return UIImage(named: name)! }
 }
 
 struct QRCard {
@@ -42,7 +33,7 @@ struct QRCard {
 
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, ViewPagerDelegate {
     
-    var captureSession: AVCaptureSession?
+    var captureSession = AVCaptureSession()
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     var qrCodeFrameView = UIView().then {
         $0.layer.borderColor = UIColor.green.cgColor
@@ -131,11 +122,10 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         do {
             let input = try AVCaptureDeviceInput(device: captureDevice)
             
-            captureSession = AVCaptureSession()
-            captureSession?.addInput(input)
+            captureSession.addInput(input)
             
             let captureMetadataOutput = AVCaptureMetadataOutput()
-            captureSession?.addOutput(captureMetadataOutput)
+            captureSession.addOutput(captureMetadataOutput)
             captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
             captureMetadataOutput.metadataObjectTypes = supportedBarCodes
             
@@ -144,7 +134,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             videoPreviewLayer?.frame = view.layer.bounds
             view.layer.addSublayer(videoPreviewLayer!)
             
-            captureSession?.startRunning()
+            captureSession.startRunning()
             
             view.addSubview(qrCodeFrameView)
             view.bringSubview(toFront: qrCodeFrameView)
@@ -154,13 +144,11 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         }
         view.bringSubview(toFront: pager!.scroll)
         view.bringSubview(toFront: outline)
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         outline.addDashedBorder(.white)
-        
         Snackbar(title: "Connected").presentIn(view: view)
     }
     
@@ -189,9 +177,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         }
     }
     
-    func close() {
-        dismiss(animated: true, completion: nil)
-    }
+    func close() { dismiss(animated: true, completion: nil) }
     
     func add(){
         cards.append(QRCard(index: 1, fields: [.name, .title]))

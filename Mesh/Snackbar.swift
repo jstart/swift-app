@@ -71,9 +71,7 @@ class Snackbar : UIView {
         })
     }
     
-    func pressed() {
-        handler?()
-    }
+    func pressed() { handler?() }
     
     func dismiss() {
         UIView.animate(withDuration: 0.2, animations: {

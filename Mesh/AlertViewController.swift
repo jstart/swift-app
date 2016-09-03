@@ -72,11 +72,12 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
 
         guard let actions = actions else { return }
         for action in actions {
-            let button = UIButton()
-            button.setTitle(action.title, for: .normal)
-            button.setTitleColor(action.titleColor, for: .normal)
-            button.backgroundColor = action.backgroundColor
-            button.addTarget(self, action: #selector(buttonPress(sender:)), for: .touchUpInside)
+            let button = UIButton().then {
+                $0.setTitle(action.title, for: .normal)
+                $0.setTitleColor(action.titleColor, for: .normal)
+                $0.backgroundColor = action.backgroundColor
+                $0.addTarget(self, action: #selector(buttonPress(sender:)), for: .touchUpInside)
+            }
             
             view.addSubview(button)
             button.translatesAutoresizingMaskIntoConstraints = false
@@ -85,10 +86,6 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
             button.constrain(.leading, .trailing, .bottom, toItem: view)
             buttons.append(button)
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
     }
 
     func buttonPress(sender: UIButton) {
@@ -103,9 +100,7 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return AlertTransition().then {
-            $0.presenting = false
-        }
+        return AlertTransition().then { $0.presenting = false }
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {

@@ -15,17 +15,8 @@ protocol UserDetail {
 }
 
 extension UserDetail {
-    var hasButton : Bool {
-        get {
-            return false
-        }
-    }
-    
-    var hasDate : Bool {
-        get {
-            return false
-        }
-    }
+    var hasButton : Bool { return false }
+    var hasDate : Bool { return false }
 }
 
 struct Connection : UserDetail {

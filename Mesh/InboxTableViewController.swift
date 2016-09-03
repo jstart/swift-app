@@ -22,6 +22,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
 
     override func viewDidLoad() {
         super.viewDidLoad()
+                
         searchController = UISearchController(searchResultsController: searchResults)
         searchController.searchResultsUpdater = self
         searchController.delegate = self
@@ -92,8 +93,8 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
     
     func add() {
-        present(ContactsTableViewController().withNav(), animated: true, completion: nil)
-        //navigationController?.pushViewController(ContactsTableViewController(), animated: true)
+        //present(ContactsTableViewController().withNav(), animated: true, completion: nil)
+        navigationController?.pushViewController(ContactsTableViewController(), animated: true)
     }
     
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {

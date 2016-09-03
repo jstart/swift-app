@@ -9,7 +9,6 @@
 import UIKit
 import Fabric
 import TwitterKit
-
 //import Starscream
 
 @UIApplicationMain
@@ -27,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         }
 
         if (Token.retrieveToken() != nil && Token.retrieveToken() != "") {
+            NotificationCenter.default.addObserver("self", selector: #selector(logout(_:)), name: .logout, object: nil)
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
             window?.rootViewController = vc
             let tab = window?.rootViewController as! UITabBarController
@@ -40,37 +40,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         //socket.connect()
 
         window?.makeKeyAndVisible()
-
         return true
     }
     
-    /*func websocketDidConnect(_ socket: WebSocket) {
-        
-    }
-    func websocketDidDisconnect(_ socket: WebSocket, error: NSError?){
-        print(error)
-    }
-    func websocketDidReceiveMessage(_ socket: WebSocket, text: String){
-        
-    }
-    func websocketDidReceiveData(_ socket: WebSocket, data: Data){
-        
-    }*/
+    /*func websocketDidConnect(_ socket: WebSocket) { }
+    func websocketDidDisconnect(_ socket: WebSocket, error: NSError?){ print(error) }
+    func websocketDidReceiveMessage(_ socket: WebSocket, text: String){ }
+    func websocketDidReceiveData(_ socket: WebSocket, data: Data){ }*/
 
-    func applicationWillResignActive(_ application: UIApplication) {
-    }
+    func applicationWillResignActive(_ application: UIApplication) { }
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
-    }
+    func applicationDidEnterBackground(_ application: UIApplication) { }
 
-    func applicationWillEnterForeground(_ application: UIApplication) {
-    }
+    func applicationWillEnterForeground(_ application: UIApplication) { }
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
-    }
+    func applicationDidBecomeActive(_ application: UIApplication) { }
 
-    func applicationWillTerminate(_ application: UIApplication) {
-    }
+    func applicationWillTerminate(_ application: UIApplication) { }
 
     override var canBecomeFirstResponder: Bool { return true }
     
@@ -82,6 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         Token.persistToken("")
         Token.persistLogin((phone_number: "", password: ""))
         UserResponse.currentUser = nil
+        URLCache.shared.removeAllCachedResponses()
         let vc = JoinTableViewController(style: .grouped)
         window?.rootViewController = UINavigationController(rootViewController: vc)
     }

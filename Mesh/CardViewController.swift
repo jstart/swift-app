@@ -59,6 +59,8 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         view.backgroundColor = .white
         //view.layer.shadowOffset = CGSize(width: 2, height: 2)
         
+        transition.cardVC = self
+
         gestureRec = UIPanGestureRecognizer(target: self, action: #selector(pan))
         gestureRec?.delegate = self
         tapRec = UITapGestureRecognizer(target: self, action: #selector(tap))
@@ -144,8 +146,8 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         control.selectIndex(0)
         viewPager?.selectedIndex(0, animated: false)
         
-        name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.fullName() : "Micha Kaufman"
-        position.text = card?.person?.user?.title != nil ? card!.person!.user!.title! : "VP of Engineering at Tesla"
+        name.text = card?.person?.user?.fullName()
+        position.text = card?.person?.user?.fullTitle()
         
         guard let largeURL = card?.person?.user?.photos?.large else {
             imageView.image = #imageLiteral(resourceName: "profile_sample")
@@ -310,20 +312,17 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
             } else {
                 overlayView.alpha = min(1, ((view.superview!.center.x - view.center.x)/200)) * 0.75
             }
-        default:
-            return
+        default: return
         }
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transition.cardVC = self
         transition.presenting = true
             
         return transition
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transition.cardVC = self
         transition.presenting = false
         return transition
     }

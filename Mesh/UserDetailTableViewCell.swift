@@ -31,8 +31,6 @@ class UserDetailTableViewCell: UITableViewCell {
         year.isHidden = !detail.hasDate
     }
     
-    @IBAction func pressed(_ sender: AnyObject) {
-        
-    }
+    @IBAction func pressed(_ sender: AnyObject) { }
     
 }

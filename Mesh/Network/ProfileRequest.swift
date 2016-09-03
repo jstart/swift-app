@@ -10,15 +10,14 @@ import Foundation
 import Alamofire
 
 struct ProfileRequest : AuthenticatedRequest {
-    let path = "profile"
-    let method = HTTPMethod.post
+    let path = "profile", method = HTTPMethod.post
     
-    var first_name : String
-    var last_name : String
-    var email : String
-    var title : String
-    var profession : String
-    var companies : [CompanyModel]
+    let first_name : String,
+        last_name : String,
+        email : String,
+        title : String,
+        profession : String,
+        companies : [CompanyModel]
     
     func parameters() -> [String : Any] {
         return ["first_name" : first_name, "last_name" : last_name, "email" : email, "title" : title, "profession" : profession, "companies" : companies.map({$0.parameters()})]
@@ -26,12 +25,12 @@ struct ProfileRequest : AuthenticatedRequest {
 }
 
 struct CompanyModel {
-    var id : String
-    var start_month : String
-    var start_year : String
-    var end_month : String
-    var end_year : String
-    var current : Bool
+    let id : String,
+        start_month : String,
+        start_year : String,
+        end_month : String,
+        end_year : String,
+        current : Bool
     
     func parameters() -> [String : Any] {
         return ["id" : id, "start_month" : start_month, "start_year" : start_year, "end_month" : end_month, "end_year" : end_year, "current" : current]
@@ -51,9 +50,8 @@ struct CompanyModel {
 }
 
 struct PhotoRequest : AuthenticatedRequest {
-    let path = "photo"
-    let method = HTTPMethod.post
+    let path = "photo", method = HTTPMethod.post
     
-    var file : Data
+    let file : Data
 }
 

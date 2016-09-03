@@ -9,12 +9,9 @@
 import Alamofire
 
 struct AuthRequest : Request {
-    let path = "auth"
-    let method = HTTPMethod.post
+    let path = "auth", method = HTTPMethod.post
     
-    var phone_number : String
-    var password : String
-    var password_verify : String
+    let phone_number : String, password : String, password_verify : String
     
     func parameters() -> [String : Any] {
         return ["phone_number": phone_number, "password" : password, "password_verify" : password_verify]
@@ -22,28 +19,23 @@ struct AuthRequest : Request {
 }
 
 struct TokenRequest : Request {
-    let path = "token"
-    let method = HTTPMethod.get
+    let path = "token", method = HTTPMethod.get
 }
 
 struct LoginRequest : Request {
-    let path = "login"
-    let method = HTTPMethod.post
+    let path = "login", method = HTTPMethod.post
     
-    var phone_number : String
-    var password : String
+    let phone_number : String, password : String
     
-    func parameters() -> [String : Any] {
-        return ["phone_number": phone_number, "password" : password]
-    }
+    func parameters() -> [String : Any] { return ["phone_number": phone_number, "password" : password] }
 }
 
 struct MessageResponse {
-    var _id : String
-    var ts : Int
-    var sender : String
-    var recipient : String
-    var text : String?
+    let _id : String,
+        ts : Int,
+        sender : String,
+        recipient : String,
+        text : String?
     
     init(JSON: JSONDictionary) {
         _id = JSON["_id"] as! String
@@ -59,16 +51,16 @@ struct UserResponse {
     static var connections : [UserResponse]?
     static var messages : [MessageResponse]?
 
-    var _id : String
-    var phone_number : String?
-    var first_name : String?
-    var last_name : String?
-    var companies : [CompanyModel]?
-    var profession : String?
-    var title : String?
-    var photos : PhotoResponse?
-    var position : PositionResponse?
-    var token : String?
+    var _id : String,
+        phone_number : String?,
+        first_name : String?,
+        last_name : String?,
+        companies : [CompanyModel]?,
+        profession : String?,
+        title : String?,
+        photos : PhotoResponse?,
+        position : PositionResponse?,
+        token : String?
     
     init(JSON: JSONDictionary) {
         _id = JSON["_id"] as! String
@@ -108,9 +100,7 @@ struct UserResponse {
 }
 
 struct PhotoResponse {
-    var small : String?
-    var medium : String?
-    var large : String?
+    let small : String?, medium : String?, large : String?
     
     init(JSON: [String : Any]) {
         small = (JSON["small"] as? String?)!
@@ -120,16 +110,14 @@ struct PhotoResponse {
 }
 
 struct PositionResponse {
-    var lat : Double?
-    var lon : Double?
+    let lat : Double, lon : Double
     
     init(JSON: [String : Any]) {
-        lat = (JSON["lat"] as? Double?)!
-        lon = (JSON["lon"] as? Double?)!
+        lat = JSON["lat"] as! Double
+        lon = JSON["lon"] as! Double
     }
 }
 
 struct LogoutRequest : AuthenticatedRequest {
-    let path = "logout"
-    let method = HTTPMethod.post
+    let path = "logout", method = HTTPMethod.post
 }

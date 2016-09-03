@@ -42,14 +42,15 @@ struct QuickViewGenerator {
         let stack = stackOf(views)
         stack.constrain(.height, constant: 75)
         
-        let label = UILabel()
-        label.backgroundColor = .white
-        label.text = category.rawValue.capitalized
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textAlignment = .center
-        label.textColor = .lightGray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.constrain(.height, constant: 20)
+        let label = UILabel().then {
+            $0.backgroundColor = .white
+            $0.text = category.rawValue.capitalized
+            $0.font = UIFont.systemFont(ofSize: 14)
+            $0.textAlignment = .center
+            $0.textColor = .lightGray
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.constrain(.height, constant: 20)
+        }
         
         let stackTitle = stackOf([label, stack])
         stackTitle.spacing = 5
@@ -68,14 +69,15 @@ struct QuickViewGenerator {
     }
     
     static func square(_ image: UIImage, title: String) -> UIStackView {
-        let label = UILabel()
-        label.text = title
-        label.backgroundColor = .white
-        label.font = UIFont.systemFont(ofSize: 12)
-        label.textAlignment = .center
-        label.textColor = .lightGray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.constrain(.height, constant: 20)
+        let label = UILabel().then {
+            $0.text = title
+            $0.backgroundColor = .white
+            $0.font = UIFont.systemFont(ofSize: 12)
+            $0.textAlignment = .center
+            $0.textColor = .lightGray
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.constrain(.height, constant: 20)
+        }
         
         let icon = UIImageView(image: image)
         icon.layer.borderWidth = 1

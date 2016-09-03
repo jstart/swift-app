@@ -9,10 +9,7 @@
 import Foundation
 
 enum CardType : String {
-    case person = "Person"
-    case tweet = "Tweet"
-    case skill = "Skill"
-    case event = "Event"
+    case person = "Person", tweet = "Tweet", skill = "Skill", event = "Event"
 }
 
 struct Company {

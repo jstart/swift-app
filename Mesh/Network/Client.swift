@@ -19,20 +19,17 @@ protocol Request {
 }
 
 protocol AuthenticatedRequest : Request {}
-
 extension AuthenticatedRequest {
-    func headers() -> [String : String] {
-         return ["token" : Token.retrieveToken() ?? ""]
-    }
+    func headers() -> [String : String] { return ["token" : Token.retrieveToken() ?? ""] }
 }
 
 extension Request {
-    func parameters () -> [String : Any] {
-        return [:]
-    }
-    func headers() -> [String : String] {
-        return [:]
-    }
+    func parameters () -> [String : Any] { return [:] }
+    func headers() -> [String : String] { return [:] }
+}
+
+extension Notification.Name {
+    static let logout = NSNotification.Name("Logout")
 }
 
 class Client {
@@ -56,36 +53,34 @@ class Client {
                 case .failure:
                     break
                 }
-            }
-        )
+            })
     }
     
     func execute(_ request : Request, completionHandler: @escaping (Response<Any, NSError>) -> Void) {
-        Alamofire.request(baseURL + request.path, withMethod: request.method, parameters: request.parameters().count == 0 ? nil : request.parameters(), encoding: .json, headers: request.headers())
+        let fullPath = baseURL + request.path
+        Alamofire.request(fullPath, withMethod: request.method, parameters: request.parameters().count == 0 ? nil : request.parameters(), encoding: .json, headers: request.headers())
             .responseJSON { response in
-                if request is LoginRequest || request is AuthRequest {
-                    if response.result.error == nil {
-                        UserResponse.currentUser = UserResponse(JSON: response.result.value as! JSONDictionary)
-                        self.token = UserResponse.currentUser?.token
-                        Token.persistToken(self.token!)
-                        Token.persistLogin((phone_number: request.parameters()["phone_number"] as! String, password: request.parameters()["password"] as! String))
-                    }
-                }
                 if request is LogoutRequest {
-                    Token.persistToken("")
-                    Token.persistLogin((phone_number: "", password: ""))
-                    UserResponse.currentUser = nil
-                    URLCache.shared.removeAllCachedResponses()
+                    NotificationCenter.default.post(name: .logout, object: nil)
                 }
                 
-                if let httpError = response.result.error {
-                    let statusCode = httpError.code
+                if let statusCode = response.result.error?.code {
                     if statusCode == 401 {
-                        Token.persistToken("")
-                        Token.persistLogin((phone_number: "", password: ""))
-                        UserResponse.currentUser = nil
+                        NotificationCenter.default.post(name: .logout, object: nil)
                     }
                 }
+                
+                if request is LoginRequest || request is AuthRequest {
+                    guard let JSON = response.result.value as? JSONDictionary else {
+                        completionHandler(response)
+                        return
+                    }
+                    UserResponse.currentUser = UserResponse(JSON: JSON)
+                    self.token = UserResponse.currentUser?.token
+                    Token.persistToken(self.token!)
+                    Token.persistLogin((phone_number: request.parameters()["phone_number"] as! String, password: request.parameters()["password"] as! String))
+                }
+                
                 completionHandler(response)
         }
     }

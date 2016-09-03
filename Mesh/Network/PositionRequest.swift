@@ -10,13 +10,9 @@ import Foundation
 import Alamofire
 
 struct PositionRequest : AuthenticatedRequest {
-    let path = "position"
-    let method = HTTPMethod.post
+    let path = "position", method = HTTPMethod.post
     
-    var lat : Double
-    var lon : Double
+    let lat : Double, lon : Double
     
-    func parameters() -> [String : Any] {
-        return ["lat" : lat, "lon" : lon]
-    }
+    func parameters() -> [String : Any] { return ["lat" : lat, "lon" : lon] }
 }

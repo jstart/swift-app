@@ -19,7 +19,6 @@ class EditTableViewController: UITableViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(save))
     }
     
@@ -65,11 +64,13 @@ class EditTableViewController: UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
         cell.selectionStyle = .none
-        let field = UITextField()
-        field.autocapitalizationType = .none
-        field.translatesAutoresizingMaskIntoConstraints = false
-        field.delegate = self
+        let field = UITextField().then {
+            $0.autocapitalizationType = .none
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.delegate = self
+        }
         cell.addSubview(field)
+
         field.constrain(.leadingMargin, .trailing, .height, .centerY, toItem: cell)
         
         switch indexPath.section {
