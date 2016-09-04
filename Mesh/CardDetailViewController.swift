@@ -44,7 +44,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         control.stack!.constrain(.width, constant: -80, toItem: view)
         control.stack!.constrain(.leading, constant: 40, toItem: view)
         control.stack!.constrain(.trailing, constant: -40, toItem: view)
-        control.stack!.constrain((.height, 1))
+        control.stack!.constrain((.height, 40))
         control.delegate = self
         control.selectIndex(control.previousIndex)
         
