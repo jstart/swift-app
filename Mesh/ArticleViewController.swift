@@ -20,7 +20,7 @@ class ArticleViewController: UIViewController {
         super.viewDidLoad()
         title = "Reed Hastings shared this with you"
         view.addSubview(web)
-        web.translatesAutoresizingMaskIntoConstraints = false
+        web.translates = false
         web.constrain(.width, .height, .centerX, .centerY, toItem: view)
     }
     

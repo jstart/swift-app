@@ -48,7 +48,7 @@ struct QuickViewGenerator {
             $0.font = UIFont.systemFont(ofSize: 14)
             $0.textAlignment = .center
             $0.textColor = .lightGray
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.translates = false
             $0.constrain(.height, constant: 20)
         }
         
@@ -75,7 +75,7 @@ struct QuickViewGenerator {
             $0.font = UIFont.systemFont(ofSize: 12)
             $0.textAlignment = .center
             $0.textColor = .lightGray
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.translates = false
             $0.constrain(.height, constant: 20)
         }
         

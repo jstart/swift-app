@@ -20,7 +20,7 @@ class FeedViewController: UIViewController {
         view.addSubview(cardStack.view)
         
         cardStack.view.constrain(.height, .width, .centerX, .centerY, toItem: view)
-        cardStack.view.translatesAutoresizingMaskIntoConstraints = false
+        cardStack.view.translates = false
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -24,7 +24,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         $0.clipsToBounds = true
         $0.backgroundColor = .white
         $0.contentMode = .scaleAspectFill
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
     }
     let transition = CardDetailTransition()
     
@@ -32,7 +32,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         $0.backgroundColor = .black
         $0.alpha = 0.0
         $0.isHidden = true
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.layer.cornerRadius = 5.0
     }
     
@@ -88,7 +88,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         
         view.addSubview(topStack)
         
-        viewPager!.scroll.translatesAutoresizingMaskIntoConstraints = false
+        viewPager!.scroll.translates = false
         viewPager!.scroll.backgroundColor = .white
         viewPager!.scroll.constrain(.width, toItem: view)
 
@@ -97,11 +97,11 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         NSLayoutConstraint(item: imageView, attribute: .bottom, relatedBy: .equal, toItem: name, attribute: .top, multiplier: 1.0, constant: -11).isActive = true
         NSLayoutConstraint(item: position, attribute: .bottom, relatedBy: .equal, toItem: quickViewStack, attribute: .top, multiplier: 1.0, constant: -8).isActive = true
 
-        topStack.translatesAutoresizingMaskIntoConstraints = false
+        topStack.translates = false
         topStack.constrain(.top, .width, toItem: view)
         topStack.constrain(.bottom, constant: -10, toItem: view)
         
-        quickViewStack.translatesAutoresizingMaskIntoConstraints = false
+        quickViewStack.translates = false
         quickViewStack.constrain(.height, constant: 30)
         quickViewStack.constrain(.width, .centerX, toItem: view)
         
@@ -110,7 +110,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         let logo = UIImageView(image: #imageLiteral(resourceName: "tesla"))
         view.addSubview(logo)
         
-        logo.translatesAutoresizingMaskIntoConstraints = false
+        logo.translates = false
         logo.constrain(.width, .height, constant: 62)
         logo.constrain(.leading, constant: 15, toItem: view)
         logo.constrain(.bottom, constant: 62 - 15, toItem: imageView)
@@ -164,7 +164,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     func bar() -> UIView {
         return UIView().then {
             $0.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.translates = false
             $0.constrain(.height, constant: 1)
             NSLayoutConstraint(item: $0, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 80).isActive = true
             NSLayoutConstraint(item: $0, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40).isActive = true

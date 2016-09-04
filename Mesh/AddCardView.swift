@@ -26,7 +26,7 @@ class AddCardView: CardView {
         let stackView = UIStackView(arrangedSubviews: [add, text])
         addSubview(stackView)
         
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.translates = false
         stackView.axis = .horizontal
         stackView.spacing = 15
         stackView.distribution = .equalSpacing

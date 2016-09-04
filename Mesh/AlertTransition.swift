@@ -26,7 +26,7 @@ class AlertTransition: NSObject, UIViewControllerAnimatedTransitioning {
         let detail = context.view(forKey: .to)!
         containerView.addSubview(detail)
         containerView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        detail.translatesAutoresizingMaskIntoConstraints = false
+        detail.translates = false
         detail.alpha = 0.0
         detail.constrain(.centerX, .centerY, toItem: containerView)
         

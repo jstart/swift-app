@@ -39,28 +39,28 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         }
         
         view.addSubview(control.stack!)
-        control.stack!.translatesAutoresizingMaskIntoConstraints = false
+        control.stack!.translates = false
         control.stack!.constrain(.top, constant: 5, toItem: view)
         control.stack!.constrain(.width, constant: -80, toItem: view)
         control.stack!.constrain(.leading, constant: 40, toItem: view)
         control.stack!.constrain(.trailing, constant: -40, toItem: view)
-        control.stack!.constrain(.height, constant: 40)
+        control.stack!.constrain((.height, 1))
         control.delegate = self
         control.selectIndex(control.previousIndex)
         
         let separator = UIView()
-        separator.translatesAutoresizingMaskIntoConstraints = false
+        separator.translates = false
         separator.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
         view.addSubview(separator)
         separator.constrain(.width, .centerX, toItem: view)
-        separator.constrain(.height, constant: 1)
+        separator.constrain((.height, 1))
         NSLayoutConstraint(item: separator, attribute: .top, relatedBy: .equal, toItem: control.stack!, attribute: .bottom, multiplier: 1, constant: 2).isActive = true
         
         pageController.delegate = self
         pageController.dataSource = self
         addChildViewController(pageController)
         view.addSubview(pageController.view)
-        pageController.view.translatesAutoresizingMaskIntoConstraints = false
+        pageController.view.translates = false
         NSLayoutConstraint(item: pageController.view, attribute: .top, relatedBy: .equal, toItem: control.stack!, attribute: .bottom, multiplier: 1.0, constant: 3.0).isActive = true
         pageController.view.constrain(.width, .centerX, .bottom, toItem: view)
         

@@ -45,7 +45,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     let editCard = EditCardView(UserResponse.currentUser!).then {
         $0.alpha = 0.0
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
     }
     
     var cards = CardResponse.cards?.map({ _ in return QRCard(fields: [.name, .title]) }) ?? [QRCard]()
@@ -76,14 +76,14 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         pager = ViewPager(views: cardViews)
         pager?.delegate = self
         view.addSubview(pager!.scroll)
-        pager?.scroll.translatesAutoresizingMaskIntoConstraints = false
+        pager?.scroll.translates = false
         pager?.scroll.constrain(.height, constant: 180)
         pager?.scroll.constrain(.width, .centerX, toItem: view)
         pager?.scroll.constrain(.top, constant: 105, toItem: view)
         pager?.scroll.clipsToBounds = false
         
         view.addSubview(outline)
-        outline.translatesAutoresizingMaskIntoConstraints = false
+        outline.translates = false
         outline.constrain(.width, constant: -30, toItem: view)
         outline.constrain(.top, constant: 105, toItem: pager!.scroll, toAttribute: .bottom)
         outline.constrain(.centerX, toItem: view)

@@ -42,7 +42,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
         let field = UITextField().then {
             $0.autocapitalizationType = .none
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.translates = false
             $0.delegate = self
         }
         cell.addSubview(field)

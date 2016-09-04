@@ -11,18 +11,18 @@ import UIKit
 class EmptyView: UIView {
 
     var imageView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.constrain(.height, .width, constant: 100)
     }
     var titleLabel = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.textAlignment = .center
         $0.font = .boldSystemFont(ofSize: 20)
         $0.textColor = .black
     }
     var textLabel = UILabel().then {
         $0.contentMode = .top
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.numberOfLines = 0
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: 16)
@@ -66,10 +66,9 @@ class EmptyView: UIView {
             }
             
             addSubview(button)
-            button.translatesAutoresizingMaskIntoConstraints = false
+            button.translates = false
             button.constrain(.top, constant: 20, toItem: textLabel, toAttribute: .bottom)
-            button.constrain(.width, constant: 150)
-            button.constrain(.height, constant: 35)
+            button.constrain((.width, 150), (.height, 35))
             button.constrain(.centerX, toItem: self)
             buttons.append(button)
         }

@@ -17,7 +17,7 @@ class CardView: UIView {
         layer.shadowRadius = 5
         backgroundColor = .white
         layer.cornerRadius = 5
-        translatesAutoresizingMaskIntoConstraints = false
+        translates = false
         constrain(.height, constant: 180)
     }
 

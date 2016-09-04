@@ -75,7 +75,7 @@ class EditTableViewController: UITableViewController, UITextFieldDelegate {
         cell.selectionStyle = .none
         let field = UITextField().then {
             $0.autocapitalizationType = .none
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.translates = false
             $0.delegate = self
         }
         cell.addSubview(field)

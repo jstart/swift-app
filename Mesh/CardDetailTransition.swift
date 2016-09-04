@@ -14,7 +14,7 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
     var presenting  = true
     let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark)).then {
         $0.layer.cornerRadius = 5.0
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.alpha = 0.0
     }
     var cardVC : CardViewController?
@@ -34,7 +34,7 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
         let detail = context.view(forKey: .to)!
         containerView.addSubview(detail)
         
-        detail.translatesAutoresizingMaskIntoConstraints = false
+        detail.translates = false
         detail.constrain(.width, .centerX, toItem: cardVC!.view)
         detail.constrain(.height, constant: -80, toItem: cardVC!.view)
         detail.constrain(.top, constant: 425, toItem: cardVC!.view)

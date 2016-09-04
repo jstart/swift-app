@@ -12,7 +12,7 @@ import AlamofireImage
 
 class SettingsTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     let profileImage = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.constrain(.height, .width, constant: 50)
     }
     

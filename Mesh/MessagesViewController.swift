@@ -15,7 +15,7 @@ class MessagesViewController: JSQMessagesViewController {
     var recipient : UserResponse?
     var meshMessages : [MessageResponse]?
     let label = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.constrain(.height, constant: 44)
     }
     
@@ -23,7 +23,7 @@ class MessagesViewController: JSQMessagesViewController {
         $0.layer.cornerRadius = 5.0
         $0.clipsToBounds = true
         $0.backgroundColor = .gray
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.constrain(.width, .height, constant: 30)
     }
     
@@ -83,7 +83,7 @@ class MessagesViewController: JSQMessagesViewController {
             $0.alignment = .center
             $0.distribution = .fillProportionally
             $0.spacing = 10
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.translates = false
             $0.constrain(.height, constant: 44)
         }
         navigationItem.titleView = container

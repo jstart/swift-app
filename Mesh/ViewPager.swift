@@ -26,7 +26,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
     init(views : [UIView]) {
         stack = UIStackView(arrangedSubviews: views)
 
-        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.translates = false
         stack.distribution = .fill
         stack.alignment = .center
         stack.spacing = 30
@@ -37,7 +37,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         stack.constrain(.centerY, .height, toItem: scroll)
         
         for view in stack.arrangedSubviews {
-            view.translatesAutoresizingMaskIntoConstraints = false
+            view.translates = false
             view.constrain(.width, constant: -30, toItem: scroll)
         }
         
@@ -47,7 +47,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
     
     func insertView(_ view: UIView, atIndex: Int) {
         stack.insertArrangedSubview(view, at: atIndex)
-        view.translatesAutoresizingMaskIntoConstraints = false
+        view.translates = false
         view.constrain(.width, constant: -30, toItem: scroll)
     }
     

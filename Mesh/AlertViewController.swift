@@ -19,18 +19,18 @@ struct AlertAction {
 class AlertViewController: UIViewController, UIViewControllerTransitioningDelegate {
 
     var imageView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.constrain(.height, .width, constant: 100)
     }
     var titleLabel = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.textAlignment = .center
         $0.font = .boldSystemFont(ofSize: 20)
         $0.textColor = .black
     }
     var textLabel = UILabel().then {
         $0.contentMode = .top
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.numberOfLines = 0
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: 16)
@@ -53,7 +53,7 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
         view.layer.borderColor = UIColor.gray.cgColor
         view.clipsToBounds = true
         view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
+        view.translates = false
         view.constrain(.width, .height, constant: 325)
         
         view.addSubview(imageView)
@@ -80,7 +80,7 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
             }
             
             view.addSubview(button)
-            button.translatesAutoresizingMaskIntoConstraints = false
+            button.translates = false
             button.constrain(.width, toItem: view)
             button.constrain(.height, constant: 50)
             button.constrain(.leading, .trailing, .bottom, toItem: view)

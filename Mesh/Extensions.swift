@@ -83,6 +83,19 @@ extension UITableView {
 }
 
 extension UIView {
+    
+    var translates: Bool {
+        get { return translatesAutoresizingMaskIntoConstraints }
+        set { translatesAutoresizingMaskIntoConstraints = newValue }
+    }
+    
+    func constrain(_ constants : (attr: NSLayoutAttribute, const: CGFloat) ...){
+        for constantPair in constants {
+            let constraint = NSLayoutConstraint(item: self, attribute: constantPair.attr, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant:constantPair.const)
+            constraint.isActive = true
+        }
+    }
+    
     func constrain(_ attributes: NSLayoutAttribute..., relatedBy: NSLayoutRelation = .equal, constant: CGFloat = 0.0, toItem: UIView? = nil, toAttribute: NSLayoutAttribute = .notAnAttribute){
         for attribute in attributes {
             let toAttributeChoice = toAttribute == .notAnAttribute ? attribute : toAttribute

@@ -18,18 +18,18 @@ class Snackbar : UIView {
         $0.textColor = .white
         $0.font = .systemFont(ofSize: 14)
         $0.numberOfLines = 3
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
     }
     
     let button = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
     }
     
     var timer : Timer?
     
     init(title: String) {
         super.init(frame: CGRect.zero)
-        translatesAutoresizingMaskIntoConstraints = false
+        translates = false
         backgroundColor = #colorLiteral(red: 0.1960784314, green: 0.1960784314, blue: 0.1960784314, alpha: 1)
         
         button.addTarget(self, action: #selector(pressed), for: .touchUpInside)

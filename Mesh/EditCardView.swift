@@ -15,14 +15,14 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
     var fields : [ProfileFields]?
 
     let tableView = UITableView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.separatorStyle = .none
         $0.tableFooterView = UIView()
         $0.registerClass(EditCardTableViewCell.self)
     }
     
     let cancel = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.setTitle("CANCEL", for: .normal)
         $0.backgroundColor = .lightGray
         $0.setTitleColor(.white, for: .normal)
@@ -30,7 +30,7 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
     }
     
     let done = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.setTitle("DONE", for: .normal)
         $0.backgroundColor = Colors.brand
         $0.setTitleColor(.white, for: .normal)

@@ -13,7 +13,7 @@ class QRCardView: CardView {
     var stackView : UIStackView?
     
     let qrImage = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.constrain(.width, .height, constant: 100)
         $0.backgroundColor = AlertAction.defaultBackground
     }
@@ -24,11 +24,10 @@ class QRCardView: CardView {
     }
     
     let pageControl = UIPageControl().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.currentPageIndicatorTintColor = Colors.brand
         $0.pageIndicatorTintColor = .lightGray
-        $0.constrain(.height, constant: 5)
-        $0.constrain(.width, constant: 100)
+        $0.constrain((.height, 5), (.width, 100))
     }
     
     let title = QRCardView.detailLabel("")
@@ -54,7 +53,7 @@ class QRCardView: CardView {
             $0.distribution = .equalSpacing
             $0.alignment = .leading
             $0.spacing = 2
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.translates = false
         }
         
         addSubview(stackView!)

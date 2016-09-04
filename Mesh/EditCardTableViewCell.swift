@@ -11,14 +11,14 @@ import UIKit
 class EditCardTableViewCell : UITableViewCell {
     
     let icon = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
     }
     let contactField = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.textColor = Colors.brand
     }
     let check = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
     }
     
     required override init(style: UITableViewCellStyle, reuseIdentifier: String?) {

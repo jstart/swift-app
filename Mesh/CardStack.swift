@@ -62,7 +62,7 @@ class CardStack : UIViewController, CardDelegate {
         card.view.constrain(.height, constant: -40, toItem: view)
         card.view.constrain(.width, constant: -13, toItem: view)
         card.view.constrain(.centerX, .centerY, toItem: view)
-        card.view.translatesAutoresizingMaskIntoConstraints = false
+        card.view.translates = false
         
         if !animated {
             return

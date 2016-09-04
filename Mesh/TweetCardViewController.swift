@@ -19,7 +19,7 @@ class TweetCardViewController : UIViewController, UIGestureRecognizerDelegate {
         $0.backgroundColor = .black
         $0.alpha = 0.0
         $0.isHidden = true
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.translates = false
         $0.layer.cornerRadius = 5.0
     }
     
@@ -55,7 +55,7 @@ class TweetCardViewController : UIViewController, UIGestureRecognizerDelegate {
             let tweetView = TWTRTweetView(tweet: unwrappedTweet)
             tweetView.presenterViewController = self
             self.view.addSubview(tweetView)
-            tweetView.translatesAutoresizingMaskIntoConstraints = false
+            tweetView.translates = false
             tweetView.constrain(.width, .centerX, .centerY, toItem: self.view)
             self.view.bringSubview(toFront: self.overlayView)
         }

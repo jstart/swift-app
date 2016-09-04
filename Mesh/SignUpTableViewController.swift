@@ -43,7 +43,7 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
         let field = UITextField().then {
             $0.delegate = self
             $0.autocapitalizationType = .none
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.translates = false
         }
         
         cell.addSubview(field)
