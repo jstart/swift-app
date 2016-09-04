@@ -14,17 +14,13 @@ open class PreviewError {
     open var type: PreviewErrorType?
     
     public init(type: PreviewErrorType, url: URL) {
-        
         self.type = type
         self.message = type.rawValue + ": \"\(url.absoluteString)\""
-    
     }
     
     public init(type: PreviewErrorType, url: String){
-        
         self.type = type
         self.message = type.rawValue + ": \"\(url)\""
-        
     }
     
 }

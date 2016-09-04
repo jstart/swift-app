@@ -59,6 +59,10 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
                 UIApplication.shared.delegate!.window??.rootViewController = vc
                 let tab = UIApplication.shared.delegate!.window??.rootViewController as! UITabBarController
                 tab.tabBar.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            } else {
+                let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
         })
     }

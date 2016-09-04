@@ -56,27 +56,28 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         emptyView!.titleLabel.text = ContactsManager.authStatus == .denied ? "Permissions Are Turned Off" : "Add Contacts"
         emptyView!.textLabel.text = ContactsManager.authStatus == .denied ? "Contact permissions can be enabled under your iPhone settings for Ripple" : "Find who you already know on Ripple. Connect and stay up to date with them."
         emptyView!.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(emptyView!)
-        emptyView!.constrain(.width, .height, .centerX, .centerY, toItem: view)
+        tableView.addSubview(emptyView!)
+        emptyView!.constrain(.width, .height, .centerX, .centerY, toItem: tableView)
+        tableView.bringSubview(toFront: emptyView!)
     }
     
-    func close() {
-        presentingViewController?.dismiss(animated: true, completion: nil)
-    }
+    func close() { presentingViewController?.dismiss() }
     
     func fetchContacts() {
         let manager = ContactsManager()
         manager.viewController = self
         manager.requestAccess(completionHandler: { authorized in
             guard authorized else { return }
+            DispatchQueue.main.async {
+                guard let empty = self.emptyView else { return }
+                empty.removeFromSuperview()
+                self.emptyView = nil
+            }
             ContactsManager().allContacts(results: { contactResults in
                 self.contacts = contactResults
                 self.tableView.reloadData()
             })
-            DispatchQueue.main.async {
-                guard let empty = self.emptyView else { return }
-                empty.removeFromSuperview()
-            }
+            
         })
     }
     
@@ -90,8 +91,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         navigationItem.setRightBarButton(nil, animated: true)
     }
     
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-    }
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) { }
     
     open func updateSearchResults(for searchController: UISearchController) {
         if searchController.searchBar.text == "" {
@@ -104,7 +104,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return emptyView != nil ? 0 : 2
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

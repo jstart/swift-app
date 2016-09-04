@@ -78,7 +78,5 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
     }
     
 
-    func tap(_ sender:UITapGestureRecognizer) {
-        cardVC?.dismiss(animated: true, completion: nil)
-    }
+    func tap(_ sender:UITapGestureRecognizer) { cardVC?.dismiss() }
 }

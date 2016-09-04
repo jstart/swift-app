@@ -94,7 +94,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     
     func add() {
         //present(ContactsTableViewController().withNav(), animated: true, completion: nil)
-        navigationController?.pushViewController(ContactsTableViewController(), animated: true)
+        navigationController?.push(ContactsTableViewController())
     }
     
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
@@ -131,7 +131,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             if indexPath.row == 0 {
                 let cell = tableView.dequeue(MessagePreviewTableViewCell.self, indexPath: indexPath) as! MessagePreviewTableViewCell
                 
-                guard let message = UserResponse.messages?[indexPath.row] else { return cell }
+                guard let message = UserResponse.messages?[safe: indexPath.row] else { return cell }
                 let user = UserResponse.connections?.filter({ return $0._id == message.recipient }).first
                 cell.leftButtons = [MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: { sender in
                     self.todoCount -= 1
@@ -143,38 +143,38 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 cell.pressedAction = ({
                     let article = ArticleViewController()
                     article.hidesBottomBarWhenPushed = true
-                    self.navigationController?.pushViewController(article, animated: true)
+                    self.navigationController?.push(article)
                 })
                 return cell
             }else {
                 let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath) as! MessageTableViewCell
 
-            guard let message = UserResponse.messages?[indexPath.row] else { return cell }
-            let user = UserResponse.connections?.filter({ return $0._id == message.recipient }).first
-            cell.leftButtons = [MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: { sender in
-                self.todoCount -= 1
-                let currentIndex = tableView.indexPath(for: sender!)!
-                tableView.deleteRows(at: [currentIndex], with: .automatic)
-                return true
-            })]
-            cell.configure(message, user: user!)
-            cell.pressedAction = ({
-                self.quickCell = self.quickReplyView()
-                let window = UIApplication.shared.delegate!.window!
-                if (window?.subviews.contains(self.quickCell!))! {
-                    return
-                }
-                self.quickCell!.alpha = 0.0
-                UIApplication.shared.delegate!.window!?.addSubview(self.quickCell!)
-                UIView.animate(withDuration: 0.2, animations: {
-                    UIApplication.shared.delegate?.window??.windowLevel = UIWindowLevelStatusBar + 1
-                    //UIApplication.shared.isStatusBarHidden = true
-                    self.quickCell!.alpha = 1.0
-                    self.quickCell!.constrain(.width, .height, .top, .leading, toItem: window)
-                    self.field.becomeFirstResponder()
+                guard let message = UserResponse.messages?[safe: indexPath.row] else { return cell }
+                let user = UserResponse.connections?.filter({ return $0._id == message.recipient }).first
+                cell.leftButtons = [MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: { sender in
+                    self.todoCount -= 1
+                    let currentIndex = tableView.indexPath(for: sender!)!
+                    tableView.deleteRows(at: [currentIndex], with: .automatic)
+                    return true
+                })]
+                cell.configure(message, user: user!)
+                cell.pressedAction = ({
+                    self.quickCell = self.quickReplyView()
+                    let window = UIApplication.shared.delegate!.window!
+                    if (window?.subviews.contains(self.quickCell!))! {
+                        return
+                    }
+                    self.quickCell!.alpha = 0.0
+                    UIApplication.shared.delegate!.window!?.addSubview(self.quickCell!)
+                    UIView.animate(withDuration: 0.2, animations: {
+                        UIApplication.shared.delegate?.window??.windowLevel = UIWindowLevelStatusBar + 1
+                        //UIApplication.shared.isStatusBarHidden = true
+                        self.quickCell!.alpha = 1.0
+                        self.quickCell!.constrain(.width, .height, .top, .leading, toItem: window)
+                        self.field.becomeFirstResponder()
+                    })
                 })
-            })
-            return cell
+                return cell
             }
         } else {
             let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath) as! ConnectionTableViewCell
@@ -249,19 +249,19 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 {
             let conversationVC = MessagesViewController()
-            guard let user = UserResponse.connections?[indexPath.row] else { return }
+            guard let user = UserResponse.connections?[safe: indexPath.row] else { return }
             conversationVC.recipient = user
 
             conversationVC.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(conversationVC, animated: true)
+            navigationController?.push(conversationVC)
         } else {
             let conversationVC = MessagesViewController()
-            guard let message = UserResponse.messages?[indexPath.row] else { return }
+            guard let message = UserResponse.messages?[safe: indexPath.row] else { return }
             let user = UserResponse.connections?.filter({ return $0._id == message.recipient }).first
             conversationVC.recipient = user ?? nil
             
             conversationVC.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(conversationVC, animated: true)
+            navigationController?.push(conversationVC)
         }
     }
 

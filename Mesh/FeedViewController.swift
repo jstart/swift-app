@@ -52,6 +52,7 @@ class FeedViewController: UIViewController {
             })
         }
         client.execute(UpdatesRequest(last_update: Int(Date().timeIntervalSince1970)), completionHandler: { response in
+            recs()
             guard let json = response.result.value as? JSONDictionary else { return }
             guard let connections = json["connections"] as? JSONDictionary else { return }
             guard let connectionsInner = connections["connections"] as? JSONArray else { return }
@@ -60,34 +61,38 @@ class FeedViewController: UIViewController {
             guard let messages = json["messages"] as? JSONDictionary else { return }
             guard let messagesInner = messages["messages"] as? JSONArray else { return }
             UserResponse.messages = messagesInner.map({return MessageResponse(JSON: $0)})
-            recs()
         })
 
         locationManager.locationUpdate = { location in
             client.execute(PositionRequest(lat: location.coordinate.latitude, lon: location.coordinate.longitude), completionHandler: { response in
                 guard let JSON = response.result.value as? JSONDictionary else { return }
+                guard JSON["msg"] == nil else {
+                    NotificationCenter.default.post(name: .logout, object: nil)
+                    return
+                }
                 UserResponse.currentUser = UserResponse(JSON: JSON)
             })
         }
         
         client.execute(CardsRequest(), completionHandler: { response in
             guard let JSON = response.result.value as? JSONArray else { return }
-            let array = JSON.map({ return CardResponse(JSON: $0) })
-            print(array)
+            let cards = JSON.map({ return CardResponse(JSON: $0) })
+            if cards.count == 0 {
+                client.execute(CardCreateRequest(position: 0, first_name: true, last_name: true, email: false, phone_number: true, title: false), completionHandler: { response in
+                    guard let JSON = response.result.value as? JSONArray else { return }
+                    let array = JSON.map({ return CardResponse(JSON: $0) })
+                    print(array)
+                })
+            } else {
+                CardResponse.cards = cards
+            }
         })
         
-        client.execute(CardCreateRequest(position: 0, first_name: true, last_name: true, email: false, phone_number: true, title: false), completionHandler: { response in
-            guard let JSON = response.result.value as? JSONArray else { return }
-            //let array = JSON.map({ return CardResponse(JSON: $0) })
-            //print(array)
-        })
-       
         locationManager.startTracking()
-        /*for index in 0..<cardStack.cards!.count {
+        for index in 0..<cardStack.cards!.count {
             guard let recIds = cardStack.cards?[index].person?.user?._id else {return}
-            client.execute(ConnectionRequest(recipient: recIds), completionHandler: { response in
-            })
-        }*/
+            client.execute(ConnectionRequest(recipient: recIds), completionHandler: { response in })
+        }
     }
     
     func sort(){ }
@@ -109,7 +114,7 @@ class FeedViewController: UIViewController {
         })], image: #imageLiteral(resourceName: "enableCameraAccess"))
         alert.titleLabel.text = "Camera Access"
         alert.textLabel.text = "We need access to your camera in order to use this feature and scan codes"
-        alert.modalPresentationStyle = .overCurrentContext
+        alert.modalPresentationStyle = .overFullScreen
         present(alert, animated: true, completion: nil)
     }
 }

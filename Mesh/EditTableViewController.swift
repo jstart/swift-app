@@ -31,7 +31,16 @@ class EditTableViewController: UITableViewController, UITextFieldDelegate {
         
         let companies = [CompanyModel(id: "tinder", start_month: "January", start_year: "2014", end_month: "March", end_year: "2016", current: false)]
         Client().execute(ProfileRequest(first_name: first_name, last_name: last_name, email: email, title: title, profession: profession, companies: companies), completionHandler: { response in
-            
+            if response.result.value != nil {
+                let alert = UIAlertController(title: "Profile Updated", message: "", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+            else {
+                let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
         })
     }
 

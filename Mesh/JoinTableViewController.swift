@@ -34,10 +34,10 @@ class JoinTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            navigationController?.pushViewController(LoginTableViewController(style: .grouped), animated: true)
+            navigationController?.push(LoginTableViewController(style: .grouped))
             break
         case 1:
-            navigationController?.pushViewController(SignUpTableViewController(style: .grouped), animated: true)
+            navigationController?.push(SignUpTableViewController(style: .grouped))
             break
         default:
             break

@@ -62,6 +62,10 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
                 let status = Keychain.addLogin(phone: self.phoneField!.text!, password: self.passwordField!.text!)
                 print(status)
                 print(Keychain.fetchLogin())
+            } else {
+                let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
         })
     }

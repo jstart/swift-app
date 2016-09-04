@@ -33,7 +33,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
             table.details = []
             table.index = index
             table.dismissHandler = {
-                self.presentingViewController?.dismiss(animated: true, completion: nil)
+                self.presentingViewController?.dismiss()
             }
             controllers.append(table)
         }
@@ -70,7 +70,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        presentingViewController?.dismiss(animated: false, completion: nil)
+        presentingViewController?.dismiss(animated: false)
     }
     
     open func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
@@ -109,8 +109,6 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         pageController.setViewControllers([controllers[index]], direction: (control.previousIndex < index) ? .forward : .reverse, animated: animated, completion: nil)
     }
     
-    func tap(_ sender:UITapGestureRecognizer) {
-        dismiss(animated: true, completion: nil)
-    }
+    func tap(_ sender:UITapGestureRecognizer) { dismiss() }
     
 }

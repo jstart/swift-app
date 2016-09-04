@@ -137,9 +137,7 @@ class TweetCardViewController : UIViewController, UIGestureRecognizerDelegate {
     func removeSelf(_ direction : UISwipeGestureRecognizerDirection) {
         viewWillDisappear(true)
         viewDidDisappear(true)
-        if presentingViewController != nil {
-            presentingViewController?.dismiss(animated: true, completion: nil)
-        }
+        presentingViewController?.dismiss()
         delegate?.swiped(direction)
         view.removeFromSuperview()
         removeFromParentViewController()

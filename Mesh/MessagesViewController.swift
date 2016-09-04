@@ -183,7 +183,7 @@ class MessagesViewController: JSQMessagesViewController {
         if URL.scheme == "http" || URL.scheme == "https" {
             let articleVC = ArticleViewController()
             articleVC.url = URL.absoluteString
-            navigationController?.pushViewController(articleVC, animated: true)
+            navigationController?.push(articleVC)
             return false
         }
         

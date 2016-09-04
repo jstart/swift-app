@@ -157,29 +157,18 @@ extension SwiftLinkPreview {
     
     // Crawl for title if needed
     internal func crawlTitle(_ htmlCode: String) -> String {
-        
-        if let title: String = result["title"] {
-            
-            if title.isEmpty {
+        guard let title: String = result["title"] else { return htmlCode }
+        guard title.isEmpty else { return htmlCode }
+        guard let value = Regex.pregMatchFirst(htmlCode, regex: Regex.titlePattern, index: 2) else { return htmlCode }
+        guard value.isEmpty else {
+            self.result["title"] = value.decoded.extendedTrim
+            return htmlCode
+        }
                 
-                if let value = Regex.pregMatchFirst(htmlCode, regex: Regex.titlePattern, index: 2) {
-                    
-                    if value.isEmpty {
-                        
-                        let fromBody: String = crawlCode(htmlCode, minimum: SwiftLinkPreview.titleMinimumRelevant)
-                        if !fromBody.isEmpty {
-                            
-                            self.result["title"] = fromBody.decoded.extendedTrim
-                            
-                            return htmlCode.replace(fromBody, with: "")
-                        }
-                        
-                    } else {
-                        
-                        self.result["title"] = value.decoded.extendedTrim
-                    }
-                }
-            }
+        let fromBody: String = crawlCode(htmlCode, minimum: SwiftLinkPreview.titleMinimumRelevant)
+        if !fromBody.isEmpty {
+            self.result["title"] = fromBody.decoded.extendedTrim
+            return htmlCode.replace(fromBody, with: "")
         }
         
         return htmlCode

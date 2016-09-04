@@ -26,16 +26,13 @@ class Regex {
     
     // Test regular expression
     static func test(_ string: String!, regex: String!) -> Bool {
-        
         return Regex.pregMatchFirst(string, regex: regex) != nil
-        
     }
     
-    // Match first occurrency
+    // Match first occurrence
     static func pregMatchFirst(_ string: String!, regex: String!, index: Int = 0) -> String? {
         
-        do{
-            
+        do {
             let rx = try NSRegularExpression(pattern: regex, options: [.caseInsensitive])
             
             if let match = rx.firstMatch(in: string, options: [], range: NSMakeRange(0, string.characters.count)) {
@@ -43,48 +40,31 @@ class Regex {
                 var result: [String] = Regex.stringMatches([match], text: string, index: index)
                 return result.count == 0 ? nil : result[0]
                 
-            } else {
-                
-                return nil
-                
-            }
-            
-        } catch {
-            
-            return nil
-            
-        }
-        
+            } else { return nil }
+        } catch { return nil }
     }
     
-    // Match all occurrencies
+    // Match all occurrences
     static func pregMatchAll(_ string: String!, regex: String!, index: Int = 0) -> [String] {
-        
-        do{
+        do {
             let rx = try NSRegularExpression(pattern: regex, options: [.caseInsensitive])
             let matches: [NSTextCheckingResult] = rx.matches(in: string, options: [], range: NSMakeRange(0, string.characters.count))
             return Regex.stringMatches(matches, text: string, index: index)
-        } catch {
-            return []
-        }
+        } catch { return [] }
     }
     
     // Extract matches from string
     static func stringMatches(_ results: [NSTextCheckingResult], text: String, index: Int = 0) -> [String] {
-        
         return results.map {
             let range = $0.rangeAt(index)
             if text.characters.count > range.location + range.length {
                 return (text as NSString).substring(with: range)
             }
-            else {
-                return ""
-            }
+            else { return "" }
         }
         
     }
     
-    // Return tag pattern
     static func tagPattern(_ tag: String) -> String {
         return "<" + tag + "(.*?)>(.*?)</" + tag + ">"
     }

@@ -8,20 +8,15 @@
 import Foundation
 import UIKit
 
-
 extension String {
 
-    var trim: String {
-        return trimmingCharacters(in: .whitespacesAndNewlines)
-    }
+    var trim: String { return trimmingCharacters(in: .whitespacesAndNewlines) }
     
-    // Remove extra white spaces
     var extendedTrim: String {
         let components = self.components(separatedBy: .whitespacesAndNewlines)
         return components.filter { !$0.isEmpty }.joined(separator: " ").trim        
     }
     
-    // Decode HTML entities
     var decoded: String {
         let encodedData = data(using: String.Encoding.utf8)!
         let attributedOptions: [String: AnyObject] =
@@ -29,9 +24,7 @@ extension String {
              NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue as AnyObject]
         do {
             return try NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil).string
-        } catch _ {
-            return self
-        }
+        } catch { return self }
     }
     
     var tagsStripped: String {

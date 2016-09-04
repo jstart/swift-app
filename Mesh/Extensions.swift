@@ -14,7 +14,7 @@ extension String {
         let filter = CIFilter(name: "CIQRCodeGenerator")
         
         filter?.setValue(textData, forKey: "inputMessage")
-        filter?.setValue("Q", forKey: "inputCorrectionLevel")
+        filter?.setValue("H", forKey: "inputCorrectionLevel")
         
         return filter?.outputImage
     }
@@ -58,9 +58,7 @@ private extension CIColor {
 }
 
 extension UIAlertController {
-    func addActions(_ actions: UIAlertAction...) {
-        for action in actions { addAction(action) }
-    }
+    func addActions(_ actions: UIAlertAction...) { for action in actions { addAction(action) } }
 }
 
 extension UITableView {
@@ -101,15 +99,10 @@ extension UIView {
     }
     
     var heightConstraint: NSLayoutConstraint { return constraintFor(.height) }
-    
     var widthConstraint: NSLayoutConstraint { return constraintFor(.width) }
-    
     var topConstraint: NSLayoutConstraint { return constraintFor(.top) }
-    
     var bottomConstraint: NSLayoutConstraint { return constraintFor(.bottom) }
-    
     var leadingConstraint: NSLayoutConstraint { return constraintFor(.leading) }
-    
     var trailingConstraint: NSLayoutConstraint { return constraintFor(.trailing) }
     
     func constraintFor(_ attribute: NSLayoutAttribute, toItem: UIView? = nil) -> NSLayoutConstraint {
@@ -139,7 +132,14 @@ extension UIView {
     }
 }
 
+extension UINavigationController {
+    func push(_ viewController: UIViewController, animated: Bool = true) {
+        pushViewController(viewController, animated: animated)
+    }
+}
+
 extension UIViewController {
+    func dismiss(animated: Bool = true) { dismiss(animated: animated, completion: nil) }
     func withNav() -> UINavigationController { return UINavigationController(rootViewController: self) }
 }
 
@@ -150,6 +150,13 @@ extension Int {
     
     func performIndex(_ closure: @escaping (Int) -> Void) {
         (0..<self).forEach { index in closure(index) }
+    }
+}
+
+extension IndexableBase {
+    /// Returns the element at the specified index if it is within bounds, otherwise nil.
+    public subscript(safe index: Index) -> _Element? {
+        return index >= startIndex && index < endIndex ? self[index] : nil
     }
 }
 

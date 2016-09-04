@@ -9,8 +9,7 @@
 import UIKit
 import AVFoundation
 import AudioToolbox
-//import Shimmer
-    
+
 enum ProfileFields : Int {
     case name, title, email, phone
     
@@ -27,8 +26,7 @@ enum ProfileFields : Int {
 }
 
 struct QRCard {
-    var index : Int
-    var fields : [ProfileFields]
+    var fields: [ProfileFields]
 }
 
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, ViewPagerDelegate {
@@ -50,7 +48,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    var cards = [QRCard(index:0, fields: [.name, .title])]
+    var cards = CardResponse.cards?.map({ _ in return QRCard(fields: [.name, .title]) }) ?? [QRCard]()
     var editMode : Bool = false
     let supportedBarCodes = [AVMetadataObjectTypeQRCode]
     
@@ -84,35 +82,15 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         pager?.scroll.constrain(.top, constant: 105, toItem: view)
         pager?.scroll.clipsToBounds = false
         
-        
         view.addSubview(outline)
         outline.translatesAutoresizingMaskIntoConstraints = false
         outline.constrain(.width, constant: -30, toItem: view)
         outline.constrain(.top, constant: 105, toItem: pager!.scroll, toAttribute: .bottom)
         outline.constrain(.centerX, toItem: view)
         
-        /*let shimmer = FBShimmeringView()
-        view.addSubview(shimmer)
-        shimmer.translatesAutoresizingMaskIntoConstraints = false
-        shimmer.constrain(.width, .height, .centerX, .centerY, toItem: outline)
-        shimmer.contentView = outline
-        shimmer.isShimmering = true*/
+        editCard.cancelHandler = { self.edit() }
         
-        editCard.cancelHandler = {
-            self.edit()
-        }
-        
-        editCard.doneHandler = { fields in
-            var card = self.cards[(self.pager?.previousPage)!]
-            card.fields = fields
-            self.cards.remove(at: (self.pager?.previousPage)!)
-            self.cards.insert(card, at: (self.pager?.previousPage)!)
-            
-            guard let qr = self.pager?.currentView() as? QRCardView else { return }
-            qr.updateFields(fields)
-            
-            self.edit()
-        }
+        editCard.doneHandler = { fields in self.update(fields) }
         
         if TARGET_OS_SIMULATOR == 1 {
             return
@@ -121,7 +99,6 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
         do {
             let input = try AVCaptureDeviceInput(device: captureDevice)
-            
             captureSession.addInput(input)
             
             let captureMetadataOutput = AVCaptureMetadataOutput()
@@ -177,10 +154,10 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         }
     }
     
-    func close() { dismiss(animated: true, completion: nil) }
+    func close() { dismiss() }
     
     func add(){
-        cards.append(QRCard(index: 1, fields: [.name, .title]))
+        cards.append(QRCard(fields: [.name, .title]))
         pager?.stack.arrangedSubviews.forEach({
             if let qr = $0 as? QRCardView {
                 qr.pageControl.numberOfPages = min(cards.count + 1, 3)
@@ -190,6 +167,12 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         qr.pageControl.numberOfPages = min(cards.count + 1, 3)
         qr.pageControl.currentPage = pager!.previousPage
         pager?.insertView(qr, atIndex: pager!.previousPage)
+        
+        Client().execute(CardCreateRequest(position: pager!.previousPage, first_name: true, last_name: true, email: false, phone_number: true, title: false), completionHandler: { response in
+            guard let JSON = response.result.value as? JSONArray else { return }
+            let array = JSON.map({ return CardResponse(JSON: $0) })
+            print(array)
+        })
         
         if cards.count == 3 {
             pager?.removeView(atIndex: 3)
@@ -256,6 +239,24 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         pager?.scroll.isScrollEnabled = false
     }
     
+    func update(_ fields: [ProfileFields]) {
+        var card = self.cards[(self.pager?.previousPage)!]
+        card.fields = fields
+        
+        guard let qr = self.pager?.currentView() as? QRCardView else { return }
+        qr.updateFields(fields)
+        
+        self.edit()
+        guard let cardResponse = CardResponse.cards?[safe: (self.pager?.previousPage)!] else { return }
+        Client().execute(CardEditRequest(_id: cardResponse._id,
+                                         first_name: fields.contains(.name),
+                                         last_name: fields.contains(.name),
+                                         email: fields.contains(.email),
+                                         phone_number: fields.contains(.phone),
+                                         title: fields.contains(.title)),
+                         completionHandler: { _ in })
+    }
+    
     func delete() {
         let index = pager?.previousPage ?? 0
         pager?.removeView(atIndex: index)
@@ -273,6 +274,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         pager?.insertView(AddCardView(touchHandler: {
             self.add()
         }), atIndex: cards.count)
+        
+        //TODO: Delete Card
     }
     
     func selectedIndex(_ index: Int) {

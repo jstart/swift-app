@@ -74,7 +74,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
             case 1:
                 break
             case 2:
-                navigationController?.pushViewController(EditTableViewController(style: .grouped), animated: true)
+                navigationController?.push(EditTableViewController(style: .grouped))
                 break
             default:
                 break
@@ -88,10 +88,20 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
     }
         
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        dismiss(animated: true, completion: nil)
-        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        let data = UIImageJPEGRepresentation(image, 1.0)
+        dismiss()
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
+        let data = UIImageJPEGRepresentation(image, 0.1)
         Client().upload(PhotoRequest(file: data!), completionHandler: { response in
+            if response.result.value != nil {
+                let alert = UIAlertController(title: "Photo Updated", message: "", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+            else {
+                let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
         })
     }
 

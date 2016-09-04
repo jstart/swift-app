@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         }
 
         if (Token.retrieveToken() != nil && Token.retrieveToken() != "") {
-            NotificationCenter.default.addObserver("self", selector: #selector(logout(_:)), name: .logout, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(logout(_:)), name: .logout, object: nil)
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
             window?.rootViewController = vc
             let tab = window?.rootViewController as! UITabBarController
@@ -48,18 +48,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
     func websocketDidReceiveMessage(_ socket: WebSocket, text: String){ }
     func websocketDidReceiveData(_ socket: WebSocket, data: Data){ }*/
 
-    func applicationWillResignActive(_ application: UIApplication) { }
-
-    func applicationDidEnterBackground(_ application: UIApplication) { }
-
-    func applicationWillEnterForeground(_ application: UIApplication) { }
-
-    func applicationDidBecomeActive(_ application: UIApplication) { }
-
-    func applicationWillTerminate(_ application: UIApplication) { }
+//    func applicationWillResignActive(_ application: UIApplication) { }
+//    func applicationDidEnterBackground(_ application: UIApplication) { }
+//    func applicationWillEnterForeground(_ application: UIApplication) { }
+//    func applicationDidBecomeActive(_ application: UIApplication) { }
+//    func applicationWillTerminate(_ application: UIApplication) { }
 
     override var canBecomeFirstResponder: Bool { return true }
-    
     override var keyCommands: [UIKeyCommand]? {
         return [UIKeyCommand(input: "l", modifierFlags: [.command, .alternate], action: #selector(logout), discoverabilityTitle: "Convenience")]
     }
