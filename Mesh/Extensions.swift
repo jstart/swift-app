@@ -83,7 +83,6 @@ extension UITableView {
 }
 
 extension UIView {
-    
     var translates: Bool {
         get { return translatesAutoresizingMaskIntoConstraints }
         set { translatesAutoresizingMaskIntoConstraints = newValue }
@@ -154,6 +153,14 @@ extension UINavigationController {
 extension UIViewController {
     func dismiss(animated: Bool = true) { dismiss(animated: animated, completion: nil) }
     func withNav() -> UINavigationController { return UINavigationController(rootViewController: self) }
+}
+
+extension UserDefaults {
+    subscript(key: String) -> AnyObject? {
+        get {
+            return object(forKey: key) as AnyObject?
+        }
+    }
 }
 
 extension Int {

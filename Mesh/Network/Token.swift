@@ -15,7 +15,7 @@ struct Token {
     }
     
     static func retrieveToken() -> String? {
-        return defaults.value(forKey: "token") as? String
+        return defaults["token"] as? String
     }
     
     static func persistLogin(_ login: (phone_number: String, password: String)){
@@ -24,8 +24,7 @@ struct Token {
     }
     
     static func retrieveLogin() -> (phone_number: String?, password: String?) {
-        return (defaults.value(forKey: "phone_number") as? String,
-                defaults.value(forKey: "password") as? String)
+        return (defaults["phone_number"] as? String,
+                defaults["password"] as? String)
     }
-    
 }
