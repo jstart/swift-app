@@ -18,19 +18,16 @@ struct AlertAction {
 
 class AlertViewController: UIViewController, UIViewControllerTransitioningDelegate {
 
-    var imageView = UIImageView().then {
-        $0.translates = false
+    var imageView = UIImageView(translates: false).then {
         $0.constrain(.height, .width, constant: 100)
     }
-    var titleLabel = UILabel().then {
-        $0.translates = false
+    var titleLabel = UILabel(translates: false).then {
         $0.textAlignment = .center
         $0.font = .boldSystemFont(ofSize: 20)
         $0.textColor = .black
     }
-    var textLabel = UILabel().then {
+    var textLabel = UILabel(translates: false).then {
         $0.contentMode = .top
-        $0.translates = false
         $0.numberOfLines = 0
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: 16)
@@ -56,15 +53,13 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
         view.translates = false
         view.constrain(.width, .height, constant: 325)
         
-        view.addSubview(imageView)
+        view.addSubviews(imageView, titleLabel, textLabel)
         imageView.constrain(.centerX, toItem: view)
         imageView.constrain(.top, constant: 40, toItem: view)
         
-        view.addSubview(titleLabel)
         titleLabel.constrain(.width, .centerX, toItem:view)
         titleLabel.constrain(.top, constant: 20, toItem: imageView, toAttribute: .bottom)
         
-        view.addSubview(textLabel)
         textLabel.constrain(.centerX, toItem:view)
         textLabel.constrain(.width, constant: -40, toItem:view)
         textLabel.constrain(.top, toItem: titleLabel, toAttribute: .bottom)
@@ -72,17 +67,16 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
 
         guard let actions = actions else { return }
         for action in actions {
-            let button = UIButton().then {
+            let button = UIButton(translates: false).then {
                 $0.setTitle(action.title, for: .normal)
                 $0.setTitleColor(action.titleColor, for: .normal)
                 $0.backgroundColor = action.backgroundColor
                 $0.addTarget(self, action: #selector(buttonPress(sender:)), for: .touchUpInside)
+                $0.constrain(.height, constant: 50)
             }
             
             view.addSubview(button)
-            button.translates = false
             button.constrain(.width, toItem: view)
-            button.constrain(.height, constant: 50)
             button.constrain(.leading, .trailing, .bottom, toItem: view)
             buttons.append(button)
         }
@@ -91,11 +85,7 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
     func buttonPress(sender: UIButton) {
         guard let actions = actions else { return }
         for action in actions {
-            for button in buttons {
-                if button.titleLabel?.text == action.title {
-                    action.handler()
-                }
-            }
+            if sender.titleLabel?.text == action.title { action.handler() }
         }
     }
     

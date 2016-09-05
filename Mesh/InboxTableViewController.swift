@@ -13,7 +13,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
 
     var searchController : UISearchController!
     var quickCell : UIView?
-    var field : UITextField = UITextField()
+    var field : UITextField = UITextField(translates: false)
     let searchResults = InboxSearchTableViewController()
     var sortItem : UIBarButtonItem?
     var addItem : UIBarButtonItem?
@@ -227,7 +227,6 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         field.layer.borderColor = UIColor.lightGray.cgColor
         field.layer.borderWidth = 1.0
         field.backgroundColor = .white
-        field.translates = false
         blurView.addSubview(field)
         field.constrain(.height, constant: 50)
         field.constrain(.width, constant: 2, toItem: cell.contentView)

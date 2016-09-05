@@ -38,7 +38,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         $0.layer.borderWidth = 2
     }
     var pager : ViewPager?
-    let outline = UIView().then {
+    let outline = UIView(translates: false).then {
         $0.backgroundColor = .clear
         $0.constrain(.height, constant: 190)
     }
@@ -83,18 +83,14 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         pager?.scroll.clipsToBounds = false
         
         view.addSubview(outline)
-        outline.translates = false
         outline.constrain(.width, constant: -30, toItem: view)
         outline.constrain(.top, constant: 105, toItem: pager!.scroll, toAttribute: .bottom)
         outline.constrain(.centerX, toItem: view)
         
         editCard.cancelHandler = { self.edit() }
-        
         editCard.doneHandler = { fields in self.update(fields) }
         
-        if TARGET_OS_SIMULATOR == 1 {
-            return
-        }
+        if TARGET_OS_SIMULATOR == 1 { return }
         
         let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
         do {

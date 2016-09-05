@@ -21,9 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         window = UIWindow()
         window?.tintColor = #colorLiteral(red: 0.2, green: 0.7843137255, blue: 0.9960784314, alpha: 1)
 
-        if TARGET_IPHONE_SIMULATOR == 0 {
-            Fabric.with([Twitter.self])
-        }
+        if TARGET_IPHONE_SIMULATOR == 0 { Fabric.with([Twitter.self]) }
 
         if (Token.retrieveToken() != nil && Token.retrieveToken() != "") {
             NotificationCenter.default.addObserver(self, selector: #selector(logout(_:)), name: .logout, object: nil)

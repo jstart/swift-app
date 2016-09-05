@@ -14,16 +14,14 @@ class MessagesViewController: JSQMessagesViewController {
     var messages = [JSQMessage]()
     var recipient : UserResponse?
     var meshMessages : [MessageResponse]?
-    let label = UILabel().then {
-        $0.translates = false
+    let label = UILabel(translates: false).then {
         $0.constrain(.height, constant: 44)
     }
     
-    let imageView = UIImageView().then {
+    let imageView = UIImageView(translates: false).then {
         $0.layer.cornerRadius = 5.0
         $0.clipsToBounds = true
         $0.backgroundColor = .gray
-        $0.translates = false
         $0.constrain(.width, .height, constant: 30)
     }
     
@@ -33,7 +31,7 @@ class MessagesViewController: JSQMessagesViewController {
         navigationItem.rightBarButtonItems = [UIBarButtonItem(image: #imageLiteral(resourceName: "chatOverflow"), style: .plain, target: self, action: #selector(overflow)),
                                               UIBarButtonItem(image: #imageLiteral(resourceName: "chatMarkAsUnread"), style: .plain, target: self, action: #selector(toggleReadState))]
         
-        let imageButton = UIButton(type: .custom)
+        let imageButton = UIButton(translates: false)
         imageButton.addTarget(self, action: #selector(image), for: .touchUpInside)
         imageButton.setImage(#imageLiteral(resourceName: "chatUploadPhoto"), for: .normal)
         inputToolbar.contentView?.leftBarButtonItem = imageButton

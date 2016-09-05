@@ -73,9 +73,8 @@ class EditTableViewController: UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
         cell.selectionStyle = .none
-        let field = UITextField().then {
+        let field = UITextField(translates: false).then {
             $0.autocapitalizationType = .none
-            $0.translates = false
             $0.delegate = self
         }
         cell.addSubview(field)

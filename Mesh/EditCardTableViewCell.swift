@@ -10,16 +10,11 @@ import UIKit
 
 class EditCardTableViewCell : UITableViewCell {
     
-    let icon = UIImageView().then {
-        $0.translates = false
-    }
-    let contactField = UILabel().then {
-        $0.translates = false
+    let icon = UIImageView(translates: false)
+    let contactField = UILabel(translates: false).then {
         $0.textColor = Colors.brand
     }
-    let check = UIImageView().then {
-        $0.translates = false
-    }
+    let check = UIImageView(translates: false)
     
     required override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

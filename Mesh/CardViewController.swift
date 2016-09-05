@@ -28,21 +28,20 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     }
     let transition = CardDetailTransition()
     
-    let overlayView  = UIView().then {
+    let overlayView  = UIView(translates: false).then {
         $0.backgroundColor = .black
         $0.alpha = 0.0
         $0.isHidden = true
-        $0.translates = false
         $0.layer.cornerRadius = 5.0
     }
     
-    let name = UILabel().then {
+    let name = UILabel(translates: false).then {
         $0.textColor = .black
         $0.backgroundColor = .white
         $0.font = UIFont.systemFont(ofSize: 20)
         $0.constrain(.height, constant: 20)
     }
-    let position = UILabel().then {
+    let position = UILabel(translates: false).then {
         $0.textColor = #colorLiteral(red: 0.7810397744, green: 0.7810582519, blue: 0.7810482979, alpha: 1)
         $0.backgroundColor = .white
         $0.font = UIFont.systemFont(ofSize: 16)
@@ -162,9 +161,8 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     }
     
     func bar() -> UIView {
-        return UIView().then {
+        return UIView(translates: false).then {
             $0.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
-            $0.translates = false
             $0.constrain(.height, constant: 1)
             NSLayoutConstraint(item: $0, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 80).isActive = true
             NSLayoutConstraint(item: $0, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40).isActive = true

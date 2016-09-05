@@ -11,7 +11,7 @@ import WebKit
 
 class ArticleViewController: UIViewController {
 
-    let web = WKWebView()
+    let web = WKWebView(translates: false)
     var url: String? = "https://hackernoon.com/instagram-just-slapped-snapchat-in-the-face-and-kicked-its-dog-5e3135abef06"
     var user: UserResponse?
     var message: MessageResponse?
@@ -20,7 +20,7 @@ class ArticleViewController: UIViewController {
         super.viewDidLoad()
         title = "Reed Hastings shared this with you"
         view.addSubview(web)
-        web.translates = false
+
         web.constrain(.width, .height, .centerX, .centerY, toItem: view)
     }
     

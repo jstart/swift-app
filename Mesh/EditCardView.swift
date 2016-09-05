@@ -14,23 +14,20 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
     var doneHandler : (([ProfileFields]) -> Void)?
     var fields : [ProfileFields]?
 
-    let tableView = UITableView().then {
-        $0.translates = false
+    let tableView = UITableView(translates: false).then {
         $0.separatorStyle = .none
         $0.tableFooterView = UIView()
         $0.registerClass(EditCardTableViewCell.self)
     }
     
-    let cancel = UIButton().then {
-        $0.translates = false
+    let cancel = UIButton(translates: false).then {
         $0.setTitle("CANCEL", for: .normal)
         $0.backgroundColor = .lightGray
         $0.setTitleColor(.white, for: .normal)
         $0.constrain(.height, constant: 50)
     }
     
-    let done = UIButton().then {
-        $0.translates = false
+    let done = UIButton(translates: false).then {
         $0.setTitle("DONE", for: .normal)
         $0.backgroundColor = Colors.brand
         $0.setTitleColor(.white, for: .normal)

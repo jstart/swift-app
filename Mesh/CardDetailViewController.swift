@@ -12,7 +12,9 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
     
     var tapRec : UITapGestureRecognizer?
     let control = QuickPageControl(categories: [.connections, .experience, .education, .skills, .events])
-    let pageController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+    let pageController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil).then {
+        $0.view.translates = false
+    }
     var controllers = [UserDetailTableViewController]()
     var delegate : QuickPageControlDelegate?
     var transistionToIndex = 0
@@ -39,17 +41,17 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         }
         
         view.addSubview(control.stack!)
-        control.stack!.translates = false
+
         control.stack!.constrain(.top, constant: 5, toItem: view)
         control.stack!.constrain(.width, constant: -80, toItem: view)
         control.stack!.constrain(.leading, constant: 40, toItem: view)
         control.stack!.constrain(.trailing, constant: -40, toItem: view)
         control.stack!.constrain((.height, 40))
+        
         control.delegate = self
         control.selectIndex(control.previousIndex)
         
-        let separator = UIView()
-        separator.translates = false
+        let separator = UIView(translates: false)
         separator.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
         view.addSubview(separator)
         separator.constrain(.width, .centerX, toItem: view)
@@ -60,7 +62,6 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         pageController.dataSource = self
         addChildViewController(pageController)
         view.addSubview(pageController.view)
-        pageController.view.translates = false
         NSLayoutConstraint(item: pageController.view, attribute: .top, relatedBy: .equal, toItem: control.stack!, attribute: .bottom, multiplier: 1.0, constant: 3.0).isActive = true
         pageController.view.constrain(.width, .centerX, .bottom, toItem: view)
         

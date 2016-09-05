@@ -15,11 +15,10 @@ class TweetCardViewController : UIViewController, UIGestureRecognizerDelegate {
 
     var gestureRec : UIPanGestureRecognizer?
     var tapRec : UITapGestureRecognizer?
-    let overlayView  = UIView().then {
+    let overlayView  = UIView(translates: false).then {
         $0.backgroundColor = .black
         $0.alpha = 0.0
         $0.isHidden = true
-        $0.translates = false
         $0.layer.cornerRadius = 5.0
     }
     
@@ -61,8 +60,7 @@ class TweetCardViewController : UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    func tap(_ sender: UITapGestureRecognizer) {
-    }
+    func tap(_ sender: UITapGestureRecognizer) { }
     
     func pan(_ sender: UIPanGestureRecognizer) {
         switch sender.state {

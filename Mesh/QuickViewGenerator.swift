@@ -42,13 +42,12 @@ struct QuickViewGenerator {
         let stack = stackOf(views)
         stack.constrain(.height, constant: 75)
         
-        let label = UILabel().then {
+        let label = UILabel(translates: false).then {
             $0.backgroundColor = .white
             $0.text = category.rawValue.capitalized
             $0.font = UIFont.systemFont(ofSize: 14)
             $0.textAlignment = .center
             $0.textColor = .lightGray
-            $0.translates = false
             $0.constrain(.height, constant: 20)
         }
         
@@ -69,13 +68,12 @@ struct QuickViewGenerator {
     }
     
     static func square(_ image: UIImage, title: String) -> UIStackView {
-        let label = UILabel().then {
+        let label = UILabel(translates: false).then {
             $0.text = title
             $0.backgroundColor = .white
             $0.font = UIFont.systemFont(ofSize: 12)
             $0.textAlignment = .center
             $0.textColor = .lightGray
-            $0.translates = false
             $0.constrain(.height, constant: 20)
         }
         

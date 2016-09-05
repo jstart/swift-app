@@ -88,6 +88,10 @@ extension UIView {
         set { translatesAutoresizingMaskIntoConstraints = newValue }
     }
     
+    convenience init(translates: Bool) {
+        self.init(); self.translates = translates
+    }
+    
     func constrain(_ constants : (attr: NSLayoutAttribute, const: CGFloat) ...){
         for constantPair in constants {
             let constraint = NSLayoutConstraint(item: self, attribute: constantPair.attr, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant:constantPair.const)

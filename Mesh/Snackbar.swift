@@ -14,16 +14,13 @@ class Snackbar : UIView {
     var persist = false
     var handler : (() -> Void)?
     
-    let message = UILabel().then {
+    let message = UILabel(translates: false).then {
         $0.textColor = .white
         $0.font = .systemFont(ofSize: 14)
         $0.numberOfLines = 3
-        $0.translates = false
     }
     
-    let button = UIButton().then {
-        $0.translates = false
-    }
+    let button = UIButton(translates: false)
     
     var timer : Timer?
     
@@ -53,9 +50,7 @@ class Snackbar : UIView {
         persist = showUntilDismissed
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder aDecoder: NSCoder) { fatalError() }
     
     func presentIn(view: UIView) {
         view.addSubview(self)

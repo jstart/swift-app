@@ -10,19 +10,16 @@ import UIKit
 
 class EmptyView: UIView {
 
-    var imageView = UIImageView().then {
-        $0.translates = false
+    var imageView = UIImageView(translates: false).then {
         $0.constrain(.height, .width, constant: 100)
     }
-    var titleLabel = UILabel().then {
-        $0.translates = false
+    var titleLabel = UILabel(translates: false).then {
         $0.textAlignment = .center
         $0.font = .boldSystemFont(ofSize: 20)
         $0.textColor = .black
     }
-    var textLabel = UILabel().then {
+    var textLabel = UILabel(translates: false).then {
         $0.contentMode = .top
-        $0.translates = false
         $0.numberOfLines = 0
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: 16)
@@ -41,22 +38,21 @@ class EmptyView: UIView {
     func configure() {
         backgroundColor = .white
         
-        addSubview(imageView)
+        addSubviews(imageView, titleLabel, textLabel)
+        
         imageView.constrain(.centerX, toItem: self)
         imageView.constrain(.top, constant: 40, toItem: self)
         
-        addSubview(titleLabel)
         titleLabel.constrain(.width, .centerX, toItem:self)
         titleLabel.constrain(.top, constant: 20, toItem: imageView, toAttribute: .bottom)
         
-        addSubview(textLabel)
         textLabel.constrain(.centerX, toItem:self)
         textLabel.constrain(.width, constant: -40, toItem:self)
         textLabel.constrain(.top, toItem: titleLabel, toAttribute: .bottom)
 
         guard let actions = actions else { return }
         for action in actions {
-            let button = UIButton().then {
+            let button = UIButton(translates: false).then {
                 $0.layer.cornerRadius = 5
                 $0.setTitle(action.title, for: .normal)
                 $0.titleLabel?.font = .boldSystemFont(ofSize:14)
@@ -66,7 +62,6 @@ class EmptyView: UIView {
             }
             
             addSubview(button)
-            button.translates = false
             button.constrain(.top, constant: 20, toItem: textLabel, toAttribute: .bottom)
             button.constrain((.width, 150), (.height, 35))
             button.constrain(.centerX, toItem: self)
