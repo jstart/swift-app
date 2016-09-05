@@ -22,14 +22,12 @@ open class SwiftLinkPreview {
     internal var result: [String: String] = [:]
     
     // MARK: - Functions
-    open func preview(_ previewText: String!, onSuccess: @escaping ([String: Any]) -> (), onError: @escaping (PreviewError) -> ()) {
+    open func preview(_ previewText: String!, onSuccess: @escaping ([String: Any]) -> (), onError: @escaping (NSError?) -> ()) {
         resetResult()
         text = previewText
         
-        guard let url = extractURL() else {
-            onError(PreviewError(type: .NoURLHasBeenFound, url: self.text))
-            return
-        }
+        guard let url = extractURL() else { onError(nil); return }
+        
         self.url = url
         result["url"] = self.url.absoluteString
         self.extractInfo({
@@ -70,7 +68,7 @@ extension SwiftLinkPreview {
     }
     
     // Extract HTML code and the information contained on it
-    fileprivate func extractInfo(_ completion: @escaping () -> (), onError: @escaping (PreviewError) -> ()) {
+    fileprivate func extractInfo(_ completion: @escaping () -> (), onError: @escaping (NSError?) -> ()) {
         guard let url = URL(string: result["url"]!) else {
             fillRemainingInfo("", description: "", image: "")
             completion()
@@ -83,10 +81,8 @@ extension SwiftLinkPreview {
         }
         
         task = session.dataTask(with: url, completionHandler: { data, response, error in
-            guard error == nil else {
-                onError(PreviewError(type: .NoURLHasBeenFound, url: response?.url?.absoluteString ?? ""))
-                return
-            }
+            guard error == nil else { onError(error as NSError?); return }
+            
             self.result["finalUrl"] = response?.url?.absoluteString ?? ""
             self.result["canonicalUrl"] = response?.url?.host ?? ""
             
@@ -115,10 +111,7 @@ extension SwiftLinkPreview {
     }
     
     fileprivate func performPageCrawling(_ htmlCode: String) {
-        var htmlCode = htmlCode
         crawlMetaTags(htmlCode)
-        htmlCode = crawlTitle(htmlCode)
-        htmlCode = crawlDescription(htmlCode)
     }
 }
 
@@ -155,120 +148,22 @@ extension SwiftLinkPreview {
         }
     }
     
-    // Crawl for title if needed
-    internal func crawlTitle(_ htmlCode: String) -> String {
-        guard let title: String = result["title"] else { return htmlCode }
-        guard title.isEmpty else { return htmlCode }
-        guard let value = Regex.pregMatchFirst(htmlCode, regex: Regex.titlePattern, index: 2) else { return htmlCode }
-        guard value.isEmpty else {
-            self.result["title"] = value.decoded.extendedTrim
-            return htmlCode
-        }
-                
-        let fromBody: String = crawlCode(htmlCode, minimum: SwiftLinkPreview.titleMinimumRelevant)
-        if !fromBody.isEmpty {
-            self.result["title"] = fromBody.decoded.extendedTrim
-            return htmlCode.replace(fromBody, with: "")
-        }
-        
-        return htmlCode
-        
-    }
-    
-    // Crawl for description if needed
-    internal func crawlDescription(_ htmlCode: String) -> String {
-        
-        if let description: String = self.result["description"] {
-            
-            if description.isEmpty {
-                
-                let value: String = crawlCode(htmlCode, minimum: SwiftLinkPreview.decriptionMinimumRelevant)
-                    
-                self.result["description"] = value.decoded.extendedTrim
-            }
-            
-        }
-        
-        return htmlCode
-        
-    }
-    
     // Add prefix image if needed
     fileprivate func addImagePrefixIfNeeded(_ image: String) -> String {
         
         var image = image
         
-        if let canonicalUrl: String = self.result["canonicalUrl"] {
+        guard let canonicalUrl: String = self.result["canonicalUrl"] else { return image }
             
-            if image.hasPrefix("//") {
-                
-                image = "http:" + image
-                
-            } else if image.hasPrefix("/") {
-                
-                image = "http://" + canonicalUrl + image
-                
-            }
-            
+        if image.hasPrefix("//") {
+            image = "https:" + image
+        } else if image.hasPrefix("/") {
+            image = "https://" + canonicalUrl + image
         }
         
         return image
-        
     }
-    
-    // Crawl the entire code
-    internal func crawlCode(_ content: String, minimum: Int) -> String {
-        
-        let resultFirstSearch = self.getTagContent("p", content: content, minimum: minimum)
-        
-        if (!resultFirstSearch.isEmpty) {
-            
-            return resultFirstSearch
-            
-        } else {
-            
-            let resultSecondSearch = self.getTagContent("div", content: content, minimum: minimum)
-            
-            if (!resultSecondSearch.isEmpty) {
-                
-                return resultSecondSearch
-                
-            } else {
-                
-                let resultThirdSearch = self.getTagContent("span", content: content, minimum: minimum)
-                
-                if (!resultThirdSearch.isEmpty) {
-                    
-                    return resultThirdSearch
-                    
-                } else {
-                    
-                    if (resultThirdSearch.characters.count >= resultFirstSearch.characters.count) {
-                        
-                        if (resultThirdSearch.characters.count >= resultThirdSearch.characters.count) {
-                            
-                            return resultThirdSearch
-                            
-                        } else {
-                            
-                            return resultThirdSearch
-                            
-                        }
-                        
-                    } else {
-                        
-                        return resultFirstSearch
-                        
-                    }
-                    
-                }
 
-            }
-            
-        }
-        
-    }
-    
     // Get tag content
     fileprivate func getTagContent(_ tag: String, content: String, minimum: Int) -> String {
         let pattern = Regex.tagPattern(tag)

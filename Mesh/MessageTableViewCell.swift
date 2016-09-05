@@ -38,14 +38,9 @@ class MessageTableViewCell: MGSwipeTableCell {
         name.text = user.fullName()
         company.image = #imageLiteral(resourceName: "tesla")
         message.text = aMessage.text ?? ""
-        guard let small = user.photos?.small else {
-            profile.image = nil
-            return
-        }
+        guard let small = user.photos?.small else { profile.image = nil; return }
         profile.af_setImage(withURL: URL(string: small)!)
     }
     
-    @IBAction func pressed(_ sender: AnyObject) {
-        pressedAction?()
-    }
+    @IBAction func pressed(_ sender: AnyObject) { pressedAction?() }
 }

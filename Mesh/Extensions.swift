@@ -76,9 +76,9 @@ extension UITableView {
         }
     }
     
-    func dequeue(_ cellClass: AnyClass, indexPath: IndexPath) -> UITableViewCell{
+    func dequeue<T: UITableViewCell>(_ cellClass: T.Type, indexPath: IndexPath) -> T{
         let string = String(describing: cellClass)
-        return dequeueReusableCell(withIdentifier: string, for: indexPath)
+        return dequeueReusableCell(withIdentifier: string, for: indexPath) as! T
     }
 }
 

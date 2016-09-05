@@ -46,10 +46,8 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         navigationController?.navigationBar.topItem?.title = ""
         searchController.isActive = false
         searchController.searchBar.becomeFirstResponder()
-        guard ContactsManager.authStatus != .authorized else {
-            fetchContacts()
-            return
-        }
+        guard ContactsManager.authStatus != .authorized else { fetchContacts(); return }
+        
         emptyView = EmptyView([AlertAction(title: "Sync Contacts", backgroundColor: AlertAction.defaultBackground, titleColor: .white, handler: {
             self.fetchContacts()
         })], image: #imageLiteral(resourceName: "connectionsAddContacts"))
@@ -119,7 +117,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath) as! ConnectionTableViewCell
+        let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath)
         cell.button.isHidden = false
         cell.company.image = nil
         

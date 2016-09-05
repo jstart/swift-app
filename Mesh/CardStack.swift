@@ -74,9 +74,7 @@ class CardStack : UIViewController, CardDelegate {
         })
     }
     
-    func showPreviousCard() {
-        
-    }
+    func showPreviousCard() { }
     
     func swiped(_ direction: UISwipeGestureRecognizerDirection) {
         let card = cards?[cardIndex]
@@ -90,10 +88,7 @@ class CardStack : UIViewController, CardDelegate {
             return
         }
         let request : AuthenticatedRequest = direction == .right ? LikeRequest(_id: id) : PassRequest(_id: id)
-        
-        Client().execute(request, completionHandler: {_ in
-            
-        })
+        Client().execute(request, completionHandler: {_ in })
         
         if cardIndex + 1 == cards?.count {
             cardIndex = 0

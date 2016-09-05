@@ -37,39 +37,47 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
         name.text = user.fullName()
         company.image = #imageLiteral(resourceName: "tesla")
         message.text = aMessage.text ?? ""
-        let slp = SwiftLinkPreview()
         activity.startAnimating()
-        slp.preview(
-            "http://hackernoon.com/instagram-just-slapped-snapchat-in-the-face-and-kicked-its-dog-5e3135abef06",
+        preview(url: "https://t.co/U53NnsPgaM")
+        
+        guard let small = user.photos?.small else { profile.image = nil; return }
+        profile.af_setImage(withURL: URL(string: small)!)
+    }
+    
+    func preview(url: String) {
+        let slp = SwiftLinkPreview()
+        slp.preview(url,
             onSuccess: { result in
                 self.activity.stopAnimating()
                 self.activity.isHidden = true
                 self.articleTitle.text = result["title"] as? String
-                self.articleImage.af_setImage(withURL: URL(string: result["image"] as! String)!)
                 self.articleTitle.isHidden = false
                 self.articleImage.isHidden = false
                 self.viewArticle.isHidden = false
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.pressed(_:)))
                 self.articleHolder.addGestureRecognizer(tap)
+                
+                guard var imageURL = result["image"] as? String else { self.articleImage.backgroundColor = .darkGray; return }
+                imageURL = imageURL.replace("http://", with: "https://")
+                self.articleImage.af_setImage(withURL: URL(string: imageURL)!, completion: { response in
+                    if response.result.error != nil {
+                        self.articleImage.backgroundColor = .darkGray
+                    }
+                })
             }, onError: { error in
+                if error?._code == -1022 {
+                    self.preview(url: error?.userInfo["NSErrorFailingURLStringKey"] as! String)
+                    return
+                }
                 self.activity.stopAnimating()
                 self.activity.isHidden = true
                 //TODO: Handle preview failures, HTTPS ATS
                 /*UIView.animate(withDuration: 0.2, animations: {
-                    self.articleHolder.constrain(.height, constant: 0)
-                    self.layoutIfNeeded()
-                })*/
-               }
-        )
-        
-        guard let small = user.photos?.small else {
-            profile.image = nil
-            return
-        }
-        profile.af_setImage(withURL: URL(string: small)!)
+                 self.articleHolder.constrain(.height, constant: 0)
+                 self.layoutIfNeeded()
+                 })*/
+        })
     }
     
-    @IBAction func pressed(_ sender: AnyObject) {
-        pressedAction?()
-    }
+    @IBAction func pressed(_ sender: AnyObject) { pressedAction?() }
 }

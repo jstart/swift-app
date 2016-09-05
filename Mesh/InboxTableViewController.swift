@@ -129,7 +129,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                let cell = tableView.dequeue(MessagePreviewTableViewCell.self, indexPath: indexPath) as! MessagePreviewTableViewCell
+                let cell = tableView.dequeue(MessagePreviewTableViewCell.self, indexPath: indexPath)
                 
                 guard let message = UserResponse.messages?[safe: indexPath.row] else { return cell }
                 let user = UserResponse.connections?.filter({ return $0._id == message.recipient }).first
@@ -147,7 +147,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 })
                 return cell
             }else {
-                let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath) as! MessageTableViewCell
+                let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath)
 
                 guard let message = UserResponse.messages?[safe: indexPath.row] else { return cell }
                 let user = UserResponse.connections?.filter({ return $0._id == message.recipient }).first
@@ -177,7 +177,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 return cell
             }
         } else {
-            let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath) as! ConnectionTableViewCell
+            let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath)
             cell.name.text = "Elon Musk"
             cell.profile.image = #imageLiteral(resourceName: "profile_sample")
             cell.company.image = #imageLiteral(resourceName: "tesla")

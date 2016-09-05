@@ -41,7 +41,7 @@ class InboxSearchTableViewController: UITableViewController {
             cell.imageView?.image = #imageLiteral(resourceName: "recentSearches")
             return cell
         } else {
-            let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath) as! ConnectionTableViewCell
+            let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath)
             cell.name.text = "Elon Musk"
             cell.profile.image = #imageLiteral(resourceName: "profile_sample")
             cell.company.image = #imageLiteral(resourceName: "tesla")

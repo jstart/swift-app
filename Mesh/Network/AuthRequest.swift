@@ -87,9 +87,7 @@ struct UserResponse {
     }
     
     func fullTitle() -> String {
-        guard let company = companies?.first else {
-            return (title ?? "")
-        }
+        guard let company = companies?.first else { return title ?? "" }
         return (title ?? "") + " at " + company.id
     }
     

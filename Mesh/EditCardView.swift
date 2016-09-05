@@ -74,7 +74,7 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(EditCardTableViewCell.self, indexPath: indexPath) as! EditCardTableViewCell
+        let cell = tableView.dequeue(EditCardTableViewCell.self, indexPath: indexPath)
         switch indexPath.row {
         case 0:
             cell.icon.image = ProfileFields.name.image
