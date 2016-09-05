@@ -93,8 +93,8 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
 
         name.constrain(.leading, toItem: position)
         
-        NSLayoutConstraint(item: imageView, attribute: .bottom, relatedBy: .equal, toItem: name, attribute: .top, multiplier: 1.0, constant: -11).isActive = true
-        NSLayoutConstraint(item: position, attribute: .bottom, relatedBy: .equal, toItem: quickViewStack, attribute: .top, multiplier: 1.0, constant: -8).isActive = true
+        imageView.constrain(.bottom, constant: -11, toItem: name, toAttribute: .top)
+        position.constrain(.bottom, constant: -8, toItem: quickViewStack, toAttribute: .top)
 
         topStack.translates = false
         topStack.constrain(.top, .width, toItem: view)
@@ -114,8 +114,8 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         logo.constrain(.leading, constant: 15, toItem: view)
         logo.constrain(.bottom, constant: 62 - 15, toItem: imageView)
 
-        NSLayoutConstraint(item: name, attribute: .leading, relatedBy: .equal, toItem: logo, attribute: .trailing, multiplier: 1.0, constant: 15).isActive = true
-        NSLayoutConstraint(item: position, attribute: .leading, relatedBy: .equal, toItem: logo, attribute: .trailing, multiplier: 1.0, constant: 15).isActive = true
+        name.constrain(.leading, constant: 15, toItem: logo, toAttribute: .trailing)
+        position.constrain(.leading, constant: 15, toItem: logo, toAttribute: .trailing)
 
         view.addSubview(overlayView)
         overlayView.constrain(.width, .height, .centerX, .centerY, toItem: view)
@@ -145,18 +145,15 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         control.selectIndex(0)
         viewPager?.selectedIndex(0, animated: false)
         
-        name.text = card?.person?.user?.fullName()
-        position.text = card?.person?.user?.fullTitle()
+        name.text = card?.person?.user?.fullName() ?? "Test Name"
+        position.text = card?.person?.user?.fullTitle() ?? "Test Title"
         
         guard let largeURL = card?.person?.user?.photos?.large else {
-            imageView.image = #imageLiteral(resourceName: "profile_sample")
-            return
+            imageView.image = #imageLiteral(resourceName: "profile_sample"); return
         }
         imageView.alpha = 0.0
         imageView.af_setImage(withURL: URL(string: largeURL)!, completion: { response in
-            UIView.animate(withDuration: 0.2, animations: {
-                self.imageView.alpha = 1.0
-            })
+            self.imageView.fadeIn()
         })
     }
     
@@ -164,8 +161,8 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         return UIView(translates: false).then {
             $0.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
             $0.constrain(.height, constant: 1)
-            NSLayoutConstraint(item: $0, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 80).isActive = true
-            NSLayoutConstraint(item: $0, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40).isActive = true
+            $0.constrain(.width, relatedBy: .lessThanOrEqual, constant: 80)
+            $0.constrain(.width, relatedBy: .greaterThanOrEqual, constant: 40)
         }
     }
     
@@ -175,19 +172,13 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if otherGestureRecognizer.isMember(of: UITapGestureRecognizer.self){
-            return false
-        }
-        return true
+        return !otherGestureRecognizer.isMember(of: UITapGestureRecognizer.self)
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         let touchPoint = touch.location(in: gestureRecognizer.view)
         let subview = gestureRec?.view?.hitTest(touchPoint, with: nil)
-        if (subview?.isDescendant(of: viewPager!.scroll))! {
-            return false
-        }
-        return true
+        return !(subview?.isDescendant(of: viewPager!.scroll))!
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -314,7 +305,6 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         transition.presenting = true
-            
         return transition
     }
     

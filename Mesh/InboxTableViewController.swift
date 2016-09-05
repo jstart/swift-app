@@ -231,7 +231,8 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         field.constrain(.height, constant: 50)
         field.constrain(.width, constant: 2, toItem: cell.contentView)
         field.constrain(.leading, constant: -1, toItem: cell.contentView)
-        NSLayoutConstraint(item: field, attribute: .top, relatedBy: .equal, toItem: cell.contentView, attribute: .bottom, multiplier: 1.0, constant: 0.0).isActive = true
+        field.constrain(.top, toItem: cell.contentView, toAttribute: .bottom)
+
         return blurView
     }
     

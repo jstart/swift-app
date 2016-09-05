@@ -56,13 +56,13 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         view.addSubview(separator)
         separator.constrain(.width, .centerX, toItem: view)
         separator.constrain((.height, 1))
-        NSLayoutConstraint(item: separator, attribute: .top, relatedBy: .equal, toItem: control.stack!, attribute: .bottom, multiplier: 1, constant: 2).isActive = true
+        separator.constrain(.top, constant: 2, toItem: control.stack!, toAttribute: .bottom)
         
         pageController.delegate = self
         pageController.dataSource = self
         addChildViewController(pageController)
         view.addSubview(pageController.view)
-        NSLayoutConstraint(item: pageController.view, attribute: .top, relatedBy: .equal, toItem: control.stack!, attribute: .bottom, multiplier: 1.0, constant: 3.0).isActive = true
+        pageController.view.constrain(.top, constant: 3, toItem: control.stack!, toAttribute: .bottom)
         pageController.view.constrain(.width, .centerX, .bottom, toItem: view)
         
         pageController.setViewControllers([controllers[control.previousIndex]], direction: .forward, animated: false, completion: nil)

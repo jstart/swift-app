@@ -32,9 +32,7 @@ class AlertTransition: NSObject, UIViewControllerAnimatedTransitioning {
         
         UIView.animate(withDuration: duration, animations: {
             detail.alpha = 1.0
-            }, completion:{_ in
-                context.completeTransition(true)
-        })
+            }, completion:{_ in context.completeTransition(true) })
     }
     
     func dismiss(_ context: UIViewControllerContextTransitioning) {
@@ -44,8 +42,6 @@ class AlertTransition: NSObject, UIViewControllerAnimatedTransitioning {
         
         UIView.animate(withDuration: duration, animations: {
             detail.alpha = 0.0
-            }, completion:{_ in
-                context.completeTransition(true)
-        })
+            }, completion:{_ in context.completeTransition(true) })
     }
 }

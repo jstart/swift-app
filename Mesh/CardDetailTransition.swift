@@ -55,9 +55,7 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
             }, completion:{_ in
                 UIView.animate(withDuration: 0.2, animations: {
                     detail.frame.origin.y = 81 * 2
-                    }, completion: { _ in
-                        context.completeTransition(true)
-                })
+                    }, completion: { _ in context.completeTransition(true) })
         })
     }
     
@@ -72,11 +70,8 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
             detail.frame.origin.y = 550
             detail.alpha = 0.0
             self.blurView.alpha = 0.0
-            }, completion:{_ in
-                context.completeTransition(true)
-        })
+            }, completion:{_ in context.completeTransition(true) })
     }
-    
 
     func tap(_ sender:UITapGestureRecognizer) { cardVC?.dismiss() }
 }

@@ -155,9 +155,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     func add(){
         cards.append(QRCard(fields: [.name, .title]))
         pager?.stack.arrangedSubviews.forEach({
-            if let qr = $0 as? QRCardView {
-                qr.pageControl.numberOfPages = min(cards.count + 1, 3)
-            }
+            guard let qr = $0 as? QRCardView else { return }
+            qr.pageControl.numberOfPages = min(cards.count + 1, 3)
         })
         let qr = QRCardView(UserResponse.currentUser!, fields: [.name, .title])
         qr.pageControl.numberOfPages = min(cards.count + 1, 3)
@@ -170,23 +169,15 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             print(array)
         })
         
-        if cards.count == 3 {
-            pager?.removeView(atIndex: 3)
-        }
+        if cards.count == 3 { pager?.removeView(atIndex: 3) }
             
         if pager!.previousPage == cards.count - 1 && cards.count == 3 {
-            let view = self.pager!.currentView()
-            view.alpha = 0.0
-            UIView.animate(withDuration: 0.2, animations: {
-                view.alpha = 1.0
-            })
+            self.pager!.currentView().fadeIn()
+            
             pager?.selectedIndex(pager!.previousPage, animated: true)
         } else if pager!.previousPage == cards.count - 1 {
-            let view = self.pager!.currentView()
-            view.alpha = 0.0
-            UIView.animate(withDuration: 0.2, animations: {
-                view.alpha = 1.0
-            })
+            self.pager!.currentView().fadeIn()
+            
             pager?.selectedIndex(pager!.previousPage, animated: true)
         } else {
             pager?.selectedIndex(pager!.previousPage + 1, animated: true)
@@ -258,9 +249,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         pager?.removeView(atIndex: index)
         cards.remove(at: index)
         pager?.stack.arrangedSubviews.forEach({
-            if let qr = $0 as? QRCardView {
-                qr.pageControl.numberOfPages = min(cards.count + 1, 3)
-            }
+            guard let qr = $0 as? QRCardView else { return }
+            qr.pageControl.numberOfPages = min(cards.count + 1, 3)
         })
         pager?.selectedIndex(index - 1, animated: true)
         

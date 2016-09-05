@@ -25,9 +25,7 @@ enum QuickViewCategory : String  {
     }
 }
 
-protocol QuickPageControlDelegate {
-    func selectedIndex(_ index:Int, animated:Bool)
-}
+protocol QuickPageControlDelegate { func selectedIndex(_ index:Int, animated:Bool) }
 
 class QuickPageControl : NSObject, ViewPagerDelegate {
 
@@ -71,8 +69,6 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
         previousIndex = (stack?.subviews.index(of: sender))!
     }
     
-    func selectedIndex(_ index: Int){
-        selectIndex(index)
-    }
+    func selectedIndex(_ index: Int){ selectIndex(index) }
 
 }

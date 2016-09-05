@@ -130,6 +130,14 @@ extension UIView {
     
     func addSubviews(_ views: UIView...) { views.forEach { self.addSubview($0) } }
     
+    func fadeIn(duration: TimeInterval = 2.0) {
+        alpha = 0.0; UIView.animate(withDuration: duration, animations: { self.alpha = 1.0 })
+    }
+    
+    func fadeOut(duration: TimeInterval = 2.0) {
+        UIView.animate(withDuration: duration, animations: { self.alpha = 0.0 })
+    }
+    
     func addDashedBorder(_ color: UIColor) {
         let shapeLayer = CAShapeLayer()
         let frameSize = frame.size

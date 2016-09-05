@@ -51,20 +51,19 @@ struct QuickViewGenerator {
             $0.constrain(.height, constant: 20)
         }
         
-        let stackTitle = stackOf([label, stack])
-        stackTitle.spacing = 5
-        stackTitle.axis = .vertical
-        stackTitle.alignment = .leading
-
-        return stackTitle
+        return stackOf([label, stack]).then {
+            $0.spacing = 5
+            $0.axis = .vertical
+            $0.alignment = .leading
+        }
     }
     
     static func stackOf(_ views: [UIView]) -> UIStackView {
-        let view = UIStackView(arrangedSubviews: views)
-        view.distribution = .fillProportionally
-        view.alignment = .center
-        view.spacing = 20
-        return view
+        return UIStackView(arrangedSubviews: views).then {
+            $0.distribution = .fillProportionally
+            $0.alignment = .center
+            $0.spacing = 20
+        }
     }
     
     static func square(_ image: UIImage, title: String) -> UIStackView {
@@ -77,18 +76,17 @@ struct QuickViewGenerator {
             $0.constrain(.height, constant: 20)
         }
         
-        let icon = UIImageView(image: image)
-        icon.layer.borderWidth = 1
-        icon.backgroundColor = .white
-        icon.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
-        icon.layer.cornerRadius = 5
+        let icon = UIImageView(image: image).then {
+            $0.layer.borderWidth = 1
+            $0.backgroundColor = .white
+            $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+            $0.layer.cornerRadius = 5
+            $0.constrain(.width, .height, constant: 50)
+        }
         
-        icon.constrain(.width, .height, constant: 50)
-        
-        let view = UIStackView(arrangedSubviews: [icon, label])
-        view.axis = .vertical
-        view.spacing = 5
-        
-        return view
+        return UIStackView(arrangedSubviews: [icon, label]).then {
+            $0.axis = .vertical
+            $0.spacing = 5
+        }
     }
 }

@@ -8,9 +8,7 @@
 
 import UIKit
 
-protocol CardDelegate {
-    func swiped(_ direction:UISwipeGestureRecognizerDirection)
-}
+protocol CardDelegate { func swiped(_ direction: UISwipeGestureRecognizerDirection) }
 
 class CardStack : UIViewController, CardDelegate {
     
@@ -64,13 +62,11 @@ class CardStack : UIViewController, CardDelegate {
         card.view.constrain(.centerX, .centerY, toItem: view)
         card.view.translates = false
         
-        if !animated {
-            return
-        }
+        if !animated { return }
+        
         UIView.animate(withDuration: 0.2, animations: {
             card.view.alpha = 1.0
-            let transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            card.view.transform = transform;
+            card.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         })
     }
     

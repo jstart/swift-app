@@ -24,12 +24,13 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
     let stack : UIStackView
 
     init(views : [UIView]) {
-        stack = UIStackView(arrangedSubviews: views)
-
-        stack.translates = false
-        stack.distribution = .fill
-        stack.alignment = .center
-        stack.spacing = 30
+        stack = UIStackView(arrangedSubviews: views).then {
+            $0.translates = false
+            $0.distribution = .fill
+            $0.alignment = .center
+            $0.spacing = 30
+        }
+        
         scroll.addSubview(stack)
         
         stack.constrain(.leading, constant: 15, toItem: scroll)
