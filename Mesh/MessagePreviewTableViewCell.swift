@@ -51,9 +51,7 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
                 self.viewArticle.isHidden = false
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.pressed(_:)))
                 self.articleHolder.addGestureRecognizer(tap)
-                print("\(result)")
             }, onError: { error in
-                print("\(error)")
                 self.activity.stopAnimating()
                 self.activity.isHidden = true
                 //TODO: Handle preview failures, HTTPS ATS
