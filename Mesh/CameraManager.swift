@@ -40,7 +40,7 @@ class CameraManager : NSObject {
             }
             alertController.addAction(openAction)
             
-            UIApplication.shared.keyWindow!.rootViewController!.present(alertController, animated: true, completion: nil)
+            UIApplication.shared.keyWindow!.rootViewController!.present(alertController)
 
             completionHandler(false)
             break

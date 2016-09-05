@@ -27,12 +27,9 @@ class AlertTransition: NSObject, UIViewControllerAnimatedTransitioning {
         containerView.addSubview(detail)
         containerView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         detail.translates = false
-        detail.alpha = 0.0
         detail.constrain(.centerX, .centerY, toItem: containerView)
         
-        UIView.animate(withDuration: duration, animations: {
-            detail.alpha = 1.0
-            }, completion:{_ in context.completeTransition(true) })
+        detail.fadeIn { context.completeTransition(true) }
     }
     
     func dismiss(_ context: UIViewControllerContextTransitioning) {
@@ -40,8 +37,6 @@ class AlertTransition: NSObject, UIViewControllerAnimatedTransitioning {
         let detail = context.view(forKey: UITransitionContextViewKey.from)!
         containerView.addSubview(detail)
         
-        UIView.animate(withDuration: duration, animations: {
-            detail.alpha = 0.0
-            }, completion:{_ in context.completeTransition(true) })
+        detail.fadeOut { context.completeTransition(true) }
     }
 }

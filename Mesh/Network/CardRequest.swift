@@ -63,3 +63,15 @@ struct CardEditRequest : AuthenticatedRequest {
         return ["_id": _id, "first_name" : first_name, "last_name" : last_name, "email" : email, "phone_number" : phone_number, "title" : title]
     }
 }
+
+struct CardSyncRequest : AuthenticatedRequest {
+    let path = "card/sync", method = HTTPMethod.put
+    
+    let _id : String,
+    my_token : String,
+    scanned_token : String
+    
+    func parameters() -> [String : Any] {
+        return ["_id": _id, "my_token": my_token, "scanned_token": scanned_token]
+    }
+}

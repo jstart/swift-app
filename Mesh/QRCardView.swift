@@ -28,9 +28,7 @@ class QRCardView: CardView {
         $0.constrain((.height, 5), (.width, 100))
     }
     
-    let title = QRCardView.detailLabel("")
-    let email = QRCardView.detailLabel("")
-    let phone = QRCardView.detailLabel("")
+    let title = QRCardView.detailLabel(""), email = QRCardView.detailLabel(""), phone = QRCardView.detailLabel("")
 
     convenience init(_ user: UserResponse, fields: [ProfileFields]) {
         self.init()
@@ -79,17 +77,13 @@ class QRCardView: CardView {
         for field in fields {
             switch field {
             case .name:
-                views.append(name)
-                break
+                views.append(name); break
             case .title:
-                views.append(title)
-                break
+                views.append(title); break
             case .email:
-                views.append(email)
-                break
+                views.append(email); break
             case .phone:
-                views.append(phone)
-                break
+                views.append(phone); break
             }
         }
         return views

@@ -130,12 +130,12 @@ extension UIView {
     
     func addSubviews(_ views: UIView...) { views.forEach { self.addSubview($0) } }
     
-    func fadeIn(duration: TimeInterval = 2.0) {
-        alpha = 0.0; UIView.animate(withDuration: duration, animations: { self.alpha = 1.0 })
+    func fadeIn(duration: TimeInterval = 0.2, completion:(() -> Void) = {}) {
+        alpha = 0.0; UIView.animate(withDuration: duration, animations: { self.alpha = 1.0 }, completion: { _ in completion() })
     }
     
-    func fadeOut(duration: TimeInterval = 2.0) {
-        UIView.animate(withDuration: duration, animations: { self.alpha = 0.0 })
+    func fadeOut(duration: TimeInterval = 0.2, completion:(() -> Void) = {}) {
+        UIView.animate(withDuration: duration, animations: { self.alpha = 0.0 }, completion: { _ in completion() })
     }
     
     func addDashedBorder(_ color: UIColor) {
@@ -163,6 +163,7 @@ extension UINavigationController {
 }
 
 extension UIViewController {
+    func present(_ vc: UIViewController, animated: Bool = true) { present(vc, animated: animated, completion: nil) }
     func dismiss(animated: Bool = true) { dismiss(animated: animated, completion: nil) }
     func withNav() -> UINavigationController { return UINavigationController(rootViewController: self) }
 }

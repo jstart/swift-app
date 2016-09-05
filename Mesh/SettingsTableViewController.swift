@@ -68,7 +68,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
                 let picker = UIImagePickerController()
                 picker.sourceType = .photoLibrary
                 picker.delegate = self
-                present(picker, animated: true, completion: nil)
+                present(picker)
                 break
             case 1:
                 break
@@ -94,12 +94,12 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
             if response.result.value != nil {
                 let alert = UIAlertController(title: "Photo Updated", message: "", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                self.present(alert)
             }
             else {
                 let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                self.present(alert)
             }
         })
     }

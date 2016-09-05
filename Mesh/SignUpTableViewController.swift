@@ -61,7 +61,7 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
             } else {
                 let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                self.present(alert)
             }
         })
     }

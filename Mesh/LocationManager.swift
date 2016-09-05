@@ -50,7 +50,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
             }
             alertController.addAction(openAction)
             
-            UIApplication.shared.keyWindow!.rootViewController!.present(alertController, animated: true, completion: nil)
+            UIApplication.shared.keyWindow!.rootViewController!.present(alertController)
             break
         default:
             break

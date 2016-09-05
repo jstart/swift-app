@@ -146,7 +146,11 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             print(metadataObj.stringValue)
             let alert = UIAlertController(title: "Code Found", message: metadataObj.stringValue, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            present(alert, animated: true, completion: nil)
+            present(alert)
+            Client().execute(CardSyncRequest(_id: "",
+                                             my_token: "",
+                                             scanned_token: ""),
+                             completionHandler: { _ in })
         }
     }
     
@@ -193,11 +197,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
                 self.view.constraintFor(.centerY, toItem: self.editCard).constant = 0
                 self.view.layoutIfNeeded()
                 }, completion: { _ in
-                    UIView.animate(withDuration: 0.2, animations: {
-                        self.editCard.alpha = 0.0
-                        }, completion: { _ in
-                            self.editCard.removeFromSuperview()
-                    })
+                    self.editCard.fadeOut { self.editCard.removeFromSuperview() }
             })
             
             editMode = false
@@ -212,9 +212,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         editCard.constrain(.centerX, .centerY, .width, toItem: current!)
         editCard.constrain(.height, constant: 180)
-        UIView.animate(withDuration: 0.2, animations: {
-            self.editCard.alpha = 1.0
-            }, completion: { _ in
+        editCard.fadeIn(completion: {
                 self.editCard.layoutIfNeeded()
                 UIView.animate(withDuration: 0.2, animations: {
                     self.editCard.heightConstraint.constant = 255
@@ -301,6 +299,6 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             }
         }
 
-        present(sheet, animated: true, completion: nil)
+        present(sheet)
     }
 }

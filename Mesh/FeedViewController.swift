@@ -100,14 +100,14 @@ class FeedViewController: UIViewController {
     func qr() {
         guard UserResponse.currentUser != nil else { return }
         if CameraManager.authStatus() == .authorized {
-            self.present(ScanViewController().withNav(), animated: true, completion: nil)
+            self.present(ScanViewController().withNav())
             return
         }
         let alert = AlertViewController([AlertAction(title: "OKAY", backgroundColor: AlertAction.defaultBackground, titleColor: .white, handler: {
             self.dismiss(animated: true, completion: {
                 CameraManager.requestAccess(completionHandler: { access in
                     if access {
-                        self.present(ScanViewController().withNav(), animated: true, completion: nil)
+                        self.present(ScanViewController().withNav())
                     }
                 })
             })
@@ -115,6 +115,6 @@ class FeedViewController: UIViewController {
         alert.titleLabel.text = "Camera Access"
         alert.textLabel.text = "We need access to your camera in order to use this feature and scan codes"
         alert.modalPresentationStyle = .overFullScreen
-        present(alert, animated: true, completion: nil)
+        present(alert)
     }
 }

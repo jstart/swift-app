@@ -89,7 +89,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         pop.modalPresentationStyle = .popover
         pop.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItems?[0]
         pop.popoverPresentationController?.delegate = self
-        present(pop, animated: true, completion: nil)
+        present(pop)
     }
     
     func add() {

@@ -58,7 +58,7 @@ class ContactsManager : NSObject {
                             UIApplication.shared.keyWindow!.rootViewController!.present(alertController, animated: true, completion: nil)
                             return
                         }
-                        vc.present(alertController, animated: true, completion: nil)
+                        vc.present(alertController)
                     }
                 }
             })

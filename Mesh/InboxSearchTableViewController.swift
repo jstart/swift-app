@@ -80,7 +80,7 @@ class InboxSearchTableViewController: UITableViewController {
         let cardVC = CardViewController()
         cardVC.card = Card(type:.person, person: person)
         cardVC.modalPresentationStyle = .overFullScreen
-        present(cardVC, animated: true, completion: nil)
+        present(cardVC)
     }
  
 }
