@@ -24,7 +24,6 @@ struct Token {
     }
     
     static func retrieveLogin() -> (phone_number: String?, password: String?) {
-        return (defaults["phone_number"] as? String,
-                defaults["password"] as? String)
+        return (defaults["phone_number"] as? String, defaults["password"] as? String)
     }
 }
