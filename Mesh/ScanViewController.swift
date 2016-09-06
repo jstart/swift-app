@@ -22,6 +22,16 @@ enum ProfileFields : Int {
         }
     }
     
+    static func fields(_ response: CardResponse) -> [ProfileFields] {
+        var fields = [ProfileFields]()
+        if response.first_name || response.last_name { fields.append(.name) }
+        if response.title { fields.append(.title) }
+        if response.phone_number { fields.append(.phone) }
+        if response.email { fields.append(.email) }
+
+        return fields
+    }
+    
     var image : UIImage { return UIImage(named: name)! }
 }
 
@@ -48,7 +58,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         $0.translates = false
     }
     
-    var cards = CardResponse.cards?.map({ _ in return QRCard(fields: [.name, .title]) }) ?? [QRCard]()
+    var cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0)) }) ?? [QRCard]()
     var editMode : Bool = false
     let supportedBarCodes = [AVMetadataObjectTypeQRCode]
     
@@ -67,6 +77,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         var cardViews = [UIView]()
         for card in cards {
             let qr = QRCardView(UserResponse.currentUser!, fields: card.fields)
+            let token = CardResponse.cards?.first?.token ?? ""
+            qr.setToken((UserResponse.currentUser?._id ?? "") + "::" + token)
             qr.pageControl.numberOfPages = min(cards.count + 1, 3)
             cardViews.append(qr)
         }
@@ -138,20 +150,22 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
         qrCodeFrameView.frame = barCodeObject!.bounds
         
-        if metadataObj.stringValue != nil {
-            outline.layer.sublayers?.forEach({$0.removeFromSuperlayer()})
-            outline.addDashedBorder(.green)
-            guard presentedViewController == nil else { return }
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-            print(metadataObj.stringValue)
-            let alert = UIAlertController(title: "Code Found", message: metadataObj.stringValue, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            present(alert)
-            Client().execute(CardSyncRequest(_id: "",
-                                             my_token: "",
-                                             scanned_token: ""),
-                             completionHandler: { _ in })
-        }
+        guard let token = metadataObj.stringValue else { return }
+        outline.layer.sublayers?.forEach({$0.removeFromSuperlayer()})
+        outline.addDashedBorder(.green)
+        guard presentedViewController == nil else { return }
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+
+        let alert = UIAlertController(title: "Code Found", message: metadataObj.stringValue, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert)
+        let tokenArray = token.components(separatedBy: "::")
+        Client().execute(CardSyncRequest(_id: tokenArray[safe: 0] ?? "",
+                                         my_token: CardResponse.cards?.first?.token ?? "",
+                                         scanned_token: tokenArray[safe: 1] ?? ""),
+                                         completionHandler: { response in
+                                            print(response.result.value)
+        })
     }
     
     func close() { dismiss() }
@@ -167,7 +181,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         qr.pageControl.currentPage = pager!.previousPage
         pager?.insertView(qr, atIndex: pager!.previousPage)
         
-        Client().execute(CardCreateRequest(position: pager!.previousPage, first_name: true, last_name: true, email: false, phone_number: true, title: false), completionHandler: { response in
+        Client().execute(CardCreateRequest.new(), completionHandler: { response in
             guard let JSON = response.result.value as? JSONArray else { return }
             let array = JSON.map({ return CardResponse(JSON: $0) })
             print(array)
@@ -189,8 +203,6 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     }
     
     func edit() {
-        let current = pager?.currentView()
-
         if editMode {
             UIView.animate(withDuration: 0.2, animations: {
                 self.editCard.heightConstraint.constant = 180
@@ -209,7 +221,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         let card = cards[(pager?.previousPage)!]
         self.editCard.fields = card.fields
-        
+        let current = pager?.currentView()
+
         editCard.constrain(.centerX, .centerY, .width, toItem: current!)
         editCard.constrain(.height, constant: 180)
         editCard.fadeIn(completion: {

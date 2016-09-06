@@ -67,6 +67,10 @@ class QRCardView: CardView {
         pageControl.constrain(.bottom, constant: -10, toItem: self)
     }
     
+    func setToken(_ token: String) {
+        qrImage.image = token.qrImage(withSize: CGSize(width: 100, height: 100), foreground: Colors.brand, background: .white)
+    }
+    
     func updateFields(_ fields: [ProfileFields]) {
         stackView?.arrangedSubviews.forEach({ $0.isHidden = true })
         viewsForFields(fields).forEach({ $0.isHidden = false })

@@ -32,6 +32,8 @@ struct CardResponse {
         phone_number = (fields["phone_number"] as? Bool) ?? false
         title = (fields["title"] as? Bool) ?? false
     }
+    
+    
 }
 
 struct CardCreateRequest : AuthenticatedRequest {
@@ -45,7 +47,11 @@ struct CardCreateRequest : AuthenticatedRequest {
         title : Bool
 
     func parameters() -> [String : Any] {
-        return ["first_name" : first_name, "last_name" : last_name, "email" : email, "phone_number" : phone_number, "title" : title, "position" : position]
+        return ["fields" :["first_name" : first_name, "last_name" : last_name, "email" : email, "phone_number" : phone_number, "title" : title], "position" : position]
+    }
+    
+    static func new() -> CardCreateRequest {
+        return CardCreateRequest(position: CardResponse.cards?.count ?? 0, first_name: true, last_name: true, email: false, phone_number: true, title: false)
     }
 }
 
@@ -60,7 +66,7 @@ struct CardEditRequest : AuthenticatedRequest {
         title : Bool
     
     func parameters() -> [String : Any] {
-        return ["_id": _id, "first_name" : first_name, "last_name" : last_name, "email" : email, "phone_number" : phone_number, "title" : title]
+        return ["_id": _id, "fields" :["first_name" : first_name, "last_name" : last_name, "email" : email, "phone_number" : phone_number, "title" : title]]
     }
 }
 

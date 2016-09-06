@@ -63,12 +63,11 @@ class FeedViewController: UIViewController {
             UserResponse.messages = messagesInner.map({return MessageResponse(JSON: $0)})
         })
 
-        locationManager.locationUpdate = { location in
-            client.execute(PositionRequest(lat: location.coordinate.latitude, lon: location.coordinate.longitude), completionHandler: { response in
+        locationManager.locationUpdate = { loc in
+            client.execute(PositionRequest(lat: loc.coordinate.latitude, lon: loc.coordinate.longitude), completionHandler: { response in
                 guard let JSON = response.result.value as? JSONDictionary else { return }
                 guard JSON["msg"] == nil else {
-                    NotificationCenter.default.post(name: .logout, object: nil)
-                    return
+                    NotificationCenter.default.post(name: .logout, object: nil); return
                 }
                 UserResponse.currentUser = UserResponse(JSON: JSON)
             })
@@ -77,15 +76,15 @@ class FeedViewController: UIViewController {
         client.execute(CardsRequest(), completionHandler: { response in
             guard let JSON = response.result.value as? JSONArray else { return }
             let cards = JSON.map({ return CardResponse(JSON: $0) })
-            if cards.count == 0 {
-                client.execute(CardCreateRequest(position: 0, first_name: true, last_name: true, email: false, phone_number: true, title: false), completionHandler: { response in
+            guard cards.count != 0 else {
+                client.execute(CardCreateRequest.new(), completionHandler: { response in
                     guard let JSON = response.result.value as? JSONArray else { return }
                     let array = JSON.map({ return CardResponse(JSON: $0) })
                     print(array)
-                })
-            } else {
-                CardResponse.cards = cards
+                }); return
             }
+            
+            CardResponse.cards = cards
         })
         
         locationManager.startTracking()
@@ -100,8 +99,7 @@ class FeedViewController: UIViewController {
     func qr() {
         guard UserResponse.currentUser != nil else { return }
         if CameraManager.authStatus() == .authorized {
-            self.present(ScanViewController().withNav())
-            return
+            self.present(ScanViewController().withNav()); return
         }
         let alert = AlertViewController([AlertAction(title: "OKAY", backgroundColor: AlertAction.defaultBackground, titleColor: .white, handler: {
             self.dismiss(animated: true, completion: {

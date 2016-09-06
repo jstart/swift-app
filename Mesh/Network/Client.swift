@@ -16,7 +16,7 @@ protocol Request {
     var method : HTTPMethod { get }
     func parameters() -> [String : Any]
     func headers() -> [String : String]
-}
+ }
 
 protocol AuthenticatedRequest : Request {}
 extension AuthenticatedRequest {
@@ -48,7 +48,7 @@ class Client {
             encodingCompletion: { result in
                 switch result {
                 case .success(let upload, _, _):
-                    upload.responseJSON(completionHandler: completionHandler)
+                    upload.responseJSON(completionHandler: completionHandler).validate()
                     break
                 case .failure:
                     break
@@ -59,13 +59,14 @@ class Client {
     func execute(_ request : Request, completionHandler: @escaping (Response<Any, NSError>) -> Void) {
         let fullPath = baseURL + request.path
         Alamofire.request(fullPath, withMethod: request.method, parameters: request.parameters().count == 0 ? nil : request.parameters(), encoding: .json, headers: request.headers())
+            .validate()
             .responseJSON { response in
                 if request is LogoutRequest {
                     NotificationCenter.default.post(name: .logout, object: nil)
                 }
                 
-                if let statusCode = response.result.error?.code {
-                    if statusCode == 401 {
+                if let localizedDescription = response.result.error?.localizedDescription {
+                    if localizedDescription.contains("401") {
                         NotificationCenter.default.post(name: .logout, object: nil)
                     }
                 }
