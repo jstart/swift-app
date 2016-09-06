@@ -75,22 +75,22 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
         switch indexPath.row {
         case 0:
             cell.icon.image = ProfileFields.name.image
-            cell.contactField.text = UserResponse.currentUser?.fullName()
+            cell.contactField.text = UserResponse.current?.fullName()
             cell.setChecked(fields?.contains(.name) ?? false)
             break
         case 1:
             cell.icon.image = ProfileFields.title.image
-            cell.contactField.text = UserResponse.currentUser?.fullTitle()
+            cell.contactField.text = UserResponse.current?.fullTitle()
             cell.setChecked(fields?.contains(.title) ?? false)
             break
         case 2:
             cell.icon.image = ProfileFields.email.image
-            cell.contactField.text = "example@mail.com"//UserResponse.currentUser?.email
+            cell.contactField.text = "example@mail.com"//UserResponse.current?.email
             cell.setChecked(fields?.contains(.email) ?? false)
             break
         case 3:
             cell.icon.image = ProfileFields.phone.image
-            cell.contactField.text = UserResponse.currentUser?.phone_number
+            cell.contactField.text = UserResponse.current?.phone_number
             cell.setChecked(fields?.contains(.phone) ?? false)
             break
         default:

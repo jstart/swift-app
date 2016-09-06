@@ -47,7 +47,7 @@ struct MessageResponse {
 }
 
 struct UserResponse {
-    static var currentUser : UserResponse?
+    static var current : UserResponse?
     static var connections : [UserResponse]?
     static var messages : [MessageResponse]?
 

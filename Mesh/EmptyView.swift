@@ -25,18 +25,18 @@ class EmptyView: UIView {
         $0.font = .systemFont(ofSize: 16)
         $0.textColor = .lightGray
     }
-    var actions : [AlertAction]?
+    var actions = [AlertAction]()
     var buttons : [UIButton] = []
     
     convenience init(_ newActions : [AlertAction], image: UIImage = UIImage()) {
         self.init()
         actions = newActions
         imageView.image = image
+        backgroundColor = .white
         configure()
     }
     
     func configure() {
-        backgroundColor = .white
         
         addSubviews(imageView, titleLabel, textLabel)
         
@@ -50,7 +50,6 @@ class EmptyView: UIView {
         textLabel.constrain(.width, constant: -40, toItem:self)
         textLabel.constrain(.top, toItem: titleLabel, toAttribute: .bottom)
 
-        guard let actions = actions else { return }
         for action in actions {
             let button = UIButton(translates: false).then {
                 $0.layer.cornerRadius = 5
@@ -70,13 +69,9 @@ class EmptyView: UIView {
     }
 
     func buttonPress(sender: UIButton) {
-        guard let actions = actions else { return }
         for action in actions {
-            for button in buttons {
-                if button.titleLabel?.text == action.title {
-                    action.handler()
-                }
-            }
+            guard sender.titleLabel?.text == action.title else { return }
+            action.handler()
         }
     }
     

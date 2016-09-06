@@ -52,7 +52,7 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func signUp() {
-        Client().execute(AuthRequest(phone_number: phoneField!.text!, password: passwordField!.text!, password_verify: passwordField!.text!), completionHandler: { response in
+        Client.execute(AuthRequest(phone_number: phoneField!.text!, password: passwordField!.text!, password_verify: passwordField!.text!), completionHandler: { response in
             if response.result.value != nil {
                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
                 UIApplication.shared.delegate!.window??.rootViewController = vc
@@ -60,15 +60,14 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
                 tab.tabBar.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
             } else {
                 let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction("Ok", style: .cancel))
                 self.present(alert)
             }
         })
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == passwordField { signUp() }
-        return true
+        if textField == passwordField { signUp() }; return true
     }
     
     override var canBecomeFirstResponder: Bool { return true }

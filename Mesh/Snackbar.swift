@@ -12,7 +12,7 @@ class Snackbar : UIView {
     
     var snackDuration = 3.0
     var persist = false
-    var handler : (() -> Void)?
+    var handler = {}
     
     let message = UILabel(translates: false).then {
         $0.textColor = .white
@@ -66,14 +66,12 @@ class Snackbar : UIView {
         })
     }
     
-    func pressed() { handler?() }
+    func pressed() { handler() }
     
     func dismiss() {
         UIView.animate(withDuration: 0.2, animations: {
             self.superview?.constraintFor(.top, toItem: self).constant = 0
             self.superview?.layoutIfNeeded()
-            }, completion: { _ in
-                self.removeFromSuperview()
-        })
+            }, completion: { _ in self.removeFromSuperview() })
     }
 }

@@ -30,15 +30,15 @@ class EditTableViewController: UITableViewController, UITextFieldDelegate {
         let profession = self.profession?.text ?? ""
         
         let companies = [CompanyModel(id: "tinder", start_month: "January", start_year: "2014", end_month: "March", end_year: "2016", current: false)]
-        Client().execute(ProfileRequest(first_name: first_name, last_name: last_name, email: email, title: title, profession: profession, companies: companies), completionHandler: { response in
+        Client.execute(ProfileRequest(first_name: first_name, last_name: last_name, email: email, title: title, profession: profession, companies: companies), completionHandler: { response in
             if response.result.value != nil {
                 let alert = UIAlertController(title: "Profile Updated", message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction("OK", style: .cancel))
                 self.present(alert)
             }
             else {
                 let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction("OK", style: .cancel))
                 self.present(alert)
             }
         })
@@ -51,18 +51,12 @@ class EditTableViewController: UITableViewController, UITextFieldDelegate {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
-        case 0:
-            return "first_name"
-        case 1:
-            return "last_name"
-        case 2:
-            return "email"
-        case 3:
-            return "title"
-        case 4:
-            return "profession"
-        default:
-            return ""
+        case 0: return "first_name"
+        case 1: return "last_name"
+        case 2: return "email"
+        case 3: return "title"
+        case 4: return "profession"
+        default: return ""
         }
     }
 
@@ -83,26 +77,20 @@ class EditTableViewController: UITableViewController, UITextFieldDelegate {
         
         switch indexPath.section {
         case 0:
-            field.text = UserResponse.currentUser?.first_name ?? ""
-            first_name = field
-            break
+            field.text = UserResponse.current?.first_name ?? ""
+            first_name = field; break
         case 1:
-            field.text = UserResponse.currentUser?.last_name ?? ""
-            last_name = field
-            break
+            field.text = UserResponse.current?.last_name ?? ""
+            last_name = field; break
         case 2:
-            email = field
-            break
+            email = field; break
         case 3:
-            field.text = UserResponse.currentUser?.title ?? ""
-            titleField = field
-            break
+            field.text = UserResponse.current?.title ?? ""
+            titleField = field; break
         case 4:
-            field.text = UserResponse.currentUser?.profession ?? ""
-            profession = field
-            break
-        default:
-            break
+            field.text = UserResponse.current?.profession ?? ""
+            profession = field; break
+        default: break
         }
         return cell
     }

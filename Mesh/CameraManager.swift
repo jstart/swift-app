@@ -21,29 +21,24 @@ class CameraManager : NSObject {
         
         switch status {
         case .authorized:
-            completionHandler(true)
-            break
-        case .denied:
-            fallthrough
+            completionHandler(true); break
+        case .denied: fallthrough
         case .restricted:
             let alertController = UIAlertController(
                 title: "Camera Access Disabled",
                 message: "In order to scan your card, we need to access the Camera. ",
                 preferredStyle: .alert)
             
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            alertController.addAction(cancelAction)
-            
-            let openAction = UIAlertAction(title: "Open Settings", style: .default) { (action) in
+            let cancelAction = UIAlertAction("Cancel", style: .cancel)
+            let openAction = UIAlertAction("Open Settings") { (action) in
                 guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
                 UIApplication.shared.openURL(url as URL)
             }
-            alertController.addAction(openAction)
+            alertController.addActions(cancelAction, openAction)
             
             UIApplication.shared.keyWindow!.rootViewController!.present(alertController)
 
-            completionHandler(false)
-            break
+            completionHandler(false); break
         case .notDetermined:
             AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { granted in
                 completionHandler(granted)

@@ -35,9 +35,7 @@ enum ProfileFields : Int {
     var image : UIImage { return UIImage(named: name)! }
 }
 
-struct QRCard {
-    var fields: [ProfileFields]
-}
+struct QRCard { var fields: [ProfileFields] }
 
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, ViewPagerDelegate {
     
@@ -53,7 +51,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         $0.constrain(.height, constant: 190)
     }
     
-    let editCard = EditCardView(UserResponse.currentUser!).then {
+    let editCard = EditCardView(UserResponse.current!).then {
         $0.alpha = 0.0
         $0.translates = false
     }
@@ -76,9 +74,9 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 
         var cardViews = [UIView]()
         for card in cards {
-            let qr = QRCardView(UserResponse.currentUser!, fields: card.fields)
+            let qr = QRCardView(UserResponse.current!, fields: card.fields)
             let token = CardResponse.cards?.first?.token ?? ""
-            qr.setToken((UserResponse.currentUser?._id ?? "") + "::" + token)
+            qr.setToken((UserResponse.current?._id ?? "") + "::" + token)
             qr.pageControl.numberOfPages = min(cards.count + 1, 3)
             cardViews.append(qr)
         }
@@ -123,10 +121,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             
             view.addSubview(qrCodeFrameView)
             view.bringSubview(toFront: qrCodeFrameView)
-        } catch {
-            print(error)
-            return
-        }
+        } catch { print(error); return }
+        
         view.bringSubview(toFront: pager!.scroll)
         view.bringSubview(toFront: outline)
     }
@@ -156,11 +152,11 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         guard presentedViewController == nil else { return }
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
 
-        let alert = UIAlertController(title: "Code Found", message: metadataObj.stringValue, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        let alert = UIAlertController(title: "Code Found", message: token, preferredStyle: .alert)
+        alert.addAction(UIAlertAction("Cancel", style: .cancel))
         present(alert)
         let tokenArray = token.components(separatedBy: "::")
-        Client().execute(CardSyncRequest(_id: tokenArray[safe: 0] ?? "",
+        Client.execute(CardSyncRequest(_id: tokenArray[safe: 0] ?? "",
                                          my_token: CardResponse.cards?.first?.token ?? "",
                                          scanned_token: tokenArray[safe: 1] ?? ""),
                                          completionHandler: { response in
@@ -176,12 +172,12 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             guard let qr = $0 as? QRCardView else { return }
             qr.pageControl.numberOfPages = min(cards.count + 1, 3)
         })
-        let qr = QRCardView(UserResponse.currentUser!, fields: [.name, .title])
+        let qr = QRCardView(UserResponse.current!, fields: [.name, .title])
         qr.pageControl.numberOfPages = min(cards.count + 1, 3)
         qr.pageControl.currentPage = pager!.previousPage
         pager?.insertView(qr, atIndex: pager!.previousPage)
         
-        Client().execute(CardCreateRequest.new(), completionHandler: { response in
+        Client.execute(CardCreateRequest.new(), completionHandler: { response in
             guard let JSON = response.result.value as? JSONArray else { return }
             let array = JSON.map({ return CardResponse(JSON: $0) })
             print(array)
@@ -246,7 +242,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         self.edit()
         guard let cardResponse = CardResponse.cards?[safe: (self.pager?.previousPage)!] else { return }
-        Client().execute(CardEditRequest(_id: cardResponse._id,
+        Client.execute(CardEditRequest(_id: cardResponse._id,
                                          first_name: fields.contains(.name),
                                          last_name: fields.contains(.name),
                                          email: fields.contains(.email),
@@ -268,34 +264,25 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         for view in pager!.stack.arrangedSubviews {
             if view is AddCardView { return }
         }
-        pager?.insertView(AddCardView(touchHandler: {
-            self.add()
-        }), atIndex: cards.count)
+        pager?.insertView(AddCardView(touchHandler: { self.add() }), atIndex: cards.count)
         
         //TODO: Delete Card
     }
     
     func selectedIndex(_ index: Int) {
         pager?.stack.arrangedSubviews.forEach({
-            if let qr = $0 as? QRCardView {
-                qr.pageControl.currentPage = index
-            }
+            guard let qr = $0 as? QRCardView else { return }
+            qr.pageControl.currentPage = index
         })
     }
     
     func overflow() {
-        let add = UIAlertAction(title: "Add Card", style: .default, handler: { _ in
-            self.add()
-        })
-        let edit = UIAlertAction(title: "Edit Card", style: .default, handler: { _ in
-            self.edit()
-        })
-        let delete = UIAlertAction(title: "Delete Card", style: .default, handler: { _ in
-            self.delete()
-        })
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let add = UIAlertAction("Add Card", handler: { _ in self.add() })
+        let edit = UIAlertAction("Edit Card", handler: { _ in self.edit() })
+        let delete = UIAlertAction("Delete Card", handler: { _ in self.delete() })
+        let cancel = UIAlertAction("Cancel", style: .cancel)
         
-        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let sheet = UIAlertController.sheet()
         
         let view = pager?.currentView()
         if view is AddCardView {

@@ -28,8 +28,8 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
         navigationItem.titleView = searchController.searchBar
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort))
-        //Client().execute(ConnectionRequest(recipient: "57ba725d87223ad6215ecaf9"), completionHandler: { _ in})
-        /*Client().execute(MessagesSendRequest(recipient: "57b63c7f887fb1b3571666b5", text: "POOP"), completionHandler: { response in
+        //Client.execute(ConnectionRequest(recipient: "57ba725d87223ad6215ecaf9"), completionHandler: { _ in})
+        /*Client.execute(MessagesSendRequest(recipient: "57b63c7f887fb1b3571666b5", text: "POOP"), completionHandler: { response in
          })*/
         tableView.registerNib(ConnectionTableViewCell.self)
         
@@ -93,11 +93,9 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         return [UITableViewRowAction(style: .default, title: "Unfollow", handler: {_,_ in })]
     }
-
 }

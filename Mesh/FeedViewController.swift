@@ -29,12 +29,11 @@ class FeedViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort))
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "qrCode"), style: .plain, target: self, action: #selector(qr))
         
-        let client = Client()
-        /*client.execute(ProfileRequest(first_name: "john", last_name: "doe", email: "whatever@gmail.com", title: "lead product", profession: "software engineer", companies: [CompanyModel(id: "tinder", start_month: "January", start_year: "2014", end_month: "March", end_year: "2016", current: false)]), completionHandler: { response in
+        /*Client.execute(ProfileRequest(first_name: "john", last_name: "doe", email: "whatever@gmail.com", title: "lead product", profession: "software engineer", companies: [CompanyModel(id: "tinder", start_month: "January", start_year: "2014", end_month: "March", end_year: "2016", current: false)]), completionHandler: { response in
         })*/
         
         let recs = {
-            client.execute(RecommendationsRequest(), completionHandler: { response in
+            Client.execute(RecommendationsRequest(), completionHandler: { response in
                 guard let JSON = response.result.value else { return }
                 guard let jsonArray = JSON as? JSONArray else { return }
                 let array = jsonArray.map({return UserResponse(JSON: $0)})
@@ -44,14 +43,14 @@ class FeedViewController: UIViewController {
                 })
                 self.cardStack.cards?.append(Card(type: .tweet, person: nil))
                 if TARGET_OS_SIMULATOR == 1 {
-                    client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
+                    Client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
                         guard let JSON = response.result.value as? JSONDictionary else { return }
-                        UserResponse.currentUser = UserResponse(JSON: JSON)
+                        UserResponse.current = UserResponse(JSON: JSON)
                     })
                 }
             })
         }
-        client.execute(UpdatesRequest(last_update: Int(Date().timeIntervalSince1970)), completionHandler: { response in
+        Client.execute(UpdatesRequest(last_update: Int(Date().timeIntervalSince1970)), completionHandler: { response in
             recs()
             guard let json = response.result.value as? JSONDictionary else { return }
             guard let connections = json["connections"] as? JSONDictionary else { return }
@@ -64,20 +63,20 @@ class FeedViewController: UIViewController {
         })
 
         locationManager.locationUpdate = { loc in
-            client.execute(PositionRequest(lat: loc.coordinate.latitude, lon: loc.coordinate.longitude), completionHandler: { response in
+            Client.execute(PositionRequest(lat: loc.coordinate.latitude, lon: loc.coordinate.longitude), completionHandler: { response in
                 guard let JSON = response.result.value as? JSONDictionary else { return }
                 guard JSON["msg"] == nil else {
                     NotificationCenter.default.post(name: .logout, object: nil); return
                 }
-                UserResponse.currentUser = UserResponse(JSON: JSON)
+                UserResponse.current = UserResponse(JSON: JSON)
             })
         }
         
-        client.execute(CardsRequest(), completionHandler: { response in
+        Client.execute(CardsRequest(), completionHandler: { response in
             guard let JSON = response.result.value as? JSONArray else { return }
             let cards = JSON.map({ return CardResponse(JSON: $0) })
             guard cards.count != 0 else {
-                client.execute(CardCreateRequest.new(), completionHandler: { response in
+                Client.execute(CardCreateRequest.new(), completionHandler: { response in
                     guard let JSON = response.result.value as? JSONArray else { return }
                     let array = JSON.map({ return CardResponse(JSON: $0) })
                     print(array)
@@ -90,14 +89,14 @@ class FeedViewController: UIViewController {
         locationManager.startTracking()
         for index in 0..<cardStack.cards!.count {
             guard let recIds = cardStack.cards?[index].person?.user?._id else {return}
-            client.execute(ConnectionRequest(recipient: recIds), completionHandler: { response in })
+            Client.execute(ConnectionRequest(recipient: recIds), completionHandler: { response in })
         }
     }
     
     func sort(){ }
     
     func qr() {
-        guard UserResponse.currentUser != nil else { return }
+        guard UserResponse.current != nil else { return }
         if CameraManager.authStatus() == .authorized {
             self.present(ScanViewController().withNav()); return
         }

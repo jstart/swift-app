@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
     func logout(_ command: UIKeyCommand) {
         Token.persistToken("")
         Token.persistLogin((phone_number: "", password: ""))
-        UserResponse.currentUser = nil
+        UserResponse.current = nil
         URLCache.shared.removeAllCachedResponses()
         let vc = JoinTableViewController(style: .grouped)
         window?.rootViewController = UINavigationController(rootViewController: vc)

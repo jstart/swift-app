@@ -50,9 +50,9 @@ class MessagesViewController: JSQMessagesViewController {
         }
     }
 
-    override func senderId() -> String { return UserResponse.currentUser?._id ?? "1" }
+    override func senderId() -> String { return UserResponse.current?._id ?? "1" }
     
-    override func senderDisplayName() -> String { return UserResponse.currentUser?.first_name ?? "Name" }
+    override func senderDisplayName() -> String { return UserResponse.current?.first_name ?? "Name" }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -103,7 +103,7 @@ class MessagesViewController: JSQMessagesViewController {
     }
     
     override func didPressSend(_ button: UIButton, withMessageText text: String, senderId: String, senderDisplayName: String, date: Date) {
-        Client().execute(MessagesSendRequest(recipient: recipient?._id ?? "", text: text), completionHandler: { response in
+        Client.execute(MessagesSendRequest(recipient: recipient?._id ?? "", text: text), completionHandler: { response in
             self.messages.append(JSQMessage(senderId: senderId, displayName: senderDisplayName, text: text))
             self.finishSendingMessage(animated: true)
         })
@@ -169,7 +169,7 @@ class MessagesViewController: JSQMessagesViewController {
     
     func deleteMessage(_ indexPath: IndexPath) {
         guard let meshMessage = meshMessages?[indexPath.row] else { return }
-        Client().execute(MessagesDeleteRequest(id: meshMessage._id), completionHandler: { response in
+        Client.execute(MessagesDeleteRequest(id: meshMessage._id), completionHandler: { response in
             self.messages.remove(at: indexPath.row)
             self.collectionView?.reloadData()
         })

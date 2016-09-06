@@ -13,6 +13,8 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     
     var searchController : UISearchController!
     var contacts = [CNContact]()
+    var meshContacts = [CNContact]()
+
     var filteredContacts = [CNContact]()
     var emptyView : EmptyView?
     
@@ -62,6 +64,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     func close() { presentingViewController?.dismiss() }
     
     func fetchContacts() {
+        fetchMeshContacts()
         let manager = ContactsManager()
         manager.viewController = self
         manager.requestAccess(completionHandler: { authorized in
@@ -73,9 +76,27 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
             }
             ContactsManager().allContacts(results: { contactResults in
                 self.contacts = contactResults
+                Client.execute(ContactsSaveRequest(contacts: contactResults), completionHandler: { response in
+                    self.fetchMeshContacts()
+                })
                 self.tableView.reloadData()
             })
             
+        })
+    }
+    
+    func fetchMeshContacts() {
+        Client.execute(ContactsRequest(), completionHandler: { response in
+            guard let meshPeople = response.result.value as? JSONArray else { return }
+            let phoneNumbers = meshPeople.map({return $0["phone_number"]}) as! [String]
+            let emails = meshPeople.map({return $0["email"]}) as! [String]
+
+            self.meshContacts = self.contacts.filter {
+                let phone = $0.phoneNumbers[safe: 0]?.value.value(forKey: "digits") as? String ?? ""
+                let email = $0.emailAddresses[safe: 0]?.value ?? ""
+                return phoneNumbers.contains(phone as String) || emails.contains(email as String)
+            }
+            self.tableView.reloadData()
         })
     }
     
@@ -102,17 +123,18 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return emptyView != nil ? 0 : 2
+        if emptyView != nil { return 0 }
+        if meshContacts.count == 0 { return 1 }
+        return 2
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if meshContacts.count == 0 { return "Invite" }
         return section == 0 ? "People on Mesh" : "Invite"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return UserResponse.connections?.count ?? 0
-        }
+        if section == 0 && meshContacts.count > 0 { return meshContacts.count }
         return searchController.isActive ? filteredContacts.count : contacts.count
     }
     
@@ -121,25 +143,18 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         cell.button.isHidden = false
         cell.company.image = nil
         
-        if indexPath.section == 0 {
-            let user = UserResponse.connections![indexPath.row]
-            cell.name.text = user.fullName()
-            cell.title.text = user.fullTitle()
+        let contact : CNContact
+        if indexPath.section == 0 && meshContacts.count > 0 {
+            contact = meshContacts[indexPath.row]
+            cell.title.text = contact.organizationName
+
             cell.button.setTitle(" Connect ", for: .normal)
             cell.button.setTitle("Connected", for: .selected)
             cell.buttonHandler = {
-                self.connect(user, button: cell.button)
+                //self.connect(user, button: cell.button)
             }
-            guard let small = user.photos?.small else {
-                let firstName = user.first_name ?? " "
-                let lastName = user.last_name ?? " "
-                cell.showInitials(firstName: firstName, lastName: lastName)
-                return cell
-            }
-            cell.profile.af_setImage(withURL: URL(string: small)!)
         } else {
-            let contact = searchController.isActive ? filteredContacts[indexPath.row] : contacts[indexPath.row]
-            cell.name.text = contact.givenName + " " + contact.familyName
+            contact = searchController.isActive ? filteredContacts[indexPath.row] : contacts[indexPath.row]
             cell.title.text = "Invite Contact"
             cell.button.setTitle("  Add  ", for: .normal)
             cell.button.setTitle(" Added ", for: .selected)
@@ -147,13 +162,15 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
             cell.buttonHandler = {
                 self.invite(contact, button: cell.button)
             }
-            
-            guard let data = contact.thumbnailImageData else {
-                cell.showInitials(firstName: contact.givenName, lastName: contact.familyName)
-                return cell
-            }
-            cell.profile.image = UIImage(data: data)
         }
+        
+        cell.name.text = contact.givenName + " " + contact.familyName
+        
+        guard let data = contact.thumbnailImageData else {
+            cell.showInitials(firstName: contact.givenName, lastName: contact.familyName)
+            return cell
+        }
+        cell.profile.image = UIImage(data: data)
         
         return cell
     }
@@ -166,7 +183,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     
     func connect(_ connection: UserResponse, button: UIButton) {
         button.setTitle("Connected", for: .selected)
-        Client().execute(ConnectionRequest(recipient: connection._id), completionHandler: { _ in
+        Client.execute(ConnectionRequest(recipient: connection._id), completionHandler: { _ in
         })
     }
 

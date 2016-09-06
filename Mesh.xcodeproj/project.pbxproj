@@ -41,6 +41,7 @@
 		237B787E1D7906160018347A /* SwiftLinkPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237B78741D7906160018347A /* SwiftLinkPreview.swift */; };
 		237B78811D790C560018347A /* MessagePreviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237B787F1D790C560018347A /* MessagePreviewTableViewCell.swift */; };
 		237B78821D790C560018347A /* MessagePreviewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 237B78801D790C560018347A /* MessagePreviewTableViewCell.xib */; };
+		238271941D7E92E40005F254 /* ContactsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238271931D7E92E40005F254 /* ContactsRequest.swift */; };
 		2397C37A1D5E5A6F005C982E /* QuickPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397C3791D5E5A6F005C982E /* QuickPageControl.swift */; };
 		239DFAD11D7A2E8500997447 /* Snackbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239DFAD01D7A2E8500997447 /* Snackbar.swift */; };
 		239E01F01D6A801D0072530B /* UserDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239E01EE1D6A801D0072530B /* UserDetailTableViewCell.swift */; };
@@ -118,6 +119,7 @@
 		237B78741D7906160018347A /* SwiftLinkPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftLinkPreview.swift; sourceTree = "<group>"; };
 		237B787F1D790C560018347A /* MessagePreviewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePreviewTableViewCell.swift; sourceTree = "<group>"; };
 		237B78801D790C560018347A /* MessagePreviewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessagePreviewTableViewCell.xib; sourceTree = "<group>"; };
+		238271931D7E92E40005F254 /* ContactsRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsRequest.swift; sourceTree = "<group>"; };
 		2397C3791D5E5A6F005C982E /* QuickPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickPageControl.swift; sourceTree = "<group>"; };
 		239DFAD01D7A2E8500997447 /* Snackbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Snackbar.swift; sourceTree = "<group>"; };
 		239E01EE1D6A801D0072530B /* UserDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailTableViewCell.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 				23DFB67B1D654B3C00D871A9 /* ProfileRequest.swift */,
 				236E27B71D67C9D2002ABAB4 /* Token.swift */,
 				237827221D7B50B20059AB37 /* CardRequest.swift */,
+				238271931D7E92E40005F254 /* ContactsRequest.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				ADECA8EA1D51540900726AEF /* FeedViewController.swift in Sources */,
 				AD06B7031D5905D6005D349A /* SwipeState.swift in Sources */,
 				23272ADC1D6F914A007438D9 /* ContactsManager.swift in Sources */,
+				238271941D7E92E40005F254 /* ContactsRequest.swift in Sources */,
 				AD4E2E201D5A760800130811 /* AuthRequest.swift in Sources */,
 				23C09D541D624C66003C9183 /* ViewPager.swift in Sources */,
 				23E33EE51D753A48000A6A6F /* AlertViewController.swift in Sources */,

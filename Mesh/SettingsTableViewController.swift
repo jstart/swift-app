@@ -26,7 +26,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         super.viewWillAppear(animated)
         tableView.reloadData()
         
-        guard let smallURL = UserResponse.currentUser?.photos?.small else { return }
+        guard let smallURL = UserResponse.current?.photos?.small else { return }
         profileImage.af_setImage(withURL: URL(string: smallURL)!)
     }
 
@@ -48,7 +48,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         cell.textLabel?.text = (indexPath.section == 0 && indexPath.row == 0) ? "Upload Photo" : "Logout"
         
         if (indexPath.section == 0 && indexPath.row == 1)  {
-            if let user = UserResponse.currentUser {
+            if let user = UserResponse.current {
                 cell.textLabel?.numberOfLines = 0
                 cell.textLabel?.text = "\nName: " + user.fullName()
                 cell.detailTextLabel?.text = "UID: " + user._id
@@ -70,17 +70,15 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
                 picker.delegate = self
                 present(picker)
                 break
-            case 1:
-                break
+            case 1: break
             case 2:
                 navigationController?.push(EditTableViewController(style: .grouped))
                 break
-            default:
-                break
+            default: break
             }
             return
         }
-        Client().execute(LogoutRequest(), completionHandler: { response in
+        Client.execute(LogoutRequest(), completionHandler: { response in
             let vc = JoinTableViewController(style: .grouped)
             UIApplication.shared.delegate!.window??.rootViewController = UINavigationController(rootViewController: vc)
         })
@@ -90,15 +88,15 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         dismiss()
         guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
         let data = UIImageJPEGRepresentation(image, 0.1)
-        Client().upload(PhotoRequest(file: data!), completionHandler: { response in
+        Client.upload(PhotoRequest(file: data!), completionHandler: { response in
             if response.result.value != nil {
                 let alert = UIAlertController(title: "Photo Updated", message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction("Ok", style: .cancel))
                 self.present(alert)
             }
             else {
                 let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction("Ok", style: .cancel))
                 self.present(alert)
             }
         })

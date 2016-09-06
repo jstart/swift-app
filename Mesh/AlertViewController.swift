@@ -33,7 +33,7 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
         $0.font = .systemFont(ofSize: 16)
         $0.textColor = .lightGray
     }
-    var actions : [AlertAction]?
+    var actions = [AlertAction]()
     var buttons : [UIButton] = []
     
     convenience init(_ newActions : [AlertAction], image: UIImage = UIImage()) {
@@ -65,7 +65,6 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
         textLabel.constrain(.top, toItem: titleLabel, toAttribute: .bottom)
         //textLabel.constrain(.bottom, constant: -50, toItem: view)
 
-        guard let actions = actions else { return }
         for action in actions {
             let button = UIButton(translates: false).then {
                 $0.setTitle(action.title, for: .normal)
@@ -83,7 +82,6 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
     }
 
     func buttonPress(sender: UIButton) {
-        guard let actions = actions else { return }
         for action in actions {
             if sender.titleLabel?.text == action.title { action.handler() }
         }

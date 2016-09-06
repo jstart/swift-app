@@ -59,5 +59,4 @@ struct Keychain {
         ]
         SecItemDelete(query as CFDictionary)
     }
-    
 }

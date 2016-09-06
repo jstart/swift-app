@@ -33,8 +33,7 @@ class ContactsManager : NSObject {
         let authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
         
         switch authorizationStatus {
-        case .authorized:
-            completionHandler(true)
+        case .authorized: completionHandler(true)
         case .denied, .notDetermined:
             store.requestAccess(for: .contacts, completionHandler: { (access, accessError) -> Void in
                 completionHandler(access)
@@ -46,14 +45,12 @@ class ContactsManager : NSObject {
                             message: message,
                             preferredStyle: .alert)
                         
-                        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                        alertController.addAction(cancelAction)
-                        
-                        let openAction = UIAlertAction(title: "Open Settings", style: .default) { (action) in
+                        let cancelAction = UIAlertAction("Cancel", style: .cancel)
+                        let openAction = UIAlertAction("Open Settings") { (action) in
                             guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
                             UIApplication.shared.openURL(url as URL)
                         }
-                        alertController.addAction(openAction)
+                        alertController.addActions(cancelAction, openAction)
                         guard let vc = self.viewController else {
                             UIApplication.shared.keyWindow!.rootViewController!.present(alertController, animated: true, completion: nil)
                             return
@@ -62,8 +59,7 @@ class ContactsManager : NSObject {
                     }
                 }
             })
-        default:
-            completionHandler(false)
+        default: completionHandler(false)
         }
     }
     
@@ -93,9 +89,7 @@ class ContactsManager : NSObject {
     func allContacts(results: @escaping ([CNContact]) -> Void) {
         DispatchQueue.global().async {
             let contacts = self.contacts()
-            DispatchQueue.main.async {
-                results(contacts)
-            }
+            DispatchQueue.main.async { results(contacts) }
         }
     }
 
@@ -119,9 +113,7 @@ class ContactsManager : NSObject {
     func contacts(_ forName: String, results: @escaping ([CNContact]) -> Void) {
         DispatchQueue.global().async {
             let contacts = self.contacts(forName)
-            DispatchQueue.main.async {
-                results(contacts)
-            }
+            DispatchQueue.main.async { results(contacts) }
         }
     }
 

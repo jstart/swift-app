@@ -51,7 +51,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func login() {
-        Client().execute(LoginRequest(phone_number: phoneField!.text!, password: passwordField!.text!), completionHandler: { response in
+        Client.execute(LoginRequest(phone_number: phoneField!.text!, password: passwordField!.text!), completionHandler: { response in
             if response.result.value != nil {
                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
                 UIApplication.shared.delegate!.window??.rootViewController = vc
@@ -63,7 +63,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
                 print(Keychain.fetchLogin())
             } else {
                 let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction("Ok", style: .cancel))
                 self.present(alert)
             }
         })

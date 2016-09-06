@@ -13,7 +13,6 @@ import UIKit
 class LocationManager : NSObject, CLLocationManagerDelegate {
     
     let manager = CLLocationManager()
-    
     var locationUpdate : ((CLLocation) -> Void)? = nil
 
     func startTracking() {// -> (enabled: Bool, status: CLAuthorizationStatus) {
@@ -41,28 +40,22 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
                 message: "In order to match you with nearby users & events, please open this app's settings and set location access to 'When in use'.",
                 preferredStyle: .alert)
             
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            alertController.addAction(cancelAction)
-            
-            let openAction = UIAlertAction(title: "Open Settings", style: .default) { (action) in
+            let cancelAction = UIAlertAction("Cancel", style: .cancel)
+            let openAction = UIAlertAction("Open Settings") { (action) in
                 guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
                 UIApplication.shared.openURL(url as URL)
             }
-            alertController.addAction(openAction)
+            alertController.addActions(cancelAction, openAction)
             
             UIApplication.shared.keyWindow!.rootViewController!.present(alertController)
             break
-        default:
-            break
+        default: break
         }
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error)
-    }
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { print(error) }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         locationUpdate?(locations.first!)
     }
-    
 }

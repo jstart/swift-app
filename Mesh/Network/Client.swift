@@ -32,19 +32,16 @@ extension Notification.Name {
     static let logout = NSNotification.Name("Logout")
 }
 
-class Client {
-    var baseURL = "http://dev.mesh.tinderventures.com:1337/"
-    var token : String?
+struct Client {
+    static var baseURL = "http://dev.mesh.tinderventures.com:1337/"
     
-    func upload(_ request : PhotoRequest, completionHandler: @escaping (Response<Any, NSError>) -> Void) {
+    static func upload(_ request : PhotoRequest, completionHandler: @escaping (Response<Any, NSError>) -> Void) {
         Alamofire.upload(
             multipartFormData: { multipartFormData in
                 //multipartFormData.append(request.file, withName: "picture")
                 multipartFormData.append(request.file, withName: "picture", fileName: "file.jpg", mimeType: "image/jpeg")
             },
-            to: baseURL + request.path,
-            withMethod: .post,
-            headers: request.headers(),
+            to: baseURL + request.path, withMethod: .post, headers: request.headers(),
             encodingCompletion: { result in
                 switch result {
                 case .success(let upload, _, _):
@@ -56,7 +53,7 @@ class Client {
             })
     }
     
-    func execute(_ request : Request, completionHandler: @escaping (Response<Any, NSError>) -> Void) {
+    static func execute(_ request : Request, completionHandler: @escaping (Response<Any, NSError>) -> Void) {
         let fullPath = baseURL + request.path
         Alamofire.request(fullPath, withMethod: request.method, parameters: request.parameters().count == 0 ? nil : request.parameters(), encoding: .json, headers: request.headers())
             .validate()
@@ -76,9 +73,8 @@ class Client {
                         completionHandler(response)
                         return
                     }
-                    UserResponse.currentUser = UserResponse(JSON: JSON)
-                    self.token = UserResponse.currentUser?.token
-                    Token.persistToken(self.token!)
+                    UserResponse.current = UserResponse(JSON: JSON)
+                    Token.persistToken(UserResponse.current?.token ?? "")
                     Token.persistLogin((phone_number: request.parameters()["phone_number"] as! String, password: request.parameters()["password"] as! String))
                 }
                 
