@@ -66,9 +66,7 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int { return 1 }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
-    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 4 }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(EditCardTableViewCell.self, indexPath: indexPath)
@@ -104,6 +102,7 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.cellForRow(at: indexPath) as! EditCardTableViewCell
         guard let fields = fields else { return }
         let field = ProfileFields(rawValue: indexPath.row)!
+        if field == .name { return }
         cell.setChecked(!fields.contains(field))
         if !fields.contains(field) {
             self.fields?.append(field)

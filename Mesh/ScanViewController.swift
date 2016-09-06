@@ -13,7 +13,7 @@ import AudioToolbox
 enum ProfileFields : Int {
     case name, title, email, phone
     
-    var name : String {
+    var name: String {
         switch self {
             case .name: return "name"
             case .title: return "title"
@@ -32,7 +32,7 @@ enum ProfileFields : Int {
         return fields
     }
     
-    var image : UIImage { return UIImage(named: name)! }
+    var image: UIImage { return UIImage(named: name)! }
 }
 
 struct QRCard { var fields: [ProfileFields] }
@@ -120,7 +120,6 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             captureSession.startRunning()
             
             view.addSubview(qrCodeFrameView)
-            view.bringSubview(toFront: qrCodeFrameView)
         } catch { print(error); return }
         
         view.bringSubview(toFront: pager!.scroll)
@@ -130,7 +129,10 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         outline.addDashedBorder(.white)
-        Snackbar(title: "We've created your default card! Look OK?\nTap the card to edit").presentIn(view: view)
+        
+        guard UserDefaults.standard["DefaultCard"] == nil else { return }
+        Snackbar(title: "We've created your default card! Look OK?\nTap the card to edit").presentIn(view)
+        UserDefaults.standard.set(true, forKey: "DefaultCard")
     }
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
@@ -161,9 +163,9 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
                                       scanned_token: tokenArray[safe: 1] ?? "")
         Client.execute(request, completionHandler: { response in
             guard response.result.value != nil else {
-                Snackbar(title: "Scanning Failed", buttonTitle: "RETRY", buttonHandler: {}).presentIn(view: self.view); return
+                Snackbar(title: "Scanning Failed", buttonTitle: "RETRY", buttonHandler: {}).presentIn(self.view); return
             }
-            Snackbar(title: "Connected!", buttonTitle: "VIEW PROFILE", buttonHandler: {}).presentIn(view: self.view)
+            Snackbar(title: "Connected!", buttonTitle: "VIEW PROFILE", buttonHandler: {}).presentIn(self.view)
         })
     }
         
@@ -244,13 +246,21 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         self.edit()
         guard let cardResponse = CardResponse.cards?[safe: (self.pager?.previousPage)!] else { return }
-        Client.execute(CardEditRequest(_id: cardResponse._id,
-                                         first_name: fields.contains(.name),
-                                         last_name: fields.contains(.name),
-                                         email: fields.contains(.email),
-                                         phone_number: fields.contains(.phone),
-                                         title: fields.contains(.title)),
-                         completionHandler: { _ in })
+        let snack = Snackbar(title: "Saving Card..."); snack.presentIn(view)
+        let request = CardEditRequest(_id: cardResponse._id,
+                                      first_name: fields.contains(.name),
+                                      last_name: fields.contains(.name),
+                                      email: fields.contains(.email),
+                                      phone_number: fields.contains(.phone),
+                                      title: fields.contains(.title))
+        Client.execute(request, completionHandler: { _ in
+            snack.message.text = "Card Updated"
+            Client.execute(CardsRequest(), completionHandler: { response in
+                guard let JSON = response.result.value as? JSONArray else { return }
+                CardResponse.cards = JSON.map({ return CardResponse(JSON: $0) })
+                self.cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0)) }) ?? [QRCard]()
+            })
+        })
     }
     
     func delete() {
@@ -259,7 +269,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         cards.remove(at: index)
         
         guard let cardResponse = CardResponse.cards?[safe: (self.pager?.previousPage)!] else { return }
-        Snackbar(title: "Card Deleted", buttonTitle: "UNDO", buttonHandler: {}).presentIn(view: self.view)
+        Snackbar(title: "Card Deleted", buttonTitle: "UNDO", buttonHandler: {}).presentIn(self.view)
         Client.execute(CardDeleteRequest(_id: cardResponse._id), completionHandler: { response in
         })
         

@@ -52,7 +52,7 @@ class Snackbar : UIView {
     
     required init?(coder aDecoder: NSCoder) { fatalError() }
     
-    func presentIn(view: UIView) {
+    func presentIn(_ view: UIView) {
         view.addSubview(self)
         constrain(.leading, .trailing, toItem: view)
         constrain(.top, toItem: view, toAttribute: .bottom)

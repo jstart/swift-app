@@ -26,17 +26,13 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
+    override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return section == 0 ? "Phone Number" : "Password"
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 1 }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
@@ -70,14 +66,17 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == passwordField { login() }
-        return true
+        if textField == passwordField { login() }; return true
     }
     
     override var canBecomeFirstResponder: Bool { return true }
     
     override var keyCommands: [UIKeyCommand]? {
         return [UIKeyCommand(input: "l", modifierFlags: [.command, .alternate], action: #selector(fill), discoverabilityTitle: "Convenience")]
+    }
+    
+    override func motionBegan(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake { fill(UIKeyCommand()) }
     }
     
     func fill(_ command: UIKeyCommand) {
