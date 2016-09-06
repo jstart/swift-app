@@ -27,6 +27,7 @@ class QRCardView: CardView {
         $0.pageIndicatorTintColor = .lightGray
         $0.constrain((.height, 5), (.width, 100))
     }
+    var tapAction = {}
     
     let title = QRCardView.detailLabel(""), email = QRCardView.detailLabel(""), phone = QRCardView.detailLabel("")
 
@@ -65,7 +66,12 @@ class QRCardView: CardView {
 
         pageControl.constrain(.centerX, toItem: self)
         pageControl.constrain(.bottom, constant: -10, toItem: self)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapped))
+        addGestureRecognizer(tap)
     }
+    
+    func tapped(){ tapAction() }
     
     func setToken(_ token: String) {
         qrImage.image = token.qrImage(withSize: CGSize(width: 100, height: 100), foreground: Colors.brand, background: .white)

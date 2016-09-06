@@ -304,13 +304,11 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transition.presenting = true
-        return transition
+        transition.presenting = true; return transition
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transition.presenting = false
-        return transition
+        transition.presenting = false; return transition
     }
 //TODO:     
 //    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {

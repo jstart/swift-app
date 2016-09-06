@@ -69,19 +69,19 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         title = "Share Contact Card"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "backArrow"), style: .plain, target: self, action: #selector(close))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "backArrow"), style: .plain, target: self, action: #selector(dismiss))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "connectionsOverflow"), style: .plain, target: self, action: #selector(overflow))
 
         var cardViews = [UIView]()
         for card in cards {
             let qr = QRCardView(UserResponse.current!, fields: card.fields)
+            qr.tapAction = { self.edit() }
             let token = CardResponse.cards?.first?.token ?? ""
             qr.setToken((UserResponse.current?._id ?? "") + "::" + token)
             qr.pageControl.numberOfPages = min(cards.count + 1, 3)
             cardViews.append(qr)
         }
-        
-        cardViews.append(AddCardView(touchHandler: { self.add() }))
+        if cards.count < 3 { cardViews.append(AddCardView(touchHandler: { self.add() })) }
         
         pager = ViewPager(views: cardViews)
         pager?.delegate = self
@@ -130,7 +130,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         outline.addDashedBorder(.white)
-        Snackbar(title: "Connected").presentIn(view: view)
+        Snackbar(title: "We've created your default card! Look OK?\nTap the card to edit").presentIn(view: view)
     }
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
@@ -156,16 +156,17 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         alert.addAction(UIAlertAction("Cancel", style: .cancel))
         present(alert)
         let tokenArray = token.components(separatedBy: "::")
-        Client.execute(CardSyncRequest(_id: tokenArray[safe: 0] ?? "",
-                                         my_token: CardResponse.cards?.first?.token ?? "",
-                                         scanned_token: tokenArray[safe: 1] ?? ""),
-                                         completionHandler: { response in
-                                            print(response.result.value)
+        let request = CardSyncRequest(_id: tokenArray[safe: 0] ?? "",
+                                      my_token: CardResponse.cards?.first?.token ?? "",
+                                      scanned_token: tokenArray[safe: 1] ?? "")
+        Client.execute(request, completionHandler: { response in
+            guard response.result.value != nil else {
+                Snackbar(title: "Scanning Failed", buttonTitle: "RETRY", buttonHandler: {}).presentIn(view: self.view); return
+            }
+            Snackbar(title: "Connected!", buttonTitle: "VIEW PROFILE", buttonHandler: {}).presentIn(view: self.view)
         })
     }
-    
-    func close() { dismiss() }
-    
+        
     func add(){
         cards.append(QRCard(fields: [.name, .title]))
         pager?.stack.arrangedSubviews.forEach({
@@ -173,6 +174,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             qr.pageControl.numberOfPages = min(cards.count + 1, 3)
         })
         let qr = QRCardView(UserResponse.current!, fields: [.name, .title])
+        qr.tapAction = { self.edit() }
         qr.pageControl.numberOfPages = min(cards.count + 1, 3)
         qr.pageControl.currentPage = pager!.previousPage
         pager?.insertView(qr, atIndex: pager!.previousPage)
@@ -257,7 +259,9 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         cards.remove(at: index)
         
         guard let cardResponse = CardResponse.cards?[safe: (self.pager?.previousPage)!] else { return }
-        Client.execute(CardDeleteRequest(_id: cardResponse._id), completionHandler: { response in })
+        Snackbar(title: "Card Deleted", buttonTitle: "UNDO", buttonHandler: {}).presentIn(view: self.view)
+        Client.execute(CardDeleteRequest(_id: cardResponse._id), completionHandler: { response in
+        })
         
         pager?.stack.arrangedSubviews.forEach({
             guard let qr = $0 as? QRCardView else { return }
@@ -269,7 +273,6 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             if view is AddCardView { return }
         }
         pager?.insertView(AddCardView(touchHandler: { self.add() }), atIndex: cards.count)
-
     }
     
     func selectedIndex(_ index: Int) {

@@ -61,7 +61,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         tableView.bringSubview(toFront: emptyView!)
     }
     
-    func close() { presentingViewController?.dismiss() }
+    //func close() { presentingViewController?.dismiss() }
     
     func fetchContacts() {
         fetchMeshContacts()
