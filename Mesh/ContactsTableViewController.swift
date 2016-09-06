@@ -88,8 +88,8 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     func fetchMeshContacts() {
         Client.execute(ContactsRequest(), completionHandler: { response in
             guard let meshPeople = response.result.value as? JSONArray else { return }
-            let phoneNumbers = meshPeople.map({return $0["phone_number"]}) as! [String]
-            let emails = meshPeople.map({return $0["email"]}) as! [String]
+            let phoneNumbers = meshPeople.flatMap({return $0["phone_number"]} ) as! [String]
+            let emails = meshPeople.flatMap({return $0["email"] }) as! [String]
 
             self.meshContacts = self.contacts.filter {
                 let phone = $0.phoneNumbers[safe: 0]?.value.value(forKey: "digits") as? String ?? ""
