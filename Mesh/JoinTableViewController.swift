@@ -17,13 +17,9 @@ class JoinTableViewController: UITableViewController {
     }
     
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
-    }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 2 }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
@@ -33,14 +29,9 @@ class JoinTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
-        case 0:
-            navigationController?.push(LoginTableViewController(style: .grouped))
-            break
-        case 1:
-            navigationController?.push(SignUpTableViewController(style: .grouped))
-            break
-        default:
-            break
+        case 0: navigationController?.push(LoginTableViewController(style: .grouped)); break
+        case 1: navigationController?.push(SignUpTableViewController(style: .grouped)); break
+        default: break
         }
     }
 

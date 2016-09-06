@@ -12,13 +12,14 @@ struct AlertAction {
     static let defaultBackground = #colorLiteral(red: 0.4196078431, green: 0.768627451, blue: 0.9647058824, alpha: 1)
     var title : String
     var backgroundColor : UIColor
-    var titleColor = UIColor.white
+    var titleColor : UIColor
     var handler : (() -> Void)
 }
 
 class AlertViewController: UIViewController, UIViewControllerTransitioningDelegate {
 
     var imageView = UIImageView(translates: false).then {
+        $0.contentMode = .scaleAspectFit
         $0.constrain(.height, .width, constant: 100)
     }
     var titleLabel = UILabel(translates: false).then {
@@ -65,18 +66,28 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
         textLabel.constrain(.top, toItem: titleLabel, toAttribute: .bottom)
         //textLabel.constrain(.bottom, constant: -50, toItem: view)
 
-        for action in actions {
+        for (index, action) in actions.enumerated() {
             let button = UIButton(translates: false).then {
                 $0.setTitle(action.title, for: .normal)
                 $0.setTitleColor(action.titleColor, for: .normal)
-                $0.backgroundColor = action.backgroundColor
+                $0.setBackgroundImage(.imageWithColor(action.backgroundColor), for: .normal)
                 $0.addTarget(self, action: #selector(buttonPress(sender:)), for: .touchUpInside)
                 $0.constrain(.height, constant: 50)
             }
-            
             view.addSubview(button)
-            button.constrain(.width, toItem: view)
-            button.constrain(.leading, .trailing, .bottom, toItem: view)
+            if actions.count == 1 {
+                button.constrain(.width, toItem: view)
+                button.constrain(.leading, .trailing, .bottom, toItem: view)
+            } else {
+                if index == 0 {
+                    button.constrain(.leading, .bottom, toItem: view)
+                }else {
+                    button.constrain(.leading, toItem: buttons[0], toAttribute: .trailing)
+                    button.constrain(.width, toItem: buttons[0])
+                    button.constrain(.trailing, .bottom, toItem: view)
+                }
+            }
+            
             buttons.append(button)
         }
     }

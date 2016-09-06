@@ -41,6 +41,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         tableView.tableFooterView = UIView()
         tableView.allowsSelection = false
         //navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close   ", style: .plain, target: self, action: #selector(close))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add All", style: .plain, target: self, action: #selector(addAll))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -81,7 +82,6 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
                 })
                 self.tableView.reloadData()
             })
-            
         })
     }
     
@@ -178,13 +178,20 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     func invite(_ connection: CNContact, button: UIButton) {
         //TODO:
         button.setTitle(" Added ", for: .selected)
-
     }
     
     func connect(_ connection: UserResponse, button: UIButton) {
         button.setTitle("Connected", for: .selected)
-        Client.execute(ConnectionRequest(recipient: connection._id), completionHandler: { _ in
-        })
+        Client.execute(ConnectionRequest(recipient: connection._id), completionHandler: { _ in })
     }
 
+    func addAll() {
+        let actions = [AlertAction(title: "Cancel", backgroundColor: .lightGray, titleColor: .white, handler: { self.dismiss() }),
+                       AlertAction(title: "ADD", backgroundColor: AlertAction.defaultBackground, titleColor: .white, handler: { self.dismiss() }) ]
+        let alert = AlertViewController(actions, image: #imageLiteral(resourceName: "connectionsAddContacts"))
+        alert.titleLabel.text = "Connect and Add All"
+        alert.textLabel.text = "Are you sure you want to connect and invite everyone in your contact list?"
+        alert.modalPresentationStyle = .overFullScreen
+        present(alert)
+    }
 }

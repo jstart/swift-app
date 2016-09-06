@@ -57,6 +57,22 @@ private extension CIColor {
     }
 }
 
+extension UIImage {
+    static func imageWithColor(_ color: UIColor) -> UIImage {
+        let rect = CGRect(x: 0, y: 0, width: 1.0, height: 1.0)
+        UIGraphicsBeginImageContext(rect.size)
+        let context = UIGraphicsGetCurrentContext()!
+        
+        context.setFillColor(color.cgColor)
+        context.fill(rect)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return image!
+    }
+}
+
 extension UIAlertController {
     func addActions(_ actions: UIAlertAction...) { for action in actions { addAction(action) } }
     static func sheet() -> UIAlertController { return UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet) }
