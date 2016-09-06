@@ -255,18 +255,21 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         let index = pager?.previousPage ?? 0
         pager?.removeView(atIndex: index)
         cards.remove(at: index)
+        
+        guard let cardResponse = CardResponse.cards?[safe: (self.pager?.previousPage)!] else { return }
+        Client.execute(CardDeleteRequest(_id: cardResponse._id), completionHandler: { response in })
+        
         pager?.stack.arrangedSubviews.forEach({
             guard let qr = $0 as? QRCardView else { return }
             qr.pageControl.numberOfPages = min(cards.count + 1, 3)
         })
         pager?.selectedIndex(index - 1, animated: true)
-        
+       
         for view in pager!.stack.arrangedSubviews {
             if view is AddCardView { return }
         }
         pager?.insertView(AddCardView(touchHandler: { self.add() }), atIndex: cards.count)
-        
-        //TODO: Delete Card
+
     }
     
     func selectedIndex(_ index: Int) {

@@ -32,8 +32,6 @@ struct CardResponse {
         phone_number = (fields["phone_number"] as? Bool) ?? false
         title = (fields["title"] as? Bool) ?? false
     }
-    
-    
 }
 
 struct CardCreateRequest : AuthenticatedRequest {
@@ -67,6 +65,16 @@ struct CardEditRequest : AuthenticatedRequest {
     
     func parameters() -> [String : Any] {
         return ["_id": _id, "fields" :["first_name" : first_name, "last_name" : last_name, "email" : email, "phone_number" : phone_number, "title" : title]]
+    }
+}
+
+struct CardDeleteRequest : AuthenticatedRequest {
+    let path = "card", method = HTTPMethod.delete
+    
+    let _id : String
+    
+    func parameters() -> [String : Any] {
+        return ["_id": _id]
     }
 }
 
