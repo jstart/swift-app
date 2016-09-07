@@ -43,14 +43,10 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         $0.constrain(.height, constant: 190)
     }
     
-    let editCard = EditCardView(UserResponse.current!).then {
-        $0.alpha = 0.0
-        $0.translates = false
-    }
+    let editCard = EditCardView(UserResponse.current!).then { $0.translates = false }
     
     var cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) }) ?? [QRCard]()
     var editMode : Bool = false
-    let supportedBarCodes = [AVMetadataObjectTypeQRCode]
     var timer : Timer?
     
     override func viewDidLoad() {
@@ -103,7 +99,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             let captureMetadataOutput = AVCaptureMetadataOutput()
             captureSession.addOutput(captureMetadataOutput)
             captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            captureMetadataOutput.metadataObjectTypes = supportedBarCodes
+            captureMetadataOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
             
             videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
             videoPreviewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
@@ -141,11 +137,12 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         outline.layer.sublayers?.forEach({$0.removeFromSuperlayer()})
         outline.addDashedBorder(.green)
         guard presentedViewController == nil else { return }
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
 
         let alert = UIAlertController(title: "Code Found", message: token, preferredStyle: .alert)
-        alert.addAction(UIAlertAction("Cancel", style: .cancel))
+        alert.addAction(UIAlertAction.cancel())
         present(alert)
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+
         let tokenArray = token.components(separatedBy: "::")
         let request = CardSyncRequest(_id: tokenArray[safe: 0] ?? "",
                                       my_token: CardResponse.cards?.first?.token ?? "",
@@ -280,7 +277,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         let add = UIAlertAction("Add Card", handler: { _ in self.add() })
         let edit = UIAlertAction("Edit Card", handler: { _ in self.edit() })
         let delete = UIAlertAction("Delete Card", handler: { _ in self.delete() })
-        let cancel = UIAlertAction("Cancel", style: .cancel)
+        let cancel = UIAlertAction.cancel()
         let sheet = UIAlertController.sheet()
         
         let view = pager?.currentView()

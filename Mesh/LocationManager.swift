@@ -40,12 +40,11 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
                 message: "In order to match you with nearby users & events, please open this app's settings and set location access to 'When in use'.",
                 preferredStyle: .alert)
             
-            let cancelAction = UIAlertAction("Cancel", style: .cancel)
             let openAction = UIAlertAction("Open Settings") { (action) in
                 guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
                 UIApplication.shared.openURL(url as URL)
             }
-            alertController.addActions(cancelAction, openAction)
+            alertController.addActions(UIAlertAction.cancel(), openAction)
             
             UIApplication.shared.keyWindow!.rootViewController!.present(alertController)
             break

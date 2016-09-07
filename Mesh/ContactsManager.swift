@@ -45,12 +45,11 @@ class ContactsManager : NSObject {
                             message: message,
                             preferredStyle: .alert)
                         
-                        let cancelAction = UIAlertAction("Cancel", style: .cancel)
                         let openAction = UIAlertAction("Open Settings") { (action) in
                             guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
                             UIApplication.shared.openURL(url as URL)
                         }
-                        alertController.addActions(cancelAction, openAction)
+                        alertController.addActions(UIAlertAction.cancel(), openAction)
                         guard let vc = self.viewController else {
                             UIApplication.shared.keyWindow!.rootViewController!.present(alertController, animated: true, completion: nil)
                             return

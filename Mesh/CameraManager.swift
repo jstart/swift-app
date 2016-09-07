@@ -29,12 +29,11 @@ class CameraManager : NSObject {
                 message: "In order to scan your card, we need to access the Camera. ",
                 preferredStyle: .alert)
             
-            let cancelAction = UIAlertAction("Cancel", style: .cancel)
             let openAction = UIAlertAction("Open Settings") { (action) in
                 guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
                 UIApplication.shared.openURL(url as URL)
             }
-            alertController.addActions(cancelAction, openAction)
+            alertController.addActions(UIAlertAction.cancel(), openAction)
             
             UIApplication.shared.keyWindow!.rootViewController!.present(alertController)
 

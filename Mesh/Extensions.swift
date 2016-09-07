@@ -82,6 +82,7 @@ extension UIAlertAction {
     convenience init(_ title: String, style: UIAlertActionStyle = .default, handler: (@escaping (UIAlertAction) -> Swift.Void)? = nil) {
         self.init(title: title, style: style, handler: handler)
     }
+    static func cancel() -> UIAlertAction { return UIAlertAction("Cancel", style: .cancel) }
 }
 
 extension UITableView {
