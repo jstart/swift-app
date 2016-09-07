@@ -148,11 +148,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             cell.pressedAction = ({ self.presentQuickReply(user: user!, message: message) })
             return cell
         } else {
-            let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath)
-            cell.name.text = "Elon Musk"
-            cell.profile.image = #imageLiteral(resourceName: "profile_sample")
-            cell.company.image = #imageLiteral(resourceName: "tesla")
-            
+            let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath)            
             guard let user = UserResponse.connections?[indexPath.row] else { return cell }
             cell.configure(user)
 

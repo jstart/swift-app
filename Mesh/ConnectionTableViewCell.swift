@@ -58,11 +58,14 @@ class ConnectionTableViewCell: UITableViewCell {
     func configure(_ user: UserResponse){
         name.text = user.fullName()
         title.text = user.fullTitle()
+        profile.image = #imageLiteral(resourceName: "profile_sample")
+        company.image = #imageLiteral(resourceName: "tesla")
     }
     
     @IBAction func pressed(_ sender: AnyObject) {
         button.layer.borderWidth = 0
         button.isSelected = true
+        button.setTitle(button.title(for: .selected), for: .normal)
         buttonHandler?()
     }
 }
