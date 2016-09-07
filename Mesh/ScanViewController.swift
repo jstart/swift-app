@@ -186,11 +186,9 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             
         if pager!.previousPage == cards.count - 1 && cards.count == 3 {
             self.pager!.currentView().fadeIn()
-            
             pager?.selectedIndex(pager!.previousPage, animated: true)
         } else if pager!.previousPage == cards.count - 1 {
             self.pager!.currentView().fadeIn()
-            
             pager?.selectedIndex(pager!.previousPage, animated: true)
         } else {
             pager?.selectedIndex(pager!.previousPage + 1, animated: true)
@@ -260,9 +258,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             Client.execute(CardDeleteRequest(_id: cardResponse._id), completionHandler: { response in })
         }).presentIn(self.view)
         
-        pager?.stack.arrangedSubviews.forEach({
-            ($0 as? QRCardView )?.pageControl.numberOfPages = min(cards.count + 1, 3)
-        })
+        pager?.stack.arrangedSubviews.forEach({ ($0 as? QRCardView )?.pageControl.numberOfPages = min(cards.count + 1, 3) })
         pager?.selectedIndex(index - 1, animated: true)
        
         for view in pager!.stack.arrangedSubviews { if view is AddCardView { return } }
