@@ -91,8 +91,7 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
             cell.contactField.text = UserResponse.current?.phone_number
             cell.setChecked(fields?.contains(.phone) ?? false)
             break
-        default:
-            break
+        default: break
         }
         
         return cell

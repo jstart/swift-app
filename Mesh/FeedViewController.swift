@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Alamofire
 
 class FeedViewController: UIViewController {
 
@@ -29,30 +28,25 @@ class FeedViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort))
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "qrCode"), style: .plain, target: self, action: #selector(qr))
         
-        /*Client.execute(ProfileRequest(first_name: "john", last_name: "doe", email: "whatever@gmail.com", title: "lead product", profession: "software engineer", companies: [CompanyModel(id: "tinder", start_month: "January", start_year: "2014", end_month: "March", end_year: "2016", current: false)]), completionHandler: { response in
-        })*/
-        
-        let recs = {
-            Client.execute(RecommendationsRequest(), completionHandler: { response in
-                guard let JSON = response.result.value else { return }
-                guard let jsonArray = JSON as? JSONArray else { return }
-                let array = jsonArray.map({return UserResponse(JSON: $0)})
-                self.cardStack.cards = array.map({
-                    let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
-                    return Card(type: .person, person: Person(user: $0, details: details))
-                })
-                self.cardStack.addNewCard()
+        Client.execute(RecommendationsRequest(), completionHandler: { response in
+            guard let jsonArray = response.result.value as? JSONArray else { return }
+            let array = jsonArray.map({return UserResponse(JSON: $0)})
+            self.cardStack.cards = array.map({
+                let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
+                return Card(type: .person, person: Person(user: $0, details: details))
+            })
+            self.cardStack.addNewCard()
 //                self.cardStack.cards?.append(Card(type: .tweet, person: nil))
-                if TARGET_OS_SIMULATOR == 1 {
-                    Client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
-                        guard let JSON = response.result.value as? JSONDictionary else { return }
-                        UserResponse.current = UserResponse(JSON: JSON)
-                    })
-                }
+        })
+        
+        if TARGET_OS_SIMULATOR == 1 {
+            Client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
+                guard let JSON = response.result.value as? JSONDictionary else { return }
+                UserResponse.current = UserResponse(JSON: JSON)
             })
         }
+        
         Client.execute(UpdatesRequest(last_update: Int(Date().timeIntervalSince1970)), completionHandler: { response in
-            recs()
             guard let json = response.result.value as? JSONDictionary else { return }
             guard let connections = json["connections"] as? JSONDictionary else { return }
             guard let connectionsInner = connections["connections"] as? JSONArray else { return }
@@ -66,9 +60,7 @@ class FeedViewController: UIViewController {
         locationManager.locationUpdate = { loc in
             Client.execute(PositionRequest(lat: loc.coordinate.latitude, lon: loc.coordinate.longitude), completionHandler: { response in
                 guard let JSON = response.result.value as? JSONDictionary else { return }
-                guard JSON["msg"] == nil else {
-                    NotificationCenter.default.post(name: .logout, object: nil); return
-                }
+                guard JSON["msg"] == nil else { NotificationCenter.default.post(name: .logout, object: nil); return }
                 UserResponse.current = UserResponse(JSON: JSON)
             })
         }
@@ -76,13 +68,7 @@ class FeedViewController: UIViewController {
         Client.execute(CardsRequest(), completionHandler: { response in
             guard let JSON = response.result.value as? JSONArray else { return }
             let cards = JSON.map({ return CardResponse(JSON: $0) })
-            guard cards.count != 0 else {
-                Client.execute(CardCreateRequest.new(), completionHandler: { response in
-                    guard let JSON = response.result.value as? JSONArray else { return }
-                    let array = JSON.map({ return CardResponse(JSON: $0) })
-                    print(array)
-                }); return
-            }
+            guard cards.count != 0 else { Client.execute(CardCreateRequest.new(), completionHandler: { response in }); return }
             
             CardResponse.cards = cards
         })

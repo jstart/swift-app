@@ -35,7 +35,7 @@ struct QRCard { var fields: [ProfileFields], token: String }
 
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, ViewPagerDelegate {
     
-    var captureSession = AVCaptureSession()
+    let captureSession = AVCaptureSession()
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     var pager : ViewPager?
     let outline = UIView(translates: false).then {
@@ -44,7 +44,6 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     }
     
     let editCard = EditCardView(UserResponse.current!).then { $0.translates = false }
-    
     var cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) }) ?? [QRCard]()
     var editMode : Bool = false
     var timer : Timer?
@@ -65,8 +64,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         for card in cards {
             let qr = QRCardView(UserResponse.current!, fields: card.fields)
             qr.tapAction = { self.edit() }
-            let token = card.token
-            qr.setToken((UserResponse.current?._id ?? "") + "::" + token)
+            qr.setToken((UserResponse.current?._id ?? "") + "::" + card.token)
             qr.pageControl.numberOfPages = min(cards.count + 1, 3)
             cardViews.append(qr)
         }
@@ -160,8 +158,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             CardResponse.cards = (response.result.value as? JSONArray)?.map({ return CardResponse(JSON: $0) })
             self.cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) }) ?? [QRCard]()
             for (index, card) in self.pager!.stack.arrangedSubviews.enumerated() {
-                guard let card = card as? QRCardView else { return }
-                card.setToken(self.cards[index].token, animated: true)
+                (card as? QRCardView)?.setToken(self.cards[index].token, animated: true)
             }
         })
     }
@@ -169,8 +166,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     func add(){
         cards.append(QRCard(fields: [.name, .title], token: ""))
         pager?.stack.arrangedSubviews.forEach({
-            guard let qr = $0 as? QRCardView else { return }
-            qr.pageControl.numberOfPages = min(cards.count + 1, 3)
+            ($0 as? QRCardView)?.pageControl.numberOfPages = min(cards.count + 1, 3)
         })
         let qr = QRCardView(UserResponse.current!, fields: [.name, .title])
         qr.tapAction = { self.edit() }
@@ -178,8 +174,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         qr.pageControl.currentPage = pager!.previousPage
         pager?.insertView(qr, atIndex: pager!.previousPage)
         
-        Client.execute(CardCreateRequest.new(), completionHandler: { response in
-            //let array = (response.result.value as? JSONArray)?.map({ return CardResponse(JSON: $0) })
+        Client.execute(CardCreateRequest.new(), completionHandler: { response in //let array = (response.result.value as? JSONArray)?.map({ return CardResponse(JSON: $0) }) 
         })
         
         if cards.count == 3 { pager?.removeView(atIndex: 3) }
@@ -202,7 +197,6 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
                 self.view.constraintFor(.centerY, toItem: self.editCard).constant = 0
                 self.view.layoutIfNeeded()
                 }, completion: { _ in self.editCard.fadeOut { self.editCard.removeFromSuperview() } })
-            
             editMode = false
             pager?.scroll.isScrollEnabled = true
             return
@@ -270,9 +264,9 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     }
     
     func overflow() {
-        let add = UIAlertAction("Add Card", handler: { _ in self.add() })
-        let edit = UIAlertAction("Edit Card", handler: { _ in self.edit() })
-        let delete = UIAlertAction("Delete Card", handler: { _ in self.delete() })
+        let add = UIAlertAction("Add Card") { _ in self.add() }
+        let edit = UIAlertAction("Edit Card") { _ in self.edit() }
+        let delete = UIAlertAction("Delete Card") { _ in self.delete() }
         let cancel = UIAlertAction.cancel()
         let sheet = UIAlertController.sheet()
         

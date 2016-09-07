@@ -116,7 +116,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if todoMessages.count > 0 && section == 0 { return todoMessages.count }
-        return section == 0 ? todoMessages.count : connectionCount
+        return section == 0 && todoMessages.count > 0 ? todoMessages.count : connectionCount
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -133,14 +133,13 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
+        if indexPath.section == 0 && todoMessages.count > 0 {
             let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath)
 
             guard let message = todoMessages[safe: indexPath.row] else { return cell }
             let user = UserResponse.connections?.filter({ return $0._id == message.sender }).first
             cell.leftButtons = [MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: { sender in
                 let currentIndex = tableView.indexPath(for: sender!)!
-
                 self.todoMessages.remove(at: currentIndex.row)
                 tableView.deleteRows(at: [currentIndex], with: .automatic)
                 return true
@@ -242,22 +241,18 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
-            let conversationVC = MessagesViewController()
-            guard let user = UserResponse.connections?[safe: indexPath.row] else { return }
-            conversationVC.recipient = user
-
-            conversationVC.hidesBottomBarWhenPushed = true
-            navigationController?.push(conversationVC)
-        } else {
-            let conversationVC = MessagesViewController()
+        var user: UserResponse?
+        if indexPath.row == 0 && todoMessages.count > 0 {
             guard let message = todoMessages[safe: indexPath.row] else { return }
-            let user = UserResponse.connections?.filter({ return $0._id == message.sender }).first
-            conversationVC.recipient = user ?? nil
-            
-            conversationVC.hidesBottomBarWhenPushed = true
-            navigationController?.push(conversationVC)
+            user = UserResponse.connections?.filter({ return $0._id == message.sender }).first
+        } else {
+            user = UserResponse.connections?[safe: indexPath.row]
         }
+        let conversationVC = MessagesViewController()
+        conversationVC.recipient = user ?? nil
+        
+        conversationVC.hidesBottomBarWhenPushed = true
+        navigationController?.push(conversationVC)
     }
 
 }

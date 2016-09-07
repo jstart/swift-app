@@ -10,14 +10,11 @@ import UIKit
 
 class AddCardView: CardView {
     
-    let add = UIImageView().then {
-        $0.image = #imageLiteral(resourceName: "addCard")
-    }
-    
+    let add = UIImageView(image: #imageLiteral(resourceName: "addCard"))
     let text = UILabel().then {
         $0.textColor = .lightGray
     }
-    var handler: (() -> Void)?
+    var handler = {}
     
     convenience init(touchHandler: (() -> Void)) {
         self.init()
@@ -37,9 +34,7 @@ class AddCardView: CardView {
         addGestureRecognizer(tapGesture)
     }
     
-    func tap() {
-        handler?()
-    }
+    func tap() { handler() }
     
 }
 

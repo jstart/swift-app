@@ -67,8 +67,7 @@ class QRCardView: CardView {
         pageControl.constrain(.centerX, toItem: self)
         pageControl.constrain(.bottom, constant: -10, toItem: self)
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapped))
-        addGestureRecognizer(tap)
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped)))
     }
     
     func tapped(){ tapAction() }

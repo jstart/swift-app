@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Alamofire
 import AlamofireImage
 
 class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, QuickPageControlDelegate {
