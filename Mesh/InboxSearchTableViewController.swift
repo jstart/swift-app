@@ -11,8 +11,9 @@ import UIKit
 class InboxSearchTableViewController: UITableViewController {
 
     var showRecents = true
-    var recents = ["Tinder", "Product Manager", "Paul"]
+    var recentSearches = [String]()
     var filteredConnections : [UserResponse]?
+    weak var inbox: InboxTableViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,23 +27,20 @@ class InboxSearchTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return showRecents ? recents.count :  filteredConnections?.count ?? 5
+        return showRecents ? recentSearches.count : filteredConnections?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if showRecents {
             let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-            cell.textLabel?.text = recents[indexPath.row]
+            cell.textLabel?.text = recentSearches[indexPath.row]
             cell.imageView?.image = #imageLiteral(resourceName: "recentSearches")
             return cell
         } else {
             let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath)
-            cell.name.text = "Elon Musk"
             cell.profile.image = #imageLiteral(resourceName: "profile_sample")
             cell.company.image = #imageLiteral(resourceName: "tesla")
             
@@ -55,23 +53,28 @@ class InboxSearchTableViewController: UITableViewController {
     
     func filterBy(text: String) {
         filteredConnections =  UserResponse.connections?.filter({return $0.searchText().localizedCaseInsensitiveContains(text)})
-
         tableView.reloadData()
     }
     
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return showRecents
-    }
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool { return showRecents }
  
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            recents.remove(at: indexPath.row)
+            recentSearches.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            guard let inbox = inbox else { return }
+            inbox.recentSearches = recentSearches
+            UserDefaults.standard.set(recentSearches, forKey: "RecentConnectionSearches")
         }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard showRecents else { return }
+        guard !showRecents else {
+            guard let inbox = inbox else { return }
+            let search = recentSearches[indexPath.row]
+            inbox.searchController.searchBar.text = search
+            return
+        }
         guard let connection = filteredConnections?[indexPath.row] else { return }
 
         let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])

@@ -9,7 +9,7 @@
 import UIKit
 import MGSwipeTableCell
 
-class InboxTableViewController: UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate, UIPopoverPresentationControllerDelegate {
+class InboxTableViewController: UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate, UIPopoverPresentationControllerDelegate, UITextFieldDelegate {
 
     var searchController : UISearchController!
     var quickCell : UIView?
@@ -18,7 +18,10 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     var sortItem : UIBarButtonItem?
     var addItem : UIBarButtonItem?
     var connectionCount = 0
-    var todoCount = 2
+    var todoMessages = [MessageResponse]()
+    var recentSearches = (UserDefaults.standard["RecentConnectionSearches"] as? [String]) ?? [String]()
+    
+    var quickReplyAction = {}
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,18 +38,21 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         sortItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort))
         addItem = UIBarButtonItem(image: #imageLiteral(resourceName: "addFriends"), style: .plain, target: self, action: #selector(add))
         navigationItem.rightBarButtonItems = [sortItem!, addItem!]
-        //Client.execute(ConnectionRequest(recipient: "57ba725d87223ad6215ecaf9"), completionHandler: { _ in})
-        /*Client.execute(MessagesSendRequest(recipient: "57b63c7f887fb1b3571666b5", text: "POOP"), completionHandler: { response in
-        })*/
         tableView.registerNib(ConnectionTableViewCell.self, MessageTableViewCell.self, MessagePreviewTableViewCell.self)
 
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.tableFooterView = UIView()
+        
+        searchResults.recentSearches = recentSearches
+        
+        searchResults.inbox = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.todoMessages = Array(UserResponse.messages?.filter({$0.sender != UserResponse.current?._id}).prefix(2) ?? [])
+
         Client.execute(UpdatesRequest(last_update: Int(Date().timeIntervalSince1970)), completionHandler: { response in
             guard let json = response.result.value as? JSONDictionary else { return }
             guard let connections = json["connections"] as? JSONDictionary else { return }
@@ -55,9 +61,11 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             
             guard let messages = json["messages"] as? JSONDictionary else { return }
             guard let messagesInner = messages["messages"] as? JSONArray else { return }
-            UserResponse.messages = messagesInner.map({return MessageResponse(JSON: $0)})
+            UserResponse.messages = messagesInner.map({return MessageResponse(JSON: $0)}).sorted(by: { $0.ts > $1.ts})
+            self.todoMessages = Array(UserResponse.messages?.filter({$0.sender != UserResponse.current?._id}).prefix(2) ?? [])
+            self.tableView.reloadData()
         })
-        connectionCount = UserResponse.connections?.count ?? 258
+        connectionCount = UserResponse.connections?.count ?? 0
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -72,6 +80,15 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         navigationItem.rightBarButtonItems = [sortItem!, addItem!]
+    }
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        guard let text = searchBar.text else { return true }
+        guard text != "" else { return true }
+        recentSearches.append(text)
+        searchResults.recentSearches = recentSearches
+        UserDefaults.standard.set(recentSearches, forKey: "RecentConnectionSearches")
+        return true
     }
     
     open func updateSearchResults(for searchController: UISearchController) {
@@ -97,24 +114,18 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         navigationController?.push(ContactsTableViewController())
     }
     
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .none
-    }
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle { return .none }
 
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
+    override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if todoCount > 0 && section == 0 {
-            return todoCount
-        }
-        return section == 0 ? todoCount : connectionCount
+        if todoMessages.count > 0 && section == 0 { return todoMessages.count }
+        return section == 0 ? todoMessages.count : connectionCount
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 0 ? "2 new messages" : String(connectionCount) + " Connections"
+        return section == 0 ? "TODO List" : "Connections"
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -128,54 +139,20 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                let cell = tableView.dequeue(MessagePreviewTableViewCell.self, indexPath: indexPath)
-                
-                guard let message = UserResponse.messages?[safe: indexPath.row] else { return cell }
-                let user = UserResponse.connections?.filter({ return $0._id == message.recipient }).first
-                cell.leftButtons = [MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: { sender in
-                    self.todoCount -= 1
-                    let currentIndex = tableView.indexPath(for: sender!)!
-                    tableView.deleteRows(at: [currentIndex], with: .automatic)
-                    return true
-                })]
-                cell.configure(message, user: user!)
-                cell.pressedAction = ({
-                    let article = ArticleViewController()
-                    article.hidesBottomBarWhenPushed = true
-                    self.navigationController?.push(article)
-                })
-                return cell
-            }else {
-                let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath)
+            let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath)
 
-                guard let message = UserResponse.messages?[safe: indexPath.row] else { return cell }
-                let user = UserResponse.connections?.filter({ return $0._id == message.recipient }).first
-                cell.leftButtons = [MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: { sender in
-                    self.todoCount -= 1
-                    let currentIndex = tableView.indexPath(for: sender!)!
-                    tableView.deleteRows(at: [currentIndex], with: .automatic)
-                    return true
-                })]
-                cell.configure(message, user: user!)
-                cell.pressedAction = ({
-                    self.quickCell = self.quickReplyView()
-                    let window = UIApplication.shared.delegate!.window!
-                    if (window?.subviews.contains(self.quickCell!))! {
-                        return
-                    }
-                    self.quickCell!.alpha = 0.0
-                    UIApplication.shared.delegate!.window!?.addSubview(self.quickCell!)
-                    UIView.animate(withDuration: 0.2, animations: {
-                        UIApplication.shared.delegate?.window??.windowLevel = UIWindowLevelStatusBar + 1
-                        //UIApplication.shared.isStatusBarHidden = true
-                        self.quickCell!.alpha = 1.0
-                        self.quickCell!.constrain(.width, .height, .top, .leading, toItem: window)
-                        self.field.becomeFirstResponder()
-                    })
-                })
-                return cell
-            }
+            guard let message = todoMessages[safe: indexPath.row] else { return cell }
+            let user = UserResponse.connections?.filter({ return $0._id == message.sender }).first
+            cell.leftButtons = [MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: { sender in
+                let currentIndex = tableView.indexPath(for: sender!)!
+
+                self.todoMessages.remove(at: currentIndex.row)
+                tableView.deleteRows(at: [currentIndex], with: .automatic)
+                return true
+            })]
+            cell.configure(message, user: user!)
+            cell.pressedAction = ({ self.presentQuickReply(user: user!, message: message) })
+            return cell
         } else {
             let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath)
             cell.name.text = "Elon Musk"
@@ -189,24 +166,35 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         }
     }
     
-    func quickReplyView() -> UIView {
-        if self.quickCell != nil {
-            return self.quickCell!
-        }
+    func presentQuickReply(user: UserResponse, message: MessageResponse){
+        quickCell = self.quickReplyView(user: user, message: message)
+        let window = UIApplication.shared.delegate!.window!
+        if (window?.subviews.contains(self.quickCell!))! { return }
+        self.quickCell!.alpha = 0.0
+        UIApplication.shared.delegate!.window!?.addSubview(self.quickCell!)
+        UIView.animate(withDuration: 0.2, animations: {
+            UIApplication.shared.delegate?.window??.windowLevel = UIWindowLevelStatusBar + 1
+            self.quickCell!.alpha = 1.0
+            self.quickCell!.constrain(.width, .height, .top, .leading, toItem: window)
+            self.field.becomeFirstResponder()
+        })
+    }
+    
+    func quickReplyView(user: UserResponse, message: MessageResponse) -> UIView {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MessageTableViewCell") as! MessageTableViewCell
         
         cell.contentView.translates = false
         cell.contentView.backgroundColor = .white
         cell.reply.isHidden = true
-        cell.name.text = "Elon Musk"
+        cell.name.text = user.fullName()
         cell.profile.image = #imageLiteral(resourceName: "profile_sample")
         cell.company.image = #imageLiteral(resourceName: "tesla")
-        cell.message.text = "The new discounting feature for Tinder is going well. Subs are up by 14%. Things going as planned, super good, hooray"
+        cell.message.text = message.text ?? ""
         cell.message.numberOfLines = 2
         
         let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-        let tapGeesture = UITapGestureRecognizer(target: self, action: #selector(dismissQuickReply))
-        blurView.addGestureRecognizer(tapGeesture)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissQuickReply))
+        blurView.addGestureRecognizer(tapGesture)
         blurView.translates = false
         
         blurView.addSubview(cell.contentView)
@@ -218,9 +206,11 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         field.leftView = spacer;
         
         let right = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 15))
+        right.addTarget(self, action: #selector(send), for: .touchUpInside)
         right.setTitleColor(.lightGray, for: .normal)
         right.setTitle("Send", for: .normal)
         field.rightView = right
+        field.delegate = self
         
         field.rightViewMode = .always
         field.leftViewMode = .always
@@ -233,8 +223,17 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         field.constrain(.leading, constant: -1, toItem: cell.contentView)
         field.constrain(.top, toItem: cell.contentView, toAttribute: .bottom)
 
+        quickReplyAction = {
+            Client.execute(MessagesSendRequest(recipient: message.sender, text: self.field.text ?? ""), completionHandler: { response in
+                self.dismissQuickReply()
+            })
+        }
         return blurView
     }
+    
+    func send() { quickReplyAction() }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool { send(); return true }
     
     func dismissQuickReply() {
         UIView.animate(withDuration: 0.2, animations: {
@@ -243,6 +242,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             self.field.resignFirstResponder()
         }, completion: { _ in
             self.quickCell!.removeFromSuperview()
+            self.field.text = ""
         })
     }
 
@@ -256,8 +256,8 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             navigationController?.push(conversationVC)
         } else {
             let conversationVC = MessagesViewController()
-            guard let message = UserResponse.messages?[safe: indexPath.row] else { return }
-            let user = UserResponse.connections?.filter({ return $0._id == message.recipient }).first
+            guard let message = todoMessages[safe: indexPath.row] else { return }
+            let user = UserResponse.connections?.filter({ return $0._id == message.sender }).first
             conversationVC.recipient = user ?? nil
             
             conversationVC.hidesBottomBarWhenPushed = true

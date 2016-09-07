@@ -59,7 +59,7 @@ class FeedViewController: UIViewController {
             
             guard let messages = json["messages"] as? JSONDictionary else { return }
             guard let messagesInner = messages["messages"] as? JSONArray else { return }
-            UserResponse.messages = messagesInner.map({return MessageResponse(JSON: $0)})
+            UserResponse.messages = messagesInner.map({return MessageResponse(JSON: $0)}).sorted(by: { $0.ts > $1.ts})
         })
 
         locationManager.locationUpdate = { loc in
