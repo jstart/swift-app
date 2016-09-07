@@ -18,7 +18,7 @@ class InboxSearchTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.registerNib(ConnectionTableViewCell.self)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
+        tableView.registerClass(UITableViewCell.self)
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.tableFooterView = UIView()
@@ -35,7 +35,7 @@ class InboxSearchTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if showRecents {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+            let cell = tableView.dequeue(UITableViewCell.self, indexPath: indexPath)
             cell.textLabel?.text = recentSearches[indexPath.row]
             cell.imageView?.image = #imageLiteral(resourceName: "recentSearches")
             return cell
@@ -71,13 +71,10 @@ class InboxSearchTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard !showRecents else {
             guard let inbox = inbox else { return }
-            inbox.searchController.searchBar.text = recentSearches[indexPath.row]
-            return
+            inbox.searchController.searchBar.text = recentSearches[indexPath.row]; return
         }
-        let connection = filteredConnections[indexPath.row]
-
         let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
-        let person = Person(user: connection, details: details)
+        let person = Person(user: filteredConnections[indexPath.row], details: details)
         
         let cardVC = CardViewController()
         cardVC.card = Card(type:.person, person: person)

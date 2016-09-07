@@ -178,14 +178,14 @@ class MessagesViewController: JSQMessagesViewController {
     override func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
         return true
 
-        if URL.scheme == "http" || URL.scheme == "https" {
-            let articleVC = ArticleViewController()
-            articleVC.url = URL.absoluteString
-            navigationController?.push(articleVC)
-            return false
-        }
-        
-        return true
+//        if URL.scheme == "http" || URL.scheme == "https" {
+//            let articleVC = ArticleViewController()
+//            articleVC.url = URL.absoluteString
+//            navigationController?.push(articleVC)
+//            return false
+//        }
+//        
+//        return true
     }
     
     override func didPressAccessoryButton(_ sender: UIButton) {  }

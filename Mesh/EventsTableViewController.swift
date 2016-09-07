@@ -28,9 +28,6 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
         navigationItem.titleView = searchController.searchBar
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort))
-        //Client.execute(ConnectionRequest(recipient: "57ba725d87223ad6215ecaf9"), completionHandler: { _ in})
-        /*Client.execute(MessagesSendRequest(recipient: "57b63c7f887fb1b3571666b5", text: "POOP"), completionHandler: { response in
-         })*/
         tableView.registerNib(ConnectionTableViewCell.self)
         
         tableView.estimatedRowHeight = 100
@@ -44,9 +41,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
         searchController.isActive = false
     }
     
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        navigationItem.setRightBarButton(nil, animated: true)
-    }
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) { navigationItem.setRightBarButton(nil, animated: true) }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         navigationItem.setRightBarButton(UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort)), animated: true)
@@ -62,9 +57,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
     func sort() { }
     
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
+    override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return section == 0 ? 2 : 3

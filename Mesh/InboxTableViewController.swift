@@ -79,8 +79,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) { navigationItem.rightBarButtonItems = [sortItem!, addItem!] }
     
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-        guard let text = searchBar.text else { return true }
-        guard text != "" else { return true }
+        guard let text = searchBar.text else { return true }; guard text != "" else { return true }
         recentSearches.append(text)
         searchResults.recentSearches = recentSearches
         UserDefaults.standard.set(recentSearches, forKey: "RecentConnectionSearches")
@@ -113,7 +112,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle { return .none }
 
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
+    override func numberOfSections(in tableView: UITableView) -> Int { return todoMessages.count > 0 ? 2 : 1 }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if todoMessages.count > 0 && section == 0 { return todoMessages.count }
@@ -121,12 +120,12 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 0 ? "TODO List" : "Connections"
+        return section == 0 ? "Filler" : "Filler"
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return UILabel().then {
-            $0.text = section == 0 ? "    TO DO" : "    " + String(connectionCount) + " CONNECTIONS"
+            $0.text = section == 0 && todoMessages.count > 0 ? "    TO DO" : "    " + String(connectionCount) + " CONNECTIONS"
             $0.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
             $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
             $0.font = .systemFont(ofSize: 12)
