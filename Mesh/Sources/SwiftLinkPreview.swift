@@ -26,7 +26,7 @@ open class SwiftLinkPreview {
         resetResult()
         text = previewText
         
-        guard let url = extractURL() else { onError(nil); return }
+        guard let url = SwiftLinkPreview.extractURL(previewText) else { onError(nil); return }
         
         self.url = url
         result["url"] = self.url.absoluteString
@@ -57,11 +57,11 @@ open class SwiftLinkPreview {
 extension SwiftLinkPreview {
     
     // Extract first URL from text
-    internal func extractURL() -> URL? {
+    static func extractURL(_ text: String) -> URL? {
         
-        let explosion = self.text.characters.split{$0 == " "}.map(String.init)
+        let explosion = text.characters.split{$0 == " "}.map(String.init)
         let pieces = explosion.filter({ $0.trim.isValidURL() })
-        var piece = pieces[0]
+        guard var piece = pieces[safe: 0] else { return nil }
         piece = piece.replace("http://", with: "https://")
         guard let url = URL(string: piece) else { return nil }
         return url

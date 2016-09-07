@@ -38,7 +38,7 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
         company.image = #imageLiteral(resourceName: "tesla")
         message.text = aMessage.text ?? ""
         activity.startAnimating()
-        preview(url: "https://t.co/U53NnsPgaM")
+        preview(url: message.text!)
         
         guard let small = user.photos?.small else { profile.image = nil; return }
         profile.af_setImage(withURL: URL(string: small)!)
@@ -58,6 +58,7 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
                 self.articleHolder.addGestureRecognizer(tap)
                 
                 guard var imageURL = result["image"] as? String else { self.articleImage.backgroundColor = .darkGray; return }
+                guard imageURL != "" else { self.articleImage.backgroundColor = .darkGray; return }
                 imageURL = imageURL.replace("http://", with: "https://")
                 self.articleImage.af_setImage(withURL: URL(string: imageURL)!, completion: { response in
                     if response.result.error != nil {

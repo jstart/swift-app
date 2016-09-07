@@ -50,8 +50,7 @@ class ConnectionTableViewCell: UITableViewCell {
     func showInitials(firstName: String, lastName: String) {
         profile.backgroundColor = .gray
         initials.isHidden = false
-        let firstInitial = firstName.characters.first ?? Character(" ")
-        let lastInitial = lastName.characters.first ?? Character(" ")
+        let firstInitial = firstName.characters.first ?? Character(" "), lastInitial = lastName.characters.first ?? Character(" ")
         initials.text = ([firstInitial, lastInitial] as NSArray).componentsJoined(by: "").replace("\"", with: "").uppercased()
     }
     

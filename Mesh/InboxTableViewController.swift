@@ -134,22 +134,42 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 && todoMessages.count > 0 {
-            let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath)
-
-            guard let message = todoMessages[safe: indexPath.row] else { return cell }
-            let user = UserResponse.connections?.filter({ return $0._id == message.sender }).first
-            cell.leftButtons = [MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: { sender in
-                let currentIndex = tableView.indexPath(for: sender!)!
-                self.todoMessages.remove(at: currentIndex.row)
-                tableView.deleteRows(at: [currentIndex], with: .automatic)
-                return true
-            })]
-            cell.configure(message, user: user!)
-            cell.pressedAction = ({ self.presentQuickReply(user: user!, message: message) })
-            return cell
+            
+            guard let message = todoMessages[safe: indexPath.row] else { return UITableViewCell() }
+            
+            if SwiftLinkPreview.extractURL(message.text ?? "") != nil {
+                let cell = tableView.dequeue(MessagePreviewTableViewCell.self, indexPath: indexPath)
+                guard let user = UserResponse.connections?.filter({ return $0._id == message.sender }).first else { return cell }
+                cell.leftButtons = [MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: { sender in
+                    let currentIndex = tableView.indexPath(for: sender!)!
+                    self.todoMessages.remove(at: currentIndex.row)
+                    if self.todoMessages.count == 0 {
+                        tableView.deleteSections([indexPath.section], with: .automatic)
+                    }else {
+                        tableView.deleteRows(at: [currentIndex], with: .automatic)
+                    }
+                    return true
+                })]
+                cell.configure(message, user: user)
+                cell.pressedAction = ({ self.presentQuickReply(user: user, message: message) })
+                return cell
+            }else {
+                let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath)
+                
+                let user = UserResponse.connections?.filter({ return $0._id == message.sender }).first
+                cell.leftButtons = [MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: { sender in
+                    let currentIndex = tableView.indexPath(for: sender!)!
+                    self.todoMessages.remove(at: currentIndex.row)
+                    tableView.deleteRows(at: [currentIndex], with: .automatic)
+                    return true
+                })]
+                cell.configure(message, user: user!)
+                cell.pressedAction = ({ self.presentQuickReply(user: user!, message: message) })
+                return cell
+            }
         } else {
-            let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath)            
-            guard let user = UserResponse.connections?[indexPath.row] else { return cell }
+            let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath)
+            guard let user = UserResponse.connections?[safe: indexPath.row] else { return cell }
             cell.configure(user)
 
             return cell

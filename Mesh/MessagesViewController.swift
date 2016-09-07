@@ -14,9 +14,7 @@ class MessagesViewController: JSQMessagesViewController {
     var messages = [JSQMessage]()
     var recipient : UserResponse?
     var meshMessages : [MessageResponse]?
-    let label = UILabel(translates: false).then {
-        $0.constrain(.height, constant: 44)
-    }
+    let label = UILabel(translates: false).then { $0.constrain(.height, constant: 44) }
     
     let imageView = UIImageView(translates: false).then {
         $0.layer.cornerRadius = 5.0
@@ -40,18 +38,14 @@ class MessagesViewController: JSQMessagesViewController {
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(deleteMessage(_:)))
         inputToolbar.preferredDefaultHeight = 200
         TWTRAPIClient().loadTweet(withID: "631879971628183552") { (tweet, error) in
-            guard let unwrappedTweet = tweet else {
-                print("Tweet load error:\(error!.localizedDescription)")
-                return
-            }
+            guard let unwrappedTweet = tweet else { print("Tweet load error:\(error!.localizedDescription)"); return }
             let media = TwitterMessageMedia(TWTRTweetView(tweet: unwrappedTweet))
             let message = JSQMessage(senderId: self.senderId(), displayName: self.senderDisplayName(), media: media)
             self.messages.append(message)
         }
     }
 
-    override func senderId() -> String { return UserResponse.current?._id ?? "1" }
-    
+    override func senderId() -> String { return UserResponse.current?._id ?? "-1" }
     override func senderDisplayName() -> String { return UserResponse.current?.first_name ?? "Name" }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -130,32 +124,23 @@ class MessagesViewController: JSQMessagesViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        if action == #selector(editMessage(_:)) || action == #selector(deleteMessage(_:)){
-            return true
-        }
+        if action == #selector(editMessage(_:)) || action == #selector(deleteMessage(_:)){ return true }
         return super.collectionView(collectionView, canPerformAction: action, forItemAt: indexPath, withSender: sender)
     }
     
     override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-        if action == #selector(editMessage(_:)){
-            editMessage(indexPath)
-        }
-        
-        if action == #selector(deleteMessage(_:)){
-            deleteMessage(indexPath)
-        }
+        if action == #selector(editMessage(_:)){ editMessage(indexPath) }
+        if action == #selector(deleteMessage(_:)){ deleteMessage(indexPath) }
         super.collectionView(collectionView, performAction: action, forItemAt: indexPath, withSender: sender)
     }
     
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let jsqCell = cell as! JSQMessagesCollectionViewCell
-        jsqCell.textView?.delegate = self
+        (cell as? JSQMessagesCollectionViewCell)?.textView?.delegate = self
     }
     
     override func didReceiveMenuWillShow(_ notification: Notification) {
         let menu = notification.object as! UIMenuController
-        menu.menuItems = [UIMenuItem(title: "Edit", action: #selector(editMessage(_:))),
-                            UIMenuItem(title: "Delete", action: #selector(deleteMessage(_:)))]
+        menu.menuItems = [UIMenuItem(title: "Edit", action: #selector(editMessage(_:))), UIMenuItem(title: "Delete", action: #selector(deleteMessage(_:)))]
         super.didReceiveMenuWillShow(notification)
     }
     
