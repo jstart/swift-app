@@ -73,8 +73,22 @@ class QRCardView: CardView {
     
     func tapped(){ tapAction() }
     
-    func setToken(_ token: String) {
-        qrImage.image = token.qrImage(withSize: CGSize(width: 100, height: 100), foreground: Colors.brand, background: .white)
+    func setToken(_ token: String, animated: Bool = false) {
+        let image = token.qrImage(withSize: CGSize(width: 100, height: 100), foreground: Colors.brand, background: .white)
+        if !animated { qrImage.image = image } else {
+            let rotation = CABasicAnimation(keyPath: "transform.rotation.y")
+            rotation.duration = 0.5
+            rotation.fromValue = 0
+            rotation.toValue = 2 * CGFloat(M_PI)
+            qrImage.layer.add(rotation, forKey: rotation.keyPath)
+            
+            let crossFade = CABasicAnimation(keyPath:"contents")
+            crossFade.duration = 0.5
+            crossFade.fromValue = qrImage.image!.cgImage
+            crossFade.toValue = image!.cgImage
+            qrImage.layer.add(crossFade, forKey: crossFade.keyPath)
+            qrImage.image = image
+        }
     }
     
     func updateFields(_ fields: [ProfileFields]) {
@@ -86,14 +100,10 @@ class QRCardView: CardView {
         var views = [UIView]()
         for field in fields {
             switch field {
-            case .name:
-                views.append(name); break
-            case .title:
-                views.append(title); break
-            case .email:
-                views.append(email); break
-            case .phone:
-                views.append(phone); break
+            case .name: views.append(name); break
+            case .title: views.append(title); break
+            case .email: views.append(email); break
+            case .phone: views.append(phone); break
             }
         }
         return views

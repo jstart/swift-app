@@ -28,6 +28,14 @@ struct LikeRequest : AuthenticatedRequest {
     func parameters() -> [String : Any] { return ["_id": _id] }
 }
 
+struct LikeContactRequest : AuthenticatedRequest {
+    let path = "recommendations/like", method = HTTPMethod.put
+    
+    let phone_number: String?, email: String?
+    
+    func parameters() -> [String : Any] { return phone_number != nil ? ["phone_number": phone_number!] : ["email": email!] }
+}
+
 struct PassRequest : AuthenticatedRequest {
     let path = "recommendations/pass", method = HTTPMethod.put
     

@@ -74,13 +74,9 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         searchController.isActive = false
     }
     
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        navigationItem.setRightBarButtonItems(nil, animated: true)
-    }
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) { navigationItem.setRightBarButtonItems(nil, animated: true) }
     
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        navigationItem.rightBarButtonItems = [sortItem!, addItem!]
-    }
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) { navigationItem.rightBarButtonItems = [sortItem!, addItem!] }
     
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
         guard let text = searchBar.text else { return true }

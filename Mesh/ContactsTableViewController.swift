@@ -150,18 +150,15 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
 
             cell.button.setTitle(" Connect ", for: .normal)
             cell.button.setTitle("Connected", for: .selected)
-            cell.buttonHandler = {
-                //self.connect(user, button: cell.button)
-            }
+            
+            cell.buttonHandler = { self.like(contact) }
         } else {
             contact = searchController.isActive ? filteredContacts[indexPath.row] : contacts[indexPath.row]
             cell.title.text = "Invite Contact"
             cell.button.setTitle("  Add  ", for: .normal)
             cell.button.setTitle(" Added ", for: .selected)
             
-            cell.buttonHandler = {
-                self.invite(contact, button: cell.button)
-            }
+            cell.buttonHandler = { self.like(contact) }
         }
         
         cell.name.text = contact.givenName + " " + contact.familyName
@@ -175,14 +172,10 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         return cell
     }
     
-    func invite(_ connection: CNContact, button: UIButton) {
-        //TODO:
-        button.setTitle(" Added ", for: .selected)
-    }
-    
-    func connect(_ connection: UserResponse, button: UIButton) {
-        button.setTitle("Connected", for: .selected)
-        Client.execute(ConnectionRequest(recipient: connection._id), completionHandler: { _ in })
+    func like(_ contact: CNContact) {
+        let phone = contact.phoneNumbers[safe: 0]?.value.value(forKey: "digits") as? String
+        let email = contact.emailAddresses[safe: 0]?.value as? String
+        Client.execute(LikeContactRequest(phone_number: phone, email: email), completionHandler: { response in })
     }
 
     func addAll() {

@@ -184,12 +184,12 @@
 				237B787F1D790C560018347A /* MessagePreviewTableViewCell.swift */,
 				237B78801D790C560018347A /* MessagePreviewTableViewCell.xib */,
 				236E27AD1D67BAC5002ABAB4 /* InboxTableViewController.swift */,
+				232DFE721D6D13C100714025 /* InboxSearchTableViewController.swift */,
 				236E27B31D67C40D002ABAB4 /* MessagesViewController.swift */,
 				2322B9891D6BCA5500921699 /* ConnectionTableViewCell.swift */,
 				2322B98A1D6BCA5500921699 /* ConnectionTableViewCell.xib */,
 				2322B98D1D6BCAA700921699 /* MessageTableViewCell.swift */,
 				2322B98E1D6BCAA700921699 /* MessageTableViewCell.xib */,
-				232DFE721D6D13C100714025 /* InboxSearchTableViewController.swift */,
 				23D409651D713D3A00059126 /* TwitterMessageMedia.swift */,
 			);
 			name = Messages;

@@ -12,7 +12,7 @@ class InboxSearchTableViewController: UITableViewController {
 
     var showRecents = true
     var recentSearches = [String]()
-    var filteredConnections : [UserResponse]?
+    var filteredConnections = [UserResponse]()
     weak var inbox: InboxTableViewController?
 
     override func viewDidLoad() {
@@ -30,7 +30,7 @@ class InboxSearchTableViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return showRecents ? recentSearches.count : filteredConnections?.count ?? 0
+        return showRecents ? recentSearches.count : filteredConnections.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -44,7 +44,7 @@ class InboxSearchTableViewController: UITableViewController {
             cell.profile.image = #imageLiteral(resourceName: "profile_sample")
             cell.company.image = #imageLiteral(resourceName: "tesla")
             
-            guard let connection = filteredConnections?[indexPath.row] else { return cell }
+            let connection = filteredConnections[indexPath.row]
             cell.configure(connection)
             
             return cell
@@ -52,7 +52,7 @@ class InboxSearchTableViewController: UITableViewController {
     }
     
     func filterBy(text: String) {
-        filteredConnections =  UserResponse.connections?.filter({return $0.searchText().localizedCaseInsensitiveContains(text)})
+        filteredConnections =  UserResponse.connections?.filter({return $0.searchText().localizedCaseInsensitiveContains(text)}) ?? [UserResponse]()
         tableView.reloadData()
     }
     
@@ -71,11 +71,10 @@ class InboxSearchTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard !showRecents else {
             guard let inbox = inbox else { return }
-            let search = recentSearches[indexPath.row]
-            inbox.searchController.searchBar.text = search
+            inbox.searchController.searchBar.text = recentSearches[indexPath.row]
             return
         }
-        guard let connection = filteredConnections?[indexPath.row] else { return }
+        let connection = filteredConnections[indexPath.row]
 
         let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
         let person = Person(user: connection, details: details)

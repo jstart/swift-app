@@ -35,7 +35,10 @@ enum ProfileFields : Int {
     var image: UIImage { return UIImage(named: name)! }
 }
 
-struct QRCard { var fields: [ProfileFields] }
+struct QRCard {
+    var fields: [ProfileFields]
+    var token: String
+}
 
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, ViewPagerDelegate {
     
@@ -56,9 +59,10 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         $0.translates = false
     }
     
-    var cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0)) }) ?? [QRCard]()
+    var cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) }) ?? [QRCard]()
     var editMode : Bool = false
     let supportedBarCodes = [AVMetadataObjectTypeQRCode]
+    var timer : Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,7 +80,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         for card in cards {
             let qr = QRCardView(UserResponse.current!, fields: card.fields)
             qr.tapAction = { self.edit() }
-            let token = CardResponse.cards?.first?.token ?? ""
+            let token = card.token
             qr.setToken((UserResponse.current?._id ?? "") + "::" + token)
             qr.pageControl.numberOfPages = min(cards.count + 1, 3)
             cardViews.append(qr)
@@ -130,8 +134,9 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         super.viewWillAppear(animated)
         outline.addDashedBorder(.white)
         
+        timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(refresh), userInfo: nil, repeats: true)
         guard UserDefaults.standard["DefaultCard"] == nil else { return }
-        Snackbar(title: "We've created your default card! Look OK?\nTap the card to edit").presentIn(view)
+        Snackbar(title: "We've created your default card! Look OK?\nTap the card to edit", showUntilDismissed: true).presentIn(view)
         UserDefaults.standard.set(true, forKey: "DefaultCard")
     }
     
@@ -168,9 +173,21 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             Snackbar(title: "Connected!", buttonTitle: "VIEW PROFILE", buttonHandler: {}).presentIn(self.view)
         })
     }
-        
+    
+    func refresh() {
+        Client.execute(CardsRequest(), completionHandler: { response in
+            guard let JSON = response.result.value as? JSONArray else { return }
+            CardResponse.cards = JSON.map({ return CardResponse(JSON: $0) })
+            self.cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) }) ?? [QRCard]()
+            for (index, card) in self.pager!.stack.arrangedSubviews.enumerated() {
+                guard let card = card as? QRCardView else { return }
+                card.setToken(self.cards[index].token, animated: true)
+            }
+        })
+    }
+    
     func add(){
-        cards.append(QRCard(fields: [.name, .title]))
+        cards.append(QRCard(fields: [.name, .title], token: ""))
         pager?.stack.arrangedSubviews.forEach({
             guard let qr = $0 as? QRCardView else { return }
             qr.pageControl.numberOfPages = min(cards.count + 1, 3)
@@ -258,7 +275,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             Client.execute(CardsRequest(), completionHandler: { response in
                 guard let JSON = response.result.value as? JSONArray else { return }
                 CardResponse.cards = JSON.map({ return CardResponse(JSON: $0) })
-                self.cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0)) }) ?? [QRCard]()
+                self.cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) }) ?? [QRCard]()
+                self.refresh()
             })
         })
     }
