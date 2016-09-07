@@ -15,10 +15,7 @@ enum ProfileFields : Int {
     
     var name: String {
         switch self {
-            case .name: return "name"
-            case .title: return "title"
-            case .email: return "email"
-            case .phone: return "phone"
+            case .name: return "name"; case .title: return "title"; case .email: return "email"; case .phone: return "phone"
         }
     }
     
@@ -28,26 +25,18 @@ enum ProfileFields : Int {
         if response.title { fields.append(.title) }
         if response.phone_number { fields.append(.phone) }
         if response.email { fields.append(.email) }
-
         return fields
     }
     
     var image: UIImage { return UIImage(named: name)! }
 }
 
-struct QRCard {
-    var fields: [ProfileFields]
-    var token: String
-}
+struct QRCard { var fields: [ProfileFields], token: String }
 
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, ViewPagerDelegate {
     
     var captureSession = AVCaptureSession()
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
-    var qrCodeFrameView = UIView().then {
-        $0.layer.borderColor = UIColor.green.cgColor
-        $0.layer.borderWidth = 2
-    }
     var pager : ViewPager?
     let outline = UIView(translates: false).then {
         $0.backgroundColor = .clear
@@ -122,8 +111,6 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             view.layer.addSublayer(videoPreviewLayer!)
             
             captureSession.startRunning()
-            
-            view.addSubview(qrCodeFrameView)
         } catch { print(error); return }
         
         view.bringSubview(toFront: pager!.scroll)
@@ -140,18 +127,15 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         UserDefaults.standard.set(true, forKey: "DefaultCard")
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        timer?.invalidate()
+    }
+    
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
-        if metadataObjects == nil || metadataObjects.count == 0 {
-            qrCodeFrameView.frame = CGRect.zero
-            outline.layer.sublayers?.forEach({$0.removeFromSuperlayer()})
-            outline.addDashedBorder(.white)
-            return
-        }
+        if metadataObjects.count == 0 { outline.addDashedBorder(.white); return }
         
         let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
-        
-        let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
-        qrCodeFrameView.frame = barCodeObject!.bounds
         
         guard let token = metadataObj.stringValue else { return }
         outline.layer.sublayers?.forEach({$0.removeFromSuperlayer()})
@@ -176,8 +160,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     func refresh() {
         Client.execute(CardsRequest(), completionHandler: { response in
-            guard let JSON = response.result.value as? JSONArray else { return }
-            CardResponse.cards = JSON.map({ return CardResponse(JSON: $0) })
+            CardResponse.cards = (response.result.value as? JSONArray)?.map({ return CardResponse(JSON: $0) })
             self.cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) }) ?? [QRCard]()
             for (index, card) in self.pager!.stack.arrangedSubviews.enumerated() {
                 guard let card = card as? QRCardView else { return }
@@ -199,9 +182,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         pager?.insertView(qr, atIndex: pager!.previousPage)
         
         Client.execute(CardCreateRequest.new(), completionHandler: { response in
-            guard let JSON = response.result.value as? JSONArray else { return }
-            let array = JSON.map({ return CardResponse(JSON: $0) })
-            print(array)
+            //let array = (response.result.value as? JSONArray)?.map({ return CardResponse(JSON: $0) })
         })
         
         if cards.count == 3 { pager?.removeView(atIndex: 3) }
@@ -225,9 +206,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
                 self.editCard.heightConstraint.constant = 180
                 self.view.constraintFor(.centerY, toItem: self.editCard).constant = 0
                 self.view.layoutIfNeeded()
-                }, completion: { _ in
-                    self.editCard.fadeOut { self.editCard.removeFromSuperview() }
-            })
+                }, completion: { _ in self.editCard.fadeOut { self.editCard.removeFromSuperview() } })
             
             editMode = false
             pager?.scroll.isScrollEnabled = true
@@ -238,9 +217,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         let card = cards[(pager?.previousPage)!]
         self.editCard.fields = card.fields
-        let current = pager?.currentView()
 
-        editCard.constrain(.centerX, .centerY, .width, toItem: current!)
+        editCard.constrain(.centerX, .centerY, .width, toItem: pager?.currentView())
         editCard.constrain(.height, constant: 180)
         editCard.fadeIn(completion: {
                 self.editCard.layoutIfNeeded()
@@ -258,18 +236,12 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         var card = self.cards[(self.pager?.previousPage)!]
         card.fields = fields
         
-        guard let qr = self.pager?.currentView() as? QRCardView else { return }
-        qr.updateFields(fields)
+        (self.pager?.currentView() as? QRCardView)?.updateFields(fields)
         
         self.edit()
         guard let cardResponse = CardResponse.cards?[safe: (self.pager?.previousPage)!] else { return }
         let snack = Snackbar(title: "Saving Card..."); snack.presentIn(view)
-        let request = CardEditRequest(_id: cardResponse._id,
-                                      first_name: fields.contains(.name),
-                                      last_name: fields.contains(.name),
-                                      email: fields.contains(.email),
-                                      phone_number: fields.contains(.phone),
-                                      title: fields.contains(.title))
+        let request = CardEditRequest(_id: cardResponse._id, first_name: fields.contains(.name), last_name: fields.contains(.name), email: fields.contains(.email), phone_number: fields.contains(.phone), title: fields.contains(.title))
         Client.execute(request, completionHandler: { _ in
             snack.message.text = "Card Updated"
             Client.execute(CardsRequest(), completionHandler: { response in
@@ -286,28 +258,22 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         pager?.removeView(atIndex: index)
         cards.remove(at: index)
         
-        guard let cardResponse = CardResponse.cards?[safe: (self.pager?.previousPage)!] else { return }
-        Snackbar(title: "Card Deleted", buttonTitle: "UNDO", buttonHandler: {}).presentIn(self.view)
-        Client.execute(CardDeleteRequest(_id: cardResponse._id), completionHandler: { response in
-        })
+        guard let cardResponse = CardResponse.cards?[safe: index] else { return }
+        Snackbar(title: "Card Deleted", buttonTitle: "UNDO", dismissed: {
+            Client.execute(CardDeleteRequest(_id: cardResponse._id), completionHandler: { response in })
+        }).presentIn(self.view)
         
         pager?.stack.arrangedSubviews.forEach({
-            guard let qr = $0 as? QRCardView else { return }
-            qr.pageControl.numberOfPages = min(cards.count + 1, 3)
+            ($0 as? QRCardView )?.pageControl.numberOfPages = min(cards.count + 1, 3)
         })
         pager?.selectedIndex(index - 1, animated: true)
        
-        for view in pager!.stack.arrangedSubviews {
-            if view is AddCardView { return }
-        }
+        for view in pager!.stack.arrangedSubviews { if view is AddCardView { return } }
         pager?.insertView(AddCardView(touchHandler: { self.add() }), atIndex: cards.count)
     }
     
     func selectedIndex(_ index: Int) {
-        pager?.stack.arrangedSubviews.forEach({
-            guard let qr = $0 as? QRCardView else { return }
-            qr.pageControl.currentPage = index
-        })
+        pager?.stack.arrangedSubviews.forEach { ($0 as? QRCardView)?.pageControl.currentPage = index }
     }
     
     func overflow() {
@@ -315,13 +281,10 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         let edit = UIAlertAction("Edit Card", handler: { _ in self.edit() })
         let delete = UIAlertAction("Delete Card", handler: { _ in self.delete() })
         let cancel = UIAlertAction("Cancel", style: .cancel)
-        
         let sheet = UIAlertController.sheet()
         
         let view = pager?.currentView()
-        if view is AddCardView {
-            sheet.addActions(add, cancel)
-        } else {
+        if view is AddCardView { sheet.addActions(add, cancel) } else {
             if pager?.previousPage == 0 && cards.count < 3 {
                 sheet.addActions(add, edit, cancel)
             } else if pager?.previousPage == 0 && cards.count == 3 {

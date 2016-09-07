@@ -13,6 +13,7 @@ pod 'JSQMessagesViewController', :git => 'https://github.com/jessesquires/JSQMes
 #pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'master', :submodules => 'true'
 #pod 'Starscream', :git => 'https://github.com/daltoniam/Starscream.git', :branch => 'swift3'
 
+#pod 'NearbyMessages'
 pod 'TwitterKit'
 pod 'TwitterCore'
 pod 'Fabric'

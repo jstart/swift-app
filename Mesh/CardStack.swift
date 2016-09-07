@@ -17,18 +17,6 @@ class CardStack : UIViewController, CardDelegate {
     var bottomCard : CardViewController = CardViewController()
     var cardIndex = 0
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
-        let person = Person(user: nil, details: details)
-        cards = [Card(type:.person, person: person), Card(type:.tweet, person: nil)]
-        
-        topCard.card = cards![cardIndex]
-        
-        topCard.delegate = self
-        addCard(topCard)
-    }
-    
     func addNewCard() {
         let card = cards![cardIndex]
         switch card.type {
@@ -43,8 +31,7 @@ class CardStack : UIViewController, CardDelegate {
             tweet.delegate = self
             addChildViewController(tweet)
             addCard(tweet)
-        default:
-            return
+        default: return
         }
     }
 
@@ -84,7 +71,7 @@ class CardStack : UIViewController, CardDelegate {
             return
         }
         let request : AuthenticatedRequest = direction == .right ? LikeRequest(_id: id) : PassRequest(_id: id)
-        Client.execute(request, completionHandler: {_ in })
+        Client.execute(request) {_ in }
         
         if cardIndex + 1 == cards?.count {
             cardIndex = 0

@@ -41,7 +41,8 @@ class FeedViewController: UIViewController {
                     let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
                     return Card(type: .person, person: Person(user: $0, details: details))
                 })
-                self.cardStack.cards?.append(Card(type: .tweet, person: nil))
+                self.cardStack.addNewCard()
+//                self.cardStack.cards?.append(Card(type: .tweet, person: nil))
                 if TARGET_OS_SIMULATOR == 1 {
                     Client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
                         guard let JSON = response.result.value as? JSONDictionary else { return }
@@ -87,10 +88,10 @@ class FeedViewController: UIViewController {
         })
         
         locationManager.startTracking()
-        for index in 0..<cardStack.cards!.count {
-            guard let recIds = cardStack.cards?[index].person?.user?._id else {return}
-            Client.execute(ConnectionRequest(recipient: recIds), completionHandler: { response in })
-        }
+//        for index in 0..<cardStack.cards?.count {
+//            guard let recIds = cardStack.cards?[index].person?.user?._id else {return}
+//            Client.execute(ConnectionRequest(recipient: recIds), completionHandler: { response in })
+//        }
     }
     
     func sort(){ }

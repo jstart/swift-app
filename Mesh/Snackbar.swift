@@ -13,7 +13,7 @@ class Snackbar : UIView {
     var snackDuration = 3.0
     var persist = false
     var handler = {}
-    
+    var dismissed = {}
     let message = UILabel(translates: false).then {
         $0.textColor = .white
         $0.font = .systemFont(ofSize: 14)
@@ -42,12 +42,13 @@ class Snackbar : UIView {
         button.constrain(.top, .bottom, constant: 2, toItem: self)
     }
     
-    convenience init(title: String, buttonTitle: String = "", buttonHandler : (() -> Void) = {}, duration: TimeInterval = 3.0, showUntilDismissed: Bool = false) {
+    convenience init(title: String, buttonTitle: String = "", buttonHandler : (() -> Void) = {}, duration: TimeInterval = 3.0, dismissed: (() -> Void) = {}, showUntilDismissed: Bool = false) {
         self.init(title: title)
         button.setTitle(buttonTitle, for: .normal)
         handler = buttonHandler
         snackDuration = duration
         persist = showUntilDismissed
+        self.dismissed = dismissed
     }
     
     required init?(coder aDecoder: NSCoder) { fatalError() }
@@ -72,6 +73,6 @@ class Snackbar : UIView {
         UIView.animate(withDuration: 0.2, animations: {
             self.superview?.constraintFor(.top, toItem: self).constant = 0
             self.superview?.layoutIfNeeded()
-            }, completion: { _ in self.removeFromSuperview() })
+            }, completion: { _ in self.dismissed(); self.removeFromSuperview() })
     }
 }
