@@ -23,6 +23,7 @@ DerivedData/
 *.mode1v3
 *.perspectivev3
 Podfile.lock
+Cartfile.resolved
 fastlane/test_output/*
 fastlane/report.xml
 *.app
