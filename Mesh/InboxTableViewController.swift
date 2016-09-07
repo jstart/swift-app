@@ -151,7 +151,12 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                     return true
                 })]
                 cell.configure(message, user: user)
-                cell.pressedAction = ({ self.presentQuickReply(user: user, message: message) })
+                cell.pressedAction = ({
+                    let article = ArticleViewController()
+                    article.url = SwiftLinkPreview.extractURL(message.text ?? "")?.absoluteString
+                    article.user = user
+                    self.navigationController?.push(article)
+                })
                 return cell
             }else {
                 let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath)
