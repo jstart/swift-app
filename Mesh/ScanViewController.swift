@@ -52,8 +52,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         title = "Share Contact Card"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "backArrow"), style: .plain, target: self, action: #selector(dismiss))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "connectionsOverflow"), style: .plain, target: self, action: #selector(overflow))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: self, action: #selector(dismiss))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "connectionsOverflow"), target: self, action: #selector(overflow))
 
         var cardViews = [UIView]()
         for card in cards {

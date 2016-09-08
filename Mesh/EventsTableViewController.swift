@@ -27,7 +27,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
         
         navigationItem.titleView = searchController.searchBar
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "sorting"), target: self, action: #selector(sort))
         tableView.registerNib(ConnectionTableViewCell.self)
         
         tableView.estimatedRowHeight = 100
@@ -44,7 +44,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) { navigationItem.setRightBarButton(nil, animated: true) }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        navigationItem.setRightBarButton(UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort)), animated: true)
+        navigationItem.setRightBarButton(UIBarButtonItem(#imageLiteral(resourceName: "sorting"), target: self, action: #selector(sort)), animated: true)
     }
     
     open func updateSearchResults(for searchController: UISearchController) {

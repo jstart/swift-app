@@ -26,8 +26,8 @@ class MessagesViewController: JSQMessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(image: #imageLiteral(resourceName: "chatOverflow"), style: .plain, target: self, action: #selector(overflow)),
-                                              UIBarButtonItem(image: #imageLiteral(resourceName: "chatMarkAsUnread"), style: .plain, target: self, action: #selector(toggleReadState))]
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(#imageLiteral(resourceName: "chatOverflow"), target: self, action: #selector(overflow)),
+                                              UIBarButtonItem(#imageLiteral(resourceName: "chatMarkAsUnread"), target: self, action: #selector(toggleReadState))]
         
         let imageButton = UIButton(translates: false)
         imageButton.addTarget(self, action: #selector(image), for: .touchUpInside)

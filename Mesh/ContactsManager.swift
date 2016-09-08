@@ -11,7 +11,9 @@ import Contacts
 import UIKit
 
 extension CNContact {
-    var searchText : String { return [givenName, familyName].joined(separator: " ") }
+    var searchText: String { return [givenName, familyName].joined(separator: " ") }
+    var phoneNumberStrings: [String]? { return phoneNumbers.flatMap({ return $0.value.value(forKey: "digits") as? String }) }
+    var emailStrings: [String]? { return emailAddresses.flatMap({ return $0.value as String }) }
 }
 
 class ContactsManager : NSObject {
@@ -73,12 +75,12 @@ class ContactsManager : NSObject {
                 containerResults = containerResults.filter({
                     if !$0.phoneNumbers.isEmpty {
                         // Remove contact with our own phone
-                        return ($0.phoneNumbers[safe:0]?.value.value(forKey: "digits") as? String)?.range(of: UserResponse.current?.phone_number ?? "") == nil
+                        return ($0.phoneNumberStrings?.first)?.range(of: UserResponse.current?.phone_number ?? "") == nil
                     }
                     //TODO: Filter by email
 //                    if !$0.emailAddresses.isEmpty {
                           // Same for email
-//                        return ($0.emailAddresses[safe:0]?.value as? String)?.range(of: UserResponse.current?.ema ?? "") == nil
+//                        return ($0.emailStrings?.first)?.range(of: UserResponse.current?.ema ?? "") == nil
 //                    }
                     // Only contacts that have at least one email or phone number
                     return !$0.emailAddresses.isEmpty || !$0.phoneNumbers.isEmpty
@@ -93,30 +95,6 @@ class ContactsManager : NSObject {
     func allContacts(results: @escaping ([CNContact]) -> Void) {
         DispatchQueue.global().async {
             let contacts = self.contacts()
-            DispatchQueue.main.async { results(contacts) }
-        }
-    }
-
-    func contacts(_ forName: String) -> [CNContact] {
-        let predicate = CNContact.predicateForContacts(matchingName: forName)
-        var contacts = [CNContact]()
-
-        do {
-            contacts = try store.unifiedContacts(matching: predicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
-            if contacts.count == 0 {
-                print("No contacts were found matching the given name.")
-            }
-            return contacts
-        }
-        catch {
-            print("Unable to fetch contacts. \(error)")
-            return contacts
-        }
-    }
-
-    func contacts(_ forName: String, results: @escaping ([CNContact]) -> Void) {
-        DispatchQueue.global().async {
-            let contacts = self.contacts(forName)
             DispatchQueue.main.async { results(contacts) }
         }
     }

@@ -19,10 +19,10 @@ struct ContactsSaveRequest : AuthenticatedRequest {
     let contacts : [CNContact]
     
     func parameters() -> [String : Any] { return ["contacts" : contacts.map({
-        return ["phone_number": $0.phoneNumbers[safe: 0]?.value.value(forKey: "digits") as? String ?? "",
+        return ["phone_number": $0.phoneNumberStrings?.first ?? "",
                 "first_name": $0.givenName,
                 "last_name": $0.familyName,
-                "email": $0.emailAddresses[safe: 0]?.value ?? ""]
+                "email": $0.emailStrings?.first ?? ""]
         })]
     }
 }

@@ -25,8 +25,8 @@ class FeedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo"))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "qrCode"), style: .plain, target: self, action: #selector(qr))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "sorting"), target: self, action: #selector(sort))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "qrCode"), target: self, action: #selector(qr))
         
         Client.execute(RecommendationsRequest(), completionHandler: { response in
             guard let jsonArray = response.result.value as? JSONArray else { return }
@@ -90,9 +90,7 @@ class FeedViewController: UIViewController {
         let alert = AlertViewController([AlertAction(title: "OKAY", backgroundColor: AlertAction.defaultBackground, titleColor: .white, handler: {
             self.dismiss(animated: true, completion: {
                 CameraManager.requestAccess(completionHandler: { access in
-                    if access {
-                        self.present(ScanViewController().withNav())
-                    }
+                    if access { self.present(ScanViewController().withNav()) }
                 })
             })
         })], image: #imageLiteral(resourceName: "enableCameraAccess"))

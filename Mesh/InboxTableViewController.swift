@@ -35,8 +35,8 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         searchController.hidesNavigationBarDuringPresentation = false
         definesPresentationContext = true
         navigationItem.titleView = searchController.searchBar
-        sortItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(sort))
-        addItem = UIBarButtonItem(image: #imageLiteral(resourceName: "addFriends"), style: .plain, target: self, action: #selector(add))
+        sortItem = UIBarButtonItem(#imageLiteral(resourceName: "sorting"), target: self, action: #selector(sort))
+        addItem = UIBarButtonItem(#imageLiteral(resourceName: "addFriends"), target: self, action: #selector(add))
         navigationItem.rightBarButtonItems = [sortItem!, addItem!]
         tableView.registerNib(ConnectionTableViewCell.self, MessageTableViewCell.self, MessagePreviewTableViewCell.self)
 

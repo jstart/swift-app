@@ -85,6 +85,12 @@ extension UIAlertAction {
     static func cancel() -> UIAlertAction { return UIAlertAction("Cancel", style: .cancel) }
 }
 
+extension UIBarButtonItem {
+    convenience init(_ image: UIImage, style: UIBarButtonItemStyle = .plain, target: AnyObject, action: Selector) {
+        self.init(image: image, style: .plain, target: target, action: action)
+    }
+}
+
 extension UITableView {
     func registerClass(_ cellClasses: AnyClass...) {
         for aClass in cellClasses {

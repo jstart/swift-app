@@ -29,11 +29,10 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         searchController.searchBar.delegate = self
         
         searchController.dimsBackgroundDuringPresentation = false
-        //definesPresentationContext = true
+        definesPresentationContext = true
         //navigationItem.titleView = searchController.searchBar
         tableView.tableHeaderView = searchController.searchBar
         
-        title = "Contacts"
         tableView.registerNib(ConnectionTableViewCell.self)
         
         tableView.estimatedRowHeight = 100
@@ -46,9 +45,8 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.topItem?.title = ""
-        searchController.isActive = false
-        searchController.searchBar.becomeFirstResponder()
+//        navigationController?.navigationBar.topItem?.title = ""
+
         guard ContactsManager.authStatus != .authorized else { fetchContacts(); return }
         
         emptyView = EmptyView([AlertAction(title: "Sync Contacts", backgroundColor: AlertAction.defaultBackground, titleColor: .white, handler: {
@@ -62,10 +60,13 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         tableView.bringSubview(toFront: emptyView!)
     }
     
-    //func close() { presentingViewController?.dismiss() }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        searchController.searchBar.resignFirstResponder()
+        searchController.isActive = false
+    }
     
     func fetchContacts() {
-        fetchMeshContacts()
         let manager = ContactsManager()
         manager.viewController = self
         manager.requestAccess(completionHandler: { authorized in
@@ -92,19 +93,13 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
             let emails = meshPeople.flatMap({return $0["email"] }) as! [String]
 
             self.meshContacts = self.contacts.filter {
-                let phone = $0.phoneNumbers[safe: 0]?.value.value(forKey: "digits") as? String ?? ""
-                let email = $0.emailAddresses[safe: 0]?.value ?? ""
+                let phone = $0.phoneNumberStrings?.first ?? ""
+                let email = $0.emailStrings?.first ?? ""
                 return phoneNumbers.contains(phone as String) || emails.contains(email as String)
             }
             self.contacts = self.contacts.filter({return !self.meshContacts.contains($0)})
             self.tableView.reloadData()
         })
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        searchController.searchBar.resignFirstResponder()
-        searchController.isActive = false
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
