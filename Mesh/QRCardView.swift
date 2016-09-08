@@ -27,6 +27,7 @@ class QRCardView: CardView {
         $0.pageIndicatorTintColor = .lightGray
         $0.constrain((.height, 5), (.width, 100))
     }
+    var token: String
     var tapAction = {}
     
     let title = QRCardView.detailLabel(""), email = QRCardView.detailLabel(""), phone = QRCardView.detailLabel("")
@@ -73,6 +74,8 @@ class QRCardView: CardView {
     func tapped(){ tapAction() }
     
     func setToken(_ token: String, animated: Bool = false) {
+        if self.token == token { return }
+        self.token = token
         let image = token.qrImage(withSize: CGSize(width: 100, height: 100), foreground: Colors.brand, background: .white)
         if !animated { qrImage.image = image } else {
             let rotation = CABasicAnimation(keyPath: "transform.rotation.y")

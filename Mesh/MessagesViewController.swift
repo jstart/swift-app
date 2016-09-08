@@ -132,7 +132,7 @@ class MessagesViewController: JSQMessagesViewController {
         cell.messageBubbleContainerView?.layer.cornerRadius = 5.0
         cell.messageBubbleContainerView?.clipsToBounds = true
         cell.textView?.textColor = isOutgoingMessage(messages[indexPath.row]) ? .white : .black
-        
+        cell.cellBottomLabel?.font = .systemFont(ofSize: 10)
         return cell
     }
 

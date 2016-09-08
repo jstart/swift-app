@@ -30,6 +30,7 @@ struct QRCard { var fields: [ProfileFields], token: String }
 
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, ViewPagerDelegate {
     
+    var scanning = false
     let captureSession = AVCaptureSession()
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     var pager : ViewPager?
@@ -128,11 +129,9 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         guard let token = metadataObj.stringValue else { return }
         outline.layer.sublayers?.forEach({$0.removeFromSuperlayer()})
         outline.addDashedBorder(.green)
-        guard presentedViewController == nil else { return }
 
-        let alert = UIAlertController(title: "Code Found", message: token, preferredStyle: .alert)
-        alert.addAction(UIAlertAction.cancel())
-        present(alert)
+        if scanning { return }
+        scanning = true
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
 
         let tokenArray = token.components(separatedBy: "::")
@@ -140,6 +139,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
                                       my_token: CardResponse.cards?.first?.token ?? "",
                                       scanned_token: tokenArray[safe: 1] ?? "")
         Client.execute(request, completionHandler: { response in
+            self.scanning = false
             guard response.result.value != nil else {
                 Snackbar(title: "Scanning Failed", buttonTitle: "RETRY", buttonHandler: {}).presentIn(self.view); return
             }

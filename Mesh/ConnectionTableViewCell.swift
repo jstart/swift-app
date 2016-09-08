@@ -70,7 +70,7 @@ class ConnectionTableViewCell: MGSwipeTableCell {
             name.font = .boldSystemFont(ofSize: name.font.pointSize)
             title.font = .boldSystemFont(ofSize: title.font.pointSize)
         }
-        title.text = message?.text
+        if message?.text != nil { title.text = message?.text }
     }
     
     @IBAction func pressed(_ sender: AnyObject) {
