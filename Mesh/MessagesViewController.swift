@@ -37,12 +37,12 @@ class MessagesViewController: JSQMessagesViewController {
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(editMessage(_:)))
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(deleteMessage(_:)))
         inputToolbar.preferredDefaultHeight = 200
-        TWTRAPIClient().loadTweet(withID: "631879971628183552") { (tweet, error) in
-            guard let unwrappedTweet = tweet else { print("Tweet load error:\(error!.localizedDescription)"); return }
-            let media = TwitterMessageMedia(TWTRTweetView(tweet: unwrappedTweet))
-            let message = JSQMessage(senderId: self.senderId(), displayName: self.senderDisplayName(), media: media)
-            self.messages.append(message)
-        }
+//        TWTRAPIClient().loadTweet(withID: "631879971628183552") { (tweet, error) in
+//            guard let unwrappedTweet = tweet else { print("Tweet load error:\(error!.localizedDescription)"); return }
+//            let media = TwitterMessageMedia(TWTRTweetView(tweet: unwrappedTweet))
+//            let message = JSQMessage(senderId: self.senderId(), displayName: self.senderDisplayName(), media: media)
+//            self.messages.append(message)
+//        }
     }
 
     override func senderId() -> String { return UserResponse.current?._id ?? "-1" }
@@ -162,14 +162,12 @@ class MessagesViewController: JSQMessagesViewController {
     
     override func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
         return true
-
 //        if URL.scheme == "http" || URL.scheme == "https" {
 //            let articleVC = ArticleViewController()
 //            articleVC.url = URL.absoluteString
 //            navigationController?.push(articleVC)
 //            return false
 //        }
-//        
 //        return true
     }
     

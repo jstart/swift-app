@@ -75,7 +75,6 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) { navigationItem.setRightBarButtonItems(nil, animated: true) }
-    
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) { navigationItem.rightBarButtonItems = [sortItem!, addItem!] }
     
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
@@ -165,7 +164,11 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 cell.leftButtons = [MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: { sender in
                     let currentIndex = tableView.indexPath(for: sender!)!
                     self.todoMessages.remove(at: currentIndex.row)
-                    tableView.deleteRows(at: [currentIndex], with: .automatic)
+                    if self.todoMessages.count == 0 {
+                        tableView.deleteSections([indexPath.section], with: .automatic)
+                    }else {
+                        tableView.deleteRows(at: [currentIndex], with: .automatic)
+                    }
                     return true
                 })]
                 cell.configure(message, user: user!)

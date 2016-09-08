@@ -96,6 +96,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
                 let email = $0.emailAddresses[safe: 0]?.value ?? ""
                 return phoneNumbers.contains(phone as String) || emails.contains(email as String)
             }
+            self.contacts = self.contacts.filter({return !self.meshContacts.contains($0)})
             self.tableView.reloadData()
         })
     }

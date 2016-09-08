@@ -25,9 +25,7 @@ class ContactsManager : NSObject {
         CNContactThumbnailImageDataKey] as [Any]
     var viewController : UIViewController?
     
-    static var authStatus : CNAuthorizationStatus {
-        return CNContactStore.authorizationStatus(for: .contacts)
-    }
+    static var authStatus : CNAuthorizationStatus { return CNContactStore.authorizationStatus(for: .contacts) }
     
     func requestAccess(completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
         let authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
@@ -51,7 +49,7 @@ class ContactsManager : NSObject {
                         }
                         alertController.addActions(UIAlertAction.cancel(), openAction)
                         guard let vc = self.viewController else {
-                            UIApplication.shared.keyWindow!.rootViewController!.present(alertController, animated: true, completion: nil)
+                            UIApplication.shared.keyWindow!.rootViewController!.present(alertController)
                             return
                         }
                         vc.present(alertController)
@@ -64,22 +62,29 @@ class ContactsManager : NSObject {
     
     func contacts() -> [CNContact] {
         var allContainers: [CNContainer] = []
-        do {
-            allContainers = try store.containers(matching: nil)
-        } catch {
-            print("Error fetching containers")
-        }
+        do { allContainers = try store.containers(matching: nil) } catch { print("Error fetching containers") }
         
         var results: [CNContact] = []
         
         for container in allContainers {
             let fetchPredicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
             do {
-                let containerResults = try store.unifiedContacts(matching: fetchPredicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
+                var containerResults = try store.unifiedContacts(matching: fetchPredicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
+                containerResults = containerResults.filter({
+                    if !$0.phoneNumbers.isEmpty {
+                        // Remove contact with our own phone
+                        return ($0.phoneNumbers[safe:0]?.value.value(forKey: "digits") as? String)?.range(of: UserResponse.current?.phone_number ?? "") == nil
+                    }
+                    //TODO: Filter by email
+//                    if !$0.emailAddresses.isEmpty {
+                          // Same for email
+//                        return ($0.emailAddresses[safe:0]?.value as? String)?.range(of: UserResponse.current?.ema ?? "") == nil
+//                    }
+                    // Only contacts that have at least one email or phone number
+                    return !$0.emailAddresses.isEmpty || !$0.phoneNumbers.isEmpty
+                })
                 results.append(contentsOf: containerResults)
-            } catch {
-                print("Error fetching results for container")
-            }
+            } catch { print("Error fetching results for container") }
         }
         
         return results

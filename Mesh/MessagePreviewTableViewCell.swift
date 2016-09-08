@@ -53,7 +53,6 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
                 self.articleTitle.text = result["title"] as? String
                 self.articleTitle.isHidden = false
                 self.articleImage.isHidden = false
-                self.viewArticle.isHidden = false
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.pressed(_:)))
                 self.articleHolder.addGestureRecognizer(tap)
                 
@@ -70,8 +69,11 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
                     self.preview(url: error?.userInfo["NSErrorFailingURLStringKey"] as! String)
                     return
                 }
-                self.activity.stopAnimating()
-                self.activity.isHidden = true
+                DispatchQueue.main.async {
+                    self.activity.stopAnimating()
+                    self.activity.isHidden = true
+                }
+                
                 //TODO: Handle preview failures, HTTPS ATS
                 /*UIView.animate(withDuration: 0.2, animations: {
                  self.articleHolder.constrain(.height, constant: 0)

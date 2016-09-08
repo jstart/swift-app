@@ -12,12 +12,7 @@ import AudioToolbox
 
 enum ProfileFields : Int {
     case name, title, email, phone
-    
-    var name: String {
-        switch self {
-            case .name: return "name"; case .title: return "title"; case .email: return "email"; case .phone: return "phone"
-        }
-    }
+    var name: String { switch self { case .name: return "name"; case .title: return "title"; case .email: return "email"; case .phone: return "phone" } }
     
     static func fields(_ response: CardResponse) -> [ProfileFields] {
         var fields = [ProfileFields]()
@@ -116,9 +111,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         outline.addDashedBorder(.white)
         
         timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(refresh), userInfo: nil, repeats: true)
-        guard UserDefaults.standard["DefaultCard"] == nil else { return }
-        Snackbar(title: "We've created your default card! Look OK?\nTap the card to edit", showUntilDismissed: true).presentIn(view)
-        UserDefaults.standard.set(true, forKey: "DefaultCard")
+        guard UserDefaults.standard["FirstScan"] == nil else { return }
+        Snackbar(title: "Hover over another card to scan and connect", showUntilDismissed: true).presentIn(view)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -150,6 +144,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
                 Snackbar(title: "Scanning Failed", buttonTitle: "RETRY", buttonHandler: {}).presentIn(self.view); return
             }
             Snackbar(title: "Connected!", buttonTitle: "VIEW PROFILE", buttonHandler: {}).presentIn(self.view)
+            UserDefaults.standard.set(true, forKey: "FirstScan")
         })
     }
     
