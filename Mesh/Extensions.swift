@@ -190,6 +190,10 @@ extension UINavigationController {
     func push(_ viewController: UIViewController, animated: Bool = true) {
         pushViewController(viewController, animated: animated)
     }
+    
+    @discardableResult func pop(_ animated: Bool = true) {
+        popViewController(animated: animated)
+    }
 }
 
 extension UIViewController {

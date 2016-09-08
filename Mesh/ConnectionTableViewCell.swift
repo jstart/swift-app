@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MGSwipeTableCell
 
-class ConnectionTableViewCell: UITableViewCell {
+class ConnectionTableViewCell: MGSwipeTableCell {
 
     @IBOutlet weak var profile: UIImageView!
     @IBOutlet weak var company: UIImageView!
@@ -64,12 +65,12 @@ class ConnectionTableViewCell: UITableViewCell {
         company.image = #imageLiteral(resourceName: "tesla")
     }
     
-    func add(message: MessageResponse, read: Bool) {
+    func add(message: MessageResponse? = nil, read: Bool) {
         if !read {
             name.font = .boldSystemFont(ofSize: name.font.pointSize)
             title.font = .boldSystemFont(ofSize: title.font.pointSize)
         }
-        title.text = message.text
+        title.text = message?.text
     }
     
     @IBAction func pressed(_ sender: AnyObject) {

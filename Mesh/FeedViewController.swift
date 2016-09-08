@@ -69,7 +69,6 @@ class FeedViewController: UIViewController {
             guard let JSON = response.result.value as? JSONArray else { return }
             let cards = JSON.map({ return CardResponse(JSON: $0) })
             guard cards.count != 0 else { Client.execute(CardCreateRequest.new(), completionHandler: { response in }); return }
-            
             CardResponse.cards = cards
         })
         

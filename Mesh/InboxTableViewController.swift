@@ -17,7 +17,6 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     let searchResults = InboxSearchTableViewController()
     var sortItem : UIBarButtonItem?
     var addItem : UIBarButtonItem?
-    var connectionCount = 0
     var todoMessages = [MessageResponse]()
     var recentSearches = (UserDefaults.standard["RecentConnectionSearches"] as? [String]) ?? [String]()
     
@@ -65,7 +64,6 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             self.todoMessages = Array(UserResponse.messages?.filter({$0.sender != UserResponse.current?._id && $0.text != ""}).prefix(2) ?? [])
             self.tableView.reloadData()
         })
-        connectionCount = UserResponse.connections?.count ?? 0
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -103,10 +101,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         present(pop)
     }
     
-    func add() {
-        //present(ContactsTableViewController().withNav(), animated: true, completion: nil)
-        navigationController?.push(ContactsTableViewController())
-    }
+    func add() { navigationController?.push(ContactsTableViewController()) }
     
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle { return .none }
 
@@ -115,7 +110,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if todoMessages.count > 0 && section == 0 { return todoMessages.count }
-        return section == 0 && todoMessages.count > 0 ? todoMessages.count : connectionCount
+        return section == 0 && todoMessages.count > 0 ? todoMessages.count : UserResponse.connections?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -124,7 +119,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return UILabel().then {
-            $0.text = section == 0 && todoMessages.count > 0 ? "    TO DO" : "    " + String(connectionCount) + " CONNECTIONS"
+            $0.text = section == 0 && todoMessages.count > 0 ? "    TO DO" : "    " + String(UserResponse.connections?.count ?? 0) + " CONNECTIONS"
             $0.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
             $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
             $0.font = .systemFont(ofSize: 12)
@@ -178,9 +173,22 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath)
             guard let connection = UserResponse.connections?[safe: indexPath.row] else { return cell }
             cell.configure(connection.user)
+            
+            let title = connection.read ? "Mark Unread" : "Mark Read"
+            cell.rightButtons = [MGSwipeButton(title: title, backgroundColor: Colors.brand, callback: { sender in
+                Client.execute(MarkReadRequest(read: !connection.read, id: connection.user._id), completionHandler: { _ in })
+                cell.add(read: !connection.read)
+                return true
+            }),
+            MGSwipeButton(title: "Mute", backgroundColor: .gray, callback: { sender in return true }),
+            MGSwipeButton(title: "Block", backgroundColor: .red, callback: { sender in
+                Client.execute(ConnectionDeleteRequest(connection_id: connection._id), completionHandler: { _ in })
+                UserResponse.connections?.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+                return true
+            })]
             guard let message = UserResponse.messages?.filter({ return $0.recipient == connection.user._id || $0.sender == connection.user._id })[safe: 0] else { return cell }
             cell.add(message: message, read: connection.read)
-
             return cell
         }
     }
@@ -266,15 +274,15 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var user: UserResponse?
+        var connection: Connection?
         if indexPath.section == 0 && todoMessages.count > 0 {
             guard let message = todoMessages[safe: indexPath.row] else { return }
-            user = UserResponse.connections?.map({ return $0.user }).filter({ return $0._id == message.sender || $0._id == message.recipient }).first
+            connection = UserResponse.connections?.filter({ return $0.user._id == message.sender || $0.user._id == message.recipient }).first
         } else {
-            user = UserResponse.connections?.map({ return $0.user })[safe: indexPath.row]
+            connection = UserResponse.connections?[safe: indexPath.row]
         }
         let conversationVC = MessagesViewController()
-        conversationVC.recipient = user ?? nil
+        conversationVC.recipient = connection ?? nil
         
         conversationVC.hidesBottomBarWhenPushed = true
         navigationController?.push(conversationVC)

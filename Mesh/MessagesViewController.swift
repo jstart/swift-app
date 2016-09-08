@@ -12,7 +12,7 @@ import TwitterKit
 
 class MessagesViewController: JSQMessagesViewController {
     var messages = [JSQMessage]()
-    var recipient : UserResponse?
+    var recipient : Connection?
     var meshMessages : [MessageResponse]?
     let label = UILabel(translates: false).then { $0.constrain(.height, constant: 44) }
     
@@ -70,7 +70,7 @@ class MessagesViewController: JSQMessagesViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        label.text = recipient?.fullName() ?? ""
+        label.text = recipient?.user.fullName() ?? ""
         
         let container = UIStackView(arrangedSubviews: [imageView, label]).then {
             $0.axis = .horizontal
@@ -82,13 +82,35 @@ class MessagesViewController: JSQMessagesViewController {
         }
         navigationItem.titleView = container
 
-        guard let url = recipient?.photos?.large else { return }
+        guard let url = recipient?.user.photos?.large else { return }
         imageView.af_setImage(withURL: URL(string: url)!)
     }
     
-    func toggleReadState() { }
+    func toggleReadState() {
+        guard let recipient = recipient else { return }
+        Client.execute(MarkReadRequest(read: !recipient.read, id: recipient.user._id), completionHandler: { _ in })
+    }
     
-    func overflow() { }
+    func overflow() {
+        guard let recipient = recipient else { return }
+
+        let title = recipient.read ? "Mark Unread" : "Mark Read"
+        
+        let readState = UIAlertAction(title) { _ in self.toggleReadState() }
+        let mute = UIAlertAction("Mute") { _ in }
+        let block = UIAlertAction("Block") { _ in self.block() }
+        let cancel = UIAlertAction.cancel()
+        let sheet = UIAlertController.sheet()
+        sheet.addActions(readState, mute, block, cancel)
+        present(sheet)
+    }
+    
+    func block() {
+        guard let recipient = recipient else { return }
+        Client.execute(ConnectionDeleteRequest(connection_id: recipient._id), completionHandler: { _ in })
+        //UserResponse.connections?.remove(at: indexPath.row)
+        navigationController?.pop()
+    }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
