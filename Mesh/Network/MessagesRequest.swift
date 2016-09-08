@@ -37,3 +37,15 @@ struct MessagesDeleteRequest : AuthenticatedRequest {
     
     func parameters() -> [String : Any] { return ["_id": _id] }
 }
+
+struct MarkReadRequest : AuthenticatedRequest {
+    var path : String { return "connection/" + (read ? "read" : "unread") }
+    let method = HTTPMethod.post
+    
+    let read : Bool
+    let _id : String
+    
+    init(read: Bool, id : String) { self.read = read; _id = id }
+    
+    func parameters() -> [String : Any] { return ["_id": _id] }
+}

@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         if TARGET_IPHONE_SIMULATOR == 0 { Fabric.with([Twitter.self]) }
 
         if (Token.retrieveToken() != nil && Token.retrieveToken() != "") {
+            guard let JSON = UserDefaults.standard["CurrentUser"] as? JSONDictionary else { logout(UIKeyCommand()); return true}
+            UserResponse.current = UserResponse(JSON: JSON)
             NotificationCenter.default.addObserver(self, selector: #selector(logout(_:)), name: .logout, object: nil)
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
             window?.rootViewController = vc

@@ -50,7 +50,7 @@ class FeedViewController: UIViewController {
             guard let json = response.result.value as? JSONDictionary else { return }
             guard let connections = json["connections"] as? JSONDictionary else { return }
             guard let connectionsInner = connections["connections"] as? JSONArray else { return }
-            UserResponse.connections = connectionsInner.map({return UserResponse(JSON: $0)}).sorted(by: {return $0.first_name! < $1.first_name!})
+            UserResponse.connections = connectionsInner.map({ return Connection(JSON: $0) }).filter({ return $0.user._id != UserResponse.current?._id }).sorted(by: { return $0.user.first_name! < $1.user.first_name! })
             
             guard let messages = json["messages"] as? JSONDictionary else { return }
             guard let messagesInner = messages["messages"] as? JSONArray else { return }

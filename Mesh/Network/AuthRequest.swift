@@ -46,9 +46,26 @@ struct MessageResponse {
     }
 }
 
+struct Connection {
+    let _id: String
+    let user: UserResponse
+    let read: Bool
+    let muted: Bool
+    let update_date: Date
+    
+    init(JSON: JSONDictionary) {
+        _id = JSON["_id"] as! String
+        user = UserResponse(JSON: JSON)
+        read = JSON["read"] as? Bool ?? true
+        muted = JSON["read"] as? Bool ?? false
+        let date = (JSON["update_date"] as? Int) ?? 0
+        update_date = Date(timeIntervalSince1970: TimeInterval(date/1000))
+    }
+}
+
 struct UserResponse {
     static var current : UserResponse?
-    static var connections : [UserResponse]?
+    static var connections : [Connection]?
     static var messages : [MessageResponse]?
 
     var _id : String,

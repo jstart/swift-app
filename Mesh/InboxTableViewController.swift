@@ -51,18 +51,18 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.todoMessages = Array(UserResponse.messages?.filter({$0.sender != UserResponse.current?._id}).prefix(2) ?? [])
+        self.todoMessages = Array(UserResponse.messages?.filter({$0.sender != UserResponse.current?._id && $0.text != ""}).prefix(2) ?? [])
 
         Client.execute(UpdatesRequest(last_update: Int(Date().timeIntervalSince1970)), completionHandler: { response in
             guard let json = response.result.value as? JSONDictionary else { return }
             guard let connections = json["connections"] as? JSONDictionary else { return }
             guard let connectionsInner = connections["connections"] as? JSONArray else { return }
-            UserResponse.connections = connectionsInner.map({return UserResponse(JSON: $0)}).sorted(by: {return $0.first_name! < $1.first_name!})
+            UserResponse.connections = connectionsInner.map({ return Connection(JSON: $0) }).filter({ return $0.user._id != UserResponse.current?._id }).sorted(by: { return $0.user.first_name! < $1.user.first_name! })
             
             guard let messages = json["messages"] as? JSONDictionary else { return }
             guard let messagesInner = messages["messages"] as? JSONArray else { return }
             UserResponse.messages = messagesInner.map({return MessageResponse(JSON: $0)}).sorted(by: { $0.ts > $1.ts})
-            self.todoMessages = Array(UserResponse.messages?.filter({$0.sender != UserResponse.current?._id}).prefix(2) ?? [])
+            self.todoMessages = Array(UserResponse.messages?.filter({$0.sender != UserResponse.current?._id && $0.text != ""}).prefix(2) ?? [])
             self.tableView.reloadData()
         })
         connectionCount = UserResponse.connections?.count ?? 0
@@ -135,10 +135,10 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         if indexPath.section == 0 && todoMessages.count > 0 {
             
             guard let message = todoMessages[safe: indexPath.row] else { return UITableViewCell() }
-            
+            guard let connection = UserResponse.connections?.filter({ return $0.user._id == message.sender }).first else { return UITableViewCell() }
+
             if SwiftLinkPreview.extractURL(message.text ?? "") != nil {
                 let cell = tableView.dequeue(MessagePreviewTableViewCell.self, indexPath: indexPath)
-                guard let user = UserResponse.connections?.filter({ return $0._id == message.sender }).first else { return cell }
                 cell.leftButtons = [MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: { sender in
                     let currentIndex = tableView.indexPath(for: sender!)!
                     self.todoMessages.remove(at: currentIndex.row)
@@ -149,18 +149,17 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                     }
                     return true
                 })]
-                cell.configure(message, user: user)
+                cell.configure(message, user: connection.user, read: connection.read)
                 cell.pressedAction = ({
                     let article = ArticleViewController()
                     article.url = SwiftLinkPreview.extractURL(message.text ?? "")?.absoluteString
-                    article.user = user
+                    article.user = connection.user
                     self.navigationController?.push(article)
                 })
                 return cell
             }else {
                 let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath)
                 
-                let user = UserResponse.connections?.filter({ return $0._id == message.sender }).first
                 cell.leftButtons = [MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: { sender in
                     let currentIndex = tableView.indexPath(for: sender!)!
                     self.todoMessages.remove(at: currentIndex.row)
@@ -171,14 +170,16 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                     }
                     return true
                 })]
-                cell.configure(message, user: user!)
-                cell.pressedAction = ({ self.presentQuickReply(user: user!, message: message) })
+                cell.configure(message, user: connection.user, read: connection.read)
+                cell.pressedAction = ({ self.presentQuickReply(user: connection.user, message: message) })
                 return cell
             }
         } else {
             let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath)
-            guard let user = UserResponse.connections?[safe: indexPath.row] else { return cell }
-            cell.configure(user)
+            guard let connection = UserResponse.connections?[safe: indexPath.row] else { return cell }
+            cell.configure(connection.user)
+            guard let message = UserResponse.messages?.filter({ return $0.recipient == connection.user._id || $0.sender == connection.user._id })[safe: 0] else { return cell }
+            cell.add(message: message, read: connection.read)
 
             return cell
         }
@@ -266,11 +267,11 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var user: UserResponse?
-        if indexPath.row == 0 && todoMessages.count > 0 {
+        if indexPath.section == 0 && todoMessages.count > 0 {
             guard let message = todoMessages[safe: indexPath.row] else { return }
-            user = UserResponse.connections?.filter({ return $0._id == message.sender }).first
+            user = UserResponse.connections?.map({ return $0.user }).filter({ return $0._id == message.sender || $0._id == message.recipient }).first
         } else {
-            user = UserResponse.connections?[safe: indexPath.row]
+            user = UserResponse.connections?.map({ return $0.user })[safe: indexPath.row]
         }
         let conversationVC = MessagesViewController()
         conversationVC.recipient = user ?? nil

@@ -31,6 +31,9 @@ class ConnectionTableViewCell: UITableViewCell {
         initials.isHidden = true
         initials.text = nil
         profile.backgroundColor = .clear
+        
+        name.font = .systemFont(ofSize: name.font.pointSize)
+        title.font = .systemFont(ofSize: title.font.pointSize)
     }
     
     override func awakeFromNib() {
@@ -59,6 +62,14 @@ class ConnectionTableViewCell: UITableViewCell {
         title.text = user.fullTitle()
         profile.image = #imageLiteral(resourceName: "profile_sample")
         company.image = #imageLiteral(resourceName: "tesla")
+    }
+    
+    func add(message: MessageResponse, read: Bool) {
+        if !read {
+            name.font = .boldSystemFont(ofSize: name.font.pointSize)
+            title.font = .boldSystemFont(ofSize: title.font.pointSize)
+        }
+        title.text = message.text
     }
     
     @IBAction func pressed(_ sender: AnyObject) {

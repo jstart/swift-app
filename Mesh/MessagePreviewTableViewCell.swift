@@ -33,10 +33,23 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
         name.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
     }
     
-    func configure(_ aMessage: MessageResponse, user: UserResponse) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        name.text = nil
+        message.text = nil
+        
+        name.font = .systemFont(ofSize: name.font.pointSize)
+        message.font = .systemFont(ofSize: message.font.pointSize)
+    }
+    
+    func configure(_ aMessage: MessageResponse, user: UserResponse, read: Bool) {
         name.text = user.fullName()
         company.image = #imageLiteral(resourceName: "tesla")
         message.text = aMessage.text ?? ""
+        if !read {
+            name.font = .boldSystemFont(ofSize: name.font.pointSize)
+            message.font = .boldSystemFont(ofSize: message.font.pointSize)
+        }
         activity.startAnimating()
         preview(url: message.text!)
         

@@ -20,6 +20,15 @@ class MessageTableViewCell: MGSwipeTableCell {
     
     var pressedAction : (() -> Void)? = nil
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        name.text = nil
+        message.text = nil
+        
+        name.font = .systemFont(ofSize: name.font.pointSize)
+        message.font = .systemFont(ofSize: message.font.pointSize)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         profile.clipsToBounds = true
@@ -34,8 +43,12 @@ class MessageTableViewCell: MGSwipeTableCell {
         name.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
     }
     
-    func configure(_ aMessage: MessageResponse, user: UserResponse) {
+    func configure(_ aMessage: MessageResponse, user: UserResponse, read: Bool) {
         name.text = user.fullName()
+        if !read {
+            name.font = .boldSystemFont(ofSize: name.font.pointSize)
+            message.font = .boldSystemFont(ofSize: message.font.pointSize)
+        }
         company.image = #imageLiteral(resourceName: "tesla")
         message.text = aMessage.text ?? ""
         guard let small = user.photos?.small else { profile.image = nil; return }

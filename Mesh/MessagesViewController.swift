@@ -50,13 +50,15 @@ class MessagesViewController: JSQMessagesViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        meshMessages = UserResponse.messages?.filter({return $0.recipient == recipient?._id && $0.text != ""}).sorted(by: { $0.ts < $1.ts})
+        meshMessages = UserResponse.messages?.filter({return ($0.recipient == recipient?._id || $0.sender == recipient?._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts})
         meshMessages?.forEach({
-            let message = JSQMessage(senderId: self.senderId(), senderDisplayName: self.senderDisplayName(), date: Date(timeIntervalSince1970: TimeInterval($0.ts/1000)), text: $0.text!)
+            let message = JSQMessage(senderId: $0.sender, senderDisplayName: self.senderDisplayName(), date: Date(timeIntervalSince1970: TimeInterval($0.ts/1000)), text: $0.text!)
             self.messages.append(message)
             self.collectionView?.reloadData()
         })
         showTypingIndicator = true
+        
+        Client.execute(MarkReadRequest(read: true, id: recipient?._id ?? "")) { _ in }
     }
     
     override func viewWillLayoutSubviews() {

@@ -74,6 +74,7 @@ struct Client {
                         return
                     }
                     UserResponse.current = UserResponse(JSON: JSON)
+                    UserDefaults.standard.set(JSON, forKey: "CurrentUser")
                     Token.persistToken(UserResponse.current?.token ?? "")
                     Token.persistLogin((phone_number: request.parameters()["phone_number"] as! String, password: request.parameters()["password"] as! String))
                 }
