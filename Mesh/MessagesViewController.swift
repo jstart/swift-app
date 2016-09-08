@@ -22,7 +22,8 @@ class MessagesViewController: JSQMessagesViewController {
         $0.backgroundColor = .gray
         $0.constrain(.width, .height, constant: 30)
     }
-    
+    let outgoingImage: JSQMessagesBubbleImage = JSQMessagesBubbleImage(messageBubble: .imageWithColor(Colors.brand), highlightedImage: .imageWithColor(#colorLiteral(red: 0.9450980392, green: 0.9411764706, blue: 0.9411764706, alpha: 1)))
+    let incomingImage : JSQMessagesBubbleImage = JSQMessagesBubbleImage(messageBubble: .imageWithColor(#colorLiteral(red: 0.9450980392, green: 0.9411764706, blue: 0.9411764706, alpha: 1)), highlightedImage: .imageWithColor(Colors.brand))
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -50,7 +51,7 @@ class MessagesViewController: JSQMessagesViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        meshMessages = UserResponse.messages?.filter({return ($0.recipient == recipient?._id || $0.sender == recipient?._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts})
+        meshMessages = UserResponse.messages?.filter({return ($0.recipient == recipient?.user._id || $0.sender == recipient?.user._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts})
         meshMessages?.forEach({
             let message = JSQMessage(senderId: $0.sender, senderDisplayName: self.senderDisplayName(), date: Date(timeIntervalSince1970: TimeInterval($0.ts/1000)), text: $0.text!)
             self.messages.append(message)
@@ -112,40 +113,47 @@ class MessagesViewController: JSQMessagesViewController {
         navigationController?.pop()
     }
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return messages.count
-    }
-    
-    override func collectionView(_ collectionView: JSQMessagesCollectionView, messageDataForItemAt indexPath: IndexPath) -> JSQMessageData {
-        return messages[indexPath.item]
-    }
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { return messages.count }
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, messageDataForItemAt indexPath: IndexPath) -> JSQMessageData { return messages[indexPath.item] }
     
     override func didPressSend(_ button: UIButton, withMessageText text: String, senderId: String, senderDisplayName: String, date: Date) {
-        Client.execute(MessagesSendRequest(recipient: recipient?._id ?? "", text: text), completionHandler: { response in
+        Client.execute(MessagesSendRequest(recipient: recipient?.user._id ?? "", text: text), completionHandler: { response in
             self.messages.append(JSQMessage(senderId: senderId, displayName: senderDisplayName, text: text))
             self.finishSendingMessage(animated: true)
         })
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView, messageBubbleImageDataForItemAt indexPath: IndexPath) -> JSQMessageBubbleImageDataSource {
-        if messages[indexPath.row].senderId == senderId() {
-            return JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: .gray)
-        }
-        return JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: .blue)
+        return isOutgoingMessage(messages[indexPath.row]) ? outgoingImage : incomingImage
     }
     
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
+        cell.messageBubbleContainerView?.layer.cornerRadius = 5.0
+        cell.messageBubbleContainerView?.clipsToBounds = true
+        cell.textView?.textColor = isOutgoingMessage(messages[indexPath.row]) ? .white : .black
+        
+        return cell
+    }
+
     override func collectionView(_ collectionView: JSQMessagesCollectionView, attributedTextForCellBottomLabelAt indexPath: IndexPath) -> NSAttributedString? {
         let message = messages[indexPath.row]
-        return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date)
+        guard let secondMessage = messages[safe: indexPath.row - 1] else { return nil }
+        guard messages[safe: indexPath.row + 1] != nil else { return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: messages[indexPath.row].date) }
+
+        if message.date.timeIntervalSince(secondMessage.date) < 60 * 30 { return nil }
+        return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: messages[indexPath.row].date)
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout, heightForCellBottomLabelAt indexPath: IndexPath) -> CGFloat {
+        let message = messages[indexPath.row]
+        guard let secondMessage = messages[safe: indexPath.row - 1] else { return 0 }
+        guard messages[safe: indexPath.row + 1] != nil else { return kJSQMessagesCollectionViewCellLabelHeightDefault }
+        if message.date.timeIntervalSince(secondMessage.date) < 60 * 30 { return 0 }
         return kJSQMessagesCollectionViewCellLabelHeightDefault
     }
     
-    override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? {
-        return nil
-    }
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? { return nil }
     
     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         if action == #selector(editMessage(_:)) || action == #selector(deleteMessage(_:)){ return true }
