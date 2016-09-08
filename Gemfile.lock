@@ -102,9 +102,6 @@ GEM
       xcode-install (~> 2.0.0)
       xcodeproj (>= 0.20, < 2.0.0)
       xcpretty (>= 0.2.1)
-    fastlane-plugin-appicon (0.3.0)
-      json
-      mini_magick (~> 4.5.1)
     fastlane_core (0.50.3)
       babosa
       colored
@@ -278,7 +275,6 @@ PLATFORMS
 DEPENDENCIES
   cocoapods
   fastlane
-  fastlane-plugin-appicon
 
 BUNDLED WITH
    1.12.5

@@ -68,15 +68,17 @@ struct Client {
                     }
                 }
                 
-                if request is LoginRequest || request is AuthRequest {
+                if request is LoginRequest || request is AuthRequest || request is ProfileRequest {
                     guard let JSON = response.result.value as? JSONDictionary else {
                         completionHandler(response)
                         return
                     }
                     UserResponse.current = UserResponse(JSON: JSON)
                     UserDefaults.standard.set(JSON, forKey: "CurrentUser")
-                    Token.persistToken(UserResponse.current?.token ?? "")
-                    Token.persistLogin((phone_number: request.parameters()["phone_number"] as! String, password: request.parameters()["password"] as! String))
+                    if request is AuthRequest || request is LoginRequest {
+                        Token.persistToken(UserResponse.current?.token ?? "")
+                        Token.persistLogin((phone_number: request.parameters()["phone_number"] as! String, password: request.parameters()["password"] as! String))
+                    }
                 }
                 
                 completionHandler(response)

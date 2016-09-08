@@ -70,6 +70,7 @@ struct UserResponse {
 
     var _id : String,
         phone_number : String?,
+        email : String?,
         first_name : String?,
         last_name : String?,
         companies : [CompanyModel]?,
@@ -83,6 +84,7 @@ struct UserResponse {
         _id = JSON["_id"] as! String
         _id = (JSON["user_id"] as? String?)! ?? _id
         phone_number = (JSON["phone_number"] as? String?)!
+        email = (JSON["email"] as? String?)!
         first_name = (JSON["first_name"] as? String?)!
         last_name = (JSON["last_name"] as? String?)!
         title = (JSON["title"] as? String?)!

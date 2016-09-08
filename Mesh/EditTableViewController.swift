@@ -10,6 +10,7 @@ import UIKit
 
 class EditTableViewController: UITableViewController, UITextFieldDelegate {
 
+    var phone : UITextField?
     var first_name : UITextField?
     var last_name : UITextField?
     var email : UITextField?
@@ -23,6 +24,7 @@ class EditTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func save() {
+        //let phone_number = self.phone?.text ?? ""
         let first_name = self.first_name?.text ?? ""
         let last_name = self.last_name?.text ?? ""
         let email = self.email?.text ?? ""
@@ -45,24 +47,21 @@ class EditTableViewController: UITableViewController, UITextFieldDelegate {
     }
 
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
-    }
+    override func numberOfSections(in tableView: UITableView) -> Int { return 6 }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
-        case 0: return "first_name"
-        case 1: return "last_name"
-        case 2: return "email"
-        case 3: return "title"
-        case 4: return "profession"
+        case 0: return "phone"
+        case 1: return "first_name"
+        case 2: return "last_name"
+        case 3: return "email"
+        case 4: return "title"
+        case 5: return "profession"
         default: return ""
         }
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 1 }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
@@ -77,17 +76,23 @@ class EditTableViewController: UITableViewController, UITextFieldDelegate {
         
         switch indexPath.section {
         case 0:
+            field.text = UserResponse.current?.phone_number ?? ""
+            field.isUserInteractionEnabled = false
+            cell.backgroundColor = .lightGray
+            phone = field; break
+        case 1:
             field.text = UserResponse.current?.first_name ?? ""
             first_name = field; break
-        case 1:
+        case 2:
             field.text = UserResponse.current?.last_name ?? ""
             last_name = field; break
-        case 2:
-            email = field; break
         case 3:
+            field.text = UserResponse.current?.email ?? ""
+            email = field; break
+        case 4:
             field.text = UserResponse.current?.title ?? ""
             titleField = field; break
-        case 4:
+        case 5:
             field.text = UserResponse.current?.profession ?? ""
             profession = field; break
         default: break

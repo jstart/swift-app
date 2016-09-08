@@ -27,7 +27,7 @@ class QRCardView: CardView {
         $0.pageIndicatorTintColor = .lightGray
         $0.constrain((.height, 5), (.width, 100))
     }
-    var token: String
+    var token: String = ""
     var tapAction = {}
     
     let title = QRCardView.detailLabel(""), email = QRCardView.detailLabel(""), phone = QRCardView.detailLabel("")
