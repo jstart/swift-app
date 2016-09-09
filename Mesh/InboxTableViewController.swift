@@ -28,7 +28,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         searchController = UISearchController(searchResultsController: searchResults)
         searchController.searchResultsUpdater = self
         searchController.delegate = self
-        searchController.searchBar.placeholder = "Search for people and messages"
+        searchController.searchBar.placeholder = "Search for people"
         searchController.searchBar.delegate = self
         
         searchController.hidesNavigationBarDuringPresentation = false

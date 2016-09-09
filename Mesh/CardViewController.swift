@@ -64,7 +64,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         tapRec = UITapGestureRecognizer(target: self, action: #selector(tap))
         view.addGestureRecognizer(gestureRec!)
         view.addGestureRecognizer(tapRec!)
-    
+        
         let quickViewStack = UIStackView(arrangedSubviews: [bar(), control.stack!, bar()])
         quickViewStack.distribution = .fillProportionally
         quickViewStack.alignment = .center
@@ -79,7 +79,13 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! : "Micha Kaufman"
         position.text = "VP of Engineering at Tesla"
 
-        let topStack = UIStackView(arrangedSubviews: [imageView, name, position, quickViewStack, viewPager!.scroll])
+        let bottomStack = UIStackView(arrangedSubviews: [name, position, quickViewStack, viewPager!.scroll])
+        bottomStack.axis = .vertical
+        bottomStack.distribution = .fillProportionally
+        bottomStack.alignment = .fill
+        bottomStack.constrain((.height, 200))
+        
+        let topStack = UIStackView(arrangedSubviews: [imageView, bottomStack])
         topStack.axis = .vertical
         topStack.distribution = .fillProportionally
         topStack.alignment = .fill
@@ -88,7 +94,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         
         viewPager!.scroll.translates = false
         viewPager!.scroll.backgroundColor = .white
-        viewPager!.scroll.constrain(.width, toItem: view)
+        viewPager!.scroll.constrain(.width, .centerX, toItem: view)
 
         name.constrain(.leading, toItem: position)
         
