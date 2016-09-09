@@ -167,23 +167,6 @@ extension UIView {
     func fadeOut(duration: TimeInterval = 0.2, completion:(() -> Void) = {}) {
         UIView.animate(withDuration: duration, animations: { self.alpha = 0.0 }, completion: { _ in completion() })
     }
-    
-    func addDashedBorder(_ color: UIColor) {
-        let shapeLayer = CAShapeLayer()
-        let frameSize = frame.size
-        let shapeRect = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
-        
-        shapeLayer.bounds = shapeRect
-        shapeLayer.position = CGPoint(x: frameSize.width/2, y: frameSize.height/2)
-        shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.strokeColor = color.cgColor
-        shapeLayer.lineWidth = 4
-        shapeLayer.lineJoin = kCALineJoinMiter
-        shapeLayer.lineDashPattern = [10,12]
-        shapeLayer.path = UIBezierPath(roundedRect: shapeRect, cornerRadius: 0).cgPath
-        
-        layer.addSublayer(shapeLayer)
-    }
 }
 
 extension UINavigationController {

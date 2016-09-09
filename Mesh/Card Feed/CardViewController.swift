@@ -83,7 +83,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         bottomStack.axis = .vertical
         bottomStack.distribution = .fillProportionally
         bottomStack.alignment = .fill
-        bottomStack.constrain((.height, 200))
+//        bottomStack.constrain((.height, 200))
         
         let topStack = UIStackView(arrangedSubviews: [imageView, bottomStack])
         topStack.axis = .vertical
