@@ -76,7 +76,9 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) { navigationItem.setRightBarButtonItems(nil, animated: true) }
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) { navigationItem.rightBarButtonItems = [sortItem!, addItem!] }
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        self.navigationItem.setRightBarButtonItems([self.sortItem!, self.addItem!], animated: true)
+    }
     
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
         guard let text = searchBar.text else { return true }; guard text != "" else { return true }
@@ -95,6 +97,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
     
     func sort() {
+        return
         //navigationItem.rightBarButtonItems?[0].image = #imageLiteral(resourceName: "sortConnectionsClose")
         let pop = UITableViewController()
         pop.preferredContentSize = CGSize(width: view.frame.size.width - 20, height: 210)

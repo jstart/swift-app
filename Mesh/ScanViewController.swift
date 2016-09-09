@@ -116,7 +116,9 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        captureMetadataOutput.rectOfInterest = videoPreviewLayer!.metadataOutputRectOfInterest(for: outline.frame)
+        if videoPreviewLayer != nil {
+            captureMetadataOutput.rectOfInterest = videoPreviewLayer!.metadataOutputRectOfInterest(for: outline.frame)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -156,7 +158,9 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             CardResponse.cards = (response.result.value as? JSONArray)?.map({ return CardResponse(JSON: $0) })
             self.cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) }) ?? [QRCard]()
             for (index, card) in self.pager!.stack.arrangedSubviews.enumerated() {
-                (card as? QRCardView)?.setToken(self.cards[index].token, animated: true)
+                qr.setToken((UserResponse.current?._id ?? "") + "::" + card.token)
+
+                (card as? QRCardView)?.setToken((UserResponse.current?._id ?? "") + "::" + self.cards[index].token, animated: true)
             }
         })
     }
@@ -286,7 +290,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     
     func showOverlayFirstTime() -> Bool {
-        if UserDefaults.standard["DefaultCard"] == nil {
+        if UserDefaults.standard["DefaultCard"] == nil && cards.count <= 1 {
             pager?.scroll.isScrollEnabled = false
             overlay = UIView(translates: false).then {
                 $0.backgroundColor = .black
