@@ -158,8 +158,6 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             CardResponse.cards = (response.result.value as? JSONArray)?.map({ return CardResponse(JSON: $0) })
             self.cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) }) ?? [QRCard]()
             for (index, card) in self.pager!.stack.arrangedSubviews.enumerated() {
-                qr.setToken((UserResponse.current?._id ?? "") + "::" + card.token)
-
                 (card as? QRCardView)?.setToken((UserResponse.current?._id ?? "") + "::" + self.cards[index].token, animated: true)
             }
         })
