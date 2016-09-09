@@ -38,8 +38,8 @@ class SwipeConfig {
     swipeDownBoundaryEnd : CGFloat
     
     // Swipe position and speed settings
-    var velocitySlopX : CGFloat = 1.5,
-    velocitySlopY : CGFloat = 0.8,
+    var velocitySlopX : CGFloat = 50,
+    velocitySlopY : CGFloat = 50,
     xDistanceMinimumForDrag : CGFloat = 20,
     yDistanceMinimumForDrag : CGFloat = 20,
     xDistanceMinimumForFling : CGFloat = 0.5,

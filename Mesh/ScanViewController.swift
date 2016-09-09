@@ -30,14 +30,12 @@ struct QRCard { var fields: [ProfileFields], token: String }
 
 class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, ViewPagerDelegate {
     
-    var scanning = false
     let captureSession = AVCaptureSession()
+    let captureMetadataOutput = AVCaptureMetadataOutput()
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     var pager : ViewPager?
-    let outline = UIView(translates: false).then {
-        $0.backgroundColor = .clear
-        $0.constrain(.height, constant: 190)
-    }
+    let outline = OutlineView()
+    var overlay : UIView?
     
     let editCard = EditCardView(UserResponse.current!).then { $0.translates = false }
     var cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) }) ?? [QRCard]()
@@ -55,6 +53,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         title = "Share Contact Card"
         navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: self, action: #selector(dismiss))
         navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "connectionsOverflow"), target: self, action: #selector(overflow))
+        automaticallyAdjustsScrollViewInsets = false
 
         var cardViews = [UIView]()
         for card in cards {
@@ -73,7 +72,6 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         pager?.scroll.constrain(.height, constant: 180)
         pager?.scroll.constrain(.width, .centerX, toItem: view)
         pager?.scroll.constrain(.top, constant: 105, toItem: view)
-        pager?.scroll.clipsToBounds = false
         
         view.addSubview(outline)
         outline.constrain(.width, constant: -30, toItem: view)
@@ -90,7 +88,6 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             let input = try AVCaptureDeviceInput(device: captureDevice)
             captureSession.addInput(input)
             
-            let captureMetadataOutput = AVCaptureMetadataOutput()
             captureSession.addOutput(captureMetadataOutput)
             captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
             captureMetadataOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
@@ -107,13 +104,19 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         view.bringSubview(toFront: outline)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        outline.addDashedBorder(.white)
+        UIApplication.shared.statusBarStyle = .lightContent
+        if showOverlayFirstTime() { return }
         
         timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(refresh), userInfo: nil, repeats: true)
         guard UserDefaults.standard["FirstScan"] == nil else { return }
         Snackbar(title: "Hover over another card to scan and connect", showUntilDismissed: true).presentIn(view)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        captureMetadataOutput.rectOfInterest = videoPreviewLayer!.metadataOutputRectOfInterest(for: outline.frame)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -122,16 +125,12 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     }
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
-        if metadataObjects.count == 0 { outline.addDashedBorder(.white); return }
+        if metadataObjects.count == 0 { return }
+        captureSession.stopRunning()
         
         let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
         
         guard let token = metadataObj.stringValue else { return }
-        outline.layer.sublayers?.forEach({$0.removeFromSuperlayer()})
-        outline.addDashedBorder(.green)
-
-        if scanning { return }
-        scanning = true
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
 
         let tokenArray = token.components(separatedBy: "::")
@@ -139,12 +138,16 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
                                       my_token: CardResponse.cards?.first?.token ?? "",
                                       scanned_token: tokenArray[safe: 1] ?? "")
         Client.execute(request, completionHandler: { response in
-            self.scanning = false
-            guard response.result.value != nil else {
-                Snackbar(title: "Scanning Failed", buttonTitle: "RETRY", buttonHandler: {}).presentIn(self.view); return
+            if response.result.value != nil {
+                Snackbar(title: "Connected!", buttonTitle: "VIEW PROFILE", buttonHandler: {}).presentIn(self.view)
+                UserDefaults.standard.set(true, forKey: "FirstScan")
             }
-            Snackbar(title: "Connected!", buttonTitle: "VIEW PROFILE", buttonHandler: {}).presentIn(self.view)
-            UserDefaults.standard.set(true, forKey: "FirstScan")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                self.captureSession.startRunning()
+            })
+            if response.result.value == nil {
+                Snackbar(title: "Scanning Failed", buttonTitle: "RETRY", buttonHandler: {}).presentIn(self.view)
+            }
         })
     }
     
@@ -279,5 +282,93 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         }
 
         present(sheet)
+    }
+    
+    
+    func showOverlayFirstTime() -> Bool {
+        if UserDefaults.standard["DefaultCard"] == nil {
+            pager?.scroll.isScrollEnabled = false
+            overlay = UIView(translates: false).then {
+                $0.backgroundColor = .black
+                $0.alpha = 0.85
+            }
+            guard let overlay = overlay else { return false }
+            
+            view.addSubview(overlay)
+            overlay.constrain(.height, .width, .centerX, .centerY, toItem: view)
+            view.bringSubview(toFront: pager!.scroll)
+            
+            let header = UILabel(translates: false).then {
+                $0.font = .boldSystemFont(ofSize: 20)
+                $0.textColor = .white
+                $0.text = "Auto Created Card"
+                $0.textAlignment = .center
+                $0.constrain((.height, 25))
+            }
+            
+            overlay.addSubview(header)
+            header.constrain(.centerX, .leading, .trailing, toItem: view)
+            header.constrain(.top, constant: 30, toItem: pager?.scroll, toAttribute: .bottom)
+            
+            let message = UILabel(translates: false).then {
+                $0.font = .systemFont(ofSize: 16)
+                $0.numberOfLines = 0
+                $0.textColor = .white
+                $0.text = "We’ve created your virtual business card to share with others. Everything look OK?"
+                $0.textAlignment = .center
+            }
+            
+            overlay.addSubview(message)
+            message.constrain(.centerX, toItem: view)
+            message.constrain(.leading, constant: 40,  toItem: view)
+            message.constrain(.trailing, constant: -40,  toItem: view)
+            message.constrain(.top, constant: 5, toItem: header, toAttribute: .bottom)
+            
+            let edit = UIButton(translates: false).then {
+                $0.setTitle("EDIT", for: .normal)
+                $0.layer.borderColor = UIColor.white.cgColor
+                $0.layer.borderWidth = 1.0
+                $0.layer.cornerRadius = 5.0
+                $0.constrain((.width, 90), (.height, 30))
+            }
+            edit.addTarget(self, action: #selector(editAndDismiss), for: .touchUpInside)
+            
+            overlay.addSubview(edit)
+            edit.constrain(.top, constant: 35, toItem: message, toAttribute: .bottom)
+            edit.constrain(.centerX, constant: -(25 + (90 / 2)), toItem: view)
+            
+            let yes = UIButton(translates: false).then {
+                $0.setTitle("YES", for: .normal)
+                $0.setTitleColor(Colors.brand, for: .normal)
+                $0.layer.borderColor = Colors.brand.cgColor
+                $0.layer.borderWidth = 1.0
+                $0.layer.cornerRadius = 5.0
+                $0.constrain((.width, 90), (.height, 30))
+            }
+            yes.addTarget(self, action: #selector(dismissOverlay), for: .touchUpInside)
+            
+            overlay.addSubview(yes)
+            yes.constrain(.top, constant: 35, toItem: message, toAttribute: .bottom)
+            yes.constrain(.centerX, constant: (25 + (90 / 2)), toItem: view)
+            return true
+        }
+        return false
+    }
+    
+    func editAndDismiss() {
+        self.edit()
+        self.dismissOverlay()
+    }
+    
+    func dismissOverlay() {
+        UserDefaults.standard.set(true, forKey: "DefaultCard")
+        if overlay != nil {
+            timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(refresh), userInfo: nil, repeats: true)
+        }
+        pager?.scroll.isScrollEnabled = true
+        overlay?.fadeOut() { self.overlay?.removeFromSuperview() }
+        
+        guard UserDefaults.standard["FirstScan"] == nil else { return }
+        Snackbar(title: "Hover over another card to scan and connect", showUntilDismissed: true).presentIn(view)
     }
 }

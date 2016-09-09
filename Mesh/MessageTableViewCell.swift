@@ -18,7 +18,7 @@ class MessageTableViewCell: MGSwipeTableCell {
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var reply: UIButton!
     
-    var pressedAction : (() -> Void)? = nil
+    var pressedAction = {}
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -41,6 +41,13 @@ class MessageTableViewCell: MGSwipeTableCell {
         reply.layer.cornerRadius = 5.0
 
         name.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
+        
+        leftExpansion.threshold = 1.5
+        leftExpansion.fillOnTrigger = true
+        leftExpansion.buttonIndex = 0
+
+        leftSwipeSettings.transition = .clipCenter
+        rightSwipeSettings.transition = .drag
     }
     
     func configure(_ aMessage: MessageResponse, user: UserResponse, read: Bool) {
@@ -55,5 +62,16 @@ class MessageTableViewCell: MGSwipeTableCell {
         profile.af_setImage(withURL: URL(string: small)!)
     }
     
-    @IBAction func pressed(_ sender: AnyObject) { pressedAction?() }
+    func add(message: MessageResponse? = nil, read: Bool) {
+        if !read {
+            name.font = .boldSystemFont(ofSize: name.font.pointSize)
+            self.message.font = .boldSystemFont(ofSize: self.message.font.pointSize)
+        } else {
+            name.font = .systemFont(ofSize: name.font.pointSize)
+            self.message.font = .systemFont(ofSize: self.message.font.pointSize)
+        }
+        if message?.text != nil { self.message.text = message?.text }
+    }
+    
+    @IBAction func pressed(_ sender: AnyObject) { pressedAction() }
 }

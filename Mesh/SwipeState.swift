@@ -26,13 +26,13 @@ struct SwipeState {
     var config = SwipeConfig()
     
     mutating func start(_ gesture : UIPanGestureRecognizer) {
-        let touchPoint = gesture.location(in: gesture.view)
+        let touchPoint = gesture.location(in: gesture.view?.superview)
         startX = touchPoint.x
         startY = touchPoint.y
     }
 
     mutating func drag(_ gesture : UIPanGestureRecognizer) {
-        let touchPoint = gesture.location(in: gesture.view)
+        let touchPoint = gesture.location(in: gesture.view?.superview)
 
         // X //
         changeX = CGFloat(touchPoint.x - startX)
@@ -46,12 +46,12 @@ struct SwipeState {
         direction = getSwipeDirection();
         
         // Velocity //
-        velocityX = gesture.velocity(in: gesture.view).x
-        velocityY = gesture.velocity(in: gesture.view).y
+        velocityX = gesture.velocity(in: gesture.view?.superview).x
+        velocityY = gesture.velocity(in: gesture.view?.superview).y
     }
 
     mutating func stop(_ gesture : UIPanGestureRecognizer) {
-        let touchPoint = gesture.location(in: gesture.view)
+        let touchPoint = gesture.location(in: gesture.view?.superview)
         
         // X //
         endX = touchPoint.x
@@ -62,8 +62,8 @@ struct SwipeState {
         changeY = touchPoint.y - startY
         
         // Velocity //
-        velocityX = gesture.velocity(in: gesture.view).x
-        velocityY = gesture.velocity(in: gesture.view).y
+        velocityX = gesture.velocity(in: gesture.view?.superview).x
+        velocityY = gesture.velocity(in: gesture.view?.superview).y
         
         // Angle //
         angle = atan2(velocityY, velocityX) * ((CGFloat) (180.0 / M_PI))

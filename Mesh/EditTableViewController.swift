@@ -19,7 +19,7 @@ class EditTableViewController: UITableViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
+        tableView.registerClass(UITableViewCell.self)
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(save))
     }
     
@@ -35,7 +35,7 @@ class EditTableViewController: UITableViewController, UITextFieldDelegate {
         Client.execute(ProfileRequest(first_name: first_name, last_name: last_name, email: email, title: title, profession: profession, companies: companies), completionHandler: { response in
             if response.result.value != nil {
                 let alert = UIAlertController(title: "Profile Updated", message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction("OK", style: .cancel))
+                alert.addAction(UIAlertAction("OK", style: .cancel){ _ in self.navigationController?.pop() })
                 self.present(alert)
             }
             else {
@@ -64,7 +64,7 @@ class EditTableViewController: UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 1 }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeue(UITableViewCell.self, indexPath: indexPath)
         cell.selectionStyle = .none
         let field = UITextField(translates: false).then {
             $0.autocapitalizationType = .none

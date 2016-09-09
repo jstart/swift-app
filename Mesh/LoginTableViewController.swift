@@ -16,7 +16,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Login"
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
+        tableView.registerClass(UITableViewCell.self)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(login))
     }
     
@@ -35,7 +35,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 1 }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeue(UITableViewCell.self, indexPath: indexPath)
         let field = UITextField(translates: false).then {
             $0.autocapitalizationType = .none
             $0.delegate = self
@@ -84,5 +84,5 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         passwordField?.text = "password"
         login()
     }
- 
+
 }

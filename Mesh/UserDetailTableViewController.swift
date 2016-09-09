@@ -17,16 +17,14 @@ class UserDetailTableViewController : UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UINib(nibName: "UserDetailTableViewCell", bundle: nil), forCellReuseIdentifier: "reuseIdentifier")
+        tableView.registerNib(UserDetailTableViewCell.self)
         view.layer.cornerRadius = 5.0
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return category?.rawValue
@@ -45,7 +43,7 @@ class UserDetailTableViewController : UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! UserDetailTableViewCell
+        let cell = tableView.dequeue(UserDetailTableViewCell.self, indexPath: indexPath)
         cell.icon.image = #imageLiteral(resourceName: "tesla")
         //cell.configure(detail: nil)
         return cell

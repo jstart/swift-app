@@ -50,8 +50,11 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.todoMessages = Array(UserResponse.messages?.filter({$0.sender != UserResponse.current?._id && $0.text != ""}).prefix(2) ?? [])
-
+        todoMessages = Array(UserResponse.messages?.filter({$0.sender != UserResponse.current?._id && $0.text != ""}).prefix(2) ?? [])
+        refresh()
+    }
+    
+    func refresh() {
         Client.execute(UpdatesRequest(last_update: Int(Date().timeIntervalSince1970)), completionHandler: { response in
             guard let json = response.result.value as? JSONDictionary else { return }
             guard let connections = json["connections"] as? JSONDictionary else { return }
@@ -128,7 +131,6 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 && todoMessages.count > 0 {
-            
             guard let message = todoMessages[safe: indexPath.row] else { return UITableViewCell() }
             guard let connection = UserResponse.connections?.filter({ return $0.user._id == message.sender }).first else { return UITableViewCell() }
 
@@ -163,8 +165,23 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                     }else {
                         tableView.deleteRows(at: [currentIndex], with: .automatic)
                     }
-                    return true
+                    return false
                 })]
+                
+                let title = connection.read ? "Mark Unread" : "Mark Read"
+                cell.rightButtons = [MGSwipeButton(title: title, backgroundColor: Colors.brand, callback: { sender in
+                    Client.execute(MarkReadRequest(read: !connection.read, id: connection.user._id), completionHandler: { _ in })
+                    cell.add(read: !connection.read)
+                    self.refresh()
+                    return true
+                }),
+                 MGSwipeButton(title: "Mute", backgroundColor: .gray, callback: { sender in return true }),
+                 MGSwipeButton(title: "Block", backgroundColor: .red, callback: { sender in
+                    Client.execute(ConnectionDeleteRequest(connection_id: connection._id), completionHandler: { _ in })
+                    UserResponse.connections?.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                    return true
+                 })]
                 cell.configure(message, user: connection.user, read: connection.read)
                 cell.pressedAction = ({ self.presentQuickReply(user: connection.user, message: message) })
                 return cell
@@ -178,6 +195,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             cell.rightButtons = [MGSwipeButton(title: title, backgroundColor: Colors.brand, callback: { sender in
                 Client.execute(MarkReadRequest(read: !connection.read, id: connection.user._id), completionHandler: { _ in })
                 cell.add(read: !connection.read)
+                self.refresh()
                 return true
             }),
             MGSwipeButton(title: "Mute", backgroundColor: .gray, callback: { sender in return true }),
@@ -187,7 +205,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 tableView.deleteRows(at: [indexPath], with: .automatic)
                 return true
             })]
-            guard let message = UserResponse.messages?.filter({ return $0.recipient == connection.user._id || $0.sender == connection.user._id })[safe: 0] else { return cell }
+            let message = UserResponse.messages?.filter({ return $0.recipient == connection.user._id || $0.sender == connection.user._id })[safe: 0]
             cell.add(message: message, read: connection.read)
             return cell
         }
@@ -258,7 +276,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         return blurView
     }
     
-    func send() { quickReplyAction() }
+    func send() { quickReplyAction(); self.refresh() }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool { send(); return true }
     

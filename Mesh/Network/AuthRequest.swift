@@ -47,11 +47,11 @@ struct MessageResponse {
 }
 
 struct Connection {
-    let _id: String
-    let user: UserResponse
-    let read: Bool
-    let muted: Bool
-    let update_date: Date
+    let _id: String,
+        user: UserResponse
+    var read: Bool,
+        muted: Bool,
+        update_date: Date
     
     init(JSON: JSONDictionary) {
         _id = JSON["_id"] as! String

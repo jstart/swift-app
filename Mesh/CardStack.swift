@@ -61,23 +61,26 @@ class CardStack : UIViewController, CardDelegate {
     
     func swiped(_ direction: UISwipeGestureRecognizerDirection) {
         let card = cards?[cardIndex]
-        guard let id = card?.person?.user?._id else {
-            if cardIndex + 1 == cards?.count {
-                cardIndex = 0
-            } else {
-                cardIndex += 1
-            }
-            addNewCard()
-            return
-        }
+        guard let id = card?.person?.user?._id else { return }
         let request : AuthenticatedRequest = direction == .right ? LikeRequest(_id: id) : PassRequest(_id: id)
         Client.execute(request) {_ in }
         
-        if cardIndex + 1 == cards?.count {
-            cardIndex = 0
+        if cardIndex + 5 == cards?.count {
+            Client.execute(RecommendationsRequest(), completionHandler: { response in
+                guard let jsonArray = response.result.value as? JSONArray else { return }
+                let array = jsonArray.map({return UserResponse(JSON: $0)})
+                self.cards?.append(contentsOf: array.map({
+                    let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
+                    return Card(type: .person, person: Person(user: $0, details: details))
+                }))
+            })
+            cardIndex += 1
+            addNewCard()
+        } else if cardIndex + 1 == cards?.count {
+            // Last card special case?
         } else {
             cardIndex += 1
+            addNewCard()
         }
-        addNewCard()
     }
 }

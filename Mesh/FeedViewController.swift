@@ -24,20 +24,10 @@ class FeedViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        UIApplication.shared.statusBarStyle = .default
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo"))
         navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "sorting"), target: self, action: #selector(sort))
         navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "qrCode"), target: self, action: #selector(qr))
-        
-        Client.execute(RecommendationsRequest(), completionHandler: { response in
-            guard let jsonArray = response.result.value as? JSONArray else { return }
-            let array = jsonArray.map({return UserResponse(JSON: $0)})
-            self.cardStack.cards = array.map({
-                let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
-                return Card(type: .person, person: Person(user: $0, details: details))
-            })
-            self.cardStack.addNewCard()
-//                self.cardStack.cards?.append(Card(type: .tweet, person: nil))
-        })
         
         if TARGET_OS_SIMULATOR == 1 {
             Client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
@@ -64,6 +54,7 @@ class FeedViewController: UIViewController {
                 UserResponse.current = UserResponse(JSON: JSON)
             })
         }
+        locationManager.startTracking()
         
         Client.execute(CardsRequest(), completionHandler: { response in
             guard let JSON = response.result.value as? JSONArray else { return }
@@ -72,7 +63,17 @@ class FeedViewController: UIViewController {
             CardResponse.cards = cards
         })
         
-        locationManager.startTracking()
+        if cardStack.cards?.count != nil || cardStack.cards?.count == cardStack.cardIndex - 1 { return }
+        Client.execute(RecommendationsRequest(), completionHandler: { response in
+            guard let jsonArray = response.result.value as? JSONArray else { return }
+            let array = jsonArray.map({return UserResponse(JSON: $0)})
+            self.cardStack.cards = array.map({
+                let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
+                return Card(type: .person, person: Person(user: $0, details: details))
+            })
+            self.cardStack.addNewCard()
+            //                self.cardStack.cards?.append(Card(type: .tweet, person: nil))
+        })
 //        for index in 0..<cardStack.cards?.count {
 //            guard let recIds = cardStack.cards?[index].person?.user?._id else {return}
 //            Client.execute(ConnectionRequest(recipient: recIds), completionHandler: { response in })

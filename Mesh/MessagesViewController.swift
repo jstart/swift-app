@@ -59,7 +59,7 @@ class MessagesViewController: JSQMessagesViewController {
         })
         showTypingIndicator = true
         
-        Client.execute(MarkReadRequest(read: true, id: recipient?._id ?? "")) { _ in }
+        Client.execute(MarkReadRequest(read: true, id: recipient?.user._id ?? "")) { _ in }
     }
     
     override func viewWillLayoutSubviews() {

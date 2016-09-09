@@ -11,7 +11,7 @@ import AlamofireImage
 
 class SettingsTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     let profileImage = UIImageView(translates: false).then {
-        $0.constrain(.height, .width, constant: 50)
+        $0.constrain(.height, .width, constant: 40)
     }
     
     override func viewDidLoad() {
@@ -43,7 +43,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeue(UITableViewCell.self, indexPath: indexPath)
         cell.textLabel?.text = (indexPath.section == 0 && indexPath.row == 0) ? "Upload Photo" : "Logout"
         
         if (indexPath.section == 0 && indexPath.row == 1)  {

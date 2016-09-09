@@ -49,6 +49,9 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         button.layer.borderWidth = 1
         button.layer.borderColor = AlertAction.defaultBackground.cgColor
         button.layer.cornerRadius = 5.0
+        
+        leftSwipeSettings.transition = .drag
+        rightSwipeSettings.transition = .drag
     }
     
     func showInitials(firstName: String, lastName: String) {
@@ -69,6 +72,9 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         if !read {
             name.font = .boldSystemFont(ofSize: name.font.pointSize)
             title.font = .boldSystemFont(ofSize: title.font.pointSize)
+        } else {
+            name.font = .systemFont(ofSize: name.font.pointSize)
+            title.font = .systemFont(ofSize: title.font.pointSize)
         }
         if message?.text != nil { title.text = message?.text }
     }

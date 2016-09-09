@@ -201,6 +201,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     
     func pan(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
+            
         case .ended:
             state.stop(gestureRec!)
             
@@ -252,7 +253,13 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
                 })
                 break
             }
-            
+        case .cancelled : fallthrough
+        case.failed :
+            // Back to center
+            UIView.animate(withDuration: 0.2, animations: {
+                sender.view?.center = (self.view?.superview?.center)!
+            })
+            break
         case .began :
             state.start(gestureRec!)
             overlayView.isHidden = false
@@ -283,8 +290,8 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         case UISwipeGestureRecognizerDirection.down:
             overlayView.alpha = min(1, ((view.center.y - view.superview!.center.y)/200)) * 0.75
         case UISwipeGestureRecognizerDirection.left:
-            let progress = min(1, ((view.superview!.center.x - view.center.x)/200)) * 10
-            view.transform = CGAffineTransform(rotationAngle:(-progress * CGFloat(M_PI)) / 180)
+            let progress = min(1, ((view.center.x - view.superview!.center.x)/200)) * 10
+            view.transform = CGAffineTransform(rotationAngle:(progress * CGFloat(M_PI)) / 180)
             if view.center.x <= view.superview!.center.x {
                 overlayView.alpha = min(1, ((view.superview!.center.x - view.center.x)/200)) * 0.75
             } else {

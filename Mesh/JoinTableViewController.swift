@@ -13,7 +13,7 @@ class JoinTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo"))
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
+        tableView.registerClass(UITableViewCell.self)
     }
     
     // MARK: - Table view data source
@@ -22,7 +22,7 @@ class JoinTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 2 }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeue(UITableViewCell.self, indexPath: indexPath)
         cell.textLabel?.text = indexPath.row == 0 ? "Log in" : "Sign Up"
         return cell
     }

@@ -19,7 +19,6 @@ platform :ios do
   before_all do
     # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
     cocoapods
-	update_fastlane
   end
 
   desc "Runs all the tests"
@@ -46,7 +45,7 @@ platform :ios do
 
   lane :icon do
     appicon(appicon_image_file: 'ic_launcher.png',
-	    appicon_devices: [:iphone])
+	appicon_devices: [:iphone])
   end
 
   after_all do |lane|
@@ -55,6 +54,7 @@ platform :ios do
 	# slack(
     #   message: "Successfully deployed new App Update."
     # )
+  	update_fastlane
   end
 
   error do |lane, exception|
