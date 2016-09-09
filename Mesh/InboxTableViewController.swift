@@ -55,7 +55,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
     
     func refresh() {
-        Client.execute(UpdatesRequest(last_update: Int(Date().timeIntervalSince1970)), completionHandler: { response in
+        Client.execute(UpdatesRequest.now(), completionHandler: { response in
             guard let json = response.result.value as? JSONDictionary else { return }
             guard let connections = json["connections"] as? JSONDictionary else { return }
             guard let connectionsInner = connections["connections"] as? JSONArray else { return }

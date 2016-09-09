@@ -14,6 +14,10 @@ struct UpdatesRequest : AuthenticatedRequest {
     let last_update : Int
     
     func parameters() -> [String : Any] { return ["last_update": last_update] }
+    
+    static func now() -> UpdatesRequest {
+        return UpdatesRequest(last_update: 0)//Int(Date().timeIntervalSince1970*1000))
+    }
 }
 
 struct RecommendationsRequest : AuthenticatedRequest {

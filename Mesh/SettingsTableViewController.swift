@@ -78,8 +78,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
             return
         }
         Client.execute(LogoutRequest(), completionHandler: { response in
-            let vc = JoinTableViewController(style: .grouped)
-            UIApplication.shared.delegate!.window??.rootViewController = UINavigationController(rootViewController: vc)
+            NotificationCenter.default.post(name: .logout, object: nil)
         })
     }
         
