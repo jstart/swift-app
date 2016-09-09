@@ -122,8 +122,9 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
 
         name.constrain(.top, constant: 11, toItem: namePositionContainer)
         name.constrain(.leading, constant: 15, toItem: logo, toAttribute: .trailing)
+        name.constrain(.trailing, toItem: namePositionContainer, toAttribute: .trailingMargin)
         
-        position.constrain(.leading, toItem: name)
+        position.constrain(.leading, .trailing, toItem: name)
         position.constrain(.top, constant: 0, toItem: name, toAttribute: .bottom)
         position.constrain(.bottom, constant: -8, toItem: namePositionContainer)
 
