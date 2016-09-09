@@ -10,7 +10,6 @@
 		236E27B81D67C9D2002ABAB4 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27B71D67C9D2002ABAB4 /* Token.swift */; };
 		237827231D7B50B20059AB37 /* CardRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237827221D7B50B20059AB37 /* CardRequest.swift */; };
 		238271941D7E92E40005F254 /* ContactsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238271931D7E92E40005F254 /* ContactsRequest.swift */; };
-		23C872191D83751100B21AB6 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 23C872171D83751100B21AB6 /* Info.plist */; };
 		23C872201D83753200B21AB6 /* PreviewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721B1D83753200B21AB6 /* PreviewError.swift */; };
 		23C872211D83753200B21AB6 /* PreviewErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721C1D83753200B21AB6 /* PreviewErrorTypes.swift */; };
 		23C872221D83753200B21AB6 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721D1D83753200B21AB6 /* Regex.swift */; };
@@ -490,7 +489,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				23C8724C1D83760300B21AB6 /* MessageTableViewCell.xib in Resources */,
-				23C872191D83751100B21AB6 /* Info.plist in Resources */,
 				23C872491D83760300B21AB6 /* MessagePreviewTableViewCell.xib in Resources */,
 				ADECA8F21D51540900726AEF /* LaunchScreen.storyboard in Resources */,
 				ADECA8EF1D51540900726AEF /* Assets.xcassets in Resources */,
@@ -773,7 +771,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Mesh/Mesh.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
 				CURRENT_PROJECT_VERSION = 30;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6YTW2279GH;
@@ -781,7 +779,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = Mesh/Info.plist;
+				INFOPLIST_FILE = "Mesh/Support Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tinder.Mesh;
@@ -797,14 +795,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Mesh/Mesh.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
 				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = Mesh/Info.plist;
+				INFOPLIST_FILE = "Mesh/Support Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tinder.Mesh;

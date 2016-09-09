@@ -68,7 +68,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         let quickViewStack = UIStackView(arrangedSubviews: [bar(), control.stack!, bar()])
         quickViewStack.distribution = .fillProportionally
         quickViewStack.alignment = .center
-        quickViewStack.spacing = 10
+        quickViewStack.spacing = 0
         
         viewPager = ViewPager(views: QuickViewGenerator.viewsForDetails(card?.person?.details))
         viewPager?.scroll.panGestureRecognizer.require(toFail: gestureRec!)
@@ -79,11 +79,15 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! : "Micha Kaufman"
         position.text = "VP of Engineering at Tesla"
 
-        let bottomStack = UIStackView(arrangedSubviews: [name, position, quickViewStack, viewPager!.scroll])
+        let namePositionContainer = UIView()
+        namePositionContainer.accessibilityIdentifier = "namePositionContainer"
+        namePositionContainer.addSubviews(name, position)
+        
+        let bottomStack = UIStackView(arrangedSubviews: [namePositionContainer, quickViewStack, viewPager!.scroll])
         bottomStack.axis = .vertical
         bottomStack.distribution = .fillProportionally
         bottomStack.alignment = .fill
-//        bottomStack.constrain((.height, 200))
+        bottomStack.constrain((.height, 200))
         
         let topStack = UIStackView(arrangedSubviews: [imageView, bottomStack])
         topStack.axis = .vertical
@@ -96,10 +100,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         viewPager!.scroll.backgroundColor = .white
         viewPager!.scroll.constrain(.width, .centerX, toItem: view)
 
-        name.constrain(.leading, toItem: position)
-        
         imageView.constrain(.bottom, constant: -11, toItem: name, toAttribute: .top)
-        position.constrain(.bottom, constant: -8, toItem: quickViewStack, toAttribute: .top)
 
         topStack.translates = false
         topStack.constrain(.top, .width, toItem: view)
@@ -119,8 +120,12 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         logo.constrain(.leading, constant: 15, toItem: view)
         logo.constrain(.bottom, constant: 62 - 15, toItem: imageView)
 
+        name.constrain(.top, constant: 11, toItem: namePositionContainer)
         name.constrain(.leading, constant: 15, toItem: logo, toAttribute: .trailing)
-        position.constrain(.leading, constant: 15, toItem: logo, toAttribute: .trailing)
+        
+        position.constrain(.leading, toItem: name)
+        position.constrain(.top, constant: 0, toItem: name, toAttribute: .bottom)
+        position.constrain(.bottom, constant: -8, toItem: namePositionContainer)
 
         view.addSubview(overlayView)
         overlayView.constrain(.width, .height, .centerX, .centerY, toItem: view)
@@ -167,7 +172,9 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
             $0.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
             $0.constrain(.height, constant: 1)
             $0.constrain(.width, relatedBy: .lessThanOrEqual, constant: 80)
-            $0.constrain(.width, relatedBy: .greaterThanOrEqual, constant: 40)
+            let greater = $0.constraint(.width, relatedBy: .greaterThanOrEqual, constant: 40)
+            greater.priority = UILayoutPriorityDefaultHigh
+            greater.isActive = true
         }
     }
     
@@ -322,7 +329,6 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         transition.presenting = false; return transition
     }
-//TODO:     
 //    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
 //        transition.cardVC = self
 //        transition.presenting = true
