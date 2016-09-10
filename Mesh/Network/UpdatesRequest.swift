@@ -15,16 +15,18 @@ struct UpdatesRequest : AuthenticatedRequest {
     
     func parameters() -> [String : Any] { return ["last_update": last_update] }
     
-    static func now() -> UpdatesRequest {
-        return UpdatesRequest(last_update: Int((Date().timeIntervalSince1970 - 20)*1000))
+    static func latest() -> UpdatesRequest {
+        return UpdatesRequest(last_update: (UserDefaults.standard["last_update"] as? Int) ?? 0)
     }
     
-    static func fresh() -> UpdatesRequest {
-        return UpdatesRequest(last_update: 0)//Int(Date().timeIntervalSince1970*1000))
-    }
+    static func fresh() -> UpdatesRequest { return UpdatesRequest(last_update: 0) }
     
     static func persist(_ response: Response<Any, NSError>) {
         guard let json = response.result.value as? JSONDictionary else { return }
+        
+        guard let last_update = json["last_update"] as? Int else { return }
+        UserDefaults.standard.set(last_update + 1, forKey: "last_update")
+        
         guard let connections = json["connections"] as? JSONDictionary else { persistMessages(json); return }
         guard let connectionsInner = connections["connections"] as? JSONArray else { persistMessages(json); return }
         UserResponse.connections = connectionsInner.map({ return Connection(JSON: $0) }).filter({ return $0.user._id != UserResponse.current?._id }).sorted(by: { return $0.user.first_name! < $1.user.first_name! })
@@ -42,11 +44,8 @@ struct UpdatesRequest : AuthenticatedRequest {
         guard let json = response.result.value as? JSONDictionary else { return }
         
         guard let last_update = json["last_update"] as? Int else { return }
-        if last_update == (UserDefaults.standard["last_update"] as? Int) {
-            return
-        }
-
-        UserDefaults.standard.set(last_update, forKey: "last_update")
+        UserDefaults.standard.set(last_update + 1, forKey: "last_update")
+        
         guard let connections = json["connections"] as? JSONDictionary else { self.appendMessages(json); return }
         guard let connectionsInner = connections["connections"] as? JSONArray else {self.appendMessages(json); return }
         UserResponse.connections?.append(contentsOf: connectionsInner.map({ return Connection(JSON: $0) }).filter({ return $0.user._id != UserResponse.current?._id }).sorted(by: { return $0.user.first_name! < $1.user.first_name! }))

@@ -22,11 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         window?.tintColor = #colorLiteral(red: 0.2, green: 0.7843137255, blue: 0.9960784314, alpha: 1)
 
         if TARGET_IPHONE_SIMULATOR == 0 { Fabric.with([Crashlytics.self]) }
+        NotificationCenter.default.addObserver(self, selector: #selector(logout(_:)), name: .logout, object: nil)
 
         if (Token.retrieveToken() != nil && Token.retrieveToken() != "") {
             guard let JSON = UserDefaults.standard["CurrentUser"] as? JSONDictionary else { logout(UIKeyCommand()); return true}
             UserResponse.current = UserResponse(JSON: JSON)
-            NotificationCenter.default.addObserver(self, selector: #selector(logout(_:)), name: .logout, object: nil)
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
             window?.rootViewController = vc
             let tab = window?.rootViewController as! UITabBarController

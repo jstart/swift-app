@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		234FA1791D83D45D00670E1D /* PhoneNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234FA1771D83D45D00670E1D /* PhoneNumberFormatter.swift */; };
+		234FA17A1D83D45D00670E1D /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234FA1781D83D45D00670E1D /* StringExtension.swift */; };
 		236E27B81D67C9D2002ABAB4 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27B71D67C9D2002ABAB4 /* Token.swift */; };
 		237827231D7B50B20059AB37 /* CardRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237827221D7B50B20059AB37 /* CardRequest.swift */; };
 		238271941D7E92E40005F254 /* ContactsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238271931D7E92E40005F254 /* ContactsRequest.swift */; };
 		23C872201D83753200B21AB6 /* PreviewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721B1D83753200B21AB6 /* PreviewError.swift */; };
 		23C872211D83753200B21AB6 /* PreviewErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721C1D83753200B21AB6 /* PreviewErrorTypes.swift */; };
 		23C872221D83753200B21AB6 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721D1D83753200B21AB6 /* Regex.swift */; };
-		23C872231D83753200B21AB6 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721E1D83753200B21AB6 /* StringExtension.swift */; };
 		23C872241D83753200B21AB6 /* SwiftLinkPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721F1D83753200B21AB6 /* SwiftLinkPreview.swift */; };
 		23C8722D1D83759A00B21AB6 /* AddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872261D83759A00B21AB6 /* AddCardView.swift */; };
 		23C8722E1D83759A00B21AB6 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872271D83759A00B21AB6 /* CardView.swift */; };
@@ -85,6 +86,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		234FA1771D83D45D00670E1D /* PhoneNumberFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberFormatter.swift; sourceTree = "<group>"; };
+		234FA1781D83D45D00670E1D /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		236E27B71D67C9D2002ABAB4 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		237827221D7B50B20059AB37 /* CardRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardRequest.swift; sourceTree = "<group>"; };
 		237B78661D78FB2E0018347A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
@@ -95,7 +98,6 @@
 		23C8721B1D83753200B21AB6 /* PreviewError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewError.swift; sourceTree = "<group>"; };
 		23C8721C1D83753200B21AB6 /* PreviewErrorTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewErrorTypes.swift; sourceTree = "<group>"; };
 		23C8721D1D83753200B21AB6 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
-		23C8721E1D83753200B21AB6 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		23C8721F1D83753200B21AB6 /* SwiftLinkPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftLinkPreview.swift; sourceTree = "<group>"; };
 		23C872261D83759A00B21AB6 /* AddCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCardView.swift; sourceTree = "<group>"; };
 		23C872271D83759A00B21AB6 /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -199,7 +201,6 @@
 				23C8721B1D83753200B21AB6 /* PreviewError.swift */,
 				23C8721C1D83753200B21AB6 /* PreviewErrorTypes.swift */,
 				23C8721D1D83753200B21AB6 /* Regex.swift */,
-				23C8721E1D83753200B21AB6 /* StringExtension.swift */,
 				23C8721F1D83753200B21AB6 /* SwiftLinkPreview.swift */,
 			);
 			path = SwiftLinkPreview;
@@ -328,6 +329,8 @@
 		23C872971D8377C000B21AB6 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				234FA1771D83D45D00670E1D /* PhoneNumberFormatter.swift */,
+				234FA1781D83D45D00670E1D /* StringExtension.swift */,
 				23C872981D8377C000B21AB6 /* Colors.swift */,
 				23C872991D8377C000B21AB6 /* Extensions.swift */,
 				23C8729A1D8377C000B21AB6 /* Keychain.swift */,
@@ -605,9 +608,11 @@
 				23C872601D83762900B21AB6 /* CardDetailViewController.swift in Sources */,
 				237827231D7B50B20059AB37 /* CardRequest.swift in Sources */,
 				23C872321D83759A00B21AB6 /* QRCardView.swift in Sources */,
+				234FA17A1D83D45D00670E1D /* StringExtension.swift in Sources */,
 				23C8726C1D83762900B21AB6 /* ViewPager.swift in Sources */,
 				23C8729B1D8377C000B21AB6 /* Colors.swift in Sources */,
 				23C872781D83769C00B21AB6 /* AlertTransition.swift in Sources */,
+				234FA1791D83D45D00670E1D /* PhoneNumberFormatter.swift in Sources */,
 				23C8727F1D8376C000B21AB6 /* JoinTableViewController.swift in Sources */,
 				23C872661D83762900B21AB6 /* QuickViewGenerator.swift in Sources */,
 				AD4E2E1E1D5A75ED00130811 /* Client.swift in Sources */,
@@ -638,7 +643,6 @@
 				23C8722D1D83759A00B21AB6 /* AddCardView.swift in Sources */,
 				23C8725F1D83762900B21AB6 /* CardDetailTransition.swift in Sources */,
 				23C872881D8376D600B21AB6 /* SwipeState.swift in Sources */,
-				23C872231D83753200B21AB6 /* StringExtension.swift in Sources */,
 				23C872961D83776700B21AB6 /* EventsTableViewController.swift in Sources */,
 				23C8722E1D83759A00B21AB6 /* CardView.swift in Sources */,
 				23C872331D83759A00B21AB6 /* ScanViewController.swift in Sources */,
@@ -776,7 +780,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
-				CURRENT_PROJECT_VERSION = 32;
+				CURRENT_PROJECT_VERSION = 33;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -800,7 +804,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
-				CURRENT_PROJECT_VERSION = 32;
+				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

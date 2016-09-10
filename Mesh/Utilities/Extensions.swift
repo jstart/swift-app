@@ -94,8 +94,7 @@ extension UIBarButtonItem {
 extension UITableView {
     func registerClass(_ cellClasses: AnyClass...) {
         for aClass in cellClasses {
-            let string = String(describing: aClass)
-            register(aClass, forCellReuseIdentifier: string)
+            register(aClass, forCellReuseIdentifier: String(describing: aClass))
         }
     }
     
@@ -185,11 +184,7 @@ extension UIViewController {
 }
 
 extension UserDefaults {
-    subscript(key: String) -> AnyObject? {
-        get {
-            return object(forKey: key) as AnyObject?
-        }
-    }
+    subscript(key: String) -> Any? { return object(forKey: key) }
 }
 
 extension Int {

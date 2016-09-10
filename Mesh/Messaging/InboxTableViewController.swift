@@ -50,14 +50,23 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        todoMessages = Array(UserResponse.messages?.filter({$0.sender != UserResponse.current?._id && $0.text != ""}).prefix(2) ?? [])
+        guard let valid = UserResponse.messages?.filter({$0.sender != UserResponse.current?._id && $0.text != ""}) else { return }
+        guard let first = valid.first else { self.tableView.reloadData(); return }
+        todoMessages = [first]
+        guard let second = valid.filter({$0.sender != first.sender && $0.text != ""}).first else { self.tableView.reloadData(); return }
+        todoMessages.append(second)
+        
         refresh()
     }
     
     func refresh() {
         Client.execute(UpdatesRequest.fresh(), completionHandler: { response in
            UpdatesRequest.persist(response)
-            self.todoMessages = Array(UserResponse.messages?.filter({$0.sender != UserResponse.current?._id && $0.text != ""}).prefix(2) ?? [])
+            guard let valid = UserResponse.messages?.filter({$0.sender != UserResponse.current?._id && $0.text != ""}) else { return }
+            guard let first = valid.first else { self.tableView.reloadData(); return }
+            self.todoMessages = [first]
+            guard let second = valid.filter({$0.sender != first.sender && $0.text != ""}).first else { self.tableView.reloadData(); return }
+            self.todoMessages.append(second)
             self.tableView.reloadData()
         })
     }

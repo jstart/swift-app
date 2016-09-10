@@ -91,8 +91,8 @@ class MessagesViewController: JSQMessagesViewController {
     }
     
     func refresh() {
-        Client.execute(UpdatesRequest.fresh(), completionHandler: { response in
-            UpdatesRequest.persist(response)
+        Client.execute(UpdatesRequest.latest(), completionHandler: { response in
+            UpdatesRequest.append(response)
             if self.meshMessages?.count != UserResponse.messages?.filter({return ($0.recipient == self.recipient?.user._id || $0.sender == self.recipient?.user._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts}).count {
                 self.messages.removeAll()
 
@@ -110,6 +110,8 @@ class MessagesViewController: JSQMessagesViewController {
     func toggleReadState() {
         guard let recipient = recipient else { return }
         Client.execute(MarkReadRequest(read: !recipient.read, id: recipient.user._id), completionHandler: { _ in })
+        
+        Snackbar(title: "Marked " + (!recipient.read ? "Read" : "Unread")).presentIn(view)
     }
     
     func overflow() {

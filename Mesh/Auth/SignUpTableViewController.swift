@@ -12,7 +12,8 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
 
     var phoneField : UITextField?
     var passwordField : UITextField?
-    
+    var formatter = PhoneNumberFormatter()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Sign Up"
@@ -43,12 +44,21 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
         
         cell.addSubview(field)
         field.constrain(.leadingMargin, .trailing, .height, .centerY, toItem: cell)
-        if indexPath.section == 0 { phoneField = field } else { passwordField = field }
+        if indexPath.section == 0 {
+            phoneField = field
+            phoneField?.placeholder = "(555) 123-4567"
+            phoneField?.keyboardType = .phonePad
+            phoneField?.autocapitalizationType = .none
+            phoneField?.autocorrectionType = .no
+        } else {
+            passwordField = field
+            passwordField?.isSecureTextEntry = true
+        }
         return cell
     }
     
     func signUp() {
-        Client.execute(AuthRequest(phone_number: phoneField!.text!, password: passwordField!.text!, password_verify: passwordField!.text!), completionHandler: { response in
+        Client.execute(AuthRequest(phone_number: phoneField!.text!.onlyNumbers(), password: passwordField!.text!, password_verify: passwordField!.text!), completionHandler: { response in
             if response.result.value != nil {
                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
                 UIApplication.shared.delegate!.window??.rootViewController = vc
@@ -63,6 +73,8 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool { if textField == passwordField { signUp() }; return true }
+    
+    func format() { phoneField?.text = formatter.format(phoneField?.text ?? "") }
     
     override var canBecomeFirstResponder: Bool { return true }
     override var keyCommands: [UIKeyCommand]? {
