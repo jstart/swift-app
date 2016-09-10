@@ -68,6 +68,7 @@
 		23C8729B1D8377C000B21AB6 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872981D8377C000B21AB6 /* Colors.swift */; };
 		23C8729C1D8377C000B21AB6 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872991D8377C000B21AB6 /* Extensions.swift */; };
 		23C8729D1D8377C000B21AB6 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8729A1D8377C000B21AB6 /* Keychain.swift */; };
+		23C9D0FA1D8386B4004B274F /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 23C9D0F91D8386B4004B274F /* Settings.bundle */; };
 		23DFB67A1D653E1E00D871A9 /* PositionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DFB6791D653E1E00D871A9 /* PositionRequest.swift */; };
 		23DFB67C1D654B3C00D871A9 /* ProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DFB67B1D654B3C00D871A9 /* ProfileRequest.swift */; };
 		23F8179E1D78F790006AE3F3 /* MGSwipeTableCell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F8179D1D78F790006AE3F3 /* MGSwipeTableCell.framework */; };
@@ -149,6 +150,7 @@
 		23C872981D8377C000B21AB6 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		23C872991D8377C000B21AB6 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		23C8729A1D8377C000B21AB6 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		23C9D0F91D8386B4004B274F /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = "Support Files/Settings.bundle"; sourceTree = "<group>"; };
 		23DFB6791D653E1E00D871A9 /* PositionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionRequest.swift; sourceTree = "<group>"; };
 		23DFB67B1D654B3C00D871A9 /* ProfileRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileRequest.swift; sourceTree = "<group>"; };
 		23F8179D1D78F790006AE3F3 /* MGSwipeTableCell.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MGSwipeTableCell.framework; path = Carthage/Build/iOS/MGSwipeTableCell.framework; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 		23C872161D83747800B21AB6 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
+				23C9D0F91D8386B4004B274F /* Settings.bundle */,
 				23C872171D83751100B21AB6 /* Info.plist */,
 				23C872181D83751100B21AB6 /* Mesh.entitlements */,
 				ADECA8F01D51540900726AEF /* LaunchScreen.storyboard */,
@@ -495,6 +498,7 @@
 				23C8726A1D83762900B21AB6 /* UserDetailTableViewCell.xib in Resources */,
 				23C872451D83760300B21AB6 /* ConnectionTableViewCell.xib in Resources */,
 				23C872631D83762900B21AB6 /* CardViewController.xib in Resources */,
+				23C9D0FA1D8386B4004B274F /* Settings.bundle in Resources */,
 				ADECA8ED1D51540900726AEF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -528,7 +532,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "TAGS=\"TODO|FIXME\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\nif [[ $SDK_NAME =~ \"simulator\" ]]; then\n    echo \"Don't run Fabric on simulator\"\nelse\n    \"${PODS_ROOT}/Fabric/run\" 989edf1546be462b4dee7b5abb41d7a67588ac19 b318dae747787f6717b90194e252a3b0a3c425dc2741b71820e4d9e754948cb0\nfi";
+			shellScript = "TAGS=\"TODO|FIXME\"\nfind \"${SRCROOT}/Mesh\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\nif [[ $SDK_NAME =~ \"simulator\" ]]; then\n    echo \"Don't run Fabric on simulator\"\nelse\n    \"${PODS_ROOT}/Fabric/run\" 989edf1546be462b4dee7b5abb41d7a67588ac19 b318dae747787f6717b90194e252a3b0a3c425dc2741b71820e4d9e754948cb0\nfi";
 		};
 		23F8179C1D78F6D0006AE3F3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -542,7 +546,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "carthage copy-frameworks";
+			shellScript = "carthage copy-frameworks\n#cp \"${SRCROOT}/Pods/Target\\ Support\\ Files/Pods-Mesh/Pods-Mesh-acknowledgements.plist\" \"${SRCROOT}/Mesh/Support Files/Settings.bundle/Pods-acknowledgements.plist\"";
 		};
 		B31F06ACCE7DC4F1847DADBF /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
