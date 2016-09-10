@@ -61,7 +61,10 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     
     func refresh() {
         Client.execute(UpdatesRequest.fresh(), completionHandler: { response in
-           UpdatesRequest.append(response)
+            //TODO: updates won't reflect read/unread state unless we fetch a fresh copy of everything
+            UserResponse.connections = []
+            UserResponse.messages = []
+            UpdatesRequest.append(response)
             let valid = UserResponse.messages.filter({$0.sender != UserResponse.current?._id && $0.text != ""})
             guard let first = valid.first else { self.tableView.reloadData(); return }
             self.todoMessages = [first]
@@ -176,9 +179,8 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 
                 let title = connection.read ? "Mark Unread" : "Mark Read"
                 cell.rightButtons = [MGSwipeButton(title: title, backgroundColor: Colors.brand, callback: { sender in
-                    Client.execute(MarkReadRequest(read: !connection.read, id: connection.user._id), completionHandler: { _ in })
+                    Client.execute(MarkReadRequest(read: !connection.read, id: connection.user._id), completionHandler: { _ in self.refresh() })
                     cell.add(read: !connection.read)
-                    self.refresh()
                     return true
                 }),
                  MGSwipeButton(title: "Mute", backgroundColor: .gray, callback: { sender in return true }),
@@ -199,7 +201,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             
             let title = connection.read ? "Mark Unread" : "Mark Read"
             cell.rightButtons = [MGSwipeButton(title: title, backgroundColor: Colors.brand, callback: { sender in
-                Client.execute(MarkReadRequest(read: !connection.read, id: connection.user._id), completionHandler: { _ in })
+                Client.execute(MarkReadRequest(read: !connection.read, id: connection.user._id), completionHandler: { _ in self.refresh() })
                 cell.add(read: !connection.read)
                 self.refresh()
                 return true
