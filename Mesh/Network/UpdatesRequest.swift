@@ -15,30 +15,9 @@ struct UpdatesRequest : AuthenticatedRequest {
     
     func parameters() -> [String : Any] { return ["last_update": last_update] }
     
-    static func latest() -> UpdatesRequest {
-        return UpdatesRequest(last_update: (UserDefaults.standard["last_update"] as? Int) ?? 0)
-    }
+    static func latest() -> UpdatesRequest { return UpdatesRequest(last_update: (UserDefaults.standard["last_update"] as? Int) ?? 0) }
     
     static func fresh() -> UpdatesRequest { return UpdatesRequest(last_update: 0) }
-    
-    static func persist(_ response: Response<Any, NSError>) {
-        guard let json = response.result.value as? JSONDictionary else { return }
-        
-        guard let last_update = json["last_update"] as? Int else { return }
-        UserDefaults.standard.set(last_update + 1, forKey: "last_update")
-        
-        guard let connections = json["connections"] as? JSONDictionary else { persistMessages(json); return }
-        guard let connectionsInner = connections["connections"] as? JSONArray else { persistMessages(json); return }
-        UserResponse.connections = connectionsInner.map({ return Connection(JSON: $0) }).filter({ return $0.user._id != UserResponse.current?._id }).sorted(by: { return $0.user.first_name! < $1.user.first_name! })
-        
-        persistMessages(json)
-    }
-    
-    static func persistMessages(_ json : JSONDictionary){
-        guard let messages = json["messages"] as? JSONDictionary else { return }
-        guard let messagesInner = messages["messages"] as? JSONArray else { return }
-        UserResponse.messages = messagesInner.map({return MessageResponse(JSON: $0)}).sorted(by: { $0.ts > $1.ts})
-    }
     
     static func append(_ response: Response<Any, NSError>) {
         guard let json = response.result.value as? JSONDictionary else { return }
@@ -46,17 +25,15 @@ struct UpdatesRequest : AuthenticatedRequest {
         guard let last_update = json["last_update"] as? Int else { return }
         UserDefaults.standard.set(last_update + 1, forKey: "last_update")
         
-        guard let connections = json["connections"] as? JSONDictionary else { self.appendMessages(json); return }
-        guard let connectionsInner = connections["connections"] as? JSONArray else {self.appendMessages(json); return }
-        UserResponse.connections?.append(contentsOf: connectionsInner.map({ return Connection(JSON: $0) }).filter({ return $0.user._id != UserResponse.current?._id }).sorted(by: { return $0.user.first_name! < $1.user.first_name! }))
+        guard let connections = ((json["connections"] as? JSONDictionary)?["connections"] as? JSONArray) else { self.appendMessages(json); return }
+        UserResponse.connections.append(contentsOf: connections.map({ return Connection(JSON: $0) }).filter({ return $0.user._id != UserResponse.current?._id }).sorted(by: { return $0.user.first_name! < $1.user.first_name! }))
         
         appendMessages(json)
     }
     
     static func appendMessages(_ json : JSONDictionary){
-        guard let messages = json["messages"] as? JSONDictionary else { return }
-        guard let messagesInner = messages["messages"] as? JSONArray else { return }
-        UserResponse.messages?.append(contentsOf: messagesInner.map({return MessageResponse(JSON: $0)}).sorted(by: { $0.ts > $1.ts}))
+        guard let messages = (json["messages"] as? JSONDictionary)?["messages"] as? JSONArray else { return }
+        UserResponse.messages.append(contentsOf: messages.map({return MessageResponse(JSON: $0)}).sorted(by: { $0.ts > $1.ts}))
     }
 }
 

@@ -52,7 +52,7 @@ class InboxSearchTableViewController: UITableViewController {
     }
     
     func filterBy(text: String) {
-        filteredConnections = UserResponse.connections?.map({ return $0.user }).filter({return $0.searchText().localizedCaseInsensitiveContains(text)}) ?? [UserResponse]()
+        filteredConnections = UserResponse.connections.map({ return $0.user }).filter({return $0.searchText().localizedCaseInsensitiveContains(text)}) 
         tableView.reloadData()
     }
     

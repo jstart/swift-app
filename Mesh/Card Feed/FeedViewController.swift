@@ -37,9 +37,7 @@ class FeedViewController: UIViewController {
             })
         }
         
-        Client.execute(UpdatesRequest.fresh(), completionHandler: { response in
-            UpdatesRequest.persist(response)
-        })
+        Client.execute(UpdatesRequest.fresh(), completionHandler: { response in UpdatesRequest.append(response) })
 
         locationManager.locationUpdate = { loc in
             Client.execute(PositionRequest(lat: loc.coordinate.latitude, lon: loc.coordinate.longitude), completionHandler: { response in

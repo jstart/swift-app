@@ -65,8 +65,8 @@ struct Connection {
 
 struct UserResponse {
     static var current : UserResponse?
-    static var connections : [Connection]?
-    static var messages : [MessageResponse]?
+    static var connections = [Connection]()
+    static var messages = [MessageResponse]()
 
     var _id : String,
         phone_number : String?,

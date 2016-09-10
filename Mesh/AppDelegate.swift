@@ -63,8 +63,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         Token.persistToken("")
         Token.persistLogin((phone_number: "", password: ""))
         UserResponse.current = nil
-        UserResponse.connections = nil
-        UserResponse.messages = nil
+        UserResponse.connections = []
+        UserResponse.messages = []
         CardResponse.cards = nil
         URLCache.shared.removeAllCachedResponses()
         let vc = JoinTableViewController(style: .grouped)

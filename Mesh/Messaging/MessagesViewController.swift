@@ -93,10 +93,10 @@ class MessagesViewController: JSQMessagesViewController {
     func refresh() {
         Client.execute(UpdatesRequest.latest(), completionHandler: { response in
             UpdatesRequest.append(response)
-            if self.meshMessages?.count != UserResponse.messages?.filter({return ($0.recipient == self.recipient?.user._id || $0.sender == self.recipient?.user._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts}).count {
+            if self.meshMessages?.count != UserResponse.messages.filter({return ($0.recipient == self.recipient?.user._id || $0.sender == self.recipient?.user._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts}).count {
                 self.messages.removeAll()
 
-                self.meshMessages = UserResponse.messages?.filter({return ($0.recipient == self.recipient?.user._id || $0.sender == self.recipient?.user._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts})
+                self.meshMessages = UserResponse.messages.filter({return ($0.recipient == self.recipient?.user._id || $0.sender == self.recipient?.user._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts})
                 self.meshMessages?.forEach({
                     let message = JSQMessage(senderId: $0.sender, senderDisplayName: self.senderDisplayName(), date: Date(timeIntervalSince1970: TimeInterval($0.ts/1000)), text: $0.text!)
                     self.messages.append(message)
