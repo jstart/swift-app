@@ -15,7 +15,8 @@ pod 'JSQMessagesViewController', :git => 'https://github.com/jessesquires/JSQMes
 
 #pod 'NearbyMessages'
 pod 'TwitterKit'
-pod 'TwitterCore'
+#pod 'TwitterCore'
+pod 'Crashlytics'
 pod 'Fabric'
 
 post_install do |installer|

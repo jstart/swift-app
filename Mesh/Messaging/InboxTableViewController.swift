@@ -55,15 +55,8 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
     
     func refresh() {
-        Client.execute(UpdatesRequest.now(), completionHandler: { response in
-            guard let json = response.result.value as? JSONDictionary else { return }
-            guard let connections = json["connections"] as? JSONDictionary else { return }
-            guard let connectionsInner = connections["connections"] as? JSONArray else { return }
-            UserResponse.connections = connectionsInner.map({ return Connection(JSON: $0) }).filter({ return $0.user._id != UserResponse.current?._id }).sorted(by: { return $0.user.first_name! < $1.user.first_name! })
-            
-            guard let messages = json["messages"] as? JSONDictionary else { return }
-            guard let messagesInner = messages["messages"] as? JSONArray else { return }
-            UserResponse.messages = messagesInner.map({return MessageResponse(JSON: $0)}).sorted(by: { $0.ts > $1.ts})
+        Client.execute(UpdatesRequest.fresh(), completionHandler: { response in
+           UpdatesRequest.persist(response)
             self.todoMessages = Array(UserResponse.messages?.filter({$0.sender != UserResponse.current?._id && $0.text != ""}).prefix(2) ?? [])
             self.tableView.reloadData()
         })

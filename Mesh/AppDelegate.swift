@@ -8,7 +8,7 @@
 
 import UIKit
 import Fabric
-import TwitterKit
+import Crashlytics
 //import Starscream
 
 @UIApplicationMain
@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         window = UIWindow()
         window?.tintColor = #colorLiteral(red: 0.2, green: 0.7843137255, blue: 0.9960784314, alpha: 1)
 
-        if TARGET_IPHONE_SIMULATOR == 0 { Fabric.with([Twitter.self]) }
+        if TARGET_IPHONE_SIMULATOR == 0 { Fabric.with([Crashlytics.self]) }
 
         if (Token.retrieveToken() != nil && Token.retrieveToken() != "") {
             guard let JSON = UserDefaults.standard["CurrentUser"] as? JSONDictionary else { logout(UIKeyCommand()); return true}
@@ -65,6 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         UserResponse.current = nil
         UserResponse.connections = nil
         UserResponse.messages = nil
+        CardResponse.cards = nil
         URLCache.shared.removeAllCachedResponses()
         let vc = JoinTableViewController(style: .grouped)
         window?.rootViewController = UINavigationController(rootViewController: vc)

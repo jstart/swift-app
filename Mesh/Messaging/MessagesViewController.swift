@@ -15,7 +15,7 @@ class MessagesViewController: JSQMessagesViewController {
     var recipient : Connection?
     var meshMessages : [MessageResponse]?
     let label = UILabel(translates: false).then { $0.constrain(.height, constant: 44) }
-    
+    var timer : Timer?
     let imageView = UIImageView(translates: false).then {
         $0.layer.cornerRadius = 5.0
         $0.clipsToBounds = true
@@ -38,6 +38,7 @@ class MessagesViewController: JSQMessagesViewController {
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(editMessage(_:)))
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(deleteMessage(_:)))
         inputToolbar.preferredDefaultHeight = 200
+        
 //        TWTRAPIClient().loadTweet(withID: "631879971628183552") { (tweet, error) in
 //            guard let unwrappedTweet = tweet else { print("Tweet load error:\(error!.localizedDescription)"); return }
 //            let media = TwitterMessageMedia(TWTRTweetView(tweet: unwrappedTweet))
@@ -51,15 +52,12 @@ class MessagesViewController: JSQMessagesViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        meshMessages = UserResponse.messages?.filter({return ($0.recipient == recipient?.user._id || $0.sender == recipient?.user._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts})
-        meshMessages?.forEach({
-            let message = JSQMessage(senderId: $0.sender, senderDisplayName: self.senderDisplayName(), date: Date(timeIntervalSince1970: TimeInterval($0.ts/1000)), text: $0.text!)
-            self.messages.append(message)
-            self.collectionView?.reloadData()
-        })
-        showTypingIndicator = true
+        self.refresh()
+
+//        showTypingIndicator = true
         
         Client.execute(MarkReadRequest(read: true, id: recipient?.user._id ?? "")) { _ in }
+        timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(refresh), userInfo: nil, repeats: true)
     }
     
     override func viewWillLayoutSubviews() {
@@ -85,6 +83,28 @@ class MessagesViewController: JSQMessagesViewController {
 
         guard let url = recipient?.user.photos?.large else { return }
         imageView.af_setImage(withURL: URL(string: url)!)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        timer?.invalidate()
+    }
+    
+    func refresh() {
+        Client.execute(UpdatesRequest.fresh(), completionHandler: { response in
+            UpdatesRequest.persist(response)
+            if self.meshMessages?.count != UserResponse.messages?.filter({return ($0.recipient == self.recipient?.user._id || $0.sender == self.recipient?.user._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts}).count {
+                self.messages.removeAll()
+
+                self.meshMessages = UserResponse.messages?.filter({return ($0.recipient == self.recipient?.user._id || $0.sender == self.recipient?.user._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts})
+                self.meshMessages?.forEach({
+                    let message = JSQMessage(senderId: $0.sender, senderDisplayName: self.senderDisplayName(), date: Date(timeIntervalSince1970: TimeInterval($0.ts/1000)), text: $0.text!)
+                    self.messages.append(message)
+                })
+                self.collectionView?.reloadData()
+                self.collectionView?.scrollToItem(at: IndexPath(item: self.messages.count - 1, section: 0), at: .bottom, animated: false)
+            }
+        })
     }
     
     func toggleReadState() {

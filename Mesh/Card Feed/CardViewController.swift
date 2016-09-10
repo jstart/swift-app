@@ -24,6 +24,10 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         $0.backgroundColor = .white
         $0.contentMode = .scaleAspectFill
         $0.translates = false
+        $0.layer.borderWidth = 1;
+        $0.layer.borderColor = UIColor.clear.cgColor
+        $0.layer.rasterizationScale = UIScreen.main.scale
+        $0.layer.shouldRasterize = true
     }
     let transition = CardDetailTransition()
     

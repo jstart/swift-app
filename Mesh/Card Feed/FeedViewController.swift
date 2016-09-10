@@ -32,19 +32,13 @@ class FeedViewController: UIViewController {
         if TARGET_OS_SIMULATOR == 1 {
             Client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
                 guard let JSON = response.result.value as? JSONDictionary else { return }
+                guard JSON["msg"] == nil else { NotificationCenter.default.post(name: .logout, object: nil); return }
                 UserResponse.current = UserResponse(JSON: JSON)
             })
         }
         
-        Client.execute(UpdatesRequest.now(), completionHandler: { response in
-            guard let json = response.result.value as? JSONDictionary else { return }
-            guard let connections = json["connections"] as? JSONDictionary else { return }
-            guard let connectionsInner = connections["connections"] as? JSONArray else { return }
-            UserResponse.connections = connectionsInner.map({ return Connection(JSON: $0) }).filter({ return $0.user._id != UserResponse.current?._id }).sorted(by: { return $0.user.first_name! < $1.user.first_name! })
-            
-            guard let messages = json["messages"] as? JSONDictionary else { return }
-            guard let messagesInner = messages["messages"] as? JSONArray else { return }
-            UserResponse.messages = messagesInner.map({return MessageResponse(JSON: $0)}).sorted(by: { $0.ts > $1.ts})
+        Client.execute(UpdatesRequest.fresh(), completionHandler: { response in
+            UpdatesRequest.persist(response)
         })
 
         locationManager.locationUpdate = { loc in
