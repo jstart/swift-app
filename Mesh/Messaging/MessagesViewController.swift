@@ -112,9 +112,9 @@ class MessagesViewController: JSQMessagesViewController {
     
     func toggleReadState() {
         guard let recipient = recipient else { return }
-        Client.execute(MarkReadRequest(read: !recipient.read, id: recipient.user._id), completionHandler: { _ in })
+        Client.execute(MarkReadRequest(read: !recipient.read, id: recipient.user._id), completionHandler: { _ in self.recipient?.read = !recipient.read })
         
-        Snackbar(title: "Marked " + (!recipient.read ? "Read" : "Unread")).presentIn(view)
+        Snackbar(title: "Marked " + (!recipient.read ? "Read" : "Unread")).presentIn(inputToolbar)
     }
     
     func overflow() {
@@ -122,13 +122,14 @@ class MessagesViewController: JSQMessagesViewController {
 
         let title = recipient.read ? "Mark Unread" : "Mark Read"
         
-        let readState = UIAlertAction(title) { _ in self.toggleReadState() }
-        let mute = UIAlertAction("Mute") { _ in }
-        let block = UIAlertAction("Block") { _ in self.block() }
-        let cancel = UIAlertAction.cancel()
+        let readState = UIAlertAction(title) { _ in self.inputToolbar.fadeIn(); self.toggleReadState() }
+        let mute = UIAlertAction("Mute") { _ in self.inputToolbar.fadeIn() }
+        let block = UIAlertAction("Block") { _ in self.inputToolbar.fadeIn(); self.block() }
+        let cancel = UIAlertAction.cancel() { _ in self.inputToolbar.fadeIn() }
         let sheet = UIAlertController.sheet()
         sheet.addActions(readState, mute, block, cancel)
         present(sheet)
+        inputToolbar.alpha = 0.0
     }
     
     func block() {

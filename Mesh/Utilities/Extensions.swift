@@ -82,7 +82,7 @@ extension UIAlertAction {
     convenience init(_ title: String, style: UIAlertActionStyle = .default, handler: ((UIAlertAction) -> Swift.Void)? = nil) {
         self.init(title: title, style: style, handler: handler)
     }
-    static func cancel() -> UIAlertAction { return UIAlertAction("Cancel", style: .cancel) }
+    static func cancel(handler: ((UIAlertAction) -> Swift.Void)? = nil) -> UIAlertAction { return UIAlertAction("Cancel", style: .cancel, handler: handler) }
 }
 
 extension UIBarButtonItem {
@@ -150,7 +150,7 @@ extension UIView {
     var trailingConstraint: NSLayoutConstraint { return constraintFor(.trailing) }
     
     func constraintFor(_ attribute: NSLayoutAttribute, toItem: UIView? = nil) -> NSLayoutConstraint {
-        guard let item = toItem else {
+        guard let item = toItem as UIView! else {
             return constraints.filter({ return $0.firstAttribute == attribute }).first!
         }
         return constraints.filter({ return $0.firstAttribute == attribute && $0.firstItem as! UIView == item }).first!

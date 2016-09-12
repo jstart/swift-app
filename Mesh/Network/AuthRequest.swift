@@ -48,8 +48,8 @@ struct MessageResponse {
 
 struct ConnectionResponse {
     let _id: String,
-        user: UserResponse,
-        read: Bool,
+        user: UserResponse
+    var read: Bool,
         muted: Bool,
         update_date: Date
     
