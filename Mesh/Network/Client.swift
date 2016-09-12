@@ -35,14 +35,13 @@ extension Notification.Name {
 struct Client {
     static var baseURL = "http://dev.mesh.tinderventures.com:1337/"
     
-    static func upload(_ request : PhotoRequest, completionHandler: @escaping (Response<Any, NSError>) -> Void) {
-        Alamofire.upload(
-            multipartFormData: { multipartFormData in
-                //multipartFormData.append(request.file, withName: "picture")
-                multipartFormData.append(request.file, withName: "picture", fileName: "file.jpg", mimeType: "image/jpeg")
-            },
-            to: baseURL + request.path, withMethod: .post, headers: request.headers(),
-            encodingCompletion: { result in
+    static func upload(_ request : PhotoRequest, completionHandler: @escaping (DataResponse<Any>) -> Void) {
+        let fullPath = baseURL + request.path
+
+        Alamofire.upload(multipartFormData: { multipartFormData in
+            //multipartFormData.append(request.file, withName: "picture")
+            multipartFormData.append(request.file, withName: "picture", fileName: "file.jpg", mimeType: "image/jpeg")
+            }, to: fullPath, method: .post, headers: request.headers(), encodingCompletion: { result in
                 switch result {
                 case .success(let upload, _, _):
                     upload.responseJSON(completionHandler: completionHandler).validate()
@@ -50,12 +49,13 @@ struct Client {
                 case .failure:
                     break
                 }
-            })
+        })
     }
     
-    static func execute(_ request : Request, completionHandler: @escaping (Response<Any, NSError>) -> Void) {
+    static func execute(_ request : Request, completionHandler: @escaping (DataResponse<Any>) -> Void) {
         let fullPath = baseURL + request.path
-        Alamofire.request(fullPath, withMethod: request.method, parameters: request.parameters().count == 0 ? nil : request.parameters(), encoding: .json, headers: request.headers())
+
+        Alamofire.request(fullPath, method: request.method, parameters: request.parameters().count == 0 ? nil : request.parameters(), encoding: JSONEncoding(), headers: request.headers())
             .validate()
             .responseJSON { response in
                 if request is LogoutRequest {

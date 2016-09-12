@@ -18,7 +18,7 @@ struct UpdatesRequest : AuthenticatedRequest {
     static func latest() -> UpdatesRequest { return UpdatesRequest(last_update: (UserDefaults.standard["last_update"] as? Int) ?? 0) }
     static func fresh() -> UpdatesRequest { return UpdatesRequest(last_update: 0) }
     
-    static func append(_ response: Response<Any, NSError>, callback: @escaping (() -> Void) = {}) {
+    static func append(_ response: DataResponse<Any>, callback: @escaping (() -> Void) = {}) {
         DispatchQueue.global(qos: .userInitiated).async {
             guard let json = response.result.value as? JSONDictionary else { return }
             
