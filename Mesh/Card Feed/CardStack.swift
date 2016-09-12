@@ -12,7 +12,7 @@ protocol CardDelegate { func swiped(_ direction: UISwipeGestureRecognizerDirecti
 
 class CardStack : UIViewController, CardDelegate {
     
-    var cards : [Card]? = nil
+    var cards : [Rec]? = nil
     var topCard : CardViewController = CardViewController()
     var bottomCard : CardViewController = CardViewController()
     var cardIndex = 0
@@ -71,7 +71,7 @@ class CardStack : UIViewController, CardDelegate {
                 let array = jsonArray.map({return UserResponse(JSON: $0)})
                 self.cards?.append(contentsOf: array.map({
                     let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
-                    return Card(type: .person, person: Person(user: $0, details: details))
+                    return Rec(type: .person, person: Person(user: $0, details: details))
                 }))
             })
             cardIndex += 1

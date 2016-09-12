@@ -9,6 +9,8 @@
 import UIKit
 import Fabric
 import Crashlytics
+import CoreData
+
 //import Starscream
 
 @UIApplicationMain
@@ -27,6 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         if (Token.retrieveToken() != nil && Token.retrieveToken() != "") {
             guard let JSON = UserDefaults.standard["CurrentUser"] as? JSONDictionary else { logout(UIKeyCommand()); return true}
             UserResponse.current = UserResponse(JSON: JSON)
+            
+            LaunchData.fetchLaunchData()
+            
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
             window?.rootViewController = vc
             let tab = window?.rootViewController as! UITabBarController
@@ -48,11 +53,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
     func websocketDidReceiveMessage(_ socket: WebSocket, text: String){ }
     func websocketDidReceiveData(_ socket: WebSocket, data: Data){ }*/
 
-//    func applicationWillResignActive(_ application: UIApplication) { }
+    func applicationWillResignActive(_ application: UIApplication) {
+        CoreData.saveContext()
+    }
 //    func applicationDidEnterBackground(_ application: UIApplication) { }
 //    func applicationWillEnterForeground(_ application: UIApplication) { }
-//    func applicationDidBecomeActive(_ application: UIApplication) { }
-//    func applicationWillTerminate(_ application: UIApplication) { }
+    func applicationDidBecomeActive(_ application: UIApplication) { }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        CoreData.saveContext()
+    }
 
     override var canBecomeFirstResponder: Bool { return true }
     override var keyCommands: [UIKeyCommand]? {
@@ -65,9 +75,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         UserResponse.current = nil
         UserResponse.connections = []
         UserResponse.messages = []
-        CardResponse.cards = nil
+        CardResponse.cards = []
         URLCache.shared.removeAllCachedResponses()
         let vc = JoinTableViewController(style: .grouped)
         window?.rootViewController = UINavigationController(rootViewController: vc)
+        CoreData.delete()
     }
 }

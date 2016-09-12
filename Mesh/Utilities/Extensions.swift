@@ -79,7 +79,7 @@ extension UIAlertController {
 }
 
 extension UIAlertAction {
-    convenience init(_ title: String, style: UIAlertActionStyle = .default, handler: (@escaping (UIAlertAction) -> Swift.Void)? = nil) {
+    convenience init(_ title: String, style: UIAlertActionStyle = .default, handler: ((UIAlertAction) -> Swift.Void)? = nil) {
         self.init(title: title, style: style, handler: handler)
     }
     static func cancel() -> UIAlertAction { return UIAlertAction("Cancel", style: .cancel) }
@@ -158,11 +158,11 @@ extension UIView {
     
     func addSubviews(_ views: UIView...) { views.forEach { self.addSubview($0) } }
     
-    func fadeIn(duration: TimeInterval = 0.2, completion:(() -> Void) = {}) {
+    func fadeIn(duration: TimeInterval = 0.2, completion:@escaping (() -> Void) = {}) {
         alpha = 0.0; UIView.animate(withDuration: duration, animations: { self.alpha = 1.0 }, completion: { _ in completion() })
     }
     
-    func fadeOut(duration: TimeInterval = 0.2, completion:(() -> Void) = {}) {
+    func fadeOut(duration: TimeInterval = 0.2, completion:@escaping (() -> Void) = {}) {
         UIView.animate(withDuration: duration, animations: { self.alpha = 0.0 }, completion: { _ in completion() })
     }
 }
@@ -197,7 +197,7 @@ extension Int {
     }
 }
 
-extension IndexableBase {
+extension Collection {
     /// Returns the element at the specified index if it is within bounds, otherwise nil.
     public subscript(safe index: Index) -> _Element? {
         return index >= startIndex && index < endIndex ? self[index] : nil

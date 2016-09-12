@@ -46,10 +46,10 @@ struct MessageResponse {
     }
 }
 
-struct Connection {
+struct ConnectionResponse {
     let _id: String,
-        user: UserResponse
-    var read: Bool,
+        user: UserResponse,
+        read: Bool,
         muted: Bool,
         update_date: Date
     
@@ -65,7 +65,7 @@ struct Connection {
 
 struct UserResponse {
     static var current : UserResponse?
-    static var connections = [Connection]()
+    static var connections = [ConnectionResponse]()
     static var messages = [MessageResponse]()
 
     var _id : String,

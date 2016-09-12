@@ -7,8 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		233401701D866DE300E86D95 /* Card+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2334016E1D866DE300E86D95 /* Card+CoreDataClass.swift */; };
+		233401711D866DE300E86D95 /* Card+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2334016F1D866DE300E86D95 /* Card+CoreDataProperties.swift */; };
+		233401731D86726A00E86D95 /* LaunchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233401721D86726A00E86D95 /* LaunchData.swift */; };
+		2338DFC11D860E9C00624CCF /* Message+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2338DFB41D8609A000624CCF /* Message+CoreDataClass.swift */; };
+		2338DFC21D860E9C00624CCF /* Message+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2338DFB51D8609A000624CCF /* Message+CoreDataProperties.swift */; };
+		2338DFC31D860E9C00624CCF /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2338DFB61D8609A000624CCF /* User+CoreDataClass.swift */; };
+		2338DFC41D860E9C00624CCF /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2338DFB71D8609A000624CCF /* User+CoreDataProperties.swift */; };
+		2338DFC51D860E9C00624CCF /* Connection+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2338DFB81D8609A000624CCF /* Connection+CoreDataClass.swift */; };
+		2338DFC61D860E9C00624CCF /* Connection+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2338DFB91D8609A000624CCF /* Connection+CoreDataProperties.swift */; };
 		234FA1791D83D45D00670E1D /* PhoneNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234FA1771D83D45D00670E1D /* PhoneNumberFormatter.swift */; };
 		234FA17A1D83D45D00670E1D /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234FA1781D83D45D00670E1D /* StringExtension.swift */; };
+		234FA1DD1D86003C00670E1D /* Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 234FA1DB1D86003C00670E1D /* Data.xcdatamodeld */; };
+		234FA1DF1D86031900670E1D /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234FA1DE1D86031900670E1D /* CoreData.swift */; };
 		236E27B81D67C9D2002ABAB4 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27B71D67C9D2002ABAB4 /* Token.swift */; };
 		237827231D7B50B20059AB37 /* CardRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237827221D7B50B20059AB37 /* CardRequest.swift */; };
 		238271941D7E92E40005F254 /* ContactsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238271931D7E92E40005F254 /* ContactsRequest.swift */; };
@@ -86,8 +97,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2334016E1D866DE300E86D95 /* Card+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Card+CoreDataClass.swift"; path = "Mesh/Models/Card+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2334016F1D866DE300E86D95 /* Card+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Card+CoreDataProperties.swift"; path = "Mesh/Models/Card+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		233401721D86726A00E86D95 /* LaunchData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchData.swift; sourceTree = "<group>"; };
+		2338DFB41D8609A000624CCF /* Message+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Message+CoreDataClass.swift"; path = "Mesh/Models/Message+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2338DFB51D8609A000624CCF /* Message+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Message+CoreDataProperties.swift"; path = "Mesh/Models/Message+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2338DFB61D8609A000624CCF /* User+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "User+CoreDataClass.swift"; path = "Mesh/Models/User+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2338DFB71D8609A000624CCF /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "User+CoreDataProperties.swift"; path = "Mesh/Models/User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2338DFB81D8609A000624CCF /* Connection+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Connection+CoreDataClass.swift"; path = "Mesh/Models/Connection+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2338DFB91D8609A000624CCF /* Connection+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Connection+CoreDataProperties.swift"; path = "Mesh/Models/Connection+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		234FA1771D83D45D00670E1D /* PhoneNumberFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberFormatter.swift; sourceTree = "<group>"; };
 		234FA1781D83D45D00670E1D /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		234FA1DC1D86003C00670E1D /* Data.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Data.xcdatamodel; sourceTree = "<group>"; };
+		234FA1DE1D86031900670E1D /* CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
 		236E27B71D67C9D2002ABAB4 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		237827221D7B50B20059AB37 /* CardRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardRequest.swift; sourceTree = "<group>"; };
 		237B78661D78FB2E0018347A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
@@ -184,6 +206,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2338DFBA1D8609A000624CCF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2334016E1D866DE300E86D95 /* Card+CoreDataClass.swift */,
+				2334016F1D866DE300E86D95 /* Card+CoreDataProperties.swift */,
+				2338DFB41D8609A000624CCF /* Message+CoreDataClass.swift */,
+				2338DFB51D8609A000624CCF /* Message+CoreDataProperties.swift */,
+				2338DFB61D8609A000624CCF /* User+CoreDataClass.swift */,
+				2338DFB71D8609A000624CCF /* User+CoreDataProperties.swift */,
+				2338DFB81D8609A000624CCF /* Connection+CoreDataClass.swift */,
+				2338DFB91D8609A000624CCF /* Connection+CoreDataProperties.swift */,
+			);
+			name = Models;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		23C872161D83747800B21AB6 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -334,6 +372,8 @@
 				23C872981D8377C000B21AB6 /* Colors.swift */,
 				23C872991D8377C000B21AB6 /* Extensions.swift */,
 				23C8729A1D8377C000B21AB6 /* Keychain.swift */,
+				234FA1DE1D86031900670E1D /* CoreData.swift */,
+				233401721D86726A00E86D95 /* LaunchData.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -386,6 +426,7 @@
 			isa = PBXGroup;
 			children = (
 				ADECA8E71D51540900726AEF /* AppDelegate.swift */,
+				2338DFBA1D8609A000624CCF /* Models */,
 				AD4E2E1C1D5A75D500130811 /* Network */,
 				23C872341D8375E200B21AB6 /* Contacts */,
 				23C872251D83759A00B21AB6 /* QR */,
@@ -401,6 +442,7 @@
 				23C8721A1D83753200B21AB6 /* SwiftLinkPreview */,
 				23C872161D83747800B21AB6 /* Support Files */,
 				ADECA8EB1D51540900726AEF /* Main.storyboard */,
+				234FA1DB1D86003C00670E1D /* Data.xcdatamodeld */,
 				ADECA8EE1D51540900726AEF /* Assets.xcassets */,
 			);
 			path = Mesh;
@@ -593,6 +635,8 @@
 				23C8727A1D83769C00B21AB6 /* Snackbar.swift in Sources */,
 				23DFB67A1D653E1E00D871A9 /* PositionRequest.swift in Sources */,
 				23C872201D83753200B21AB6 /* PreviewError.swift in Sources */,
+				2338DFC61D860E9C00624CCF /* Connection+CoreDataProperties.swift in Sources */,
+				2338DFC51D860E9C00624CCF /* Connection+CoreDataClass.swift in Sources */,
 				23C872691D83762900B21AB6 /* UserDetailTableViewCell.swift in Sources */,
 				23C8722F1D83759A00B21AB6 /* EditCardTableViewCell.swift in Sources */,
 				23C872621D83762900B21AB6 /* CardViewController.swift in Sources */,
@@ -610,6 +654,7 @@
 				23C872321D83759A00B21AB6 /* QRCardView.swift in Sources */,
 				234FA17A1D83D45D00670E1D /* StringExtension.swift in Sources */,
 				23C8726C1D83762900B21AB6 /* ViewPager.swift in Sources */,
+				2338DFC11D860E9C00624CCF /* Message+CoreDataClass.swift in Sources */,
 				23C8729B1D8377C000B21AB6 /* Colors.swift in Sources */,
 				23C872781D83769C00B21AB6 /* AlertTransition.swift in Sources */,
 				234FA1791D83D45D00670E1D /* PhoneNumberFormatter.swift in Sources */,
@@ -621,6 +666,7 @@
 				23C872681D83762900B21AB6 /* UserDetails.swift in Sources */,
 				23C872221D83753200B21AB6 /* Regex.swift in Sources */,
 				23C8729C1D8377C000B21AB6 /* Extensions.swift in Sources */,
+				2338DFC31D860E9C00624CCF /* User+CoreDataClass.swift in Sources */,
 				23C872381D8375E200B21AB6 /* ContactsTableViewController.swift in Sources */,
 				AD4E2E221D5AAD5700130811 /* UpdatesRequest.swift in Sources */,
 				23C872461D83760300B21AB6 /* InboxSearchTableViewController.swift in Sources */,
@@ -639,8 +685,11 @@
 				23C8724A1D83760300B21AB6 /* MessagesViewController.swift in Sources */,
 				23C872241D83753200B21AB6 /* SwiftLinkPreview.swift in Sources */,
 				23C872211D83753200B21AB6 /* PreviewErrorTypes.swift in Sources */,
+				234FA1DF1D86031900670E1D /* CoreData.swift in Sources */,
+				233401731D86726A00E86D95 /* LaunchData.swift in Sources */,
 				23C872611D83762900B21AB6 /* CardStack.swift in Sources */,
 				23C8722D1D83759A00B21AB6 /* AddCardView.swift in Sources */,
+				2338DFC41D860E9C00624CCF /* User+CoreDataProperties.swift in Sources */,
 				23C8725F1D83762900B21AB6 /* CardDetailTransition.swift in Sources */,
 				23C872881D8376D600B21AB6 /* SwipeState.swift in Sources */,
 				23C872961D83776700B21AB6 /* EventsTableViewController.swift in Sources */,
@@ -648,7 +697,11 @@
 				23C872331D83759A00B21AB6 /* ScanViewController.swift in Sources */,
 				23C872801D8376C000B21AB6 /* LoginTableViewController.swift in Sources */,
 				23C8728F1D83770300B21AB6 /* ArticleViewController.swift in Sources */,
+				233401711D866DE300E86D95 /* Card+CoreDataProperties.swift in Sources */,
+				2338DFC21D860E9C00624CCF /* Message+CoreDataProperties.swift in Sources */,
 				23C872641D83762900B21AB6 /* FeedViewController.swift in Sources */,
+				234FA1DD1D86003C00670E1D /* Data.xcdatamodeld in Sources */,
+				233401701D866DE300E86D95 /* Card+CoreDataClass.swift in Sources */,
 				23C872811D8376C000B21AB6 /* SignUpTableViewController.swift in Sources */,
 				23C872651D83762900B21AB6 /* QuickPageControl.swift in Sources */,
 				23DFB67C1D654B3C00D871A9 /* ProfileRequest.swift in Sources */,
@@ -842,6 +895,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		234FA1DB1D86003C00670E1D /* Data.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				234FA1DC1D86003C00670E1D /* Data.xcdatamodel */,
+			);
+			currentVersion = 234FA1DC1D86003C00670E1D /* Data.xcdatamodel */;
+			path = Data.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = ADECA8DC1D51540800726AEF /* Project object */;
 }

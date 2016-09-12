@@ -22,6 +22,8 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
     @IBOutlet weak var activity: UIActivityIndicatorView!
     @IBOutlet weak var articleHolder: UIView!
     
+    let skip = MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: nil)
+    
     var pressedAction : (() -> Void)? = nil
     
     override func awakeFromNib() {

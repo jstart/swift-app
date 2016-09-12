@@ -19,7 +19,7 @@ extension UserDetail {
     var hasDate : Bool { return false }
 }
 
-struct Connections : UserDetail {
+struct ConnectionResponses : UserDetail {
     var name : String
     var position : String
     var isConnected : Bool
@@ -63,7 +63,7 @@ struct Event : UserDetail {
 }
 
 struct UserDetails {
-    var connections : [Connections]
+    var connections : [ConnectionResponses]
     var experiences : [Experience]
     var educationItems : [Education]
     var skills : [Skill]

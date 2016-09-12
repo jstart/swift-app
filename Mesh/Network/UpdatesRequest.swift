@@ -16,19 +16,22 @@ struct UpdatesRequest : AuthenticatedRequest {
     func parameters() -> [String : Any] { return ["last_update": last_update] }
     
     static func latest() -> UpdatesRequest { return UpdatesRequest(last_update: (UserDefaults.standard["last_update"] as? Int) ?? 0) }
-    
     static func fresh() -> UpdatesRequest { return UpdatesRequest(last_update: 0) }
     
-    static func append(_ response: Response<Any, NSError>) {
-        guard let json = response.result.value as? JSONDictionary else { return }
-        
-        guard let last_update = json["last_update"] as? Int else { return }
-        UserDefaults.standard.set(last_update + 1, forKey: "last_update")
-        
-        guard let connections = ((json["connections"] as? JSONDictionary)?["connections"] as? JSONArray) else { self.appendMessages(json); return }
-        UserResponse.connections.append(contentsOf: connections.map({ return Connection(JSON: $0) }).filter({ return $0.user._id != UserResponse.current?._id }).sorted(by: { return $0.user.first_name! < $1.user.first_name! }))
-        
-        appendMessages(json)
+    static func append(_ response: Response<Any, NSError>, callback: @escaping (() -> Void) = {}) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            guard let json = response.result.value as? JSONDictionary else { return }
+            
+            guard let last_update = json["last_update"] as? Int else { return }
+            UserDefaults.standard.set(last_update + 1, forKey: "last_update")
+            
+            guard let connectionsJSON = ((json["connections"] as? JSONDictionary)?["connections"] as? JSONArray) else { self.appendMessages(json); return }
+            let connections = connectionsJSON.map({ return ConnectionResponse(JSON: $0) }).filter({ return $0.user._id != UserResponse.current?._id }).sorted(by: { return $0.user.first_name! < $1.user.first_name! })
+            UserResponse.connections.append(contentsOf: connections)
+            
+            appendMessages(json)
+            DispatchQueue.main.async { callback() }
+        }
     }
     
     static func appendMessages(_ json : JSONDictionary){
@@ -64,5 +67,3 @@ struct PassRequest : AuthenticatedRequest {
     
     func parameters() -> [String : Any] { return ["_id": _id] }
 }
-
-

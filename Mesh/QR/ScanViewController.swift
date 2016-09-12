@@ -14,12 +14,12 @@ enum ProfileFields : Int {
     case name, title, email, phone
     var name: String { switch self { case .name: return "name"; case .title: return "title"; case .email: return "email"; case .phone: return "phone" } }
     
-    static func fields(_ response: CardResponse) -> [ProfileFields] {
+    static func fields(_ response: Card) -> [ProfileFields] {
         var fields = [ProfileFields]()
-        if response.first_name || response.last_name { fields.append(.name) }
-        if response.title { fields.append(.title) }
-        if response.phone_number { fields.append(.phone) }
-        if response.email { fields.append(.email) }
+        if response.first_name as Bool || response.last_name as Bool { fields.append(.name) }
+        if response.title as Bool { fields.append(.title) }
+        if response.phone_number as Bool { fields.append(.phone) }
+        if response.email as Bool { fields.append(.email) }
         return fields
     }
     
@@ -38,7 +38,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     var overlay : UIView?
     
     let editCard = EditCardView(UserResponse.current!).then { $0.translates = false }
-    var cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) }) ?? [QRCard]()
+    var cards = CardResponse.cards.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) }) 
     var editMode : Bool = false
     var timer : Timer?
     
@@ -137,7 +137,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
 
         let tokenArray = token.components(separatedBy: "::")
         let request = CardSyncRequest(_id: tokenArray[safe: 0] ?? "",
-                                      my_token: CardResponse.cards?.first?.token ?? "",
+                                      my_token: CardResponse.cards.first?.token ?? "",
                                       scanned_token: tokenArray[safe: 1] ?? "")
         Client.execute(request, completionHandler: { response in
             if response.result.value != nil {
@@ -155,8 +155,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     func refresh() {
         Client.execute(CardsRequest(), completionHandler: { response in
-            CardResponse.cards = (response.result.value as? JSONArray)?.map({ return CardResponse(JSON: $0) })
-            self.cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) }) ?? [QRCard]()
+            CardResponse.cards = ((response.result.value as? JSONArray)?.map({ return Card(JSON: $0) }))!
+            self.cards = CardResponse.cards.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) })
             for (index, card) in self.pager!.stack.arrangedSubviews.enumerated() {
                 (card as? QRCardView)?.setToken((UserResponse.current?._id ?? "") + "::" + self.cards[index].token, animated: true)
             }
@@ -228,15 +228,15 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         (self.pager?.currentView() as? QRCardView)?.updateFields(fields)
         
         self.edit()
-        guard let cardResponse = CardResponse.cards?[safe: (self.pager?.previousPage)!] else { return }
+        guard let cardResponse = CardResponse.cards[safe: (self.pager?.previousPage)!] else { return }
         let snack = Snackbar(title: "Saving Card..."); snack.presentIn(view)
-        let request = CardEditRequest(_id: cardResponse._id, first_name: fields.contains(.name), last_name: fields.contains(.name), email: fields.contains(.email), phone_number: fields.contains(.phone), title: fields.contains(.title))
+        let request = CardEditRequest(_id: cardResponse.id, first_name: fields.contains(.name), last_name: fields.contains(.name), email: fields.contains(.email), phone_number: fields.contains(.phone), title: fields.contains(.title))
         Client.execute(request, completionHandler: { _ in
             snack.message.text = "Card Updated"
             Client.execute(CardsRequest(), completionHandler: { response in
                 guard let JSON = response.result.value as? JSONArray else { return }
-                CardResponse.cards = JSON.map({ return CardResponse(JSON: $0) })
-                self.cards = CardResponse.cards?.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) }) ?? [QRCard]()
+                CardResponse.cards = JSON.map({ return Card(JSON: $0) })
+                self.cards = CardResponse.cards.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) }) 
                 self.refresh()
             })
         })
@@ -247,9 +247,9 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         pager?.removeView(atIndex: index)
         cards.remove(at: index)
         
-        guard let cardResponse = CardResponse.cards?[safe: index] else { return }
+        guard let cardResponse = CardResponse.cards[safe: index] else { return }
         Snackbar(title: "Card Deleted", buttonTitle: "UNDO", dismissed: {
-            Client.execute(CardDeleteRequest(_id: cardResponse._id), completionHandler: { response in })
+            Client.execute(CardDeleteRequest(_id: cardResponse.id), completionHandler: { response in })
         }).presentIn(self.view)
         
         pager?.stack.arrangedSubviews.forEach({ ($0 as? QRCardView )?.pageControl.numberOfPages = min(cards.count + 1, 3) })

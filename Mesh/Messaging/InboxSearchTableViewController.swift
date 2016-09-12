@@ -77,7 +77,7 @@ class InboxSearchTableViewController: UITableViewController {
         let person = Person(user: filteredConnections[indexPath.row], details: details)
         
         let cardVC = CardViewController()
-        cardVC.card = Card(type:.person, person: person)
+        cardVC.card = Rec(type:.person, person: person)
         cardVC.modalPresentationStyle = .overFullScreen
         present(cardVC)
     }

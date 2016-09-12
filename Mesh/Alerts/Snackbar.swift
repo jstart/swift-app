@@ -42,7 +42,7 @@ class Snackbar : UIView {
         button.constrain(.top, .bottom, constant: 2, toItem: self)
     }
     
-    convenience init(title: String, buttonTitle: String = "", buttonHandler : (() -> Void) = {}, duration: TimeInterval = 3.0, dismissed: (() -> Void) = {}, showUntilDismissed: Bool = false) {
+    convenience init(title: String, buttonTitle: String = "", buttonHandler : @escaping (() -> Void) = {}, duration: TimeInterval = 3.0, dismissed: @escaping (() -> Void) = {}, showUntilDismissed: Bool = false) {
         self.init(title: title)
         button.setTitle(buttonTitle, for: .normal)
         handler = buttonHandler

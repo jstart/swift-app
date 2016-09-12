@@ -16,7 +16,7 @@ class CameraManager : NSObject {
         return AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
     }
     
-    static func requestAccess(completionHandler: ((Bool) -> Void)) {
+    static func requestAccess(completionHandler: @escaping ((Bool) -> Void)) {
         let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
         
         switch status {

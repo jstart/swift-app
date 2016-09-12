@@ -18,6 +18,12 @@ class MessageTableViewCell: MGSwipeTableCell {
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var reply: UIButton!
     
+    let skip = MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: nil)!
+    
+    let read = MGSwipeButton(title: "Mark Unread", backgroundColor: Colors.brand, callback: nil)!
+    let mute = MGSwipeButton(title: "Mute", backgroundColor: .gray, callback: nil)!
+    let block = MGSwipeButton(title: "Block", backgroundColor: .red, callback: nil)!
+    
     var pressedAction = {}
     
     override func prepareForReuse() {

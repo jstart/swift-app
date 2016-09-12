@@ -10,7 +10,7 @@ pod 'AlamofireImage', :git => 'https://github.com/Alamofire/AlamofireImage.git',
 pod 'JSQMessagesViewController', :git => 'https://github.com/jessesquires/JSQMessagesViewController.git', :commit => 'bbc6d27a483388a4c6413fc63bbf9c367054be21'
 #pod 'MGSwipeTableCell'
 
-pod 'Realm'
+#pod 'Realm'
 #pod 'Starscream', :git => 'https://github.com/daltoniam/Starscream.git', :branch => 'swift3'
 
 #pod 'NearbyMessages'

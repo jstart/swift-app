@@ -12,7 +12,7 @@ import TwitterKit
 
 class MessagesViewController: JSQMessagesViewController {
     var messages = [JSQMessage]()
-    var recipient : Connection?
+    var recipient : ConnectionResponse?
     var meshMessages : [MessageResponse]?
     let label = UILabel(translates: false).then { $0.constrain(.height, constant: 44) }
     var timer : Timer?
@@ -102,7 +102,10 @@ class MessagesViewController: JSQMessagesViewController {
                     self.messages.append(message)
                 })
                 self.collectionView?.reloadData()
-                self.collectionView?.scrollToItem(at: IndexPath(item: self.messages.count - 1, section: 0), at: .bottom, animated: false)
+                if self.messages.count > 0 {
+                    self.collectionView?.scrollToItem(at: IndexPath(item: max(0, self.messages.count - 1), section: 0), at: .bottom, animated: false)
+                }
+                
             }
         })
     }

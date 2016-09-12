@@ -16,7 +16,7 @@ class AddCardView: CardView {
     }
     var handler = {}
     
-    convenience init(touchHandler: (() -> Void)) {
+    convenience init(touchHandler: @escaping (() -> Void)) {
         self.init()
         handler = touchHandler
         text.text = "Add Card"

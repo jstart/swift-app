@@ -22,7 +22,7 @@ struct Person {
     var details : UserDetails
 }
 
-struct Card {
+struct Rec {
     var type : CardType
     var person : Person?
 }

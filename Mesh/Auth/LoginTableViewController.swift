@@ -60,6 +60,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     func login() {
         Client.execute(LoginRequest(phone_number: phoneField!.text!.onlyNumbers(), password: passwordField!.text!), completionHandler: { response in
             if response.result.value != nil {
+                LaunchData.fetchLaunchData()
                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
                 UIApplication.shared.delegate!.window??.rootViewController = vc
                 let tab = UIApplication.shared.delegate!.window??.rootViewController as! UITabBarController

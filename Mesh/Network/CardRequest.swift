@@ -13,25 +13,7 @@ struct CardsRequest : AuthenticatedRequest {
 }
 
 struct CardResponse {
-    static var cards : [CardResponse]?
-    let token : String,
-        _id : String,
-        first_name : Bool,
-        last_name : Bool,
-        email : Bool,
-        phone_number : Bool,
-        title : Bool
-    
-    init(JSON: [String : Any]) {
-        token = (JSON["token"] as? String) ?? ""
-        _id = JSON["_id"] as! String
-        let fields = JSON["fields"] as! JSONDictionary
-        first_name = (fields["first_name"] as? Bool) ?? false
-        last_name = (fields["last_name"] as? Bool) ?? false
-        email = (fields["email"] as? Bool) ?? false
-        phone_number = (fields["phone_number"] as? Bool) ?? false
-        title = (fields["title"] as? Bool) ?? false
-    }
+    static var cards = [Card]()
 }
 
 struct CardCreateRequest : AuthenticatedRequest {
@@ -49,7 +31,7 @@ struct CardCreateRequest : AuthenticatedRequest {
     }
     
     static func new() -> CardCreateRequest {
-        return CardCreateRequest(position: CardResponse.cards?.count ?? 0, first_name: true, last_name: true, email: false, phone_number: true, title: false)
+        return CardCreateRequest(position: CardResponse.cards.count , first_name: true, last_name: true, email: false, phone_number: true, title: false)
     }
 }
 

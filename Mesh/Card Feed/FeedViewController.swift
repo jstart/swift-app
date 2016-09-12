@@ -36,8 +36,6 @@ class FeedViewController: UIViewController {
                 UserResponse.current = UserResponse(JSON: JSON)
             })
         }
-        
-        Client.execute(UpdatesRequest.fresh(), completionHandler: { response in UpdatesRequest.append(response) })
 
         locationManager.locationUpdate = { loc in
             Client.execute(PositionRequest(lat: loc.coordinate.latitude, lon: loc.coordinate.longitude), completionHandler: { response in
@@ -48,27 +46,20 @@ class FeedViewController: UIViewController {
         }
         locationManager.startTracking()
         
-        Client.execute(CardsRequest(), completionHandler: { response in
-            guard let JSON = response.result.value as? JSONArray else { return }
-            let cards = JSON.map({ return CardResponse(JSON: $0) })
-            guard cards.count != 0 else { Client.execute(CardCreateRequest.new(), completionHandler: { response in }); return }
-            CardResponse.cards = cards
-        })
-        
         if cardStack.cards?.count != nil || cardStack.cards?.count == cardStack.cardIndex - 1 { return }
         Client.execute(RecommendationsRequest(), completionHandler: { response in
             guard let jsonArray = response.result.value as? JSONArray else { return }
             let array = jsonArray.map({return UserResponse(JSON: $0)})
             self.cardStack.cards = array.map({
                 let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
-                return Card(type: .person, person: Person(user: $0, details: details))
+                return Rec(type: .person, person: Person(user: $0, details: details))
             })
             self.cardStack.addNewCard()
-            //                self.cardStack.cards?.append(Card(type: .tweet, person: nil))
+            //self.cardStack.cards?.append(Card(type: .tweet, person: nil))
         })
 //        for index in 0..<cardStack.cards?.count {
 //            guard let recIds = cardStack.cards?[index].person?.user?._id else {return}
-//            Client.execute(ConnectionRequest(recipient: recIds), completionHandler: { response in })
+//            Client.execute(ConnectionResponseRequest(recipient: recIds), completionHandler: { response in })
 //        }
     }
     

@@ -17,7 +17,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
 
     var state = SwipeState()
     var control = QuickPageControl(categories: [.connections, .experience, .education, .skills, .events])
-    var card : Card?
+    var card : Rec?
     var viewPager : ViewPager?
     let imageView = UIImageView(image: #imageLiteral(resourceName: "profile_sample")).then {
         $0.clipsToBounds = true
@@ -42,7 +42,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         $0.textColor = .black
         $0.backgroundColor = .white
         $0.font = UIFont.systemFont(ofSize: 20)
-        $0.constrain(.height, constant: 20)
+        $0.constrain(.height, constant: 22)
     }
     let position = UILabel(translates: false).then {
         $0.textColor = #colorLiteral(red: 0.7810397744, green: 0.7810582519, blue: 0.7810482979, alpha: 1)
