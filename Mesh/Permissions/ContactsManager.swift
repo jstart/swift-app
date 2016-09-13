@@ -80,7 +80,7 @@ class ContactsManager : NSObject {
                     //TODO: Filter by email
 //                    if !$0.emailAddresses.isEmpty {
                           // Same for email
-//                        return ($0.emailStrings?.first)?.range(of: UserResponse.current?.ema ?? "") == nil
+//                        return ($0.emailStrings?.first)?.range(of: UserResponse.current?.email ?? "") == nil
 //                    }
                     // Only contacts that have at least one email or phone number
                     return !$0.emailAddresses.isEmpty || !$0.phoneNumbers.isEmpty

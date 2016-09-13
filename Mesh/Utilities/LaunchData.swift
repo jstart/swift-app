@@ -22,7 +22,7 @@ struct LaunchData {
                 let cards = JSON.map({ return Card(JSON: $0) })
                 guard cards.count != 0 else { Client.execute(CardCreateRequest.new(), completionHandler: { response in
                     guard let JSON = response.result.value as? JSONArray else { return }
-                    JSON.map({ return Card(JSON: $0) })
+                    JSON.forEach({ let _ = Card(JSON: $0) })
                 }); return }
                 CardResponse.cards = cards
             }
