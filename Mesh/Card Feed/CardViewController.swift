@@ -226,8 +226,9 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
             state.stop(gestureRec!)
             
             let swipeDirection = state.getSwipeDirection()
-            if (!state.meetsDragRequirements(swipeDirection) &&
-                !state.meetsFlingRequirements(swipeDirection)) {
+            if ((!state.meetsDragRequirements(swipeDirection) &&
+                !state.meetsFlingRequirements(swipeDirection)) ||
+                !state.meetsPositionRequirements(swipeDirection)) {
                 // Back to center
                 UIView.animate(withDuration: 0.2, animations: {
                     sender.view?.center = (self.view?.superview?.center)!

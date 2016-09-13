@@ -22,10 +22,12 @@ struct SwipeState {
     verticalProgress : CGFloat = 0.0    // the progress of the current swipe from 0 to 1 on Y. 1 is a valid swipe.
 
     var direction : UISwipeGestureRecognizerDirection? = nil
+    var gesture : UIPanGestureRecognizer?
     
     var config = SwipeConfig()
     
     mutating func start(_ gesture : UIPanGestureRecognizer) {
+        self.gesture = gesture
         let touchPoint = gesture.location(in: gesture.view?.superview)
         startX = touchPoint.x
         startY = touchPoint.y
@@ -99,19 +101,37 @@ struct SwipeState {
         }
     }
     
+    mutating func meetsPositionRequirements(_ swipeDirection : UISwipeGestureRecognizerDirection) -> (Bool) {
+        if (!draggingInCurrentDirectionAllowed()) {
+            return false
+        }
+        switch (swipeDirection as UISwipeGestureRecognizerDirection) {
+        case UISwipeGestureRecognizerDirection.left:
+            return self.gesture!.view!.center.x < (self.gesture!.view!.superview!.center.x - config.xDistanceMinimumForDrag)
+        case UISwipeGestureRecognizerDirection.right:
+            return self.gesture!.view!.center.x > (self.gesture!.view!.superview!.center.x + config.xDistanceMinimumForDrag)
+        case UISwipeGestureRecognizerDirection.up:
+            return true
+        case UISwipeGestureRecognizerDirection.down:
+            return true
+        default:
+            return false;
+        }
+    }
+    
     mutating func meetsDragRequirements(_ swipeDirection : UISwipeGestureRecognizerDirection) -> (Bool) {
         if (!draggingInCurrentDirectionAllowed()) {
             return false
         }
         switch (swipeDirection as UISwipeGestureRecognizerDirection) {
             case UISwipeGestureRecognizerDirection.left:
-                return horizontalProgress == 1 && changeX < 0;
+                return horizontalProgress == 1 && changeX < 0
             case UISwipeGestureRecognizerDirection.right:
-                return horizontalProgress == 1 && changeX > 0;
+                return horizontalProgress == 1 && changeX > 0
             case UISwipeGestureRecognizerDirection.up:
-                return verticalProgress == 1 && changeY > 0;
+                return verticalProgress == 1 && changeY > 0
             case UISwipeGestureRecognizerDirection.down:
-                return verticalProgress == 1 && changeY < 0;
+                return verticalProgress == 1 && changeY < 0
         default:
             return false;
         }
