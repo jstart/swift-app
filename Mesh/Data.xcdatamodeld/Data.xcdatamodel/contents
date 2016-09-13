@@ -19,6 +19,25 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="Company" representedClassName=".Company" syncable="YES">
+        <attribute name="current" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="end_month" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="end_year" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="start_month" attributeType="String" syncable="YES"/>
+        <attribute name="start_year" attributeType="String" syncable="YES"/>
+        <relationship name="users" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="companies" inverseEntity="User" syncable="YES"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="id"/>
+            </compoundIndex>
+        </compoundIndexes>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
     <entity name="Connection" representedClassName="Connection" syncable="YES">
         <attribute name="id" attributeType="String" minValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="muted" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
@@ -63,6 +82,7 @@
         <attribute name="phone_number" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="profession" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="companies" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Company" inverseName="users" inverseEntity="Company" syncable="YES"/>
         <relationship name="connection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Connection" inverseName="user" inverseEntity="Connection" syncable="YES"/>
         <compoundIndexes>
             <compoundIndex>
@@ -79,6 +99,7 @@
         <element name="Card" positionX="36" positionY="162" width="128" height="150"/>
         <element name="Connection" positionX="-36" positionY="9" width="128" height="150"/>
         <element name="Message" positionX="135" positionY="24" width="128" height="120"/>
-        <element name="User" positionX="-38" positionY="204" width="128" height="165"/>
+        <element name="User" positionX="-38" positionY="204" width="128" height="180"/>
+        <element name="Company" positionX="36" positionY="162" width="128" height="150"/>
     </elements>
 </model>

@@ -20,6 +20,9 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     var todoMessages = [MessageResponse]()
     var recentSearches = (UserDefaults.standard["RecentConnectionSearches"] as? [String]) ?? [String]()
     var quickReplyAction = {}
+    
+    var coreMessages = [Message]()
+    var coreConnections = [Connection]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +68,12 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             
 //            UserResponse.connections = []
 //            UserResponse.messages = []
+            CoreData.backgroundContext.perform({
+                self.coreMessages.append(contentsOf: CoreData.fetch(Message.self) as! [Message])
+                self.coreConnections.append(contentsOf: CoreData.fetch(Connection.self) as! [Connection])
+                DispatchQueue.main.async { self.tableView.reloadData() }
+            })
+
             
             UpdatesRequest.append(response) {
                 let valid = UserResponse.messages.filter({$0.sender != UserResponse.current?._id && $0.text != ""})
@@ -74,13 +83,13 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 self.todoMessages.append(second)
                 self.tableView.reloadData()
 
-//                CoreData.backgroundContext.perform({
-//                    guard let json = response.result.value as? JSONDictionary else { return }
-//                    guard let messages = (json["messages"] as? JSONDictionary)?["messages"] as? JSONArray else { return }
-//                    let data = messages.map({return Message(JSON: $0)})
-//                    CoreData.saveBackgroundContext()
-//                    let fetched = CoreData.fetch()
-//                })
+                CoreData.backgroundContext.perform({
+                    guard let json = response.result.value as? JSONDictionary else { return }
+                    guard let messages = (json["messages"] as? JSONDictionary)?["messages"] as? JSONArray else { return }
+                    let data = messages.map({return Message(JSON: $0)})
+                    CoreData.saveBackgroundContext()
+                    let fetched = CoreData.fetch(Message.self) as! [Message]
+                })
             }
         })
     }

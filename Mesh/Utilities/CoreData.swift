@@ -44,8 +44,8 @@ class CoreData {
         }
     }()
     
-    static func fetch() -> [Message] {
-        do { return try CoreData.backgroundContext.fetch(NSFetchRequest(entityName: "Message")) } catch {}; return []
+    static func fetch(_ entity: AnyClass) -> [NSManagedObject] {
+        do { return try CoreData.backgroundContext.fetch(NSFetchRequest(entityName: String(describing: entity))) } catch {}; return []
     }
     
     static func saveBackgroundContext() {

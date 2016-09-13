@@ -12,11 +12,6 @@ enum CardType : String {
     case person = "Person", tweet = "Tweet", skill = "Skill", event = "Event"
 }
 
-struct Company {
-    var name : String = ""
-    var imageURL : URL?
-}
-
 struct Person {
     var user : UserResponse?
     var details : UserDetails

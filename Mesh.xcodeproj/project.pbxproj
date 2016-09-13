@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		233140CB1D88947B003FDD15 /* Company+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233140C91D88947B003FDD15 /* Company+CoreDataClass.swift */; };
+		233140CC1D88947B003FDD15 /* Company+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233140CA1D88947B003FDD15 /* Company+CoreDataProperties.swift */; };
 		233401701D866DE300E86D95 /* Card+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2334016E1D866DE300E86D95 /* Card+CoreDataClass.swift */; };
 		233401711D866DE300E86D95 /* Card+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2334016F1D866DE300E86D95 /* Card+CoreDataProperties.swift */; };
 		233401731D86726A00E86D95 /* LaunchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233401721D86726A00E86D95 /* LaunchData.swift */; };
@@ -97,6 +99,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		233140C91D88947B003FDD15 /* Company+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Company+CoreDataClass.swift"; path = "Mesh/Models/Company+CoreDataClass.swift"; sourceTree = "<group>"; };
+		233140CA1D88947B003FDD15 /* Company+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Company+CoreDataProperties.swift"; path = "Mesh/Models/Company+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2334016E1D866DE300E86D95 /* Card+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Card+CoreDataClass.swift"; path = "Mesh/Models/Card+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2334016F1D866DE300E86D95 /* Card+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Card+CoreDataProperties.swift"; path = "Mesh/Models/Card+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		233401721D86726A00E86D95 /* LaunchData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchData.swift; sourceTree = "<group>"; };
@@ -209,6 +213,8 @@
 		2338DFBA1D8609A000624CCF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				233140C91D88947B003FDD15 /* Company+CoreDataClass.swift */,
+				233140CA1D88947B003FDD15 /* Company+CoreDataProperties.swift */,
 				2334016E1D866DE300E86D95 /* Card+CoreDataClass.swift */,
 				2334016F1D866DE300E86D95 /* Card+CoreDataProperties.swift */,
 				2338DFB41D8609A000624CCF /* Message+CoreDataClass.swift */,
@@ -667,6 +673,7 @@
 				23C872221D83753200B21AB6 /* Regex.swift in Sources */,
 				23C8729C1D8377C000B21AB6 /* Extensions.swift in Sources */,
 				2338DFC31D860E9C00624CCF /* User+CoreDataClass.swift in Sources */,
+				233140CB1D88947B003FDD15 /* Company+CoreDataClass.swift in Sources */,
 				23C872381D8375E200B21AB6 /* ContactsTableViewController.swift in Sources */,
 				AD4E2E221D5AAD5700130811 /* UpdatesRequest.swift in Sources */,
 				23C872461D83760300B21AB6 /* InboxSearchTableViewController.swift in Sources */,
@@ -685,6 +692,7 @@
 				23C8724A1D83760300B21AB6 /* MessagesViewController.swift in Sources */,
 				23C872241D83753200B21AB6 /* SwiftLinkPreview.swift in Sources */,
 				23C872211D83753200B21AB6 /* PreviewErrorTypes.swift in Sources */,
+				233140CC1D88947B003FDD15 /* Company+CoreDataProperties.swift in Sources */,
 				234FA1DF1D86031900670E1D /* CoreData.swift in Sources */,
 				233401731D86726A00E86D95 /* LaunchData.swift in Sources */,
 				23C872611D83762900B21AB6 /* CardStack.swift in Sources */,
