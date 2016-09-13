@@ -24,9 +24,6 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
-        
-        guard let smallURL = UserResponse.current?.photos?.small else { return }
-        profileImage.af_setImage(withURL: URL(string: smallURL)!)
     }
 
     // MARK: - Table view data source
@@ -44,6 +41,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(UITableViewCell.self, indexPath: indexPath)
+        
         cell.textLabel?.text = (indexPath.section == 0 && indexPath.row == 0) ? "Upload Photo" : "Logout"
         
         if (indexPath.section == 0 && indexPath.row == 1)  {

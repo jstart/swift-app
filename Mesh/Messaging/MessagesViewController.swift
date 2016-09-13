@@ -35,7 +35,7 @@ class MessagesViewController: JSQMessagesViewController {
         imageButton.setImage(#imageLiteral(resourceName: "chatUploadPhoto"), for: .normal)
         inputToolbar.contentView?.leftBarButtonItem = imageButton
         inputToolbar.contentView?.textView?.placeHolder = "Send a message..."
-        JSQMessagesCollectionViewCell.registerMenuAction(#selector(editMessage(_:)))
+//        JSQMessagesCollectionViewCell.registerMenuAction(#selector(editMessage(_:)))
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(deleteMessage(_:)))
         inputToolbar.preferredDefaultHeight = 200
         
@@ -52,6 +52,7 @@ class MessagesViewController: JSQMessagesViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        title = recipient?.user.fullName()
         self.refresh()
 
 //        showTypingIndicator = true
@@ -77,20 +78,20 @@ class MessagesViewController: JSQMessagesViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        label.text = recipient?.user.fullName() ?? ""
-        
-        let container = UIStackView(arrangedSubviews: [imageView, label]).then {
-            $0.axis = .horizontal
-            $0.alignment = .center
-            $0.distribution = .fillProportionally
-            $0.spacing = 10
-            $0.translates = false
-            $0.constrain(.height, constant: 44)
-        }
-        navigationItem.titleView = container
-
-        guard let url = recipient?.user.photos?.large else { return }
-        imageView.af_setImage(withURL: URL(string: url)!)
+//        label.text = recipient?.user.fullName() ?? ""
+//        
+//        let container = UIStackView(arrangedSubviews: [imageView, label]).then {
+//            $0.axis = .horizontal
+//            $0.alignment = .center
+//            $0.distribution = .fillProportionally
+//            $0.spacing = 10
+//            $0.translates = false
+//            $0.constrain(.height, constant: 44)
+//        }
+//        navigationItem.titleView = container
+//
+//        guard let url = recipient?.user.photos?.large else { return }
+//        imageView.af_setImage(withURL: URL(string: url)!)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -183,7 +184,7 @@ class MessagesViewController: JSQMessagesViewController {
         guard let secondMessage = messages[safe: indexPath.row - 1] else { return nil }
         guard messages[safe: indexPath.row + 1] != nil else { return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: messages[indexPath.row].date) }
 
-        if message.date.timeIntervalSince(secondMessage.date) < 60 * 30 { return nil }
+        if message.date.timeIntervalSince(secondMessage.date) < 60 * 5 { return nil }
         return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: messages[indexPath.row].date)
     }
     
@@ -191,7 +192,7 @@ class MessagesViewController: JSQMessagesViewController {
         let message = messages[indexPath.row]
         guard let secondMessage = messages[safe: indexPath.row - 1] else { return 0 }
         guard messages[safe: indexPath.row + 1] != nil else { return kJSQMessagesCollectionViewCellLabelHeightDefault }
-        if message.date.timeIntervalSince(secondMessage.date) < 60 * 30 { return 0 }
+        if message.date.timeIntervalSince(secondMessage.date) < 60 * 5 { return 0 }
         return kJSQMessagesCollectionViewCellLabelHeightDefault
     }
     
@@ -203,7 +204,7 @@ class MessagesViewController: JSQMessagesViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-        if action == #selector(editMessage(_:)){ editMessage(indexPath) }
+//        if action == #selector(editMessage(_:)){ editMessage(indexPath) }
         if action == #selector(deleteMessage(_:)){ deleteMessage(indexPath) }
         super.collectionView(collectionView, performAction: action, forItemAt: indexPath, withSender: sender)
     }
@@ -214,7 +215,8 @@ class MessagesViewController: JSQMessagesViewController {
     
     override func didReceiveMenuWillShow(_ notification: Notification) {
         let menu = notification.object as! UIMenuController
-        menu.menuItems = [UIMenuItem(title: "Edit", action: #selector(editMessage(_:))), UIMenuItem(title: "Delete", action: #selector(deleteMessage(_:)))]
+        //UIMenuItem(title: "Edit", action: #selector(editMessage(_:))),
+        menu.menuItems = [UIMenuItem(title: "Delete", action: #selector(deleteMessage(_:)))]
         super.didReceiveMenuWillShow(notification)
     }
     
@@ -229,6 +231,11 @@ class MessagesViewController: JSQMessagesViewController {
     func deleteMessage(_ indexPath: IndexPath) {
         guard let meshMessage = meshMessages?[indexPath.row] else { return }
         Client.execute(MessagesDeleteRequest(id: meshMessage._id), completionHandler: { response in
+            for (index, outer) in UserResponse.messages.enumerated() {
+                if outer._id == meshMessage._id {
+                    UserResponse.messages.remove(at: index)
+                }
+            }
             self.messages.remove(at: indexPath.row)
             self.collectionView?.reloadData()
         })

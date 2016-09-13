@@ -53,7 +53,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
             self.fetchContacts()
         })], image: #imageLiteral(resourceName: "connectionsAddContacts"))
         emptyView!.titleLabel.text = ContactsManager.authStatus == .denied ? "Permissions Are Turned Off" : "Add Contacts"
-        emptyView!.textLabel.text = ContactsManager.authStatus == .denied ? "Contact permissions can be enabled under your iPhone settings for Ripple" : "Find who you already know on Ripple. Connect and stay up to date with them."
+        emptyView!.textLabel.text = ContactsManager.authStatus == .denied ? "Contact permissions can be enabled under your iPhone settings for Mesh" : "Find who you already know on Mesh. Connect and stay up to date with them."
         emptyView!.translates = false
         tableView.addSubview(emptyView!)
         emptyView!.constrain(.width, .height, .centerX, .centerY, toItem: tableView)
