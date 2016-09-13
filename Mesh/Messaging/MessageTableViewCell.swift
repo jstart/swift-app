@@ -33,6 +33,9 @@ class MessageTableViewCell: MGSwipeTableCell {
         
         name.font = .systemFont(ofSize: name.font.pointSize)
         message.font = .systemFont(ofSize: message.font.pointSize)
+        
+//        profile.image = nil
+//        company.image = nil
     }
     
     override func awakeFromNib() {
@@ -48,6 +51,9 @@ class MessageTableViewCell: MGSwipeTableCell {
 
         name.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
         
+        profile.image = #imageLiteral(resourceName: "profile_sample")
+        company.image = #imageLiteral(resourceName: "tesla")
+        
         leftExpansion.threshold = 1.5
         leftExpansion.fillOnTrigger = true
         leftExpansion.buttonIndex = 0
@@ -62,9 +68,10 @@ class MessageTableViewCell: MGSwipeTableCell {
             name.font = .boldSystemFont(ofSize: name.font.pointSize)
             message.font = .boldSystemFont(ofSize: message.font.pointSize)
         }
-        company.image = #imageLiteral(resourceName: "tesla")
+//        profile.image = #imageLiteral(resourceName: "profile_sample")
+//        company.image = #imageLiteral(resourceName: "tesla")
         message.text = aMessage.text ?? ""
-        guard let small = user.photos?.small else { profile.image = nil; return }
+        guard let small = user.photos?.small else { return }
         profile.af_setImage(withURL: URL(string: small)!)
     }
     

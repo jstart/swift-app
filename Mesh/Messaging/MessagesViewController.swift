@@ -22,8 +22,8 @@ class MessagesViewController: JSQMessagesViewController {
         $0.backgroundColor = .gray
         $0.constrain(.width, .height, constant: 30)
     }
-    let outgoingImage: JSQMessagesBubbleImage = JSQMessagesBubbleImage(messageBubble: .imageWithColor(Colors.brand), highlightedImage: .imageWithColor(#colorLiteral(red: 0.9450980392, green: 0.9411764706, blue: 0.9411764706, alpha: 1)))
-    let incomingImage : JSQMessagesBubbleImage = JSQMessagesBubbleImage(messageBubble: .imageWithColor(#colorLiteral(red: 0.9450980392, green: 0.9411764706, blue: 0.9411764706, alpha: 1)), highlightedImage: .imageWithColor(Colors.brand))
+    let outgoingImage = JSQMessagesBubbleImage(messageBubble: .imageWithColor(Colors.brand), highlightedImage: .imageWithColor(#colorLiteral(red: 0.9450980392, green: 0.9411764706, blue: 0.9411764706, alpha: 1)))
+    let incomingImage = JSQMessagesBubbleImage(messageBubble: .imageWithColor(#colorLiteral(red: 0.9450980392, green: 0.9411764706, blue: 0.9411764706, alpha: 1)), highlightedImage: .imageWithColor(Colors.brand))
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,7 +56,15 @@ class MessagesViewController: JSQMessagesViewController {
 
 //        showTypingIndicator = true
         
-        Client.execute(MarkReadRequest(read: true, id: recipient?.user._id ?? "")) { _ in }
+        Client.execute(MarkReadRequest(read: true, id: recipient?.user._id ?? "")) { _ in
+            for (index, outer) in UserResponse.connections.enumerated() {
+                if outer._id == self.recipient?._id {
+                    UserResponse.connections.remove(at: index)
+                    self.recipient!.read = true
+                    UserResponse.connections.append(self.recipient!)
+                }
+            }
+        }
         timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(refresh), userInfo: nil, repeats: true)
     }
     
@@ -112,7 +120,15 @@ class MessagesViewController: JSQMessagesViewController {
     
     func toggleReadState() {
         guard let recipient = recipient else { return }
-        Client.execute(MarkReadRequest(read: !recipient.read, id: recipient.user._id), completionHandler: { _ in self.recipient?.read = !recipient.read })
+        Client.execute(MarkReadRequest(read: !recipient.read, id: recipient.user._id), completionHandler: { _ in
+            for (index, outer) in UserResponse.connections.enumerated() {
+                if outer._id == self.recipient?._id {
+                    UserResponse.connections.remove(at: index)
+                    self.recipient!.read = !self.recipient!.read
+                    UserResponse.connections.append(self.recipient!)
+                }
+            }
+        })
         
         Snackbar(title: "Marked " + (!recipient.read ? "Read" : "Unread")).presentIn(inputToolbar)
     }

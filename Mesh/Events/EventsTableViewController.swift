@@ -60,7 +60,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 2 : 3
+        return section == 0 ? 1 : 1
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -78,7 +78,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath)
-        cell.name.text = "Java"
+        cell.name.text = "Feature still in development"
         cell.title.text = nil
         cell.profile.image = #imageLiteral(resourceName: "tesla")
         cell.company.image = nil

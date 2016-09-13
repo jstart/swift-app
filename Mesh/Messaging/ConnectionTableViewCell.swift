@@ -30,8 +30,8 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         button.isHidden = true
         button.isSelected = false
         button.layer.borderWidth = 1
-        profile.image = nil
-        company.image = nil
+//        profile.image = nil
+//        company.image = nil
         buttonHandler = nil
         initials.isHidden = true
         initials.text = nil
@@ -56,6 +56,9 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         
         leftSwipeSettings.transition = .drag
         rightSwipeSettings.transition = .drag
+        
+        profile.image = #imageLiteral(resourceName: "profile_sample")
+        company.image = #imageLiteral(resourceName: "tesla")
     }
     
     func showInitials(firstName: String, lastName: String) {
@@ -68,8 +71,8 @@ class ConnectionTableViewCell: MGSwipeTableCell {
     func configure(_ user: UserResponse){
         name.text = user.fullName()
         title.text = user.fullTitle()
-        profile.image = #imageLiteral(resourceName: "profile_sample")
-        company.image = #imageLiteral(resourceName: "tesla")
+//        profile.image = #imageLiteral(resourceName: "profile_sample")
+//        company.image = #imageLiteral(resourceName: "tesla")
     }
     
     func add(message: MessageResponse? = nil, read: Bool) {

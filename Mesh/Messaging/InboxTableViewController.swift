@@ -19,7 +19,6 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     var addItem : UIBarButtonItem?
     var todoMessages = [MessageResponse]()
     var recentSearches = (UserDefaults.standard["RecentConnectionSearches"] as? [String]) ?? [String]()
-    
     var quickReplyAction = {}
 
     override func viewDidLoad() {
@@ -61,11 +60,11 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
     
     func refresh() {
-        Client.execute(UpdatesRequest.fresh(), completionHandler: { response in
+        Client.execute(UpdatesRequest.latest(), completionHandler: { response in
             //TODO: updates won't reflect read/unread state unless we fetch a fresh copy of everything
             
-            UserResponse.connections = []
-            UserResponse.messages = []
+//            UserResponse.connections = []
+//            UserResponse.messages = []
             
             UpdatesRequest.append(response) {
                 let valid = UserResponse.messages.filter({$0.sender != UserResponse.current?._id && $0.text != ""})
@@ -74,14 +73,14 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 guard let second = valid.filter({$0.sender != first.sender && $0.text != ""}).first else { self.tableView.reloadData(); return }
                 self.todoMessages.append(second)
                 self.tableView.reloadData()
-                
-                DispatchQueue.global().async {
-                    guard let json = response.result.value as? JSONDictionary else { return }
-                    guard let messages = (json["messages"] as? JSONDictionary)?["messages"] as? JSONArray else { return }
-                    let data = messages.map({return Message(JSON: $0)})
-                    CoreData.saveBackgroundContext()
-                    let fetched = CoreData.fetch()
-                }
+
+//                CoreData.backgroundContext.perform({
+//                    guard let json = response.result.value as? JSONDictionary else { return }
+//                    guard let messages = (json["messages"] as? JSONDictionary)?["messages"] as? JSONArray else { return }
+//                    let data = messages.map({return Message(JSON: $0)})
+//                    CoreData.saveBackgroundContext()
+//                    let fetched = CoreData.fetch()
+//                })
             }
         })
     }
@@ -151,69 +150,75 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 && todoMessages.count > 0 {
             guard let message = todoMessages[safe: indexPath.row] else { return UITableViewCell() }
-            guard let connection = UserResponse.connections.filter({ return $0.user._id == message.sender }).first else { return UITableViewCell() }
+            guard var connection = UserResponse.connections.filter({ return $0.user._id == message.sender }).first else { return UITableViewCell() }
 
-            if SwiftLinkPreview.extractURL(message.text ?? "") != nil {
-                let cell = tableView.dequeue(MessagePreviewTableViewCell.self, indexPath: indexPath)
-                cell.skip?.callback = { sender in
-                    let currentIndex = tableView.indexPath(for: sender!)!
-                    self.todoMessages.remove(at: currentIndex.row)
-                    if self.todoMessages.count == 0 {
-                        tableView.deleteSections([indexPath.section], with: .automatic)
-                    }else {
-                        tableView.deleteRows(at: [currentIndex], with: .automatic)
-                    }
-                    return true
+//            if SwiftLinkPreview.extractURL(message.text ?? "") != nil {
+//                let cell = tableView.dequeue(MessagePreviewTableViewCell.self, indexPath: indexPath)
+//                cell.skip?.callback = { sender in
+//                    let currentIndex = tableView.indexPath(for: sender!)!
+//                    self.todoMessages.remove(at: currentIndex.row)
+//                    if self.todoMessages.count == 0 {
+//                        tableView.deleteSections([indexPath.section], with: .automatic)
+//                    }else {
+//                        tableView.deleteRows(at: [currentIndex], with: .automatic)
+//                    }
+//                    return true
+//                }
+//                cell.leftButtons = [cell.skip]
+//                cell.configure(message, user: connection.user, read: connection.read)
+//                cell.pressedAction = ({
+//                    let article = ArticleViewController()
+//                    article.url = SwiftLinkPreview.extractURL(message.text ?? "")?.absoluteString
+//                    article.user = connection.user
+//                    self.navigationController?.push(article)
+//                })
+//                return cell
+//            }else {
+            let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath)
+            cell.skip.callback = { sender in
+                let currentIndex = tableView.indexPath(for: sender!)!
+                self.todoMessages.remove(at: currentIndex.row)
+                if self.todoMessages.count == 0 {
+                    tableView.deleteSections([indexPath.section], with: .automatic)
+                }else {
+                    tableView.deleteRows(at: [currentIndex], with: .automatic)
                 }
-                cell.leftButtons = [cell.skip]
-                cell.configure(message, user: connection.user, read: connection.read)
-                cell.pressedAction = ({
-                    let article = ArticleViewController()
-                    article.url = SwiftLinkPreview.extractURL(message.text ?? "")?.absoluteString
-                    article.user = connection.user
-                    self.navigationController?.push(article)
+                return false
+            }
+            cell.leftButtons = [cell.skip]
+            
+            let title = connection.read ? "Mark Unread" : "Mark Read"
+            cell.read.titleLabel?.text = title
+            cell.read.callback = { _ in
+                cell.add(read: !connection.read)
+                Client.execute(MarkReadRequest(read: !connection.read, id: connection.user._id), completionHandler: { _ in
+                    for (index, outer) in UserResponse.connections.enumerated() {
+                        if outer._id == connection._id {
+                            UserResponse.connections.remove(at: index)
+                            connection.read = !connection.read
+                            UserResponse.connections.append(connection)
+                            self.tableView.reloadData()
+                        }
+                    }
                 })
-                return cell
-            }else {
-                let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath)
-                cell.skip.callback = { sender in
-                    let currentIndex = tableView.indexPath(for: sender!)!
-                    self.todoMessages.remove(at: currentIndex.row)
-                    if self.todoMessages.count == 0 {
-                        tableView.deleteSections([indexPath.section], with: .automatic)
-                    }else {
-                        tableView.deleteRows(at: [currentIndex], with: .automatic)
-                    }
-                    return false
-                }
-                cell.leftButtons = [cell.skip]
-                
-                let title = connection.read ? "Mark Unread" : "Mark Read"
-                cell.read.titleLabel?.text = title
-                cell.read.callback = { _ in
-                    cell.add(read: !connection.read)
-                    Client.execute(MarkReadRequest(read: !connection.read, id: connection.user._id), completionHandler: { _ in
-                        self.refresh()
-                    })
-                    return true
-                }
-                cell.mute.callback = { sender in return true }
-                cell.block.callback = { sender in
-                    Client.execute(ConnectionDeleteRequest(connection_id: connection._id), completionHandler: { _ in })
-                    UserResponse.connections.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .automatic)
-                    return true
-                }
-                cell.rightButtons = [cell.read, cell.mute, cell.block]
-                cell.configure(message, user: connection.user, read: connection.read)
-                cell.pressedAction = ({ self.presentQuickReply(user: connection.user, message: message) })
-                
-                let message = UserResponse.messages.filter({ return $0.recipient == connection.user._id || $0.sender == connection.user._id })[safe: 0]
-                cell.add(message: message, read: connection.read)
-                return cell            }
+                return true
+            }
+            cell.mute.callback = { sender in return true }
+            cell.block.callback = { sender in
+                Client.execute(ConnectionDeleteRequest(connection_id: connection._id), completionHandler: { _ in })
+                UserResponse.connections.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+                return true
+            }
+            cell.rightButtons = [cell.read, cell.mute, cell.block]
+            cell.configure(message, user: connection.user, read: connection.read)
+            cell.pressedAction = ({ self.presentQuickReply(user: connection.user, message: message) })
+            
+            cell.add(message: message, read: connection.read)
+            return cell
         } else {
             let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath)
-            guard let connection = UserResponse.connections[safe: indexPath.row] else { return cell }
+            guard var connection = UserResponse.connections[safe: indexPath.row] else { return cell }
             cell.configure(connection.user)
             
             let title = connection.read ? "Mark Unread" : "Mark Read"
@@ -221,7 +226,14 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             cell.read.callback = { _ in
                 cell.add(read: !connection.read)
                 Client.execute(MarkReadRequest(read: !connection.read, id: connection.user._id), completionHandler: { _ in
-                    self.refresh()
+                    for (index, outer) in UserResponse.connections.enumerated() {
+                        if outer._id == connection._id {
+                            UserResponse.connections.remove(at: index)
+                            connection.read = !connection.read
+                            UserResponse.connections.append(connection)
+                            self.tableView.reloadData()
+                        }
+                    }
                 })
                 return true
             }
