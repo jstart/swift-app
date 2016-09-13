@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11224.2" systemVersion="16A319" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="Data">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11232" systemVersion="16A319" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="Data">
     <entity name="Card" representedClassName="Card" syncable="YES">
         <attribute name="email" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="first_name" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
@@ -76,9 +76,9 @@
         </uniquenessConstraints>
     </entity>
     <elements>
+        <element name="Card" positionX="36" positionY="162" width="128" height="150"/>
         <element name="Connection" positionX="-36" positionY="9" width="128" height="150"/>
         <element name="Message" positionX="135" positionY="24" width="128" height="120"/>
         <element name="User" positionX="-38" positionY="204" width="128" height="165"/>
-        <element name="Card" positionX="36" positionY="162" width="128" height="150"/>
     </elements>
 </model>
