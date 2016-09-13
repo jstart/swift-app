@@ -168,7 +168,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         guard let largeURL = card?.person?.user?.photos?.large else {
             imageView.image = #imageLiteral(resourceName: "profile_sample"); return
         }
-        imageView.alpha = 0.0
+        imageView.alpha = 0
         imageView.af_setImage(withURL: URL(string: largeURL)!, completion: { response in
             self.imageView.fadeIn()
         })

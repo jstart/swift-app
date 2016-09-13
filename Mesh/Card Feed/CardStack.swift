@@ -13,8 +13,8 @@ protocol CardDelegate { func swiped(_ direction: UISwipeGestureRecognizerDirecti
 class CardStack : UIViewController, CardDelegate {
     
     var cards : [Rec]? = nil
-    var topCard : CardViewController = CardViewController()
-    var bottomCard : CardViewController = CardViewController()
+    var topCard = CardViewController()
+    var bottomCard = CardViewController()
     var cardIndex = 0
     
     func addNewCard() {
