@@ -18,6 +18,7 @@ class Snackbar : UIView {
         $0.textColor = .white
         $0.font = .systemFont(ofSize: 14)
         $0.numberOfLines = 3
+        $0.backgroundColor = #colorLiteral(red: 0.1960784314, green: 0.1960784314, blue: 0.1960784314, alpha: 1)
     }
     
     let button = UIButton(translates: false)

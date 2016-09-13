@@ -10,11 +10,15 @@ import UIKit
 
 class FeedViewController: UIViewController {
 
-    let cardStack = CardStack()
+    let cardStack = CardStack().then {
+        $0.view.backgroundColor = .white
+    }
     let locationManager = LocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
+        
         addChildViewController(cardStack)
         view.addSubview(cardStack.view)
         

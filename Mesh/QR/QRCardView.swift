@@ -14,17 +14,19 @@ class QRCardView: CardView {
     
     let qrImage = UIImageView(translates: false).then {
         $0.constrain(.width, .height, constant: 100)
-        $0.backgroundColor = AlertAction.defaultBackground
+        $0.backgroundColor = .white
     }
     
     let name = UILabel(translates: false).then {
         $0.textColor = .black
         $0.font = .boldSystemFont(ofSize: 22)
+        $0.backgroundColor = .white
     }
     
     let pageControl = UIPageControl(translates: false).then {
         $0.currentPageIndicatorTintColor = Colors.brand
         $0.pageIndicatorTintColor = .lightGray
+        $0.backgroundColor = .white
         $0.constrain((.height, 5), (.width, 100))
     }
     var token: String = ""
@@ -117,6 +119,7 @@ class QRCardView: CardView {
             $0.font = .systemFont(ofSize: 16)
             $0.text = text
             $0.isHidden = true
+            $0.backgroundColor = .white
         }
     }
 

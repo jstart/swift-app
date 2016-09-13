@@ -26,8 +26,6 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         $0.translates = false
         $0.layer.borderWidth = 1;
         $0.layer.borderColor = UIColor.clear.cgColor
-        $0.layer.rasterizationScale = UIScreen.main.scale
-        $0.layer.shouldRasterize = true
     }
     let transition = CardDetailTransition()
     
@@ -70,12 +68,14 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         view.addGestureRecognizer(tapRec!)
         
         let quickViewStack = UIStackView(arrangedSubviews: [bar(), control.stack!, bar()])
+        quickViewStack.backgroundColor = .white
         quickViewStack.distribution = .fillProportionally
         quickViewStack.alignment = .center
         quickViewStack.spacing = 0
         
         viewPager = ViewPager(views: QuickViewGenerator.viewsForDetails(card?.person?.details))
         viewPager?.scroll.panGestureRecognizer.require(toFail: gestureRec!)
+        viewPager?.scroll.backgroundColor = .white
         control.delegate = viewPager!
         viewPager?.delegate = control
         control.selectIndex(0)
@@ -83,8 +83,10 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! : "Micha Kaufman"
         position.text = "VP of Engineering at Tesla"
 
-        let namePositionContainer = UIView()
-        namePositionContainer.accessibilityIdentifier = "namePositionContainer"
+        let namePositionContainer = UIView().then {
+            $0.backgroundColor = .white
+        }
+        
         namePositionContainer.addSubviews(name, position)
         
         let bottomStack = UIStackView(arrangedSubviews: [namePositionContainer, quickViewStack, viewPager!.scroll])
