@@ -102,7 +102,6 @@ class CoreData {
                     let delete = NSBatchDeleteRequest(fetchRequest: entity as! NSFetchRequest<NSFetchRequestResult>)
                     try managedObjectContext.execute(delete)
                 }
-                try managedObjectContext.save()
             } catch {
                 print (error)
             }

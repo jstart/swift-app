@@ -12,6 +12,7 @@ class AddCardView: CardView {
     
     let add = UIImageView(image: #imageLiteral(resourceName: "addCard"))
     let text = UILabel().then {
+        $0.font = .proxima(ofSize: 17)
         $0.textColor = .lightGray
     }
     var handler = {}

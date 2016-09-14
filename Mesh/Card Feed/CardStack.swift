@@ -23,9 +23,9 @@ class CardStack : UIViewController, CardDelegate {
 
         switch card.type {
         case .person:
-            bottomCard.card = next
-            bottomCard.delegate = self
-            addCard(bottomCard, animated: false)
+//            bottomCard.card = next
+//            bottomCard.delegate = self
+//            addCard(bottomCard, animated: false)
             
             topCard.card = card
             topCard.delegate = self

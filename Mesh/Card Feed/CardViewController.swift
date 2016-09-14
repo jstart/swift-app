@@ -140,6 +140,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        imageView.layer.mask = nil
         
         var rect = imageView.bounds
         rect.size.width = view.frame.size.width
@@ -155,7 +156,6 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewDidLayoutSubviews()
         overlayView.alpha = 0.0
         overlayView.isHidden = true
         

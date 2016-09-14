@@ -75,10 +75,10 @@ extension UIImage {
 
 extension UIFont {
     
-    static func proxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "Proxima Nova Soft", size: ofSize)! }
+    static func proxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Medium", size: ofSize)! }
     static func boldProxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Semibold", size: ofSize)! }
     static func semiboldProxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Semibold", size: ofSize)! }
-    static func mediumProxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Medium", size: ofSize)! }
+    static func regularProxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Regular", size: ofSize)! }
 }
 
 extension UIAlertController {
