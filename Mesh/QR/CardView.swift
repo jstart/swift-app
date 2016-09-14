@@ -10,7 +10,7 @@ import UIKit
 
 class CardView: UIView {
     
-    convenience init() {
+    convenience init(height: CGFloat = 180) {
         self.init(frame:CGRect.zero)
         layer.shadowColor = UIColor.darkGray.cgColor
         layer.shadowOpacity = 0.75
@@ -18,7 +18,7 @@ class CardView: UIView {
         backgroundColor = .white
         layer.cornerRadius = 5
         translates = false
-        constrain(.height, constant: 180)
+        constrain((.height, height))
     }
 
 }

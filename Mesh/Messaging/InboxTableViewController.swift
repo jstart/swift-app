@@ -88,9 +88,9 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 CoreData.backgroundContext.perform({
                     guard let json = response.result.value as? JSONDictionary else { return }
                     guard let messages = (json["messages"] as? JSONDictionary)?["messages"] as? JSONArray else { return }
-                    let data = messages.map({return Message(JSON: $0)})
+                    _ = messages.map({return Message(JSON: $0)})
                     CoreData.saveBackgroundContext()
-                    let fetched = CoreData.fetch(Message.self) as! [Message]
+                    _ = CoreData.fetch(Message.self) as! [Message]
                 })
             }
         })

@@ -29,6 +29,14 @@
 		23C51ADA1D88C32800C926F1 /* proximanovasoft-medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 23C51AD61D88C32800C926F1 /* proximanovasoft-medium.otf */; };
 		23C51ADB1D88C32800C926F1 /* proximanovasoft-regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 23C51AD71D88C32800C926F1 /* proximanovasoft-regular.otf */; };
 		23C51ADC1D88C32800C926F1 /* proximanovasoft-semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 23C51AD81D88C32800C926F1 /* proximanovasoft-semibold.otf */; };
+		23C51ADE1D88E61C00C926F1 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51ADD1D88E61C00C926F1 /* LaunchViewController.swift */; };
+		23C51AE01D88E6D400C926F1 /* SMSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51ADF1D88E6D400C926F1 /* SMSViewController.swift */; };
+		23C51AE21D88E6E000C926F1 /* SMSVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51AE11D88E6E000C926F1 /* SMSVerifyViewController.swift */; };
+		23C51AE41D88FA8200C926F1 /* IndustryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51AE31D88FA8200C926F1 /* IndustryViewController.swift */; };
+		23C51AE61D88FCCA00C926F1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 23C51AE51D88FCCA00C926F1 /* Localizable.strings */; };
+		23C51AE81D88FF5100C926F1 /* SkillCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51AE71D88FF5100C926F1 /* SkillCollectionViewCell.swift */; };
+		23C51AEA1D89019500C926F1 /* IndustriesCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51AE91D89019500C926F1 /* IndustriesCollectionViewDataSource.swift */; };
+		23C51AEC1D89019E00C926F1 /* SkillsCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51AEB1D89019E00C926F1 /* SkillsCollectionViewDataSource.swift */; };
 		23C872201D83753200B21AB6 /* PreviewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721B1D83753200B21AB6 /* PreviewError.swift */; };
 		23C872211D83753200B21AB6 /* PreviewErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721C1D83753200B21AB6 /* PreviewErrorTypes.swift */; };
 		23C872221D83753200B21AB6 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721D1D83753200B21AB6 /* Regex.swift */; };
@@ -120,13 +128,19 @@
 		234FA1DE1D86031900670E1D /* CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
 		236E27B71D67C9D2002ABAB4 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		237827221D7B50B20059AB37 /* CardRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardRequest.swift; sourceTree = "<group>"; };
-		237B78661D78FB2E0018347A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
-		237B78681D78FD000018347A /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = Carthage/Build/iOS/AlamofireImage.framework; sourceTree = "<group>"; };
 		238271931D7E92E40005F254 /* ContactsRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsRequest.swift; sourceTree = "<group>"; };
 		23C51AD51D88C32800C926F1 /* proximanovasoft-bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanovasoft-bold.otf"; sourceTree = "<group>"; };
 		23C51AD61D88C32800C926F1 /* proximanovasoft-medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanovasoft-medium.otf"; sourceTree = "<group>"; };
 		23C51AD71D88C32800C926F1 /* proximanovasoft-regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanovasoft-regular.otf"; sourceTree = "<group>"; };
 		23C51AD81D88C32800C926F1 /* proximanovasoft-semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanovasoft-semibold.otf"; sourceTree = "<group>"; };
+		23C51ADD1D88E61C00C926F1 /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		23C51ADF1D88E6D400C926F1 /* SMSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSViewController.swift; sourceTree = "<group>"; };
+		23C51AE11D88E6E000C926F1 /* SMSVerifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSVerifyViewController.swift; sourceTree = "<group>"; };
+		23C51AE31D88FA8200C926F1 /* IndustryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndustryViewController.swift; sourceTree = "<group>"; };
+		23C51AE51D88FCCA00C926F1 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = "Support Files/Localizable.strings"; sourceTree = "<group>"; };
+		23C51AE71D88FF5100C926F1 /* SkillCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillCollectionViewCell.swift; sourceTree = "<group>"; };
+		23C51AE91D89019500C926F1 /* IndustriesCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndustriesCollectionViewDataSource.swift; sourceTree = "<group>"; };
+		23C51AEB1D89019E00C926F1 /* SkillsCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillsCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		23C872171D83751100B21AB6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Support Files/Info.plist"; sourceTree = "<group>"; };
 		23C872181D83751100B21AB6 /* Mesh.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = Mesh.entitlements; path = "Support Files/Mesh.entitlements"; sourceTree = "<group>"; };
 		23C8721B1D83753200B21AB6 /* PreviewError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewError.swift; sourceTree = "<group>"; };
@@ -256,6 +270,7 @@
 				23C872171D83751100B21AB6 /* Info.plist */,
 				23C872181D83751100B21AB6 /* Mesh.entitlements */,
 				ADECA8F01D51540900726AEF /* LaunchScreen.storyboard */,
+				23C51AE51D88FCCA00C926F1 /* Localizable.strings */,
 			);
 			name = "Support Files";
 			sourceTree = "<group>";
@@ -360,6 +375,13 @@
 				23C8727C1D8376C000B21AB6 /* JoinTableViewController.swift */,
 				23C8727D1D8376C000B21AB6 /* LoginTableViewController.swift */,
 				23C8727E1D8376C000B21AB6 /* SignUpTableViewController.swift */,
+				23C51ADD1D88E61C00C926F1 /* LaunchViewController.swift */,
+				23C51ADF1D88E6D400C926F1 /* SMSViewController.swift */,
+				23C51AE11D88E6E000C926F1 /* SMSVerifyViewController.swift */,
+				23C51AE31D88FA8200C926F1 /* IndustryViewController.swift */,
+				23C51AEB1D89019E00C926F1 /* SkillsCollectionViewDataSource.swift */,
+				23C51AE91D89019500C926F1 /* IndustriesCollectionViewDataSource.swift */,
+				23C51AE71D88FF5100C926F1 /* SkillCollectionViewCell.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -478,8 +500,6 @@
 		D163224E52E4F2D2F80461D0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				237B78681D78FD000018347A /* AlamofireImage.framework */,
-				237B78661D78FB2E0018347A /* Alamofire.framework */,
 				23F8179D1D78F790006AE3F3 /* MGSwipeTableCell.framework */,
 				5EF9D3831062B1B259E8EE70 /* Pods_Mesh.framework */,
 			);
@@ -566,6 +586,7 @@
 				ADECA8F21D51540900726AEF /* LaunchScreen.storyboard in Resources */,
 				ADECA8EF1D51540900726AEF /* Assets.xcassets in Resources */,
 				23C51ADC1D88C32800C926F1 /* proximanovasoft-semibold.otf in Resources */,
+				23C51AE61D88FCCA00C926F1 /* Localizable.strings in Resources */,
 				23C51ADB1D88C32800C926F1 /* proximanovasoft-regular.otf in Resources */,
 				23C51AD91D88C32800C926F1 /* proximanovasoft-bold.otf in Resources */,
 				23C51ADA1D88C32800C926F1 /* proximanovasoft-medium.otf in Resources */,
@@ -691,6 +712,7 @@
 				234FA1791D83D45D00670E1D /* PhoneNumberFormatter.swift in Sources */,
 				23C8727F1D8376C000B21AB6 /* JoinTableViewController.swift in Sources */,
 				23C872661D83762900B21AB6 /* QuickViewGenerator.swift in Sources */,
+				23C51AE21D88E6E000C926F1 /* SMSVerifyViewController.swift in Sources */,
 				AD4E2E1E1D5A75ED00130811 /* Client.swift in Sources */,
 				23C8724D1D83760300B21AB6 /* TwitterMessageMedia.swift in Sources */,
 				AD4E2E241D5AAE4300130811 /* MessagesRequest.swift in Sources */,
@@ -704,9 +726,13 @@
 				23C872461D83760300B21AB6 /* InboxSearchTableViewController.swift in Sources */,
 				23C8729D1D8377C000B21AB6 /* Keychain.swift in Sources */,
 				23C872301D83759A00B21AB6 /* EditCardView.swift in Sources */,
+				23C51AE41D88FA8200C926F1 /* IndustryViewController.swift in Sources */,
 				23C872441D83760300B21AB6 /* ConnectionTableViewCell.swift in Sources */,
 				23C872481D83760300B21AB6 /* MessagePreviewTableViewCell.swift in Sources */,
+				23C51AEA1D89019500C926F1 /* IndustriesCollectionViewDataSource.swift in Sources */,
 				23C872311D83759A00B21AB6 /* OutlineView.swift in Sources */,
+				23C51AEC1D89019E00C926F1 /* SkillsCollectionViewDataSource.swift in Sources */,
+				23C51ADE1D88E61C00C926F1 /* LaunchViewController.swift in Sources */,
 				23C8725E1D83762900B21AB6 /* Card.swift in Sources */,
 				ADECA8E81D51540900726AEF /* AppDelegate.swift in Sources */,
 				23C8724B1D83760300B21AB6 /* MessageTableViewCell.swift in Sources */,
@@ -728,6 +754,8 @@
 				23C872961D83776700B21AB6 /* EventsTableViewController.swift in Sources */,
 				23C8722E1D83759A00B21AB6 /* CardView.swift in Sources */,
 				23C872331D83759A00B21AB6 /* ScanViewController.swift in Sources */,
+				23C51AE01D88E6D400C926F1 /* SMSViewController.swift in Sources */,
+				23C51AE81D88FF5100C926F1 /* SkillCollectionViewCell.swift in Sources */,
 				23C872801D8376C000B21AB6 /* LoginTableViewController.swift in Sources */,
 				23C8728F1D83770300B21AB6 /* ArticleViewController.swift in Sources */,
 				233401711D866DE300E86D95 /* Card+CoreDataProperties.swift in Sources */,
@@ -868,7 +896,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
-				CURRENT_PROJECT_VERSION = 41;
+				CURRENT_PROJECT_VERSION = 43;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -892,7 +920,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
-				CURRENT_PROJECT_VERSION = 41;
+				CURRENT_PROJECT_VERSION = 43;
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

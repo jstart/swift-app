@@ -99,11 +99,27 @@ extension UIBarButtonItem {
     }
 }
 
+extension UICollectionView {
+    func registerClass(_ cellClasses: AnyClass...) {
+        for aClass in cellClasses { register(aClass, forCellWithReuseIdentifier: String(describing: aClass)) }
+    }
+    
+    func registerNib(_ cellClasses: AnyClass...) {
+        for aClass in cellClasses {
+            let string = String(describing: aClass)
+            register(UINib(nibName: string, bundle: nil), forCellWithReuseIdentifier: string)
+        }
+    }
+    
+    func dequeue<T: UICollectionViewCell>(_ cellClass: T.Type, indexPath: IndexPath) -> T{
+        let string = String(describing: cellClass)
+        return dequeueReusableCell(withReuseIdentifier: string, for: indexPath) as! T
+    }
+}
+
 extension UITableView {
     func registerClass(_ cellClasses: AnyClass...) {
-        for aClass in cellClasses {
-            register(aClass, forCellReuseIdentifier: String(describing: aClass))
-        }
+        for aClass in cellClasses { register(aClass, forCellReuseIdentifier: String(describing: aClass)) }
     }
     
     func registerNib(_ cellClasses: AnyClass...) {
@@ -196,13 +212,9 @@ extension UserDefaults {
 }
 
 extension Int {
-    func perform(_ closure: () -> Void) {
-        (0..<self).forEach { _ in closure() }
-    }
+    func perform(_ closure: () -> Void) { (0..<self).forEach { _ in closure() } }
     
-    func performIndex(_ closure: @escaping (Int) -> Void) {
-        (0..<self).forEach { index in closure(index) }
-    }
+    func performIndex(_ closure: @escaping (Int) -> Void) { (0..<self).forEach { index in closure(index) } }
 }
 
 extension Collection {
@@ -214,9 +226,6 @@ extension Collection {
 
 protocol Then {}
 extension Then where Self: AnyObject {
-    func then(_ block: (Self) -> Void) -> Self {
-        block(self)
-        return self
-    }
+    func then(_ block: (Self) -> Void) -> Self { block(self); return self }
 }
 extension NSObject: Then {}

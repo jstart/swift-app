@@ -74,7 +74,7 @@ struct Client {
                         return
                     }
                     UserResponse.current = UserResponse(JSON: JSON)
-                    print(User(JSON: JSON))
+                    //print(User(JSON: JSON))
                     UserDefaults.standard.set(JSON, forKey: "CurrentUser")
                     if request is AuthRequest || request is LoginRequest {
                         Token.persistToken(UserResponse.current?.token ?? "")

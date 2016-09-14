@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         window = UIWindow()
         window?.tintColor = #colorLiteral(red: 0.2, green: 0.7843137255, blue: 0.9960784314, alpha: 1)
+        window?.backgroundColor = .white
         appearance()
 
         if TARGET_IPHONE_SIMULATOR == 0 { Fabric.with([Crashlytics.self]) }
@@ -38,8 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
             let tab = window?.rootViewController as! UITabBarController
             tab.tabBar.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         } else {
-            let vc = JoinTableViewController(style: .grouped)
-            window?.rootViewController = UINavigationController(rootViewController: vc)
+            let vc = LaunchViewController()
+            window?.rootViewController = vc.withNav()
         }
 
         //socket.delegate = self
@@ -86,8 +87,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         UserResponse.messages = []
         CardResponse.cards = []
         URLCache.shared.removeAllCachedResponses()
-        let vc = JoinTableViewController(style: .grouped)
-        window?.rootViewController = UINavigationController(rootViewController: vc)
+        let vc = LaunchViewController()
+        window?.rootViewController = vc.withNav()
         CoreData.delete()
     }
 }

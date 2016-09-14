@@ -66,9 +66,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
                 let tab = UIApplication.shared.delegate!.window??.rootViewController as! UITabBarController
                 tab.tabBar.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
                 Keychain.deleteLogin()
-                let status = Keychain.addLogin(phone: self.phoneField!.text!, password: self.passwordField!.text!)
-                print(status)
-                print(Keychain.fetchLogin())
+                let _ = Keychain.addLogin(phone: self.phoneField!.text!, password: self.passwordField!.text!)
             } else {
                 let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
                 alert.addAction(UIAlertAction("Ok", style: .cancel))

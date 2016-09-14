@@ -19,7 +19,7 @@ class CardStack : UIViewController, CardDelegate {
     
     func addNewCard() {
         let card = cards![cardIndex]
-        let next = cards![cardIndex + 1]
+        _ = cards![cardIndex + 1]
 
         switch card.type {
         case .person:

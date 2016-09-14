@@ -38,7 +38,6 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
     
     convenience init(_ user: UserResponse) {
         self.init()
-        done.titleLabel
         clipsToBounds = true
         layer.shadowColor = UIColor.clear.cgColor
         addSubviews(tableView, cancel, done)
