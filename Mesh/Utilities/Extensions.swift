@@ -73,6 +73,14 @@ extension UIImage {
     }
 }
 
+extension UIFont {
+    
+    static func proxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "Proxima Nova Soft", size: ofSize)! }
+    static func boldProxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Semibold", size: ofSize)! }
+    static func semiboldProxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Semibold", size: ofSize)! }
+    static func mediumProxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Medium", size: ofSize)! }
+}
+
 extension UIAlertController {
     func addActions(_ actions: UIAlertAction...) { for action in actions { addAction(action) } }
     static func sheet() -> UIAlertController { return UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet) }

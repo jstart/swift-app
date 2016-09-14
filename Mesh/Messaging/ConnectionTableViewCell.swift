@@ -37,8 +37,8 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         initials.text = nil
         profile.backgroundColor = .clear
         
-        name.font = .systemFont(ofSize: name.font.pointSize)
-        title.font = .systemFont(ofSize: title.font.pointSize)
+        name.font = .proxima(ofSize: name.font.pointSize)
+        title.font = .proxima(ofSize: title.font.pointSize)
     }
     
     override func awakeFromNib() {
@@ -62,6 +62,7 @@ class ConnectionTableViewCell: MGSwipeTableCell {
     }
     
     func showInitials(firstName: String, lastName: String) {
+        profile.image = nil
         profile.backgroundColor = .gray
         initials.isHidden = false
         let firstInitial = firstName.characters.first ?? Character(" "), lastInitial = lastName.characters.first ?? Character(" ")
@@ -77,11 +78,11 @@ class ConnectionTableViewCell: MGSwipeTableCell {
     
     func add(message: MessageResponse? = nil, read: Bool) {
         if !read {
-            name.font = .boldSystemFont(ofSize: name.font.pointSize)
-            title.font = .boldSystemFont(ofSize: title.font.pointSize)
+            name.font = .boldProxima(ofSize: name.font.pointSize)
+            title.font = .boldProxima(ofSize: title.font.pointSize)
         } else {
-            name.font = .systemFont(ofSize: name.font.pointSize)
-            title.font = .systemFont(ofSize: title.font.pointSize)
+            name.font = .proxima(ofSize: name.font.pointSize)
+            title.font = .proxima(ofSize: title.font.pointSize)
         }
         if message?.text != nil { title.text = message?.text }
     }

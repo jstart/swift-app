@@ -72,7 +72,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
             $0.text = section == 0 ? "    TOPICS" : "    PREVIOUS EVENTS"
             $0.backgroundColor  = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
             $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
-            $0.font = .systemFont(ofSize: 12)
+            $0.font = .proxima(ofSize: 12)
         }
     }
     

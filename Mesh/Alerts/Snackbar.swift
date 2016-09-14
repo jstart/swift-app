@@ -16,7 +16,7 @@ class Snackbar : UIView {
     var dismissed = {}
     let message = UILabel(translates: false).then {
         $0.textColor = .white
-        $0.font = .systemFont(ofSize: 14)
+        $0.font = .proxima(ofSize: 14)
         $0.numberOfLines = 3
         $0.backgroundColor = #colorLiteral(red: 0.1960784314, green: 0.1960784314, blue: 0.1960784314, alpha: 1)
     }

@@ -13,7 +13,9 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
 
     var searchController : UISearchController!
     var quickCell : UIView?
-    var field : UITextField = UITextField(translates: false)
+    var field : UITextField = UITextField(translates: false).then {
+        $0.font = .proxima(ofSize: 15)
+    }
     let searchResults = InboxSearchTableViewController()
     var sortItem : UIBarButtonItem?
     var addItem : UIBarButtonItem?
@@ -152,7 +154,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             $0.text = section == 0 && todoMessages.count > 0 ? "    TO DO" : "    " + String(UserResponse.connections.count ) + " CONNECTIONS"
             $0.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
             $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
-            $0.font = .systemFont(ofSize: 12)
+            $0.font = .proxima(ofSize: 12)
         }
     }
 

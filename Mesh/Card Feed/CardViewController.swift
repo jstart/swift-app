@@ -39,13 +39,13 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     let name = UILabel(translates: false).then {
         $0.textColor = .black
         $0.backgroundColor = .white
-        $0.font = UIFont.systemFont(ofSize: 20)
+        $0.font = UIFont.proxima(ofSize: 20)
         $0.constrain(.height, constant: 22)
     }
     let position = UILabel(translates: false).then {
         $0.textColor = #colorLiteral(red: 0.7810397744, green: 0.7810582519, blue: 0.7810482979, alpha: 1)
         $0.backgroundColor = .white
-        $0.font = UIFont.systemFont(ofSize: 16)
+        $0.font = UIFont.proxima(ofSize: 16)
         $0.constrain(.height, constant: 20)
     }
 

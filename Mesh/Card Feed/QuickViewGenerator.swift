@@ -45,7 +45,7 @@ struct QuickViewGenerator {
         let label = UILabel(translates: false).then {
             $0.backgroundColor = .white
             $0.text = category.rawValue.capitalized
-            $0.font = UIFont.systemFont(ofSize: 14)
+            $0.font = .proxima(ofSize: 14)
             $0.textAlignment = .center
             $0.textColor = .lightGray
             $0.constrain(.height, constant: 20)
@@ -70,7 +70,7 @@ struct QuickViewGenerator {
         let label = UILabel(translates: false).then {
             $0.text = title
             $0.backgroundColor = .white
-            $0.font = UIFont.systemFont(ofSize: 12)
+            $0.font = .proxima(ofSize: 12)
             $0.textAlignment = .center
             $0.textColor = .lightGray
             $0.constrain(.height, constant: 20)

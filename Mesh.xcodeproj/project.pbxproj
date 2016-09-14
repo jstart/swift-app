@@ -25,6 +25,10 @@
 		236E27B81D67C9D2002ABAB4 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27B71D67C9D2002ABAB4 /* Token.swift */; };
 		237827231D7B50B20059AB37 /* CardRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237827221D7B50B20059AB37 /* CardRequest.swift */; };
 		238271941D7E92E40005F254 /* ContactsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238271931D7E92E40005F254 /* ContactsRequest.swift */; };
+		23C51AD91D88C32800C926F1 /* proximanovasoft-bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 23C51AD51D88C32800C926F1 /* proximanovasoft-bold.otf */; };
+		23C51ADA1D88C32800C926F1 /* proximanovasoft-medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 23C51AD61D88C32800C926F1 /* proximanovasoft-medium.otf */; };
+		23C51ADB1D88C32800C926F1 /* proximanovasoft-regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 23C51AD71D88C32800C926F1 /* proximanovasoft-regular.otf */; };
+		23C51ADC1D88C32800C926F1 /* proximanovasoft-semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 23C51AD81D88C32800C926F1 /* proximanovasoft-semibold.otf */; };
 		23C872201D83753200B21AB6 /* PreviewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721B1D83753200B21AB6 /* PreviewError.swift */; };
 		23C872211D83753200B21AB6 /* PreviewErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721C1D83753200B21AB6 /* PreviewErrorTypes.swift */; };
 		23C872221D83753200B21AB6 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721D1D83753200B21AB6 /* Regex.swift */; };
@@ -119,6 +123,10 @@
 		237B78661D78FB2E0018347A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		237B78681D78FD000018347A /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = Carthage/Build/iOS/AlamofireImage.framework; sourceTree = "<group>"; };
 		238271931D7E92E40005F254 /* ContactsRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsRequest.swift; sourceTree = "<group>"; };
+		23C51AD51D88C32800C926F1 /* proximanovasoft-bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanovasoft-bold.otf"; sourceTree = "<group>"; };
+		23C51AD61D88C32800C926F1 /* proximanovasoft-medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanovasoft-medium.otf"; sourceTree = "<group>"; };
+		23C51AD71D88C32800C926F1 /* proximanovasoft-regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanovasoft-regular.otf"; sourceTree = "<group>"; };
+		23C51AD81D88C32800C926F1 /* proximanovasoft-semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanovasoft-semibold.otf"; sourceTree = "<group>"; };
 		23C872171D83751100B21AB6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Support Files/Info.plist"; sourceTree = "<group>"; };
 		23C872181D83751100B21AB6 /* Mesh.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = Mesh.entitlements; path = "Support Files/Mesh.entitlements"; sourceTree = "<group>"; };
 		23C8721B1D83753200B21AB6 /* PreviewError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewError.swift; sourceTree = "<group>"; };
@@ -228,9 +236,22 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		23C51AD41D88C32800C926F1 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				23C51AD51D88C32800C926F1 /* proximanovasoft-bold.otf */,
+				23C51AD61D88C32800C926F1 /* proximanovasoft-medium.otf */,
+				23C51AD71D88C32800C926F1 /* proximanovasoft-regular.otf */,
+				23C51AD81D88C32800C926F1 /* proximanovasoft-semibold.otf */,
+			);
+			name = Fonts;
+			path = "Support Files/Fonts";
+			sourceTree = "<group>";
+		};
 		23C872161D83747800B21AB6 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
+				23C51AD41D88C32800C926F1 /* Fonts */,
 				23C9D0F91D8386B4004B274F /* Settings.bundle */,
 				23C872171D83751100B21AB6 /* Info.plist */,
 				23C872181D83751100B21AB6 /* Mesh.entitlements */,
@@ -542,10 +563,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23C8724C1D83760300B21AB6 /* MessageTableViewCell.xib in Resources */,
-				23C872491D83760300B21AB6 /* MessagePreviewTableViewCell.xib in Resources */,
 				ADECA8F21D51540900726AEF /* LaunchScreen.storyboard in Resources */,
 				ADECA8EF1D51540900726AEF /* Assets.xcassets in Resources */,
+				23C51ADC1D88C32800C926F1 /* proximanovasoft-semibold.otf in Resources */,
+				23C51ADB1D88C32800C926F1 /* proximanovasoft-regular.otf in Resources */,
+				23C51AD91D88C32800C926F1 /* proximanovasoft-bold.otf in Resources */,
+				23C51ADA1D88C32800C926F1 /* proximanovasoft-medium.otf in Resources */,
+				23C8724C1D83760300B21AB6 /* MessageTableViewCell.xib in Resources */,
+				23C872491D83760300B21AB6 /* MessagePreviewTableViewCell.xib in Resources */,
 				23C8726A1D83762900B21AB6 /* UserDetailTableViewCell.xib in Resources */,
 				23C872451D83760300B21AB6 /* ConnectionTableViewCell.xib in Resources */,
 				23C872631D83762900B21AB6 /* CardViewController.xib in Resources */,

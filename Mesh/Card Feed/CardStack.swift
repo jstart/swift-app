@@ -19,8 +19,14 @@ class CardStack : UIViewController, CardDelegate {
     
     func addNewCard() {
         let card = cards![cardIndex]
+        let next = cards![cardIndex + 1]
+
         switch card.type {
         case .person:
+            bottomCard.card = next
+            bottomCard.delegate = self
+            addCard(bottomCard, animated: false)
+            
             topCard.card = card
             topCard.delegate = self
             addCard(topCard)

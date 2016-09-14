@@ -13,6 +13,7 @@ class EditCardTableViewCell : UITableViewCell {
     let icon = UIImageView(translates: false)
     let contactField = UILabel(translates: false).then {
         $0.textColor = Colors.brand
+        $0.font = .proxima(ofSize: 17)
     }
     let check = UIImageView(translates: false)
     

@@ -24,6 +24,7 @@ class MessagesViewController: JSQMessagesViewController {
     }
     let outgoingImage = JSQMessagesBubbleImage(messageBubble: .imageWithColor(Colors.brand), highlightedImage: .imageWithColor(#colorLiteral(red: 0.9450980392, green: 0.9411764706, blue: 0.9411764706, alpha: 1)))
     let incomingImage = JSQMessagesBubbleImage(messageBubble: .imageWithColor(#colorLiteral(red: 0.9450980392, green: 0.9411764706, blue: 0.9411764706, alpha: 1)), highlightedImage: .imageWithColor(Colors.brand))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,6 +39,8 @@ class MessagesViewController: JSQMessagesViewController {
 //        JSQMessagesCollectionViewCell.registerMenuAction(#selector(editMessage(_:)))
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(deleteMessage(_:)))
         inputToolbar.preferredDefaultHeight = 200
+        
+        collectionView?.collectionViewLayout.messageBubbleFont = .proxima(ofSize: 17)
         
 //        TWTRAPIClient().loadTweet(withID: "631879971628183552") { (tweet, error) in
 //            guard let unwrappedTweet = tweet else { print("Tweet load error:\(error!.localizedDescription)"); return }
@@ -175,7 +178,7 @@ class MessagesViewController: JSQMessagesViewController {
         cell.messageBubbleContainerView?.layer.cornerRadius = 5.0
         cell.messageBubbleContainerView?.clipsToBounds = true
         cell.textView?.textColor = isOutgoingMessage(messages[indexPath.row]) ? .white : .black
-        cell.cellBottomLabel?.font = .systemFont(ofSize: 10)
+        cell.cellBottomLabel?.font = .proxima(ofSize: 10)
         return cell
     }
 

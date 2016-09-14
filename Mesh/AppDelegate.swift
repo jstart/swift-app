@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         window = UIWindow()
         window?.tintColor = #colorLiteral(red: 0.2, green: 0.7843137255, blue: 0.9960784314, alpha: 1)
+        appearance()
 
         if TARGET_IPHONE_SIMULATOR == 0 { Fabric.with([Crashlytics.self]) }
         NotificationCenter.default.addObserver(self, selector: #selector(logout(_:)), name: .logout, object: nil)
@@ -62,6 +63,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
     
     func applicationWillTerminate(_ application: UIApplication) {
         CoreData.saveContext()
+    }
+    
+    func appearance() {
+        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: UIFont.proxima(ofSize: 17)]
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).font = .proxima(ofSize: 20)
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont.proxima(ofSize: 17)], for: .normal)
     }
 
     override var canBecomeFirstResponder: Bool { return true }

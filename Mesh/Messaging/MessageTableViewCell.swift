@@ -31,8 +31,8 @@ class MessageTableViewCell: MGSwipeTableCell {
         name.text = nil
         message.text = nil
         
-        name.font = .systemFont(ofSize: name.font.pointSize)
-        message.font = .systemFont(ofSize: message.font.pointSize)
+        name.font = .proxima(ofSize: name.font.pointSize)
+        message.font = .proxima(ofSize: message.font.pointSize)
         
 //        profile.image = nil
 //        company.image = nil
@@ -65,8 +65,8 @@ class MessageTableViewCell: MGSwipeTableCell {
     func configure(_ aMessage: MessageResponse, user: UserResponse, read: Bool) {
         name.text = user.fullName()
         if !read {
-            name.font = .boldSystemFont(ofSize: name.font.pointSize)
-            message.font = .boldSystemFont(ofSize: message.font.pointSize)
+            name.font = .boldProxima(ofSize: name.font.pointSize)
+            message.font = .boldProxima(ofSize: message.font.pointSize)
         }
 //        profile.image = #imageLiteral(resourceName: "profile_sample")
 //        company.image = #imageLiteral(resourceName: "tesla")
@@ -77,11 +77,11 @@ class MessageTableViewCell: MGSwipeTableCell {
     
     func add(message: MessageResponse? = nil, read: Bool) {
         if !read {
-            name.font = .boldSystemFont(ofSize: name.font.pointSize)
-            self.message.font = .boldSystemFont(ofSize: self.message.font.pointSize)
+            name.font = .boldProxima(ofSize: name.font.pointSize)
+            self.message.font = .boldProxima(ofSize: self.message.font.pointSize)
         } else {
-            name.font = .systemFont(ofSize: name.font.pointSize)
-            self.message.font = .systemFont(ofSize: self.message.font.pointSize)
+            name.font = .proxima(ofSize: name.font.pointSize)
+            self.message.font = .proxima(ofSize: self.message.font.pointSize)
         }
         if message?.text != nil { self.message.text = message?.text }
     }

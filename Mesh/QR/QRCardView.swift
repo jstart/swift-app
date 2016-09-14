@@ -19,7 +19,7 @@ class QRCardView: CardView {
     
     let name = UILabel(translates: false).then {
         $0.textColor = .black
-        $0.font = .boldSystemFont(ofSize: 22)
+        $0.font = .boldProxima(ofSize: 22)
         $0.backgroundColor = .white
     }
     
@@ -116,7 +116,7 @@ class QRCardView: CardView {
     static func detailLabel(_ text: String) -> UILabel {
         return UILabel().then {
             $0.textColor = .lightGray
-            $0.font = .systemFont(ofSize: 16)
+            $0.font = .proxima(ofSize: 16)
             $0.text = text
             $0.isHidden = true
             $0.backgroundColor = .white
