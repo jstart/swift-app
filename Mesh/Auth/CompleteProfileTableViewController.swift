@@ -56,15 +56,23 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInDelega
     
     let firstName = SkyFloatingLabelTextField(translates: false).then {
         $0.placeholder = "First Name"
+        $0.selectedTitleColor = Colors.brand
+        $0.selectedLineColor = Colors.brand
     }
     let lastName = SkyFloatingLabelTextField(translates: false).then {
         $0.placeholder = "Last Name"
+        $0.selectedTitleColor = Colors.brand
+        $0.selectedLineColor = Colors.brand
     }
     let titleField = SkyFloatingLabelTextField(translates: false).then {
         $0.placeholder = "Job Title"
+        $0.selectedTitleColor = Colors.brand
+        $0.selectedLineColor = Colors.brand
     }
     let company = SkyFloatingLabelTextField(translates: false).then {
         $0.placeholder = "Company"
+        $0.selectedTitleColor = Colors.brand
+        $0.selectedLineColor = Colors.brand
     }
 
     override func viewDidLoad() {
@@ -73,6 +81,9 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInDelega
         
         tableView.tableFooterView = UIView()
         tableView.registerClass(UITableViewCell.self)
+        tableView.separatorStyle = .none
+        tableView.estimatedRowHeight = 100
+        tableView.backgroundColor = .white
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -119,8 +130,9 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInDelega
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(UITableViewCell.self, indexPath: indexPath)
+        cell.selectionStyle = .none
+
         if indexPath.section == 0 {
-            cell.selectionStyle = .none
             cell.addSubview(buttons)
             buttons.constrain(.width, toItem: cell)
         } else {
@@ -144,7 +156,7 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInDelega
                 break
             default: break
             }
-            field?.constrain(.height, toItem: cell)
+            field?.constrain(.height, constant: -10, toItem: cell)
             field?.constrain(.leading, constant: 15, toItem: cell)
             field?.constrain(.trailing, constant: -15, toItem: cell)
         }
@@ -189,6 +201,5 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInDelega
             print("\(error.localizedDescription)")
         }
     }
-
 
 }

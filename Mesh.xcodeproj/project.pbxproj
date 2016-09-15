@@ -120,7 +120,6 @@
 /* Begin PBXFileReference section */
 		230FA4AC1D8A256D00E2721C /* ImportProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportProfile.swift; sourceTree = "<group>"; };
 		230FA4AE1D8A32AE00E2721C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		230FA4B01D8A3DC700E2721C /* linkedin-sdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "linkedin-sdk.framework"; sourceTree = "<group>"; };
 		233140C91D88947B003FDD15 /* Company+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Company+CoreDataClass.swift"; path = "Mesh/Models/Company+CoreDataClass.swift"; sourceTree = "<group>"; };
 		233140CA1D88947B003FDD15 /* Company+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Company+CoreDataProperties.swift"; path = "Mesh/Models/Company+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2334016E1D866DE300E86D95 /* Card+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Card+CoreDataClass.swift"; path = "Mesh/Models/Card+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -530,7 +529,6 @@
 		D163224E52E4F2D2F80461D0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				230FA4B01D8A3DC700E2721C /* linkedin-sdk.framework */,
 				23F8179D1D78F790006AE3F3 /* MGSwipeTableCell.framework */,
 				5EF9D3831062B1B259E8EE70 /* Pods_Mesh.framework */,
 			);

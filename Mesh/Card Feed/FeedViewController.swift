@@ -109,7 +109,7 @@ class FeedViewController: UIViewController {
 //        }
     }
     
-    func profile() { navigationController?.push(CompleteProfileTableViewController()) }
+    func profile() { navigationController?.push(CompleteProfileTableViewController(style: .grouped)) }
     
     func sort(){ }
     
