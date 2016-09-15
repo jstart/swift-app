@@ -22,7 +22,43 @@ class FeedViewController: UIViewController {
         addChildViewController(cardStack)
         view.addSubview(cardStack.view)
         
-        cardStack.view.constrain(.height, .width, .centerX, .centerY, toItem: view)
+        if Keychain.fetchLogin() != nil {
+            cardStack.view.constrain(.height, .width, .centerX, .centerY, toItem: view)
+        } else {
+            cardStack.view.constrain(.width, .centerX, toItem: view)
+            cardStack.view.constrain(.height, constant: -46, toItem: view)
+            cardStack.view.constrain(.centerY, constant: -23, toItem: view)
+            
+            let completeProfile = UIView(translates: false).then {
+                $0.backgroundColor = Colors.brand
+                $0.constrain((.height, 46))
+            }
+            view.addSubview(completeProfile)
+            completeProfile.constrain(.width, .centerX, .bottom, toItem: view)
+            
+            let label = UILabel(translates: false).then {
+                $0.font = .proxima(ofSize: 17)
+                $0.textColor = .white
+                $0.text = "Complete Your Profile"
+            }
+            
+            completeProfile.addSubview(label)
+            
+            label.constrain(.leading, constant: 35, toItem: completeProfile)
+            label.constrain(.centerY, toItem: completeProfile)
+            let image = #imageLiteral(resourceName: "name").withRenderingMode(.alwaysTemplate)
+            let profile = UIImageView(image: image).then {
+                $0.translates = false
+                $0.tintColor = .white
+            }
+            
+            completeProfile.addSubview(profile)
+            profile.constrain(.centerY, toItem: completeProfile)
+            profile.constrain(.leading, constant: 10, toItem: completeProfile)
+            
+            let tap = UITapGestureRecognizer(target: self, action: #selector(self.profile))
+            completeProfile.addGestureRecognizer(tap)
+        }
         cardStack.view.translates = false
     }
     
@@ -30,8 +66,14 @@ class FeedViewController: UIViewController {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = .default
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo"))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "sorting"), target: self, action: #selector(sort))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "qrCode"), target: self, action: #selector(qr))
+        
+        if Keychain.fetchLogin() != nil {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "sorting"), target: self, action: #selector(sort))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "qrCode"), target: self, action: #selector(qr))
+        } else {
+            navigationController?.navigationBar.isTranslucent = false
+            navigationItem.setHidesBackButton(true, animated: true)
+        }
         
         if TARGET_OS_SIMULATOR == 1 {
             Client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
@@ -66,6 +108,8 @@ class FeedViewController: UIViewController {
 //            Client.execute(ConnectionResponseRequest(recipient: recIds), completionHandler: { response in })
 //        }
     }
+    
+    func profile() { navigationController?.push(CompleteProfileTableViewController()) }
     
     func sort(){ }
     

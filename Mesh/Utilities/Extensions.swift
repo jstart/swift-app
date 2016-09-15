@@ -57,6 +57,47 @@ private extension CIColor {
     }
 }
 
+extension UIMotionEffectGroup {
+    convenience init(_ motionEffects: [UIMotionEffect]) {
+        self.init()
+        self.motionEffects = motionEffects
+    }
+}
+
+extension UIMotionEffect {
+    
+    class func twoAxesTilt(strength: Float) -> UIMotionEffect {
+        func relativeValue(_ isMax: Bool, type: UIInterpolatingMotionEffectType) -> NSValue {
+            var transform = CATransform3DIdentity
+            transform.m34 = (1.0 * CGFloat(strength)) / 2000.0
+            
+            let axisValue: CGFloat
+            if type == .tiltAlongVerticalAxis {
+                // transform vertically
+                axisValue = isMax ? -1.0 : 1.0
+                transform = CATransform3DRotate(transform, axisValue * CGFloat(M_PI_4), 1, 0, 0)
+            } else {
+                // transform horizontally
+                axisValue = isMax ? 1.0 : -1.0
+                transform = CATransform3DRotate(transform, axisValue * CGFloat(M_PI_4), 0, 1, 0)
+            }
+            return NSValue(caTransform3D: transform)
+        }
+        
+        // create motion for specified `type`.
+        func motion(_ type: UIInterpolatingMotionEffectType) -> UIInterpolatingMotionEffect {
+            let motion = UIInterpolatingMotionEffect(keyPath: "layer.transform", type: type)
+            motion.minimumRelativeValue = relativeValue(false, type: type)
+            motion.maximumRelativeValue = relativeValue(true, type: type)
+            return motion
+        }
+        
+        // create group of horizontal and vertical tilt motions
+        let group = UIMotionEffectGroup([motion(.tiltAlongHorizontalAxis), motion(.tiltAlongVerticalAxis)])
+        return group
+    }
+}
+
 extension UIImage {
     static func imageWithColor(_ color: UIColor) -> UIImage {
         let rect = CGRect(x: 0, y: 0, width: 1.0, height: 1.0)
@@ -152,10 +193,10 @@ extension UIView {
         }
     }
     
-    func constrain(_ attributes: NSLayoutAttribute..., relatedBy: NSLayoutRelation = .equal, constant: CGFloat = 0.0, toItem: UIView? = nil, toAttribute: NSLayoutAttribute = .notAnAttribute){
+    func constrain(_ attributes: NSLayoutAttribute..., relatedBy: NSLayoutRelation = .equal, constant: CGFloat = 0.0, toItem: UIView? = nil, toAttribute: NSLayoutAttribute = .notAnAttribute, multiplier: CGFloat = 1.0){
         for attribute in attributes {
             let toAttributeChoice = toAttribute == .notAnAttribute ? attribute : toAttribute
-            let constraint = NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : toAttributeChoice, multiplier: 1.0, constant:constant)
+            let constraint = NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : toAttributeChoice, multiplier: multiplier, constant:constant)
             constraint.isActive = true
         }
     }

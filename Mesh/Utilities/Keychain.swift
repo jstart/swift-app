@@ -11,7 +11,7 @@ import Security
 
 struct Keychain {
     
-    static func fetchLogin() -> (username: String, password: String) {
+    static func fetchLogin() -> (username: String, password: String)? {
         let query : [NSString : AnyObject] = [
             kSecClass : kSecClassGenericPassword,
             kSecAttrService : "Mesh" as CFString,
@@ -32,12 +32,12 @@ struct Keychain {
                 return (username, password)
             }
         } else if (err == errSecItemNotFound) {
-            return ("", "")
+            return nil
         } else {
             // probably a program error,
             // print and lookup err code (e.g., -50 = bad parameter)
         }
-        return ("", "")
+        return nil
     }
     
     static func addLogin(phone: String, password: String) -> OSStatus {

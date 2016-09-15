@@ -1,5 +1,5 @@
 //
-//  IndustryViewController.swift
+//  SkillsViewController.swift
 //  Mesh
 //
 //  Created by Christopher Truman on 9/13/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IndustryViewController: UIViewController, UICollectionViewDelegate {
+class SkillsViewController: UIViewController, UICollectionViewDelegate {
     let layout = UICollectionViewFlowLayout().then { $0.estimatedItemSize = CGSize(width: 100, height: 100) }
     
     lazy var collectionView : UICollectionView = {
@@ -20,13 +20,13 @@ class IndustryViewController: UIViewController, UICollectionViewDelegate {
         }
     }()
     
-    lazy var dataSource : IndustriesCollectionViewDataSource = { return IndustriesCollectionViewDataSource(self.collectionView) }()
+    lazy var dataSource : SkillsCollectionViewDataSource = { return SkillsCollectionViewDataSource(self.collectionView) }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-
-        title = "Select Industry"
+        
+        title = "Select Skills"
         
         collectionView.collectionViewLayout = layout
         
@@ -37,8 +37,6 @@ class IndustryViewController: UIViewController, UICollectionViewDelegate {
         
         collectionView.constrain(.centerX, .centerY, .width, .height, toItem: view)
         collectionView.reloadData()
-        
-        Client.execute(TokenRequest(), completionHandler: { _ in })
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,6 +45,10 @@ class IndustryViewController: UIViewController, UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        navigationController?.push(SkillsViewController())
+        toFeed()
+    }
+    
+    func toFeed() {
+        navigationController?.push(FeedViewController())
     }
 }

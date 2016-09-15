@@ -12,7 +12,7 @@ class IndustriesCollectionViewDataSource: NSObject, UICollectionViewDataSource {
     
     convenience init(_ collectionView: UICollectionView) {
         self.init()
-        collectionView.registerNib(SkillCollectionViewCell.self)
+        collectionView.registerClass(SkillCollectionViewCell.self)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int { return 1 }

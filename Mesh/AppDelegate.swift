@@ -9,7 +9,9 @@
 import UIKit
 import Fabric
 import Crashlytics
-import CoreData
+import Google
+import GoogleSignIn
+import LinkedinSwift
 
 //import Starscream
 
@@ -18,17 +20,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
 
     var window: UIWindow?
     //let socket = WebSocket(url: URL(string: "ws://dev.mesh.tinderventures.com:2000/")!)
-
+    /*func websocketDidConnect(_ socket: WebSocket) { }
+     func websocketDidDisconnect(_ socket: WebSocket, error: NSError?){ print(error) }
+     func websocketDidReceiveMessage(_ socket: WebSocket, text: String){ }
+     func websocketDidReceiveData(_ socket: WebSocket, data: Data){ }*/
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         window = UIWindow()
         window?.tintColor = #colorLiteral(red: 0.2, green: 0.7843137255, blue: 0.9960784314, alpha: 1)
         window?.backgroundColor = .white
         appearance()
+        var configureError: NSError?
+        GGLContext.sharedInstance().configureWithError(&configureError)
+        assert(configureError == nil, "Error configuring Google services: \(configureError)")
 
         if TARGET_IPHONE_SIMULATOR == 0 { Fabric.with([Crashlytics.self]) }
         NotificationCenter.default.addObserver(self, selector: #selector(logout(_:)), name: .logout, object: nil)
 
-        if (Token.retrieveToken() != nil && Token.retrieveToken() != "") {
+        if (Keychain.fetchLogin() != nil) {
             guard let JSON = UserDefaults.standard["CurrentUser"] as? JSONDictionary else { logout(UIKeyCommand()); return true}
             UserResponse.current = UserResponse(JSON: JSON)
             
@@ -49,11 +58,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         window?.makeKeyAndVisible()
         return true
     }
-    
-    /*func websocketDidConnect(_ socket: WebSocket) { }
-    func websocketDidDisconnect(_ socket: WebSocket, error: NSError?){ print(error) }
-    func websocketDidReceiveMessage(_ socket: WebSocket, text: String){ }
-    func websocketDidReceiveData(_ socket: WebSocket, data: Data){ }*/
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        if LinkedinSwiftHelper.shouldHandle(url) {
+            return LinkedinSwiftHelper.application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+        }
+        return GIDSignIn.sharedInstance().handle(url as URL!,
+                                                 sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
+                                                 annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+    }
 
     func applicationWillResignActive(_ application: UIApplication) {
         CoreData.saveContext()
@@ -82,6 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
     func logout(_ command: UIKeyCommand) {
         Token.persistToken("")
         Token.persistLogin((phone_number: "", password: ""))
+        Keychain.deleteLogin()
         UserResponse.current = nil
         UserResponse.connections = []
         UserResponse.messages = []

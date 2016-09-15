@@ -11,10 +11,18 @@ import UIKit
 class LaunchViewController: UIViewController {
     
     let card = CardView(height: 380).then {
-        $0.constrain((.width, 350))
-        $0.layer.shadowOpacity = 0.25
+        $0.layer.shadowOpacity = 0.20
+        $0.layer.shadowRadius = 5
+        $0.addMotionEffect(UIMotionEffect.twoAxesTilt(strength: 0.25))
     }
-
+    let logo = UIImageView(image: #imageLiteral(resourceName: "logo")).then {
+        $0.translates = false
+    }
+    let subtitle = UILabel(translates: false).then {
+        $0.text = "Tinder for Business"
+        $0.textColor = .black
+        $0.font = .boldProxima(ofSize: 20)
+    }
     let getStarted = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.titleLabel?.font = .boldProxima(ofSize: 20)
@@ -26,7 +34,7 @@ class LaunchViewController: UIViewController {
     let signIn = UIButton(translates: false).then {
         $0.setTitle("SIGN IN", for: .normal)
         $0.titleLabel?.font = .boldProxima(ofSize: 20)
-        $0.titleLabel?.backgroundColor = Colors.brand
+        $0.setTitleColor(Colors.brand, for: .normal)
     }
     let legal = UITextView(translates: false).then {
         $0.textColor = .gray
@@ -41,13 +49,20 @@ class LaunchViewController: UIViewController {
         view.backgroundColor = .white
         getStarted.addTarget(self, action: #selector(skills), for: .touchUpInside)
         signIn.addTarget(self, action: #selector(phone), for: .touchUpInside)
+        view.addSubviews(logo, subtitle, card, getStarted, signIn, legal)
         
-        view.addSubviews(card, getStarted, signIn, legal)
+        logo.constrain(.centerX, toItem: view)
+        logo.constrain(.top, constant: 40, toItem: view, toAttribute: .topMargin)
+        
+        subtitle.constrain(.centerX, toItem: view)
+        subtitle.constrain(.top, constant: 20, toItem: logo, toAttribute: .bottomMargin)
         
         card.constrain(.centerX, toItem: view)
-        card.constrain(.centerY, constant: -80, toItem: view)
+        card.constrain(.width, constant: -120, toItem: view)
+        card.constrain(.centerY, constant: -40, toItem: view)
+//      card.constrain(.height, toItem: card, toAttribute: .width, multiplier: 760/690)
 
-        getStarted.constrain(.top, constant: 70, toItem: card, toAttribute: .bottom)
+//      getStarted.constrain(.top, constant: 70, toItem: card, toAttribute: .bottom)
         getStarted.constrain(.centerX, toItem: view)
         getStarted.constrain(.leading, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .leadingMargin)
         getStarted.constrain(.trailing, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .trailingMargin)
@@ -60,6 +75,7 @@ class LaunchViewController: UIViewController {
         legal.constrain(.trailing, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .trailingMargin)
         
         legal.constrain(.top, constant: 5, toItem: signIn, toAttribute: .bottom)
+        legal.constrain(.bottom, toItem: view)
     }
     
     override func viewWillAppear(_ animated: Bool) {

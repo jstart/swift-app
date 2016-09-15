@@ -26,4 +26,5 @@ class SkillsCollectionViewDataSource: NSObject, UICollectionViewDataSource {
         cell.configure("Test", image: #imageLiteral(resourceName: "tesla"))
         return cell
     }
+    
 }
