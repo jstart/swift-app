@@ -55,7 +55,7 @@ class OutlineView: UIView {
         
         addSubview(title)
         title.constrain(.leading, toItem: name)
-        title.constrain(.trailing, constant: -50, toItem: self)
+        title.constrain((.trailing, -50), toItem: self)
         title.constrain(.top, constant: 5, toItem: name, toAttribute: .bottom)
         
         let cornerUL = OutlineView.qrCorner(.identity)

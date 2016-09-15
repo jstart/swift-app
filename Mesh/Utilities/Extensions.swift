@@ -186,9 +186,9 @@ extension UIView {
         self.init(); self.translates = translates
     }
     
-    func constrain(_ constants : (attr: NSLayoutAttribute, const: CGFloat) ...){
+    func constrain(_ constants : (attr: NSLayoutAttribute, const: CGFloat)..., toItem: UIView? = nil){
         for constantPair in constants {
-            let constraint = NSLayoutConstraint(item: self, attribute: constantPair.attr, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant:constantPair.const)
+            let constraint = NSLayoutConstraint(item: self, attribute: constantPair.attr, relatedBy: .equal, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : constantPair.attr, multiplier: 1.0, constant:constantPair.const)
             constraint.isActive = true
         }
     }

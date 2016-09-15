@@ -36,8 +36,7 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
         
         detail.translates = false
         detail.constrain(.width, .centerX, toItem: cardVC!.view)
-        detail.constrain(.height, constant: -80, toItem: cardVC!.view)
-        detail.constrain(.top, constant: 425, toItem: cardVC!.view)
+        detail.constrain((.height, -80), (.top, 425), toItem: cardVC!.view)
         detail.alpha = 0.0
         
         detail.addSubview(blurView)

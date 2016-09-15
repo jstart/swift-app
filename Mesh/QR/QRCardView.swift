@@ -59,7 +59,7 @@ class QRCardView: CardView {
         addSubview(stackView!)
 
         stackView?.constrain(.leading, constant: 10, toItem: qrImage, toAttribute: .trailing)
-        stackView?.constrain(.trailing, constant: 10, toItem: self)
+        stackView?.constrain((.trailing, 10), toItem: self)
 
         stackView?.constrain(.centerY, toItem: self)
         stackView?.constrain(.top, relatedBy: .greaterThanOrEqual, constant: 10, toItem: self)
@@ -68,7 +68,7 @@ class QRCardView: CardView {
         addSubview(pageControl)
 
         pageControl.constrain(.centerX, toItem: self)
-        pageControl.constrain(.bottom, constant: -10, toItem: self)
+        pageControl.constrain((.bottom, -10), toItem: self)
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped)))
     }

@@ -55,8 +55,7 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
         view.constrain(.width, .height, constant: 325)
         
         view.addSubviews(imageView, titleLabel, textLabel)
-        imageView.constrain(.centerX, toItem: view)
-        imageView.constrain(.top, constant: 40, toItem: view)
+        imageView.constrain((.top, 40), (.centerX, 0), toItem: view)
         
         titleLabel.constrain(.width, .centerX, toItem:view)
         titleLabel.constrain(.top, constant: 20, toItem: imageView, toAttribute: .bottom)

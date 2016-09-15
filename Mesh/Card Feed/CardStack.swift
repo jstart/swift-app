@@ -50,8 +50,7 @@ class CardStack : UIViewController, CardDelegate {
         view.addSubview(card.view)
         addChildViewController(card)
         card.viewDidAppear(animated)
-        card.view.constrain(.height, constant: -40, toItem: view)
-        card.view.constrain(.width, constant: -13, toItem: view)
+        card.view.constrain((.height, -40), (.width, -13), toItem: view)
         card.view.constrain(.centerX, .centerY, toItem: view)
         card.view.translates = false
         

@@ -9,13 +9,21 @@
 import UIKit
 import GoogleSignIn
 
+extension SkyFloatingLabelTextField {
+    static func branded(_ title: String) -> SkyFloatingLabelTextField {
+        return SkyFloatingLabelTextField(translates: false).then {
+            $0.placeholder = title
+            $0.selectedTitleColor = Colors.brand; $0.selectedLineColor = Colors.brand
+        }
+    }
+}
+
 class CompleteProfileTableViewController: UITableViewController, GIDSignInDelegate, GIDSignInUIDelegate {
     
     let header = UILabel(translates: false).then {
         $0.text = "Add Your Basic Info"
         $0.font = .boldProxima(ofSize: 20)
     }
-    
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
         $0.text = "In order to match with people on Mesh, we need you to complete your profile."
@@ -23,28 +31,15 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInDelega
         $0.textColor = .gray
         $0.textAlignment = .center
     }
-    
-    lazy var linkedIn : UIButton = {
-        let $ = UIButton()
-        $.setTitle("Linked In", for: .normal)
-        $.setTitleColor(Colors.brand, for: .normal)
-        $.addTarget(self, action:#selector(prefill(sender:)), for:.touchUpInside)
-        return $
-    }()
-    lazy var twitter : UIButton = {
-        let $ = UIButton()
-        $.setTitle("Twitter", for: .normal)
-        $.setTitleColor(Colors.brand, for: .normal)
-        $.addTarget(self, action:#selector(prefill(sender:)), for:.touchUpInside)
-        return $
-    }()
-    lazy var google : UIButton = {
-        let $ = UIButton()
-        $.setTitle("Google", for: .normal)
-        $.setTitleColor(Colors.brand, for: .normal)
-        $.addTarget(self, action:#selector(prefill(sender:)), for:.touchUpInside)
-        return $
-    }()
+    let linkedIn = UIButton().then {
+        $0.setTitle("Linked In", for: .normal); $0.setTitleColor(Colors.brand, for: .normal)
+    }
+    let twitter = UIButton().then {
+        $0.setTitle("Twitter", for: .normal); $0.setTitleColor(Colors.brand, for: .normal)
+    }
+    let google = UIButton().then {
+        $0.setTitle("Google", for: .normal); $0.setTitleColor(Colors.brand, for: .normal)
+    }
     lazy var buttons : UIStackView = {
         let stack = UIStackView(arrangedSubviews:[self.linkedIn, self.twitter, self.google])
         stack.distribution = .fillEqually
@@ -53,37 +48,42 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInDelega
         stack.constrain((.height, 35))
         return stack
     }()
+    let nextButton = UIButton(translates: false).then {
+        $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
+        $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
+        $0.isEnabled = false
+        $0.titleLabel?.font = .boldProxima(ofSize: 20)
+        $0.setTitle("NEXT", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.layer.cornerRadius = 5
+        $0.clipsToBounds = true
+        $0.constrain((.height, 70))
+    }
     
-    let firstName = SkyFloatingLabelTextField(translates: false).then {
-        $0.placeholder = "First Name"
-        $0.selectedTitleColor = Colors.brand
-        $0.selectedLineColor = Colors.brand
-    }
-    let lastName = SkyFloatingLabelTextField(translates: false).then {
-        $0.placeholder = "Last Name"
-        $0.selectedTitleColor = Colors.brand
-        $0.selectedLineColor = Colors.brand
-    }
-    let titleField = SkyFloatingLabelTextField(translates: false).then {
-        $0.placeholder = "Job Title"
-        $0.selectedTitleColor = Colors.brand
-        $0.selectedLineColor = Colors.brand
-    }
-    let company = SkyFloatingLabelTextField(translates: false).then {
-        $0.placeholder = "Company"
-        $0.selectedTitleColor = Colors.brand
-        $0.selectedLineColor = Colors.brand
-    }
+    let firstName = SkyFloatingLabelTextField.branded("First Name")
+    let lastName = SkyFloatingLabelTextField.branded("Last Name")
+    let titleField = SkyFloatingLabelTextField.branded("Job Title")
+    let company = SkyFloatingLabelTextField.branded("Company")
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Complete Profile"
-        
+
         tableView.tableFooterView = UIView()
         tableView.registerClass(UITableViewCell.self)
         tableView.separatorStyle = .none
         tableView.estimatedRowHeight = 100
         tableView.backgroundColor = .white
+        
+        [firstName, lastName, titleField, company].forEach({$0.addTarget(self, action: #selector(fieldEdited), for: .allEditingEvents)})
+        [linkedIn, twitter, google].forEach({$0.addTarget(self, action:#selector(prefill(sender:)), for:.touchUpInside)})
+        nextButton.addTarget(self, action: #selector(complete), for: .touchUpInside)
+        view.addSubview(nextButton)
+        
+        nextButton.constrain(.centerX, toItem: view)
+        nextButton.constrain(.bottom, constant: view.frame.size.height - 70, toItem: view, toAttribute: .bottom)
+        nextButton.constrain(.leading, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .leadingMargin)
+        nextButton.constrain(.trailing, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .trailingMargin)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,14 +92,10 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInDelega
         
         let tableHeader = UIView(translates: false)
         tableHeader.addSubviews(header, text)
-        header.constrain(.top, constant: 20, toItem: tableHeader)
-        header.constrain(.centerX, toItem: tableHeader)
+        header.constrain((.top, 20), (.centerX, 0), toItem: tableHeader)
         
         text.constrain(.top, toItem: header, toAttribute: .bottom)
-        text.constrain(.centerX, toItem: tableHeader)
-        text.constrain(.leading, constant: 20, toItem: tableHeader)
-        text.constrain(.trailing, constant: -20, toItem: tableHeader)
-        text.constrain(.bottom, constant: -25, toItem: tableHeader)
+        text.constrain((.leading, 20), (.trailing, -20), (.bottom, -25), (.centerX, 0), toItem: tableHeader)
         
         tableView.tableHeaderView = tableHeader
         tableHeader.constrain(.centerX, .width, .top, toItem: view)
@@ -112,21 +108,17 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInDelega
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let title = section == 0 ? "    IMPORT YOUR PROFILE" : "    REQUIRED INFO"
-        let label = UILabel()
-        label.text = title
-        label.font = .proxima(ofSize:12)
-        label.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
-        label.contentMode = .top
-        return label
+        return UILabel().then {
+            $0.text = title
+            $0.font = .proxima(ofSize:12)
+            $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
+            $0.contentMode = .top
+        }
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 25
-    }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 25 }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 1 : 4
-    }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return section == 0 ? 1 : 4 }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(UITableViewCell.self, indexPath: indexPath)
@@ -138,27 +130,13 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInDelega
         } else {
             var field : SkyFloatingLabelTextField? = nil
             switch indexPath.row {
-            case 0:
-                field = firstName
-                cell.addSubview(firstName)
-                break
-            case 1:
-                field = lastName
-                cell.addSubview(lastName)
-                break
-            case 2:
-                field = titleField
-                cell.addSubview(titleField)
-                break
-            case 3:
-                field = company
-                cell.addSubview(company)
-                break
+            case 0: field = firstName; cell.addSubview(firstName); break
+            case 1: field = lastName; cell.addSubview(lastName); break
+            case 2: field = titleField; cell.addSubview(titleField); break
+            case 3: field = company; cell.addSubview(company); break
             default: break
             }
-            field?.constrain(.height, constant: -10, toItem: cell)
-            field?.constrain(.leading, constant: 15, toItem: cell)
-            field?.constrain(.trailing, constant: -15, toItem: cell)
+            field?.constrain((.height, -10), (.leading, 15), (.trailing, -15), toItem: cell)
         }
         return cell
     }
@@ -182,24 +160,28 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInDelega
     }
 
     func fill(_ prefill: PrefillResponse) {
-        firstName.text = prefill.first_name
-        lastName.text = prefill.last_name
+        if prefill.first_name != "" { firstName.text = prefill.first_name }
+        if prefill.last_name != "" { lastName.text = prefill.last_name }
+        if prefill.title != "" { titleField.text = prefill.title }
+        if prefill.company != "" { company.text = prefill.company }
+        fieldEdited()
     }
     
     public func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if (error == nil) {
-//            let userId = user.userID                  // For client-side use only!
-//            let idToken = user.authentication.idToken // Safe to send to the server
-//            let fullName = user.profile.name
             let givenName = user.profile.givenName ?? ""
             let familyName = user.profile.familyName ?? ""
-            let email = user.profile.email ?? ""
+//            let email = user.profile.email ?? ""
             let imageURL = user.profile.imageURL(withDimension: 2000)?.absoluteString ?? ""
             
-            fill((givenName, familyName, email, imageURL))
-        } else {
-            print("\(error.localizedDescription)")
-        }
+            fill((givenName, familyName, "", "", imageURL))
+        } else {  print("\(error.localizedDescription)") }
+    }
+    
+    func fieldEdited() { nextButton.isEnabled = (firstName.text != "" && lastName.text != "") }
+    
+    func complete() {
+//        navigationController?.push(self)
     }
 
 }

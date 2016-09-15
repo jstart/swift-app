@@ -33,8 +33,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         
         scroll.addSubview(stack)
         
-        stack.constrain(.leading, constant: 15, toItem: scroll)
-        stack.constrain(.trailing, constant: -15, toItem: scroll)
+        stack.constrain((.leading, 15), (.trailing, -15), toItem: scroll)
         stack.constrain(.centerY, .height, toItem: scroll)
         
         for view in stack.arrangedSubviews {
@@ -64,7 +63,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         stack.arrangedSubviews[atIndex].removeFromSuperview()
     }
     
-    func selectedIndex(_ index:Int, animated: Bool = true){
+    func selectedIndex(_ index: Int, animated: Bool = true){
         guard index >= 0 else { return }
         scroll.setContentOffset(CGPoint(x: scroll.frame.size.width * CGFloat(index), y: scroll.contentOffset.y), animated: animated)
     }

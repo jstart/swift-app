@@ -316,8 +316,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         field.backgroundColor = .white
         blurView.addSubview(field)
         field.constrain(.height, constant: 50)
-        field.constrain(.width, constant: 2, toItem: cell.contentView)
-        field.constrain(.leading, constant: -1, toItem: cell.contentView)
+        field.constrain((.width, 2), (.leading, -1), toItem: cell.contentView)
         field.constrain(.top, toItem: cell.contentView, toAttribute: .bottom)
 
         quickReplyAction = {

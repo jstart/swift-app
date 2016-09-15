@@ -58,8 +58,7 @@ class LaunchViewController: UIViewController {
         subtitle.constrain(.top, constant: 20, toItem: logo, toAttribute: .bottomMargin)
         
         card.constrain(.centerX, toItem: view)
-        card.constrain(.width, constant: -120, toItem: view)
-        card.constrain(.centerY, constant: -40, toItem: view)
+        card.constrain((.width, -120), (.centerY, -40), toItem: view)
 //      card.constrain(.height, toItem: card, toAttribute: .width, multiplier: 760/690)
 
 //      getStarted.constrain(.top, constant: 70, toItem: card, toAttribute: .bottom)
