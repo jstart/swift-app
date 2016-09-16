@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		230FA4AD1D8A256D00E2721C /* ImportProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230FA4AC1D8A256D00E2721C /* ImportProfile.swift */; };
 		230FA4AF1D8A32AE00E2721C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 230FA4AE1D8A32AE00E2721C /* GoogleService-Info.plist */; };
+		230FA4B31D8A90D900E2721C /* AddPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230FA4B21D8A90D900E2721C /* AddPhotoViewController.swift */; };
 		233140CB1D88947B003FDD15 /* Company+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233140C91D88947B003FDD15 /* Company+CoreDataClass.swift */; };
 		233140CC1D88947B003FDD15 /* Company+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233140CA1D88947B003FDD15 /* Company+CoreDataProperties.swift */; };
 		233401701D866DE300E86D95 /* Card+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2334016E1D866DE300E86D95 /* Card+CoreDataClass.swift */; };
@@ -120,6 +121,7 @@
 /* Begin PBXFileReference section */
 		230FA4AC1D8A256D00E2721C /* ImportProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportProfile.swift; sourceTree = "<group>"; };
 		230FA4AE1D8A32AE00E2721C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		230FA4B21D8A90D900E2721C /* AddPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPhotoViewController.swift; sourceTree = "<group>"; };
 		233140C91D88947B003FDD15 /* Company+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Company+CoreDataClass.swift"; path = "Mesh/Models/Company+CoreDataClass.swift"; sourceTree = "<group>"; };
 		233140CA1D88947B003FDD15 /* Company+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Company+CoreDataProperties.swift"; path = "Mesh/Models/Company+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2334016E1D866DE300E86D95 /* Card+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Card+CoreDataClass.swift"; path = "Mesh/Models/Card+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 				23C8727E1D8376C000B21AB6 /* SignUpTableViewController.swift */,
 				23C51ADD1D88E61C00C926F1 /* LaunchViewController.swift */,
 				23EA22801D8A110C00CAB4A9 /* CompleteProfileTableViewController.swift */,
+				230FA4B21D8A90D900E2721C /* AddPhotoViewController.swift */,
 				23C51ADF1D88E6D400C926F1 /* SMSViewController.swift */,
 				23C51AE11D88E6E000C926F1 /* SMSVerifyViewController.swift */,
 				23C51AED1D89D92D00C926F1 /* SkillsViewController.swift */,
@@ -789,6 +792,7 @@
 				23C8722E1D83759A00B21AB6 /* CardView.swift in Sources */,
 				23C872331D83759A00B21AB6 /* ScanViewController.swift in Sources */,
 				23C51AE01D88E6D400C926F1 /* SMSViewController.swift in Sources */,
+				230FA4B31D8A90D900E2721C /* AddPhotoViewController.swift in Sources */,
 				23C51AE81D88FF5100C926F1 /* SkillCollectionViewCell.swift in Sources */,
 				23C872801D8376C000B21AB6 /* LoginTableViewController.swift in Sources */,
 				23C8728F1D83770300B21AB6 /* ArticleViewController.swift in Sources */,

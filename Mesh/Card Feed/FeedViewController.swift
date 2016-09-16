@@ -108,7 +108,10 @@ class FeedViewController: UIViewController {
 //        }
     }
     
-    func profile() { navigationController?.push(CompleteProfileTableViewController(style: .grouped)) }
+    func profile() {
+        presentedViewController?.dismiss()
+        navigationController?.push(CompleteProfileTableViewController(style: .grouped))
+    }
     
     func sort(){ }
     

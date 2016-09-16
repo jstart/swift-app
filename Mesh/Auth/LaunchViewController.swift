@@ -10,10 +10,11 @@ import UIKit
 
 class LaunchViewController: UIViewController {
     
-    let card = CardView(height: 380).then {
+    let card = CardView(translates: false).then {
         $0.layer.shadowOpacity = 0.20
         $0.layer.shadowRadius = 5
         $0.addMotionEffect(UIMotionEffect.twoAxesTilt(strength: 0.25))
+        $0.constrain((.height, 380))
     }
     let logo = UIImageView(image: #imageLiteral(resourceName: "logo")).then {
         $0.translates = false

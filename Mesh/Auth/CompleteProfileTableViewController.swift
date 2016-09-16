@@ -18,7 +18,7 @@ extension SkyFloatingLabelTextField {
     }
 }
 
-class CompleteProfileTableViewController: UITableViewController, GIDSignInDelegate, GIDSignInUIDelegate {
+class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDelegate {
     
     let header = UILabel(translates: false).then {
         $0.text = "Add Your Basic Info"
@@ -51,7 +51,7 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInDelega
     let nextButton = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
-        $0.isEnabled = false
+        $0.isEnabled = true
         $0.titleLabel?.font = .boldProxima(ofSize: 20)
         $0.setTitle("NEXT", for: .normal)
         $0.setTitleColor(.white, for: .normal)
@@ -81,9 +81,9 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInDelega
         view.addSubview(nextButton)
         
         nextButton.constrain(.centerX, toItem: view)
-        nextButton.constrain(.bottom, constant: view.frame.size.height - 70, toItem: view, toAttribute: .bottom)
         nextButton.constrain(.leading, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .leadingMargin)
         nextButton.constrain(.trailing, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .trailingMargin)
+        nextButton.constrain(.bottom, constant: view.frame.size.height - 65, toItem: view, toAttribute: .top)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -148,9 +148,10 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInDelega
             }
         }
         if sender == google {
-            GIDSignIn.sharedInstance().delegate = self
             GIDSignIn.sharedInstance().uiDelegate = self
-            GoogleProfile.prefill()
+            GoogleProfile.shared.prefill() { response in
+                self.fill(response)
+            }
         }
         if sender == linkedIn {
             LinkedInProfile.prefill() { response in
@@ -167,21 +168,8 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInDelega
         fieldEdited()
     }
     
-    public func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-        if (error == nil) {
-            let givenName = user.profile.givenName ?? ""
-            let familyName = user.profile.familyName ?? ""
-//            let email = user.profile.email ?? ""
-            let imageURL = user.profile.imageURL(withDimension: 2000)?.absoluteString ?? ""
-            
-            fill((givenName, familyName, "", "", imageURL))
-        } else {  print("\(error.localizedDescription)") }
-    }
+    func fieldEdited() { nextButton.isEnabled = (firstName.text != "" && lastName.text != "" && titleField.text != "" && company.text != "") }
     
-    func fieldEdited() { nextButton.isEnabled = (firstName.text != "" && lastName.text != "") }
-    
-    func complete() {
-//        navigationController?.push(self)
-    }
+    func complete() { navigationController?.push(AddPhotoViewController()) }
 
 }
