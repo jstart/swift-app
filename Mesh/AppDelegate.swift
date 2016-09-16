@@ -8,6 +8,7 @@
 
 import UIKit
 import Fabric
+import TwitterKit
 import Crashlytics
 import Google
 import GoogleSignIn
@@ -34,13 +35,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         GGLContext.sharedInstance().configureWithError(&configureError)
         assert(configureError == nil, "Error configuring Google services: \(configureError)")
 
-        if TARGET_IPHONE_SIMULATOR == 0 { Fabric.with([Crashlytics.self]) }
+        if TARGET_IPHONE_SIMULATOR == 0 { Fabric.with([Crashlytics.self, Twitter.self]) }
         NotificationCenter.default.addObserver(self, selector: #selector(logout(_:)), name: .logout, object: nil)
 
         if (Keychain.fetchLogin() != nil) {
             guard let JSON = UserDefaults.standard["CurrentUser"] as? JSONDictionary else { logout(UIKeyCommand()); return true}
             UserResponse.current = UserResponse(JSON: JSON)
-            
             LaunchData.fetchLaunchData()
             
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!

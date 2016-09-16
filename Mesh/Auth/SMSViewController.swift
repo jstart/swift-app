@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SMSViewController: UITableViewController, UITextFieldDelegate {
+class SMSViewController: UITableViewController {
     
     var formatter = PhoneNumberFormatter()
     
@@ -46,7 +46,7 @@ class SMSViewController: UITableViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Complete Profile"
+        title = "Secure Account"
         
         view.backgroundColor = .white
         
@@ -65,12 +65,10 @@ class SMSViewController: UITableViewController, UITextFieldDelegate {
         nextButton.constrain(.trailing, relatedBy: .lessThanOrEqual, toItem: inputView, toAttribute: .trailingMargin)
         
         [phone, password, confirmPassword].forEach({
-            $0.delegate = self
             $0.addTarget(self, action: #selector(fieldEdited), for: .allEditingEvents)
             $0.inputAccessoryView = inputView
         })
         nextButton.addTarget(self, action: #selector(complete), for: .touchUpInside)
-        
         
         let tableHeader = UIView(translates: false)
         tableHeader.addSubviews(logo, subtitle)
@@ -80,15 +78,9 @@ class SMSViewController: UITableViewController, UITextFieldDelegate {
         subtitle.constrain((.leading, 20), (.trailing, -20), (.bottom, -25), (.centerX, 0), toItem: tableHeader)
         
         tableView.tableHeaderView = tableHeader
-        tableHeader.constrain(.centerX, toItem: tableView)
-        
+        tableHeader.constrain(.centerX, .top, toItem: tableView)
         tableHeader.layoutIfNeeded()
         tableView.tableHeaderView = tableHeader
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        nextButton.superview?.superview?.constraintFor(.height).constant = 70
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -118,15 +110,20 @@ class SMSViewController: UITableViewController, UITextFieldDelegate {
         return cell
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        nextButton.superview?.superview?.constraintFor(.height).constant = 70
-        nextButton.superview?.superview?.layoutIfNeeded()
-    }
-    
     func format() { phone.text = formatter.format(phone.text!) }
     
-    func fieldEdited() { nextButton.isEnabled = (phone.text != "" && password.text != "" && confirmPassword.text != "") }
+    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 70; nextButton.isEnabled = (phone.text != "" && password.text != "" && confirmPassword.text != "") }
     
-    func complete() { navigationController?.push(SMSVerifyViewController()) }
+    func complete() {
+        Client.execute(AuthRequest(phone_number: phone.text!.onlyNumbers(), password: password.text!, password_verify: confirmPassword.text!), completionHandler: { response in
+            if response.result.value != nil {
+            } else {
+                let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
+                alert.addAction(UIAlertAction("Ok", style: .cancel))
+                self.present(alert)
+            }
+        })
+        navigationController?.push(SMSVerifyViewController())
+    }
 
 }

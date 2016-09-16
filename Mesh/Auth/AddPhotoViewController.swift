@@ -93,6 +93,7 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
         } else if sender.title == "Import from Google" {
             GIDSignIn.sharedInstance().uiDelegate = self
             GoogleProfile.shared.prefillImage() { response in
+                guard response.image_url != "" else { return }
                 self.profile.af_setImage(withURL: URL(string: response.image_url)!)
                 self.changeToComplete()
             }

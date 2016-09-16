@@ -16,7 +16,6 @@ import LinkedinSwift
 typealias PrefillResponse = (first_name: String, last_name: String, title: String, company: String, image_url: String)
 
 struct TwitterProfile {
-    
     static var imageURL: String?
     
     static func prefillImage(_ completion: @escaping ((PrefillResponse) -> Void)) {
@@ -28,7 +27,6 @@ struct TwitterProfile {
     }
     
     static func prefill(_ completion: @escaping ((PrefillResponse) -> Void)) {
-        Fabric.with([Twitter.self])
         Twitter.sharedInstance().logIn {(session, error) in
             guard session != nil else { return }
             let client = TWTRAPIClient.withCurrentUser()
@@ -112,8 +110,10 @@ struct LinkedInProfile {
             })
             }, error: { (error) -> Void in
                 print(error)
+                completion(PrefillResponse("", "", "", "", ""))
             }, cancel: { () -> Void in
                 //User Cancelled!
+                completion(PrefillResponse("", "", "", "", ""))
         })
     }
 }
