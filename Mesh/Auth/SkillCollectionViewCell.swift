@@ -62,6 +62,18 @@ class SkillCollectionViewCell: UICollectionViewCell {
         self.title.text = title
         self.icon.image = image
         self.popular.isHidden = isPopular
+        
+        let rotation = CABasicAnimation(keyPath: "transform.rotation.y")
+        rotation.duration = 0.75
+        rotation.fromValue = 0
+        rotation.toValue = 2 * CGFloat(M_PI)
+        layer.add(rotation, forKey: rotation.keyPath)
+
+        let crossFade = CABasicAnimation(keyPath:"transform.scale.x")
+        crossFade.duration = 0.75
+        crossFade.fromValue = 0.0
+        crossFade.toValue = 1
+        layer.add(crossFade, forKey: crossFade.keyPath)
     }
     
     override var isSelected: Bool {

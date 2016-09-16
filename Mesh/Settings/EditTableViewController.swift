@@ -65,12 +65,11 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         case 1: return "Experience"
         case 2: return "Education"
         case 3: return "Skills"
-        default: return ""
-        }
+        default: return "" }
     }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 { return 1.0 }
-        return 0
+        return 50
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return section == 0 ? 2 : 1 }
     
@@ -153,16 +152,14 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         guard let image = image as UIImage! else { return }
         let data = UIImageJPEGRepresentation(image, 1.0)
         Client.upload(PhotoRequest(file: data!), completionHandler: { response in
+            let alert : UIAlertController?
             if response.result.value != nil {
-                let alert = UIAlertController(title: "Photo Updated", message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction.ok())
-                self.present(alert)
+                alert = UIAlertController(title: "Photo Updated", message: "", preferredStyle: .alert)
+            } else {
+                alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
             }
-            else {
-                let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
-                alert.addAction(UIAlertAction.ok())
-                self.present(alert)
-            }
+            alert?.addAction(UIAlertAction.ok())
+            self.present(alert!)
         })
     }
  
