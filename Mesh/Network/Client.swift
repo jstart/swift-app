@@ -71,11 +71,13 @@ struct Client {
                 if request is LoginRequest || request is AuthRequest || request is ProfileRequest {
                     guard let JSON = response.result.value as? JSONDictionary else { completionHandler(response); return }
                     UserResponse.current = UserResponse(JSON: JSON)
-                    //print(User(JSON: JSON))
+                    print(User(JSON: JSON))
                     UserDefaults.standard.set(JSON, forKey: "CurrentUser")
                     if request is AuthRequest || request is LoginRequest {
                         Token.persistToken(UserResponse.current?.token ?? "")
                         Token.persistLogin((phone_number: request.parameters()["phone_number"] as! String, password: request.parameters()["password"] as! String))
+                        Keychain.deleteLogin()
+                        let _ = Keychain.addLogin(phone: request.parameters()["phone_number"] as! String, password: request.parameters()["password"] as! String)
                     }
                 }
                 

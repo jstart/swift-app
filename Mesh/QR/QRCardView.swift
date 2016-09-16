@@ -36,6 +36,7 @@ class QRCardView: CardView {
 
     convenience init(_ user: UserResponse, fields: [ProfileFields]) {
         self.init()
+        constrain((.height, 180))
         addSubview(qrImage)
         qrImage.image = "http://tinderventures.com".qrImage(withSize: CGSize(width: 100, height: 100), foreground: Colors.brand, background: .white)
         qrImage.constrain(.leading, constant: 15, toItem: self)

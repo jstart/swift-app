@@ -170,6 +170,11 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
     
     func fieldEdited() { nextButton.isEnabled = (firstName.text != "" && lastName.text != "" && titleField.text != "" && company.text != "") }
     
-    func complete() { navigationController?.push(AddPhotoViewController()) }
+    func complete() {
+        let companies = [CompanyModel(id: company.text ?? "tinder", start_month: "January", start_year: "2014", end_month: "March", end_year: "2016", current: false)]
+        Client.execute(ProfileRequest(first_name: firstName.text!, last_name: lastName.text!, email: "", title: titleField.text!, profession: "", companies: companies), completionHandler: { _ in
+            self.navigationController?.push(AddPhotoViewController())
+        })
+    }
 
 }

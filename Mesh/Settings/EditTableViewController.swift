@@ -35,12 +35,12 @@ class EditTableViewController: UITableViewController, UITextFieldDelegate {
         Client.execute(ProfileRequest(first_name: first_name, last_name: last_name, email: email, title: title, profession: profession, companies: companies), completionHandler: { response in
             if response.result.value != nil {
                 let alert = UIAlertController(title: "Profile Updated", message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction("OK", style: .cancel){ _ in self.navigationController?.pop() })
+                alert.addAction(UIAlertAction.ok() { _ in self.navigationController?.pop() })
                 self.present(alert)
             }
             else {
                 let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
-                alert.addAction(UIAlertAction("OK", style: .cancel))
+                alert.addAction(UIAlertAction.ok())
                 self.present(alert)
             }
         })

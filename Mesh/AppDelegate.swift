@@ -36,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         assert(configureError == nil, "Error configuring Google services: \(configureError)")
 
         if TARGET_IPHONE_SIMULATOR == 0 { Fabric.with([Crashlytics.self, Twitter.self]) }
+        else { Fabric.with([Twitter.self]) }
         NotificationCenter.default.addObserver(self, selector: #selector(logout(_:)), name: .logout, object: nil)
 
         if (Keychain.fetchLogin() != nil) {

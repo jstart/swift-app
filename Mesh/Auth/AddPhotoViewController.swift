@@ -134,14 +134,14 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
         Client.upload(PhotoRequest(file: data!), completionHandler: { response in
             if response.result.value != nil {
                 let alert = UIAlertController(title: "Photo Updated", message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction("Ok", style: .cancel) { _ in
+                alert.addAction(UIAlertAction.ok() { _ in
                     self.navigationController?.push(SMSViewController())
                 })
                 self.present(alert)
             }
             else {
                 let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
-                alert.addAction(UIAlertAction("Ok", style: .cancel))
+                alert.addAction(UIAlertAction.ok())
                 self.present(alert)
             }
         })

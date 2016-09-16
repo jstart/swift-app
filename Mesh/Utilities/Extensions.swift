@@ -132,6 +132,7 @@ extension UIAlertAction {
         self.init(title: title, style: style, handler: handler)
     }
     static func cancel(handler: ((UIAlertAction) -> Swift.Void)? = nil) -> UIAlertAction { return UIAlertAction("Cancel", style: .cancel, handler: handler) }
+    static func ok(handler: ((UIAlertAction) -> Swift.Void)? = nil) -> UIAlertAction { return UIAlertAction("OK", style: .cancel, handler: handler) }
 }
 
 extension UIBarButtonItem {

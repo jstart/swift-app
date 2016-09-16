@@ -60,7 +60,7 @@ class SMSViewController: UITableViewController {
         
         let inputView = UIView(translates: false)
         inputView.addSubview(nextButton)
-        nextButton.constrain((.centerX, 0), (.bottom, -20), (.height, 0), toItem: inputView)
+        nextButton.constrain((.centerX, 0), (.bottom, -20), toItem: inputView)
         nextButton.constrain(.leading, relatedBy: .lessThanOrEqual, toItem: inputView, toAttribute: .leadingMargin)
         nextButton.constrain(.trailing, relatedBy: .lessThanOrEqual, toItem: inputView, toAttribute: .trailingMargin)
         
@@ -112,14 +112,13 @@ class SMSViewController: UITableViewController {
     
     func format() { phone.text = formatter.format(phone.text!) }
     
-    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 70; nextButton.isEnabled = (phone.text != "" && password.text != "" && confirmPassword.text != "") }
+    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 90; nextButton.isEnabled = (phone.text != "" && password.text != "" && confirmPassword.text != "") }
     
     func complete() {
         Client.execute(AuthRequest(phone_number: phone.text!.onlyNumbers(), password: password.text!, password_verify: confirmPassword.text!), completionHandler: { response in
-            if response.result.value != nil {
-            } else {
+            if response.result.value == nil {
                 let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
-                alert.addAction(UIAlertAction("Ok", style: .cancel))
+                alert.addAction(UIAlertAction.ok())
                 self.present(alert)
             }
         })

@@ -69,7 +69,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
                 let _ = Keychain.addLogin(phone: self.phoneField!.text!, password: self.passwordField!.text!)
             } else {
                 let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
-                alert.addAction(UIAlertAction("Ok", style: .cancel))
+                alert.addAction(UIAlertAction.ok())
                 self.present(alert)
             }
         })
