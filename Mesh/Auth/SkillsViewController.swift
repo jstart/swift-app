@@ -25,11 +25,9 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
         title = "Select Skills"
         
         collectionView.collectionViewLayout = layout
-        
         collectionView.dataSource = dataSource
         collectionView.delegate = self
         
@@ -45,10 +43,27 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        toFeed()
+        let rotation = CABasicAnimation(keyPath: "transform.rotation.y")
+        rotation.duration = 0.2
+        rotation.fromValue = 0
+        rotation.toValue = 0.1 * CGFloat(M_PI)
+        rotation.repeatCount = 1
+        rotation.autoreverses = true
+        collectionView.cellForItem(at: indexPath)?.layer.add(rotation, forKey: rotation.keyPath)
+        
+        if collectionView.indexPathsForSelectedItems!.count > 2 { toFeed() }
     }
     
-    func toFeed() {
-        navigationController?.push(FeedViewController())
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        let rotation = CABasicAnimation(keyPath: "transform.rotation.y")
+        rotation.duration = 0.2
+        rotation.fromValue = 0
+        rotation.toValue = -(0.1 * CGFloat(M_PI))
+        rotation.repeatCount = 1
+        rotation.autoreverses = true
+        collectionView.cellForItem(at: indexPath)?.layer.add(rotation, forKey: rotation.keyPath)
+    }
+    
+    func toFeed() { navigationController?.push(FeedViewController())
     }
 }

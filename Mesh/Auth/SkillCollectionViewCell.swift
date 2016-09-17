@@ -12,15 +12,12 @@ class SkillCollectionViewCell: UICollectionViewCell {
     
     let title = UILabel(translates: false).then {
         $0.font = .boldProxima(ofSize: 14)
-        $0.backgroundColor = .white
     }
     let popular = UILabel(translates: false).then {
         $0.isHidden = true
-        $0.backgroundColor = .white
     }
-    let icon = UIImageView(translates: false).then {
-        $0.backgroundColor = .white
-    }
+    let icon = UIImageView(translates: false)
+    let gradient = Colors.gradient
     
     required override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,7 +28,8 @@ class SkillCollectionViewCell: UICollectionViewCell {
         backgroundColor = .white
         contentView.layer.cornerRadius = 5
         contentView.backgroundColor = .white
-        
+        contentView.clipsToBounds = true
+
         constrain(.width, toItem: self, toAttribute: .height)
         
         addSubviews(popular, icon, title)
@@ -56,6 +54,7 @@ class SkillCollectionViewCell: UICollectionViewCell {
         self.title.text = ""
         self.icon.image = nil
         self.popular.isHidden = true
+        gradient.removeFromSuperlayer()
     }
     
     func configure(_ title: String, image: UIImage, isPopular: Bool = false) {
@@ -78,19 +77,27 @@ class SkillCollectionViewCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            icon.backgroundColor = self.isSelected ? .clear : .white
-            popular.backgroundColor = self.isSelected ? .clear : .white
-            title.backgroundColor = self.isSelected ? .clear : .white
-            contentView.backgroundColor = self.isSelected ? UIColor.black.withAlphaComponent(0.25) : .white
+            if self.isSelected {
+                self.gradient.frame = self.contentView.frame
+                self.contentView.layer.addSublayer(self.gradient)
+            } else {
+                gradient.removeFromSuperlayer()
+            }
         }
     }
     
     override var isHighlighted: Bool {
         didSet {
-            icon.backgroundColor = self.isHighlighted ? .clear : .white
-            popular.backgroundColor = self.isHighlighted ? .clear : .white
-            title.backgroundColor = self.isHighlighted ? .clear : .white
-            contentView.backgroundColor = self.isHighlighted ? UIColor.black.withAlphaComponent(0.25) : .white
+            if self.isHighlighted && !self.isSelected {
+                gradient.frame = contentView.frame
+                contentView.layer.addSublayer(gradient)
+                let alpha = CABasicAnimation(keyPath: "opacity")
+                alpha.fromValue = 0; alpha.toValue = 1
+                alpha.duration = 0.2
+                gradient.add(alpha, forKey: "opacity")
+            } else {
+                gradient.removeFromSuperlayer()
+            }
         }
     }
     

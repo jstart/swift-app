@@ -25,11 +25,9 @@ class IndustryViewController: UIViewController, UICollectionViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-
         title = "Select Industry"
         
         collectionView.collectionViewLayout = layout
-        
         collectionView.dataSource = dataSource
         collectionView.delegate = self
         
