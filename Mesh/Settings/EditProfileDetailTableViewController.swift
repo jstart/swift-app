@@ -44,6 +44,11 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
             let cell = tableView.dequeue(UITableViewCell.self, indexPath: indexPath)
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             cell.textLabel?.text = item?.placeholder
+            let switchView = UISwitch(translates: false)
+            switchView.addTarget(self, action: #selector(switchChanged(sender:)), for: .valueChanged)
+            cell.addSubview(switchView)
+            switchView.constrain(.bottom, .trailing, toItem: cell)
+            switchView.constrain((.top, 15), (.bottom, -15), toItem: cell)
             return cell
         }
         
@@ -78,6 +83,10 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
             let index = years.index(of: cell.first.text!)!
             picker.selectRow(index, inComponent: 0, animated: true)
         }
+    }
+    
+    func switchChanged(sender: UISwitch) {
+        
     }
     
     public func numberOfComponents(in pickerView: UIPickerView) -> Int { return type == .month ? 2 : 1 }

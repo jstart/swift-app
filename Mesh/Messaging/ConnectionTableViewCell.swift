@@ -57,7 +57,7 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         leftSwipeSettings.transition = .drag
         rightSwipeSettings.transition = .drag
         
-        profile.image = #imageLiteral(resourceName: "profile_sample")
+        profile.image = .imageWithColor(.gray)
         company.image = #imageLiteral(resourceName: "tesla")
     }
     

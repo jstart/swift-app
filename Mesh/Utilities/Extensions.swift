@@ -115,7 +115,6 @@ extension UIImage {
 }
 
 extension UIFont {
-    
     static func proxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Medium", size: ofSize)! }
     static func boldProxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Semibold", size: ofSize)! }
     static func semiboldProxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Semibold", size: ofSize)! }

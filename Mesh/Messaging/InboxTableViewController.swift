@@ -284,7 +284,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         cell.contentView.backgroundColor = .white
         cell.reply.isHidden = true
         cell.name.text = user.fullName()
-        cell.profile.image = #imageLiteral(resourceName: "profile_sample")
+        cell.profile.image = .imageWithColor(.gray)
         cell.company.image = #imageLiteral(resourceName: "tesla")
         cell.message.text = message.text ?? ""
         cell.message.numberOfLines = 2

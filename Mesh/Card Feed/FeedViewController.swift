@@ -18,7 +18,8 @@ class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
+        navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo"))
+
         addChildViewController(cardStack)
         view.addSubview(cardStack.view)
         
@@ -64,7 +65,6 @@ class FeedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = .default
-        navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo"))
         
         if Keychain.fetchLogin() != nil {
             navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "sorting"), target: self, action: #selector(sort))

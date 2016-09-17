@@ -41,7 +41,7 @@ class InboxSearchTableViewController: UITableViewController {
             return cell
         } else {
             let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath)
-            cell.profile.image = #imageLiteral(resourceName: "profile_sample")
+            cell.profile.image = .imageWithColor(.gray)
             cell.company.image = #imageLiteral(resourceName: "tesla")
             
             let connection = filteredConnections[indexPath.row]

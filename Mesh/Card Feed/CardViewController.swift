@@ -19,7 +19,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     var control = QuickPageControl(categories: [.connections, .experience, .education, .skills, .events])
     var card : Rec?
     var viewPager : ViewPager?
-    let imageView = UIImageView(image: #imageLiteral(resourceName: "profile_sample")).then {
+    let imageView = UIImageView(image: .imageWithColor(.gray)).then {
         $0.clipsToBounds = true
         $0.backgroundColor = .white
         $0.contentMode = .scaleAspectFill
@@ -141,6 +141,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         imageView.layer.mask = nil
+        imageView.layoutIfNeeded()
         
         var rect = imageView.bounds
         rect.size.width = view.frame.size.width
@@ -166,7 +167,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         position.text = card?.person?.user?.fullTitle() ?? "Test Title"
         
         guard let largeURL = card?.person?.user?.photos?.large else {
-            imageView.image = #imageLiteral(resourceName: "profile_sample"); return
+            imageView.image = .imageWithColor(.gray); return
         }
         imageView.alpha = 0
         imageView.af_setImage(withURL: URL(string: largeURL)!, completion: { response in
