@@ -21,6 +21,7 @@
 		2338DFC41D860E9C00624CCF /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2338DFB71D8609A000624CCF /* User+CoreDataProperties.swift */; };
 		2338DFC51D860E9C00624CCF /* Connection+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2338DFB81D8609A000624CCF /* Connection+CoreDataClass.swift */; };
 		2338DFC61D860E9C00624CCF /* Connection+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2338DFB91D8609A000624CCF /* Connection+CoreDataProperties.swift */; };
+		234C4D1B1D8CE5530075E470 /* EditFieldsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234C4D1A1D8CE5530075E470 /* EditFieldsTableViewCell.swift */; };
 		234FA1791D83D45D00670E1D /* PhoneNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234FA1771D83D45D00670E1D /* PhoneNumberFormatter.swift */; };
 		234FA17A1D83D45D00670E1D /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234FA1781D83D45D00670E1D /* StringExtension.swift */; };
 		234FA1DD1D86003C00670E1D /* Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 234FA1DB1D86003C00670E1D /* Data.xcdatamodeld */; };
@@ -28,6 +29,7 @@
 		236E27B81D67C9D2002ABAB4 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27B71D67C9D2002ABAB4 /* Token.swift */; };
 		237827231D7B50B20059AB37 /* CardRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237827221D7B50B20059AB37 /* CardRequest.swift */; };
 		238271941D7E92E40005F254 /* ContactsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238271931D7E92E40005F254 /* ContactsRequest.swift */; };
+		2385F0451D8CC8DB00BFB2F3 /* EditProfileDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2385F0441D8CC8DB00BFB2F3 /* EditProfileDetailTableViewController.swift */; };
 		23C51AD91D88C32800C926F1 /* proximanovasoft-bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 23C51AD51D88C32800C926F1 /* proximanovasoft-bold.otf */; };
 		23C51ADA1D88C32800C926F1 /* proximanovasoft-medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 23C51AD61D88C32800C926F1 /* proximanovasoft-medium.otf */; };
 		23C51ADB1D88C32800C926F1 /* proximanovasoft-regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 23C51AD71D88C32800C926F1 /* proximanovasoft-regular.otf */; };
@@ -99,6 +101,7 @@
 		23C8729C1D8377C000B21AB6 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872991D8377C000B21AB6 /* Extensions.swift */; };
 		23C8729D1D8377C000B21AB6 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8729A1D8377C000B21AB6 /* Keychain.swift */; };
 		23C9D0FA1D8386B4004B274F /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 23C9D0F91D8386B4004B274F /* Settings.bundle */; };
+		23CC8D501D8CB8F600D3C1CF /* EditProfileListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CC8D4F1D8CB8F600D3C1CF /* EditProfileListTableViewController.swift */; };
 		23DFB67A1D653E1E00D871A9 /* PositionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DFB6791D653E1E00D871A9 /* PositionRequest.swift */; };
 		23DFB67C1D654B3C00D871A9 /* ProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DFB67B1D654B3C00D871A9 /* ProfileRequest.swift */; };
 		23EA22811D8A110C00CAB4A9 /* CompleteProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EA22801D8A110C00CAB4A9 /* CompleteProfileTableViewController.swift */; };
@@ -133,6 +136,7 @@
 		2338DFB71D8609A000624CCF /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "User+CoreDataProperties.swift"; path = "Mesh/Models/User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2338DFB81D8609A000624CCF /* Connection+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Connection+CoreDataClass.swift"; path = "Mesh/Models/Connection+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2338DFB91D8609A000624CCF /* Connection+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Connection+CoreDataProperties.swift"; path = "Mesh/Models/Connection+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		234C4D1A1D8CE5530075E470 /* EditFieldsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditFieldsTableViewCell.swift; sourceTree = "<group>"; };
 		234FA1771D83D45D00670E1D /* PhoneNumberFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberFormatter.swift; sourceTree = "<group>"; };
 		234FA1781D83D45D00670E1D /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		234FA1DC1D86003C00670E1D /* Data.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Data.xcdatamodel; sourceTree = "<group>"; };
@@ -140,6 +144,7 @@
 		236E27B71D67C9D2002ABAB4 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		237827221D7B50B20059AB37 /* CardRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardRequest.swift; sourceTree = "<group>"; };
 		238271931D7E92E40005F254 /* ContactsRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsRequest.swift; sourceTree = "<group>"; };
+		2385F0441D8CC8DB00BFB2F3 /* EditProfileDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileDetailTableViewController.swift; sourceTree = "<group>"; };
 		23C51AD51D88C32800C926F1 /* proximanovasoft-bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanovasoft-bold.otf"; sourceTree = "<group>"; };
 		23C51AD61D88C32800C926F1 /* proximanovasoft-medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanovasoft-medium.otf"; sourceTree = "<group>"; };
 		23C51AD71D88C32800C926F1 /* proximanovasoft-regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanovasoft-regular.otf"; sourceTree = "<group>"; };
@@ -213,6 +218,7 @@
 		23C872991D8377C000B21AB6 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		23C8729A1D8377C000B21AB6 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		23C9D0F91D8386B4004B274F /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = "Support Files/Settings.bundle"; sourceTree = "<group>"; };
+		23CC8D4F1D8CB8F600D3C1CF /* EditProfileListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileListTableViewController.swift; sourceTree = "<group>"; };
 		23DFB6791D653E1E00D871A9 /* PositionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionRequest.swift; sourceTree = "<group>"; };
 		23DFB67B1D654B3C00D871A9 /* ProfileRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileRequest.swift; sourceTree = "<group>"; };
 		23EA22801D8A110C00CAB4A9 /* CompleteProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompleteProfileTableViewController.swift; sourceTree = "<group>"; };
@@ -421,6 +427,9 @@
 			children = (
 				23C8728A1D8376EF00B21AB6 /* EditTableViewController.swift */,
 				23C8728B1D8376EF00B21AB6 /* SettingsTableViewController.swift */,
+				23CC8D4F1D8CB8F600D3C1CF /* EditProfileListTableViewController.swift */,
+				234C4D1A1D8CE5530075E470 /* EditFieldsTableViewCell.swift */,
+				2385F0441D8CC8DB00BFB2F3 /* EditProfileDetailTableViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -746,6 +755,7 @@
 				23C872781D83769C00B21AB6 /* AlertTransition.swift in Sources */,
 				234FA1791D83D45D00670E1D /* PhoneNumberFormatter.swift in Sources */,
 				23EA228F1D8A1F4F00CAB4A9 /* UITextField+fixCaretPosition.swift in Sources */,
+				234C4D1B1D8CE5530075E470 /* EditFieldsTableViewCell.swift in Sources */,
 				23C8727F1D8376C000B21AB6 /* JoinTableViewController.swift in Sources */,
 				23C872661D83762900B21AB6 /* QuickViewGenerator.swift in Sources */,
 				23C51AE21D88E6E000C926F1 /* SMSVerifyViewController.swift in Sources */,
@@ -774,7 +784,9 @@
 				ADECA8E81D51540900726AEF /* AppDelegate.swift in Sources */,
 				23C8724B1D83760300B21AB6 /* MessageTableViewCell.swift in Sources */,
 				23C872731D83767800B21AB6 /* ContactsManager.swift in Sources */,
+				2385F0451D8CC8DB00BFB2F3 /* EditProfileDetailTableViewController.swift in Sources */,
 				23C872711D83765700B21AB6 /* LocationManager.swift in Sources */,
+				23CC8D501D8CB8F600D3C1CF /* EditProfileListTableViewController.swift in Sources */,
 				236E27B81D67C9D2002ABAB4 /* Token.swift in Sources */,
 				23C8726B1D83762900B21AB6 /* UserDetailTableViewController.swift in Sources */,
 				23C8724A1D83760300B21AB6 /* MessagesViewController.swift in Sources */,
@@ -936,7 +948,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -961,7 +973,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

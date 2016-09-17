@@ -13,6 +13,8 @@ extension SkyFloatingLabelTextField {
     static func branded(_ title: String) -> SkyFloatingLabelTextField {
         return SkyFloatingLabelTextField(translates: false).then {
             $0.placeholder = title
+            $0.titleLabel.font = .proxima(ofSize: 10)
+            $0.placeholderFont = .proxima(ofSize: 20)
             $0.selectedTitleColor = Colors.brand; $0.selectedLineColor = Colors.brand
         }
     }

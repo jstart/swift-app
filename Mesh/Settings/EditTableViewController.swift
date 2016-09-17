@@ -23,13 +23,18 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         $0.clipsToBounds = true
         $0.constrain(.height, constant: 325)
     }
+    
+    var items : [UserDetail] = [Experience(company: "Tinder", position: "iOS", startYear: "2012", endYear: "2016"),
+                                Education(schoolName: "Harvard", degreeType: "Masters", startYear: "2012", endYear: "2016"),
+                                Skill(name: "iOS Development", numberOfMembers: "2,000 Members", isAdded: true)]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "My Profile"
         
+        tableView.backgroundColor = .white
         tableView.contentInset = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
-        tableView.registerClass(UITableViewCell.self); tableView.registerNib(ConnectionTableViewCell.self)
+        tableView.registerClass(UITableViewCell.self); tableView.registerNib(UserDetailTableViewCell.self)
         tableView.estimatedRowHeight = 100
         navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "connectionsOverflow"), style: .done, target: self, action: #selector(settings))
     }
@@ -90,11 +95,19 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
             default: break }
             return cell
         } else {
-            let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath)
-            cell.name.text = "Feature still in development"
-            cell.title.text = nil
-            cell.profile.image = #imageLiteral(resourceName: "tesla")
-            cell.company.image = nil
+            let cell = tableView.dequeue(UserDetailTableViewCell.self, indexPath: indexPath)
+            
+            let item = items[indexPath.section - 1]
+            
+            cell.icon.image = #imageLiteral(resourceName: "tesla")
+            
+            cell.button.isHidden = true
+            cell.year.isHidden = !item.hasDate
+            
+            cell.top.text = item.firstText
+            cell.bottom.text = item.secondText
+            cell.year.text = item.thirdText
+            
             switch indexPath.row {
             case 0: break
             default: break }
@@ -104,6 +117,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 && indexPath.row == 0 { photoOptions() }
+        navigationController?.push(EditProfileListTableViewController())
     }
     
     func uploadChoice(_ sender: UIAlertAction) {
