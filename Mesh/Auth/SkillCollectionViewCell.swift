@@ -31,7 +31,8 @@ class SkillCollectionViewCell: UICollectionViewCell {
         contentView.clipsToBounds = true
 
         constrain(.width, toItem: self, toAttribute: .height)
-        
+        icon.constrain(.width, toItem: icon, toAttribute: .height)
+
         addSubviews(popular, icon, title)
         popular.constrain(.topMargin, .centerX, toItem: self)
         popular.constrain(.bottomMargin, toItem: icon)
@@ -39,6 +40,7 @@ class SkillCollectionViewCell: UICollectionViewCell {
         icon.constrain(.centerY, .centerX, toItem: self)
         
         title.constrain(.top, constant: 5, toItem: icon, toAttribute: .bottom)
+        title.constrain((.height, 14))
         title.constrain(.centerX, toItem: self)
         title.constrain(.bottom, toItem: self, toAttribute: .bottomMargin)
         
@@ -57,11 +59,12 @@ class SkillCollectionViewCell: UICollectionViewCell {
         gradient.removeFromSuperlayer()
     }
     
-    func configure(_ title: String, image: UIImage, isPopular: Bool = false) {
+    func configure(_ title: String, image: UIImage, isPopular: Bool = false, searching: Bool = false) {
         self.title.text = title
         self.icon.image = image
         self.popular.isHidden = isPopular
         
+        if searching { return }
         let rotation = CABasicAnimation(keyPath: "transform.rotation.y")
         rotation.duration = 0.75
         rotation.fromValue = 0

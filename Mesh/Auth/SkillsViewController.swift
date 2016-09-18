@@ -8,8 +8,12 @@
 
 import UIKit
 
-class SkillsViewController: UIViewController, UICollectionViewDelegate {
-    let layout = UICollectionViewFlowLayout().then { $0.estimatedItemSize = CGSize(width: 100, height: 100) }
+class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearchBarDelegate {
+     
+    let layout = UICollectionViewFlowLayout().then {
+        let size = UIApplication.shared.keyWindow?.frame.size
+        $0.itemSize = CGSize(width: size!.width * (120/414), height: size!.width * (120/414))
+    }
     
     lazy var collectionView : UICollectionView = {
         return UICollectionView(frame: CGRect.zero, collectionViewLayout: self.layout).then {
@@ -21,12 +25,14 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate {
     }()
     
     lazy var dataSource : SkillsCollectionViewDataSource = { return SkillsCollectionViewDataSource(self.collectionView) }()
+    let search = UISearchBar()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         title = "Select Skills"
         
+        collectionView.alwaysBounceVertical = true
         collectionView.collectionViewLayout = layout
         collectionView.dataSource = dataSource
         collectionView.delegate = self
@@ -35,11 +41,45 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate {
         
         collectionView.constrain(.centerX, .centerY, .width, .height, toItem: view)
         collectionView.reloadData()
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search", style: .done, target: self, action: #selector(openSearch))
+        search.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text == "" || searchText == "" {
+            dataSource.count = 10
+            collectionView.reloadSections(IndexSet(integer: 0))
+            return
+        }
+        dataSource.count -= 1
+        if dataSource.count >= 0 {
+            collectionView.deleteItems(at: [IndexPath(item: dataSource.count, section: 0)])
+        }else {
+            dataSource.count = 0
+        }
+    }
+    
+    func openSearch() {
+        if dataSource.searching {
+            search.text = ""
+            dataSource.count = 10
+            collectionView.reloadSections(IndexSet(integer: 0))
+            dataSource.searching = false
+            navigationItem.rightBarButtonItem?.title = "Search"
+            navigationItem.titleView = nil
+            search.resignFirstResponder()
+        } else {
+            dataSource.searching = true
+            navigationItem.rightBarButtonItem?.title = "Cancel"
+            navigationItem.titleView = search
+            search.becomeFirstResponder()
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -64,6 +104,6 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate {
         collectionView.cellForItem(at: indexPath)?.layer.add(rotation, forKey: rotation.keyPath)
     }
     
-    func toFeed() { navigationController?.push(FeedViewController())
-    }
+    func toFeed() { navigationController?.push(FeedViewController()) }
+
 }

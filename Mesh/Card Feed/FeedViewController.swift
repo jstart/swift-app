@@ -7,13 +7,11 @@
 //
 
 import UIKit
+import CoreLocation
 
 class FeedViewController: UIViewController {
 
-    let cardStack = CardStack().then {
-        $0.view.backgroundColor = .white
-    }
-    let locationManager = LocationManager()
+    let cardStack = CardStack().then { $0.view.backgroundColor = .white }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,6 +73,7 @@ class FeedViewController: UIViewController {
         }
         
         if TARGET_OS_SIMULATOR == 1 {
+            LocationManager.currentLocation = CLLocation(latitude: 33.978359, longitude: -118.368723)
             Client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
                 guard let JSON = response.result.value as? JSONDictionary else { return }
                 guard JSON["msg"] == nil else { NotificationCenter.default.post(name: .logout, object: nil); return }
@@ -82,14 +81,14 @@ class FeedViewController: UIViewController {
             })
         }
 
-        locationManager.locationUpdate = { loc in
+        LocationManager.locationUpdate = { loc in
             Client.execute(PositionRequest(lat: loc.coordinate.latitude, lon: loc.coordinate.longitude), completionHandler: { response in
                 guard let JSON = response.result.value as? JSONDictionary else { return }
                 guard JSON["msg"] == nil else { NotificationCenter.default.post(name: .logout, object: nil); return }
                 UserResponse.current = UserResponse(JSON: JSON)
             })
         }
-        locationManager.startTracking()
+        LocationManager.startTracking()
         
         if cardStack.cards?.count != nil || cardStack.cards?.count == cardStack.cardIndex - 1 { return }
         Client.execute(RecommendationsRequest(), completionHandler: { response in

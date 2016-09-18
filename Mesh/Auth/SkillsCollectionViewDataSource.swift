@@ -10,6 +10,9 @@ import UIKit
 
 class SkillsCollectionViewDataSource: NSObject, UICollectionViewDataSource {
     
+    var count = 10
+    var searching = false
+    
     convenience init(_ collectionView: UICollectionView) {
         self.init()
         collectionView.registerClass(SkillCollectionViewCell.self)
@@ -18,12 +21,12 @@ class SkillsCollectionViewDataSource: NSObject, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int { return 1 }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeue(SkillCollectionViewCell.self, indexPath: indexPath)
-        cell.configure("Test", image: #imageLiteral(resourceName: "tesla"))
+        cell.configure("Test", image: #imageLiteral(resourceName: "tesla"), searching: searching)
         return cell
     }
     

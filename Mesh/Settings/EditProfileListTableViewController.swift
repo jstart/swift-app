@@ -17,6 +17,8 @@ class EditProfileListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "Edit " + items.first!.category.rawValue.capitalized
+        
         tableView.registerNib(UserDetailTableViewCell.self)
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 70

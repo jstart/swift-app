@@ -12,15 +12,32 @@ import Alamofire
 struct ProfileRequest : AuthenticatedRequest {
     let path = "profile", method = HTTPMethod.post
     
-    let first_name : String,
-        last_name : String,
-        email : String,
-        title : String,
-        profession : String,
-        companies : [CompanyModel]
+    var first_name : String?,
+        last_name : String?,
+        email : String?,
+        title : String?,
+        profession : String?,
+        companies : [CompanyModel]?
     
     func parameters() -> [String : Any] {
-        return ["first_name" : first_name, "last_name" : last_name, "email" : email, "title" : title, "profession" : profession, "companies" : companies.map({$0.parameters()})]
+        var parameters = [String : Any]()
+        if first_name != nil { parameters["first_name"] = first_name! }
+        if last_name != nil { parameters["last_name"] = last_name! }
+        if email != nil { parameters["email"] = email! }
+        if title != nil { parameters["title"] = title! }
+        if profession != nil { parameters["profession"] = profession! }
+        if companies != nil { parameters["companies"] = companies!.map({$0.parameters()}) }
+
+        return parameters
+    }
+    
+    init(first_name: String? = nil, last_name: String? = nil, email: String? = nil, title: String? = nil, profession: String? = nil, companies: [CompanyModel]? = nil) {
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email = email
+        self.title = title
+        self.profession = profession
+        self.companies = companies
     }
 }
 

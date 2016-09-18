@@ -10,8 +10,8 @@ import UIKit
 
 enum QuickViewCategory : String  {
     case connections = "connections"
-    case experience = "education"
-    case education = "experience"
+    case experience = "experience"
+    case education = "education"
     case skills = "skills"
     case events = "events"
     

@@ -101,13 +101,22 @@ class SettingsTableViewController: UITableViewController {
         switch Settings(rawValue: indexPath.section)! {
         case .ConnectedAccounts: break
         case .MatchSettings: break
-        case .GeneralSettings: break
+        case .GeneralSettings: editUser(indexPath.row); break
         case .PushNotifications: break
         case .EmailNotifications: break
         case .ContactUs: contactUs(); break
         case .Legal: legal(); break
         case .Logout: logout(); break
         case .DeleteAccount: delete(); break }
+    }
+    
+    func editUser(_ row: Int) {
+        switch row {
+        case 0: navigationController?.push(UserEditEmailViewController()); break
+        case 1: navigationController?.push(UserEditPhoneViewController()); break
+        case 2: navigationController?.push(UserEditPasswordViewController()); break
+        case 3: navigationController?.push(UserEditNameViewController()); break
+        default: break }
     }
     
     func contactUs() { }

@@ -42,12 +42,12 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
     func settings() { navigationController?.push(SettingsTableViewController(style: .grouped)) }
     
     func save() {
-        //let phone_number = self.phone?.text ?? ""
-        let first_name = self.first_name?.text ?? ""
-        let last_name = self.last_name?.text ?? ""
-        let email = self.email?.text ?? ""
-        let title = self.titleField?.text ?? ""
-        let profession = self.profession?.text ?? ""
+        //let phone_number = self.phone?.text
+        let first_name = self.first_name?.text
+        let last_name = self.last_name?.text
+        let email = self.email?.text
+        let title = self.titleField?.text
+        let profession = self.profession?.text
         
         let companies = [CompanyModel(id: "tinder", start_month: "January", start_year: "2014", end_month: "March", end_year: "2016", current: false)]
         Client.execute(ProfileRequest(first_name: first_name, last_name: last_name, email: email, title: title, profession: profession, companies: companies), completionHandler: { response in

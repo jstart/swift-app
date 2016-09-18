@@ -51,7 +51,7 @@ class MessageTableViewCell: MGSwipeTableCell {
 
         name.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
         
-        profile.image = .imageWithColor(.gray)
+        profile.backgroundColor = .gray
         company.image = #imageLiteral(resourceName: "tesla")
         
         leftExpansion.threshold = 1.5
@@ -69,6 +69,7 @@ class MessageTableViewCell: MGSwipeTableCell {
             message.font = .boldProxima(ofSize: message.font.pointSize)
         }
 //        profile.image = .imageWithColor(.gray)
+        profile.backgroundColor = .gray
 //        company.image = #imageLiteral(resourceName: "tesla")
         message.text = aMessage.text ?? ""
         guard let small = user.photos?.small else { return }

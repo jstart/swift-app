@@ -22,6 +22,10 @@
 		2338DFC51D860E9C00624CCF /* Connection+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2338DFB81D8609A000624CCF /* Connection+CoreDataClass.swift */; };
 		2338DFC61D860E9C00624CCF /* Connection+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2338DFB91D8609A000624CCF /* Connection+CoreDataProperties.swift */; };
 		234C4D1B1D8CE5530075E470 /* EditFieldsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234C4D1A1D8CE5530075E470 /* EditFieldsTableViewCell.swift */; };
+		234C4D1D1D8E51620075E470 /* UserEditPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234C4D1C1D8E51620075E470 /* UserEditPasswordViewController.swift */; };
+		234C4D1F1D8E56300075E470 /* UserEditEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234C4D1E1D8E56300075E470 /* UserEditEmailViewController.swift */; };
+		234C4D211D8E58F00075E470 /* UserEditNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234C4D201D8E58F00075E470 /* UserEditNameViewController.swift */; };
+		234C4D231D8E5A570075E470 /* UserEditPhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234C4D221D8E5A570075E470 /* UserEditPhoneViewController.swift */; };
 		234FA1791D83D45D00670E1D /* PhoneNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234FA1771D83D45D00670E1D /* PhoneNumberFormatter.swift */; };
 		234FA17A1D83D45D00670E1D /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234FA1781D83D45D00670E1D /* StringExtension.swift */; };
 		234FA1DD1D86003C00670E1D /* Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 234FA1DB1D86003C00670E1D /* Data.xcdatamodeld */; };
@@ -137,6 +141,10 @@
 		2338DFB81D8609A000624CCF /* Connection+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Connection+CoreDataClass.swift"; path = "Mesh/Models/Connection+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2338DFB91D8609A000624CCF /* Connection+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Connection+CoreDataProperties.swift"; path = "Mesh/Models/Connection+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		234C4D1A1D8CE5530075E470 /* EditFieldsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditFieldsTableViewCell.swift; sourceTree = "<group>"; };
+		234C4D1C1D8E51620075E470 /* UserEditPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserEditPasswordViewController.swift; sourceTree = "<group>"; };
+		234C4D1E1D8E56300075E470 /* UserEditEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserEditEmailViewController.swift; sourceTree = "<group>"; };
+		234C4D201D8E58F00075E470 /* UserEditNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserEditNameViewController.swift; sourceTree = "<group>"; };
+		234C4D221D8E5A570075E470 /* UserEditPhoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserEditPhoneViewController.swift; sourceTree = "<group>"; };
 		234FA1771D83D45D00670E1D /* PhoneNumberFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberFormatter.swift; sourceTree = "<group>"; };
 		234FA1781D83D45D00670E1D /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		234FA1DC1D86003C00670E1D /* Data.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Data.xcdatamodel; sourceTree = "<group>"; };
@@ -425,6 +433,10 @@
 		23C872891D8376EF00B21AB6 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				234C4D1E1D8E56300075E470 /* UserEditEmailViewController.swift */,
+				234C4D1C1D8E51620075E470 /* UserEditPasswordViewController.swift */,
+				234C4D201D8E58F00075E470 /* UserEditNameViewController.swift */,
+				234C4D221D8E5A570075E470 /* UserEditPhoneViewController.swift */,
 				23C8728A1D8376EF00B21AB6 /* EditTableViewController.swift */,
 				23C8728B1D8376EF00B21AB6 /* SettingsTableViewController.swift */,
 				23CC8D4F1D8CB8F600D3C1CF /* EditProfileListTableViewController.swift */,
@@ -728,6 +740,7 @@
 				23C872931D83773300B21AB6 /* EmptyView.swift in Sources */,
 				23C8727A1D83769C00B21AB6 /* Snackbar.swift in Sources */,
 				23EA228E1D8A1F4F00CAB4A9 /* SkyFloatingLabelTextFieldWithIcon.swift in Sources */,
+				234C4D1D1D8E51620075E470 /* UserEditPasswordViewController.swift in Sources */,
 				23DFB67A1D653E1E00D871A9 /* PositionRequest.swift in Sources */,
 				23C872201D83753200B21AB6 /* PreviewError.swift in Sources */,
 				2338DFC61D860E9C00624CCF /* Connection+CoreDataProperties.swift in Sources */,
@@ -742,14 +755,17 @@
 				23C872701D83765700B21AB6 /* CameraManager.swift in Sources */,
 				AD4E2E201D5A760800130811 /* AuthRequest.swift in Sources */,
 				23C8728C1D8376EF00B21AB6 /* EditTableViewController.swift in Sources */,
+				234C4D231D8E5A570075E470 /* UserEditPhoneViewController.swift in Sources */,
 				23C8728D1D8376EF00B21AB6 /* SettingsTableViewController.swift in Sources */,
 				23C872671D83762900B21AB6 /* TweetCardViewController.swift in Sources */,
 				23C872601D83762900B21AB6 /* CardDetailViewController.swift in Sources */,
+				234C4D211D8E58F00075E470 /* UserEditNameViewController.swift in Sources */,
 				23C51AEE1D89D92D00C926F1 /* SkillsViewController.swift in Sources */,
 				237827231D7B50B20059AB37 /* CardRequest.swift in Sources */,
 				23C872321D83759A00B21AB6 /* QRCardView.swift in Sources */,
 				234FA17A1D83D45D00670E1D /* StringExtension.swift in Sources */,
 				23C8726C1D83762900B21AB6 /* ViewPager.swift in Sources */,
+				234C4D1F1D8E56300075E470 /* UserEditEmailViewController.swift in Sources */,
 				2338DFC11D860E9C00624CCF /* Message+CoreDataClass.swift in Sources */,
 				23C8729B1D8377C000B21AB6 /* Colors.swift in Sources */,
 				23C872781D83769C00B21AB6 /* AlertTransition.swift in Sources */,

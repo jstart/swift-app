@@ -15,15 +15,19 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
     var years = [String]()
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     var type : FieldType?
+    var switchView = UISwitch(translates: false)
     var index : IndexPath?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        title = "Edit " + item!.category.rawValue.capitalized
+
         tableView.registerClass(UITableViewCell.self, EditFieldsTableViewCell.self)
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 70
         tableView.allowsSelection = false
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(save))
         
         picker.delegate = self
         picker.dataSource = self
@@ -44,11 +48,9 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
             let cell = tableView.dequeue(UITableViewCell.self, indexPath: indexPath)
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             cell.textLabel?.text = item?.placeholder
-            let switchView = UISwitch(translates: false)
             switchView.addTarget(self, action: #selector(switchChanged(sender:)), for: .valueChanged)
             cell.addSubview(switchView)
-            switchView.constrain(.bottom, .trailing, toItem: cell)
-            switchView.constrain((.top, 15), (.bottom, -15), toItem: cell)
+            switchView.constrain((.top, 15), (.bottom, -15), (.trailing, -10), toItem: cell)
             return cell
         }
         
@@ -87,6 +89,35 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
     
     func switchChanged(sender: UISwitch) {
         
+    }
+    
+    func save() {
+        var request : ProfileRequest
+        
+        if item!.category == .education {
+            request = ProfileRequest()
+        }else { // .experience
+            var id = "", start_month = "", start_year = "", end_month = "", end_year = "", title = ""
+            let current = switchView.isOn
+            var company : CompanyModel?
+
+            for (index, _) in item!.fields.enumerated() {
+                guard let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? EditFieldsTableViewCell else { continue }
+                switch index {
+                case 0: id = cell.first.text ?? ""; break
+                case 1: title = cell.first.text ?? ""; break
+                case 2: start_month = cell.first.text ?? ""; start_year = cell.second.text ?? ""; break
+                case 3: end_month = cell.first.text ?? ""; end_year = cell.second.text ?? ""; break
+                case 4: break //toggle
+                default: break }
+            }
+            company = CompanyModel(id: id, start_month: start_month, start_year: start_year, end_month: end_month, end_year: end_year, current: current)
+            request = ProfileRequest(title: title, companies: [company!])
+        }
+
+        Client.execute(request, completionHandler: { _ in
+            self.navigationController?.pop()
+        })
     }
     
     public func numberOfComponents(in pickerView: UIPickerView) -> Int { return type == .month ? 2 : 1 }

@@ -57,7 +57,7 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         leftSwipeSettings.transition = .drag
         rightSwipeSettings.transition = .drag
         
-        profile.image = .imageWithColor(.gray)
+        profile.backgroundColor = .gray
         company.image = #imageLiteral(resourceName: "tesla")
     }
     
@@ -72,6 +72,7 @@ class ConnectionTableViewCell: MGSwipeTableCell {
     func configure(_ user: UserResponse){
         name.text = user.fullName()
         title.text = user.fullTitle()
+        profile.backgroundColor = .gray
 //        profile.image = #imageLiteral(resourceName: "profile_sample")
 //        company.image = #imageLiteral(resourceName: "tesla")
     }
