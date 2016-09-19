@@ -92,7 +92,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         rotation.autoreverses = true
         collectionView.cellForItem(at: indexPath)?.layer.add(rotation, forKey: rotation.keyPath)
         
-        if collectionView.indexPathsForSelectedItems!.count > 2 && dataSource.count == 0 { toFeed() }
+        if collectionView.indexPathsForSelectedItems!.count > 2 && dataSource.count > 0 { toFeed() }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
