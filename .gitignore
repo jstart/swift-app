@@ -28,3 +28,5 @@ fastlane/test_output/*
 fastlane/report.xml
 *.app
 *.dsym*
+Gemfile.lock
+
