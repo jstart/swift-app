@@ -73,7 +73,7 @@ class IndustryViewController: UIViewController, UICollectionViewDelegate, UISear
     func openSearch() {
         if dataSource.searching {
             search.text = ""
-            dataSource.count = 10
+            dataSource.count = 30
             collectionView.reloadSections(IndexSet(integer: 0))
             dataSource.searching = false
             navigationItem.rightBarButtonItem?.title = "Search"

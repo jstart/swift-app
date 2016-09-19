@@ -58,10 +58,11 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
             return
         }
         dataSource.count -= 1
-        if dataSource.count >= 0 {
+        if dataSource.count > 0 {
             collectionView.deleteItems(at: [IndexPath(item: dataSource.count, section: 0)])
         }else {
             dataSource.count = 0
+            collectionView.reloadItems(at: [IndexPath(item: 0, section: 0)])
         }
     }
     
@@ -91,7 +92,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         rotation.autoreverses = true
         collectionView.cellForItem(at: indexPath)?.layer.add(rotation, forKey: rotation.keyPath)
         
-        if collectionView.indexPathsForSelectedItems!.count > 2 { toFeed() }
+        if collectionView.indexPathsForSelectedItems!.count > 2 && dataSource.count == 0 { toFeed() }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {

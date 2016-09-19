@@ -27,10 +27,11 @@ class IndustriesCollectionViewDataSource: NSObject, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         return collectionView.dequeue(SkillCollectionViewCell.self, indexPath: indexPath).then {
             if count > 0 {
-                $0.configure("Skill", image: #imageLiteral(resourceName: "tesla"), searching: searching)
+                $0.configure("Industry", image: #imageLiteral(resourceName: "tesla"), searching: searching)
             } else {
                 $0.configure("Add", image: #imageLiteral(resourceName: "addCard"), searching: searching)
             }
         }
     }
+    
 }
