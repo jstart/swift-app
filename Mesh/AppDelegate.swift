@@ -86,6 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont.proxima(ofSize: 17)], for: .normal)
         UILabel.appearance(whenContainedInInstancesOf: [UITableViewCell.self]).font = .regularProxima(ofSize: 17)
         UITextField.appearance(whenContainedInInstancesOf: [UITableViewCell.self]).font = .proxima(ofSize: 17)
+        UISwitch.appearance().onTintColor = Colors.brand
     }
 
     override var canBecomeFirstResponder: Bool { return true }

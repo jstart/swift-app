@@ -10,7 +10,7 @@ import UIKit
 
 class IndustriesCollectionViewDataSource: NSObject, UICollectionViewDataSource {
     
-    var count = 10
+    var count = 30
     var searching = false
     
     convenience init(_ collectionView: UICollectionView) {
@@ -21,12 +21,16 @@ class IndustriesCollectionViewDataSource: NSObject, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int { return 1 }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return count
+        return count == 0 ? 1 : count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         return collectionView.dequeue(SkillCollectionViewCell.self, indexPath: indexPath).then {
-            $0.configure("Test", image: #imageLiteral(resourceName: "tesla"), searching: searching)
+            if count > 0 {
+                $0.configure("Skill", image: #imageLiteral(resourceName: "tesla"), searching: searching)
+            } else {
+                $0.configure("Add", image: #imageLiteral(resourceName: "addCard"), searching: searching)
+            }
         }
     }
 }

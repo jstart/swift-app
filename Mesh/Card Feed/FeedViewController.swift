@@ -74,6 +74,9 @@ class FeedViewController: UIViewController {
         
         if TARGET_OS_SIMULATOR == 1 {
             LocationManager.currentLocation = CLLocation(latitude: 33.978359, longitude: -118.368723)
+            LocationManager.shared.geocoder.reverseGeocodeLocation(LocationManager.currentLocation!, completionHandler: { placemark, error in
+                LocationManager.currentPlacemark = placemark!.first
+            })
             Client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
                 guard let JSON = response.result.value as? JSONDictionary else { return }
                 guard JSON["msg"] == nil else { NotificationCenter.default.post(name: .logout, object: nil); return }

@@ -15,9 +15,18 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     static let shared = LocationManager()
     
     static var currentLocation : CLLocation?
+    static var currentPlacemark : CLPlacemark?
     
+    let geocoder = CLGeocoder()
     let manager = CLLocationManager()
     static var locationUpdate : ((CLLocation) -> Void)? = nil
+    
+    static func cityState() -> String{
+        if currentPlacemark?.locality != nil && currentPlacemark?.administrativeArea != nil {
+            return currentPlacemark!.locality! + ", " + currentPlacemark!.administrativeArea!
+        }
+        return ""
+    }
 
     static func startTracking() {// -> (enabled: Bool, status: CLAuthorizationStatus) {
         shared.manager.delegate = shared
@@ -61,5 +70,8 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         LocationManager.currentLocation = locations.first!
         LocationManager.locationUpdate?(locations.first!)
+        geocoder.reverseGeocodeLocation(locations.first!, completionHandler: { placemark, error in
+            LocationManager.currentPlacemark = placemark!.first
+        })
     }
 }

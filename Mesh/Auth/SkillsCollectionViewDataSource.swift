@@ -10,7 +10,7 @@ import UIKit
 
 class SkillsCollectionViewDataSource: NSObject, UICollectionViewDataSource {
     
-    var count = 10
+    var count = 30
     var searching = false
     
     convenience init(_ collectionView: UICollectionView) {

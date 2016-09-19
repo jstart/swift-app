@@ -53,7 +53,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text == "" || searchText == "" {
-            dataSource.count = 10
+            dataSource.count = 30
             collectionView.reloadSections(IndexSet(integer: 0))
             return
         }
@@ -68,7 +68,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     func openSearch() {
         if dataSource.searching {
             search.text = ""
-            dataSource.count = 10
+            dataSource.count = 30
             collectionView.reloadSections(IndexSet(integer: 0))
             dataSource.searching = false
             navigationItem.rightBarButtonItem?.title = "Search"

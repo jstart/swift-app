@@ -87,11 +87,20 @@ class SettingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return Settings(rawValue: section)?.numberOfRows ?? 0 }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(UITableViewCell.self, indexPath: indexPath)
-        let settings = Settings(rawValue: indexPath.section)?.cellModels[indexPath.row]
-        cell.textLabel?.text = settings?.title
-        cell.textLabel?.textAlignment = (settings?.textAlignment)!
-        cell.accessoryType = (settings?.accessoryType)!
+        var cell = tableView.dequeue(UITableViewCell.self, indexPath: indexPath)
+        
+        let section = Settings(rawValue: indexPath.section)!
+        if section == .MatchSettings && indexPath.row == 0{
+            cell = UITableViewCell(style: .subtitle, reuseIdentifier: "")
+            cell.detailTextLabel?.text = LocationManager.cityState()
+        }
+        
+        cell.accessoryView = section == .ConnectedAccounts ? UISwitch() : nil
+        
+        let settings = section.cellModels[indexPath.row]
+        cell.textLabel?.text = settings.title
+        cell.textLabel?.textAlignment = settings.textAlignment
+        cell.accessoryType = settings.accessoryType
         
         return cell
     }

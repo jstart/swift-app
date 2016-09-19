@@ -57,15 +57,16 @@ class IndustryViewController: UIViewController, UICollectionViewDelegate, UISear
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text == "" || searchText == "" {
-            dataSource.count = 10
+            dataSource.count = 30
             collectionView.reloadSections(IndexSet(integer: 0))
             return
         }
         dataSource.count -= 1
-        if dataSource.count >= 0 {
+        if dataSource.count > 0 {
             collectionView.deleteItems(at: [IndexPath(item: dataSource.count, section: 0)])
         }else {
             dataSource.count = 0
+            collectionView.reloadItems(at: [IndexPath(item: 0, section: 0)])
         }
     }
     
@@ -87,6 +88,8 @@ class IndustryViewController: UIViewController, UICollectionViewDelegate, UISear
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        navigationController?.push(SkillsViewController())
+        if dataSource.count > 0 {
+            navigationController?.push(SkillsViewController())
+        }
     }
 }
