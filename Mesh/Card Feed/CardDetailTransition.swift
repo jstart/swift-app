@@ -17,7 +17,7 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
         $0.translates = false
         $0.alpha = 0.0
     }
-    var cardVC : CardViewController?
+    var cardVC : PersonCardViewController?
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?)-> TimeInterval {
         return TimeInterval(duration)

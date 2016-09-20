@@ -1,5 +1,5 @@
 //
-//  CardViewController.swift
+//  PersonCardViewController.swift
 //  Mesh
 //
 //  Created by Christopher Truman on 8/4/16.
@@ -9,13 +9,8 @@
 import UIKit
 import AlamofireImage
 
-class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, QuickPageControlDelegate {
-    var delegate : CardDelegate?
+class PersonCardViewController : BaseCardViewController, UIViewControllerTransitioningDelegate, QuickPageControlDelegate {
     
-    var gestureRec : UIPanGestureRecognizer?
-    var tapRec : UITapGestureRecognizer?
-
-    var state = SwipeState()
     var control = QuickPageControl(categories: [.connections, .experience, .education, .skills, .events])
     var card : Rec?
     var viewPager : ViewPager?
@@ -28,13 +23,6 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         $0.layer.borderColor = UIColor.clear.cgColor
     }
     let transition = CardDetailTransition()
-    
-    let overlayView  = UIView(translates: false).then {
-        $0.backgroundColor = .black
-        $0.alpha = 0.0
-        $0.isHidden = true
-        $0.layer.cornerRadius = 5.0
-    }
     
     let name = UILabel(translates: false).then {
         $0.textColor = .black
@@ -83,9 +71,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! : "Micha Kaufman"
         position.text = "VP of Engineering at Tesla"
 
-        let namePositionContainer = UIView().then {
-            $0.backgroundColor = .white
-        }
+        let namePositionContainer = UIView().then { $0.backgroundColor = .white }
         
         namePositionContainer.addSubviews(name, position)
         
@@ -166,13 +152,9 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         name.text = card?.person?.user?.fullName() ?? "Test Name"
         position.text = card?.person?.user?.fullTitle() ?? "Test Title"
         
-        guard let largeURL = card?.person?.user?.photos?.large else {
-            imageView.image = .imageWithColor(.gray); return
-        }
+        guard let largeURL = card?.person?.user?.photos?.large else { imageView.image = .imageWithColor(.gray); return }
         imageView.alpha = 0
-        imageView.af_setImage(withURL: URL(string: largeURL)!, completion: { response in
-            self.imageView.fadeIn()
-        })
+        imageView.af_setImage(withURL: URL(string: largeURL)!, completion: { response in self.imageView.fadeIn() })
     }
     
     func bar() -> UIView {
@@ -209,7 +191,7 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         return false
     }
     
-    func tap(_ sender: UITapGestureRecognizer) {
+    override func tap(_ sender: UITapGestureRecognizer) {
         let details = CardDetailViewController()
         details.delegate = self
         details.transistionToIndex = control.previousIndex
@@ -218,117 +200,6 @@ class CardViewController : UIViewController, UIGestureRecognizerDelegate, UIView
         details.transitioningDelegate = self
 
         present(details, animated: true, completion: nil)
-    }
-    
-    func pan(_ sender: UIPanGestureRecognizer) {
-        switch sender.state {
-            
-        case .ended:
-            state.stop(gestureRec!)
-            
-            let swipeDirection = state.getSwipeDirection()
-            if ((!state.meetsDragRequirements(swipeDirection) &&
-                !state.meetsFlingRequirements(swipeDirection)) ||
-                !state.meetsPositionRequirements(swipeDirection)) {
-                // Back to center
-                UIView.animate(withDuration: 0.2, animations: {
-                    sender.view?.center = (self.view?.superview?.center)!
-                    sender.view?.transform = CGAffineTransform.identity
-                    self.overlayView.alpha = 0.0
-                    self.overlayView.isHidden = true
-                })
-                return
-            }
-            switch swipeDirection {
-            case UISwipeGestureRecognizerDirection.up:
-                UIView.animate(withDuration: 0.2, animations: {
-                    sender.view?.frame.origin.y = -800
-                    }, completion: { _ in
-                        self.removeSelf(.up)
-                })
-                break
-            case UISwipeGestureRecognizerDirection.left:
-                UIView.animate(withDuration: 0.2, animations: {
-                    sender.view?.frame.origin.x = -800
-                    }, completion: { _ in
-                        self.removeSelf(.left)
-                })
-                break
-            case UISwipeGestureRecognizerDirection.right:
-                UIView.animate(withDuration: 0.2, animations: {
-                    sender.view?.frame.origin.x = 800
-                    }, completion: { _ in
-                        self.removeSelf(.right)
-                })
-                break
-            case UISwipeGestureRecognizerDirection.down:
-                UIView.animate(withDuration: 0.2, animations: {
-                    sender.view?.frame.origin.y = 800
-                    }, completion: { _ in
-                        self.removeSelf(.down)
-                })
-                break
-            default:
-                // Back to center
-                UIView.animate(withDuration: 0.2, animations: {
-                    sender.view?.center = (self.view?.superview?.center)!
-                })
-                break
-            }
-        case .cancelled : fallthrough
-        case.failed :
-            // Back to center
-            UIView.animate(withDuration: 0.2, animations: {
-                sender.view?.center = (self.view?.superview?.center)!
-            })
-            break
-        case .began :
-            state.start(gestureRec!)
-            overlayView.isHidden = false
-            return;
-        case .changed :
-            state.drag(gestureRec!)
-            let translation = sender.translation(in: view)
-            sender.view?.center = CGPoint(x: (sender.view?.center.x)! + translation.x, y: (sender.view?.center.y)! + translation.y)
-            if state.draggingInCurrentDirectionAllowed(){
-                animateOverlay(state.getSwipeDirection(), translation: translation)
-            }
-            sender.setTranslation(.zero, in: view)
-        default: break
-        }
-    }
-    
-    func removeSelf(_ direction : UISwipeGestureRecognizerDirection) {
-        viewWillDisappear(true)
-        viewDidDisappear(true)
-        presentingViewController?.dismiss()
-        delegate?.swiped(direction)
-    }
-    
-    func animateOverlay(_ direction: UISwipeGestureRecognizerDirection, translation: CGPoint){
-        switch direction {
-        case UISwipeGestureRecognizerDirection.up:
-            overlayView.alpha = min(1, ((view.superview!.center.y - view.center.y)/200)) * 0.75
-        case UISwipeGestureRecognizerDirection.down:
-            overlayView.alpha = min(1, ((view.center.y - view.superview!.center.y)/200)) * 0.75
-        case UISwipeGestureRecognizerDirection.left:
-            let progress = min(1, ((view.center.x - view.superview!.center.x)/200)) * 10
-            view.transform = CGAffineTransform(rotationAngle:(progress * CGFloat(M_PI)) / 180)
-            if view.center.x <= view.superview!.center.x {
-                overlayView.alpha = min(1, ((view.superview!.center.x - view.center.x)/200)) * 0.75
-            } else {
-                overlayView.alpha = min(1, ((view.center.x - view.superview!.center.x)/200)) * 0.75
-            }
-        case UISwipeGestureRecognizerDirection.right:
-            let progress = min(1, ((view.center.x - view.superview!.center.x)/200)) * 10
-            view.transform = CGAffineTransform(rotationAngle:(progress * CGFloat(M_PI)) / 180)
-            if view.center.x >= view.superview!.center.x {
-                overlayView.alpha = min(1, ((view.center.x - view.superview!.center.x)/200)) * 0.75
-            } else {
-                overlayView.alpha = min(1, ((view.superview!.center.x - view.center.x)/200)) * 0.75
-            }
-        default: return
-        }
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {

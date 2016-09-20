@@ -83,11 +83,11 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     }
     
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        if collectionView.cellForItem(at: indexPath)!.isHighlighted {
-            collectionView.cellForItem(at: indexPath)!.squeezeIn()
-        } else {
-            collectionView.cellForItem(at: indexPath)!.squeezeOut()
-        }
+        collectionView.cellForItem(at: indexPath)!.squeezeIn()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        collectionView.cellForItem(at: indexPath)!.squeezeOut()
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -101,22 +101,28 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     }
     
     func switchToIndustries() {
-        enterSearch(false)
-        navigationItem.backBarButtonItem = nil
-        dataSource = IndustriesCollectionViewDataSource(self.collectionView)
-        title = "Select Industries"
-        collectionView.dataSource = self.dataSource
-        collectionView.reloadSections(IndexSet(integer: 0))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: navigationController!, action: #selector(UINavigationController.popViewController(animated:)))
+        collectionView.fadeOut(duration: 0.35) {
+            self.enterSearch(false)
+            self.navigationItem.backBarButtonItem = nil
+            self.dataSource = IndustriesCollectionViewDataSource(self.collectionView)
+            self.title = "Select Industries"
+            self.collectionView.dataSource = self.dataSource
+            self.collectionView.reloadSections(IndexSet(integer: 0))
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: self.navigationController!, action: #selector(UINavigationController.popViewController(animated:)))
+            self.collectionView.fadeIn(duration: 0.35)
+        }
     }
     
     func switchToSkills() {
-        enterSearch(false)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: self, action: #selector(switchToIndustries))
-        dataSource = SkillsCollectionViewDataSource(self.collectionView)
-        title = "Select Skills"
-        collectionView.dataSource = self.dataSource
-        collectionView.reloadSections(IndexSet(integer: 0))
+        collectionView.fadeOut(duration: 0.35) {
+            self.enterSearch(false)
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: self, action: #selector(self.switchToIndustries))
+            self.dataSource = SkillsCollectionViewDataSource(self.collectionView)
+            self.title = "Select Skills"
+            self.collectionView.dataSource = self.dataSource
+            self.collectionView.reloadSections(IndexSet(integer: 0))
+            self.collectionView.fadeIn(duration: 0.35)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {

@@ -13,8 +13,8 @@ protocol CardDelegate { func swiped(_ direction: UISwipeGestureRecognizerDirecti
 class CardStack : UIViewController, CardDelegate {
     
     var cards : [Rec]? = nil
-    var topCard = CardViewController()
-    var bottomCard = CardViewController()
+    var topCard = PersonCardViewController()
+    var bottomCard = PersonCardViewController()
     var cardIndex = 0
     
     func addNewCard() {
@@ -33,7 +33,7 @@ class CardStack : UIViewController, CardDelegate {
             break
         case .tweet:
             topCard.view.alpha = 0.0
-            let tweet = TweetCardViewController()
+            let tweet = TweetPersonCardViewController()
             tweet.delegate = self
             addChildViewController(tweet)
             addCard(tweet)

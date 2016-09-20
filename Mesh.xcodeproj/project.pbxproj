@@ -75,8 +75,8 @@
 		23C8725F1D83762900B21AB6 /* CardDetailTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872501D83762900B21AB6 /* CardDetailTransition.swift */; };
 		23C872601D83762900B21AB6 /* CardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872511D83762900B21AB6 /* CardDetailViewController.swift */; };
 		23C872611D83762900B21AB6 /* CardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872521D83762900B21AB6 /* CardStack.swift */; };
-		23C872621D83762900B21AB6 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872531D83762900B21AB6 /* CardViewController.swift */; };
-		23C872631D83762900B21AB6 /* CardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23C872541D83762900B21AB6 /* CardViewController.xib */; };
+		23C872621D83762900B21AB6 /* PersonCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872531D83762900B21AB6 /* PersonCardViewController.swift */; };
+		23C872631D83762900B21AB6 /* PersonCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23C872541D83762900B21AB6 /* PersonCardViewController.xib */; };
 		23C872641D83762900B21AB6 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872551D83762900B21AB6 /* FeedViewController.swift */; };
 		23C872651D83762900B21AB6 /* QuickPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872561D83762900B21AB6 /* QuickPageControl.swift */; };
 		23C872661D83762900B21AB6 /* QuickViewGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872571D83762900B21AB6 /* QuickViewGenerator.swift */; };
@@ -115,6 +115,7 @@
 		23EA228E1D8A1F4F00CAB4A9 /* SkyFloatingLabelTextFieldWithIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EA228B1D8A1F4F00CAB4A9 /* SkyFloatingLabelTextFieldWithIcon.swift */; };
 		23EA228F1D8A1F4F00CAB4A9 /* UITextField+fixCaretPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EA228C1D8A1F4F00CAB4A9 /* UITextField+fixCaretPosition.swift */; };
 		23F8179E1D78F790006AE3F3 /* MGSwipeTableCell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F8179D1D78F790006AE3F3 /* MGSwipeTableCell.framework */; };
+		23F9A6771D91C28100719C7D /* BaseCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F9A6761D91C28100719C7D /* BaseCardViewController.swift */; };
 		AD4E2E1E1D5A75ED00130811 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4E2E1D1D5A75ED00130811 /* Client.swift */; };
 		AD4E2E201D5A760800130811 /* AuthRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4E2E1F1D5A760800130811 /* AuthRequest.swift */; };
 		AD4E2E221D5AAD5700130811 /* UpdatesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4E2E211D5AAD5700130811 /* UpdatesRequest.swift */; };
@@ -198,8 +199,8 @@
 		23C872501D83762900B21AB6 /* CardDetailTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDetailTransition.swift; sourceTree = "<group>"; };
 		23C872511D83762900B21AB6 /* CardDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDetailViewController.swift; sourceTree = "<group>"; };
 		23C872521D83762900B21AB6 /* CardStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardStack.swift; sourceTree = "<group>"; };
-		23C872531D83762900B21AB6 /* CardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
-		23C872541D83762900B21AB6 /* CardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardViewController.xib; sourceTree = "<group>"; };
+		23C872531D83762900B21AB6 /* PersonCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCardViewController.swift; sourceTree = "<group>"; };
+		23C872541D83762900B21AB6 /* PersonCardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonCardViewController.xib; sourceTree = "<group>"; };
 		23C872551D83762900B21AB6 /* FeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		23C872561D83762900B21AB6 /* QuickPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickPageControl.swift; sourceTree = "<group>"; };
 		23C872571D83762900B21AB6 /* QuickViewGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickViewGenerator.swift; sourceTree = "<group>"; };
@@ -238,6 +239,7 @@
 		23EA228B1D8A1F4F00CAB4A9 /* SkyFloatingLabelTextFieldWithIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkyFloatingLabelTextFieldWithIcon.swift; sourceTree = "<group>"; };
 		23EA228C1D8A1F4F00CAB4A9 /* UITextField+fixCaretPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+fixCaretPosition.swift"; sourceTree = "<group>"; };
 		23F8179D1D78F790006AE3F3 /* MGSwipeTableCell.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MGSwipeTableCell.framework; path = Carthage/Build/iOS/MGSwipeTableCell.framework; sourceTree = "<group>"; };
+		23F9A6761D91C28100719C7D /* BaseCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCardViewController.swift; sourceTree = "<group>"; };
 		2AD5F965FA9260BA550C3919 /* Pods-Mesh.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mesh.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mesh/Pods-Mesh.debug.xcconfig"; sourceTree = "<group>"; };
 		5300FC2C816EC2D0EF40E204 /* Pods-Mesh.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mesh.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mesh/Pods-Mesh.release.xcconfig"; sourceTree = "<group>"; };
 		5EF9D3831062B1B259E8EE70 /* Pods_Mesh.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mesh.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -368,11 +370,12 @@
 				23C872501D83762900B21AB6 /* CardDetailTransition.swift */,
 				23C872511D83762900B21AB6 /* CardDetailViewController.swift */,
 				23C872521D83762900B21AB6 /* CardStack.swift */,
-				23C872531D83762900B21AB6 /* CardViewController.swift */,
-				23C872541D83762900B21AB6 /* CardViewController.xib */,
+				23C872531D83762900B21AB6 /* PersonCardViewController.swift */,
+				23C872541D83762900B21AB6 /* PersonCardViewController.xib */,
 				23C872551D83762900B21AB6 /* FeedViewController.swift */,
 				23C872561D83762900B21AB6 /* QuickPageControl.swift */,
 				23C872571D83762900B21AB6 /* QuickViewGenerator.swift */,
+				23F9A6761D91C28100719C7D /* BaseCardViewController.swift */,
 				23C872581D83762900B21AB6 /* TweetCardViewController.swift */,
 				23C872591D83762900B21AB6 /* UserDetails.swift */,
 				23C8725A1D83762900B21AB6 /* UserDetailTableViewCell.swift */,
@@ -654,7 +657,7 @@
 				23C872491D83760300B21AB6 /* MessagePreviewTableViewCell.xib in Resources */,
 				23C8726A1D83762900B21AB6 /* UserDetailTableViewCell.xib in Resources */,
 				23C872451D83760300B21AB6 /* ConnectionTableViewCell.xib in Resources */,
-				23C872631D83762900B21AB6 /* CardViewController.xib in Resources */,
+				23C872631D83762900B21AB6 /* PersonCardViewController.xib in Resources */,
 				23C9D0FA1D8386B4004B274F /* Settings.bundle in Resources */,
 				ADECA8ED1D51540900726AEF /* Main.storyboard in Resources */,
 			);
@@ -755,7 +758,7 @@
 				2338DFC51D860E9C00624CCF /* Connection+CoreDataClass.swift in Sources */,
 				23C872691D83762900B21AB6 /* UserDetailTableViewCell.swift in Sources */,
 				23C8722F1D83759A00B21AB6 /* EditCardTableViewCell.swift in Sources */,
-				23C872621D83762900B21AB6 /* CardViewController.swift in Sources */,
+				23C872621D83762900B21AB6 /* PersonCardViewController.swift in Sources */,
 				23C872791D83769C00B21AB6 /* AlertViewController.swift in Sources */,
 				23C872471D83760300B21AB6 /* InboxTableViewController.swift in Sources */,
 				23C872861D8376D600B21AB6 /* CardFeedViewConfig.swift in Sources */,
@@ -837,6 +840,7 @@
 				233401711D866DE300E86D95 /* Card+CoreDataProperties.swift in Sources */,
 				2338DFC21D860E9C00624CCF /* Message+CoreDataProperties.swift in Sources */,
 				23C872641D83762900B21AB6 /* FeedViewController.swift in Sources */,
+				23F9A6771D91C28100719C7D /* BaseCardViewController.swift in Sources */,
 				234FA1DD1D86003C00670E1D /* Data.xcdatamodeld in Sources */,
 				233401701D866DE300E86D95 /* Card+CoreDataClass.swift in Sources */,
 				23C872811D8376C000B21AB6 /* SignUpTableViewController.swift in Sources */,
@@ -972,7 +976,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
-				CURRENT_PROJECT_VERSION = 52;
+				CURRENT_PROJECT_VERSION = 53;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -997,7 +1001,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
-				CURRENT_PROJECT_VERSION = 52;
+				CURRENT_PROJECT_VERSION = 53;
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
