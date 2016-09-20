@@ -1,0 +1,18 @@
+
+/* Class = "UINavigationItem"; title = "Events"; ObjectID = "5Ie-x5-oRu"; */
+"5Ie-x5-oRu.title" = "Events";
+
+/* Class = "UITableViewController"; title = "Profile"; ObjectID = "GdB-cE-Jc2"; */
+"GdB-cE-Jc2.title" = "Profile";
+
+/* Class = "UITableViewController"; title = "Events"; ObjectID = "Mi5-kB-osI"; */
+"Mi5-kB-osI.title" = "Events";
+
+/* Class = "UITableViewController"; title = "Inbox"; ObjectID = "lib-iq-uo8"; */
+"lib-iq-uo8.title" = "Inbox";
+
+/* Class = "UINavigationItem"; title = "Settings"; ObjectID = "stm-tt-cK2"; */
+"stm-tt-cK2.title" = "Settings";
+
+/* Class = "UINavigationItem"; title = "Inbox"; ObjectID = "vUG-3L-4rv"; */
+"vUG-3L-4rv.title" = "Inbox";

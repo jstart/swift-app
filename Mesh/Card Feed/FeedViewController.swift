@@ -7,33 +7,76 @@
 //
 
 import UIKit
+import CoreLocation
 
 class FeedViewController: UIViewController {
 
-    let cardStack = CardStack().then {
-        $0.view.backgroundColor = .white
-    }
-    let locationManager = LocationManager()
+    let cardStack = CardStack().then { $0.view.backgroundColor = .white }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
+        navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo"))
+
         addChildViewController(cardStack)
         view.addSubview(cardStack.view)
         
-        cardStack.view.constrain(.height, .width, .centerX, .centerY, toItem: view)
+        if Keychain.fetchLogin() != nil {
+            cardStack.view.constrain(.height, .width, .centerX, .centerY, toItem: view)
+        } else {
+            cardStack.view.constrain(.width, .centerX, toItem: view)
+            cardStack.view.constrain((.height, -46), (.centerY, -23), toItem: view)
+            
+            let completeProfile = UIView(translates: false).then {
+                $0.backgroundColor = Colors.brand
+                $0.constrain((.height, 46))
+            }
+            view.addSubview(completeProfile)
+            completeProfile.constrain(.width, .centerX, .bottom, toItem: view)
+            
+            let label = UILabel(translates: false).then {
+                $0.font = .proxima(ofSize: 17)
+                $0.textColor = .white
+                $0.text = "Complete Your Profile"
+            }
+            
+            completeProfile.addSubview(label)
+            
+            label.constrain(.leading, constant: 35, toItem: completeProfile)
+            label.constrain(.centerY, toItem: completeProfile)
+            let image = #imageLiteral(resourceName: "name").withRenderingMode(.alwaysTemplate)
+            let profile = UIImageView(image: image).then {
+                $0.translates = false
+                $0.tintColor = .white
+            }
+            
+            completeProfile.addSubview(profile)
+            profile.constrain(.centerY, toItem: completeProfile)
+            profile.constrain(.leading, constant: 10, toItem: completeProfile)
+            
+            let tap = UITapGestureRecognizer(target: self, action: #selector(self.profile))
+            completeProfile.addGestureRecognizer(tap)
+        }
         cardStack.view.translates = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = .default
-        navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo"))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "sorting"), target: self, action: #selector(sort))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "qrCode"), target: self, action: #selector(qr))
+        
+        if Keychain.fetchLogin() != nil {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "sorting"), target: self, action: #selector(sort))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "qrCode"), target: self, action: #selector(qr))
+        } else {
+            navigationController?.navigationBar.isTranslucent = false
+            navigationItem.setHidesBackButton(true, animated: true)
+        }
         
         if TARGET_OS_SIMULATOR == 1 {
+            LocationManager.currentLocation = CLLocation(latitude: 33.978359, longitude: -118.368723)
+            LocationManager.shared.geocoder.reverseGeocodeLocation(LocationManager.currentLocation!, completionHandler: { placemark, error in
+                LocationManager.currentPlacemark = placemark!.first
+            })
             Client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
                 guard let JSON = response.result.value as? JSONDictionary else { return }
                 guard JSON["msg"] == nil else { NotificationCenter.default.post(name: .logout, object: nil); return }
@@ -41,14 +84,14 @@ class FeedViewController: UIViewController {
             })
         }
 
-        locationManager.locationUpdate = { loc in
+        LocationManager.locationUpdate = { loc in
             Client.execute(PositionRequest(lat: loc.coordinate.latitude, lon: loc.coordinate.longitude), completionHandler: { response in
                 guard let JSON = response.result.value as? JSONDictionary else { return }
                 guard JSON["msg"] == nil else { NotificationCenter.default.post(name: .logout, object: nil); return }
                 UserResponse.current = UserResponse(JSON: JSON)
             })
         }
-        locationManager.startTracking()
+        LocationManager.startTracking()
         
         if cardStack.cards?.count != nil || cardStack.cards?.count == cardStack.cardIndex - 1 { return }
         Client.execute(RecommendationsRequest(), completionHandler: { response in
@@ -65,6 +108,11 @@ class FeedViewController: UIViewController {
 //            guard let recIds = cardStack.cards?[index].person?.user?._id else {return}
 //            Client.execute(ConnectionResponseRequest(recipient: recIds), completionHandler: { response in })
 //        }
+    }
+    
+    func profile() {
+        presentedViewController?.dismiss()
+        navigationController?.push(CompleteProfileTableViewController(style: .grouped))
     }
     
     func sort(){ }

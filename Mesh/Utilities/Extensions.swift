@@ -57,6 +57,47 @@ private extension CIColor {
     }
 }
 
+extension UIMotionEffectGroup {
+    convenience init(_ motionEffects: [UIMotionEffect]) {
+        self.init()
+        self.motionEffects = motionEffects
+    }
+}
+
+extension UIMotionEffect {
+    
+    class func twoAxesTilt(strength: Float) -> UIMotionEffect {
+        func relativeValue(_ isMax: Bool, type: UIInterpolatingMotionEffectType) -> NSValue {
+            var transform = CATransform3DIdentity
+            transform.m34 = (1.0 * CGFloat(strength)) / 2000.0
+            
+            let axisValue: CGFloat
+            if type == .tiltAlongVerticalAxis {
+                // transform vertically
+                axisValue = isMax ? -1.0 : 1.0
+                transform = CATransform3DRotate(transform, axisValue * CGFloat(M_PI_4), 1, 0, 0)
+            } else {
+                // transform horizontally
+                axisValue = isMax ? 1.0 : -1.0
+                transform = CATransform3DRotate(transform, axisValue * CGFloat(M_PI_4), 0, 1, 0)
+            }
+            return NSValue(caTransform3D: transform)
+        }
+        
+        // create motion for specified `type`.
+        func motion(_ type: UIInterpolatingMotionEffectType) -> UIInterpolatingMotionEffect {
+            let motion = UIInterpolatingMotionEffect(keyPath: "layer.transform", type: type)
+            motion.minimumRelativeValue = relativeValue(false, type: type)
+            motion.maximumRelativeValue = relativeValue(true, type: type)
+            return motion
+        }
+        
+        // create group of horizontal and vertical tilt motions
+        let group = UIMotionEffectGroup([motion(.tiltAlongHorizontalAxis), motion(.tiltAlongVerticalAxis)])
+        return group
+    }
+}
+
 extension UIImage {
     static func imageWithColor(_ color: UIColor) -> UIImage {
         let rect = CGRect(x: 0, y: 0, width: 1.0, height: 1.0)
@@ -74,7 +115,6 @@ extension UIImage {
 }
 
 extension UIFont {
-    
     static func proxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Medium", size: ofSize)! }
     static func boldProxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Semibold", size: ofSize)! }
     static func semiboldProxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Semibold", size: ofSize)! }
@@ -91,6 +131,7 @@ extension UIAlertAction {
         self.init(title: title, style: style, handler: handler)
     }
     static func cancel(handler: ((UIAlertAction) -> Swift.Void)? = nil) -> UIAlertAction { return UIAlertAction("Cancel", style: .cancel, handler: handler) }
+    static func ok(handler: ((UIAlertAction) -> Swift.Void)? = nil) -> UIAlertAction { return UIAlertAction("OK", style: .cancel, handler: handler) }
 }
 
 extension UIBarButtonItem {
@@ -99,11 +140,27 @@ extension UIBarButtonItem {
     }
 }
 
+extension UICollectionView {
+    func registerClass(_ cellClasses: AnyClass...) {
+        for aClass in cellClasses { register(aClass, forCellWithReuseIdentifier: String(describing: aClass)) }
+    }
+    
+    func registerNib(_ cellClasses: AnyClass...) {
+        for aClass in cellClasses {
+            let string = String(describing: aClass)
+            register(UINib(nibName: string, bundle: nil), forCellWithReuseIdentifier: string)
+        }
+    }
+    
+    func dequeue<T: UICollectionViewCell>(_ cellClass: T.Type, indexPath: IndexPath) -> T{
+        let string = String(describing: cellClass)
+        return dequeueReusableCell(withReuseIdentifier: string, for: indexPath) as! T
+    }
+}
+
 extension UITableView {
     func registerClass(_ cellClasses: AnyClass...) {
-        for aClass in cellClasses {
-            register(aClass, forCellReuseIdentifier: String(describing: aClass))
-        }
+        for aClass in cellClasses { register(aClass, forCellReuseIdentifier: String(describing: aClass)) }
     }
     
     func registerNib(_ cellClasses: AnyClass...) {
@@ -129,17 +186,17 @@ extension UIView {
         self.init(); self.translates = translates
     }
     
-    func constrain(_ constants : (attr: NSLayoutAttribute, const: CGFloat) ...){
+    func constrain(_ constants : (attr: NSLayoutAttribute, const: CGFloat)..., toItem: UIView? = nil){
         for constantPair in constants {
-            let constraint = NSLayoutConstraint(item: self, attribute: constantPair.attr, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant:constantPair.const)
+            let constraint = NSLayoutConstraint(item: self, attribute: constantPair.attr, relatedBy: .equal, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : constantPair.attr, multiplier: 1.0, constant:constantPair.const)
             constraint.isActive = true
         }
     }
     
-    func constrain(_ attributes: NSLayoutAttribute..., relatedBy: NSLayoutRelation = .equal, constant: CGFloat = 0.0, toItem: UIView? = nil, toAttribute: NSLayoutAttribute = .notAnAttribute){
+    func constrain(_ attributes: NSLayoutAttribute..., relatedBy: NSLayoutRelation = .equal, constant: CGFloat = 0.0, toItem: UIView? = nil, toAttribute: NSLayoutAttribute = .notAnAttribute, multiplier: CGFloat = 1.0){
         for attribute in attributes {
             let toAttributeChoice = toAttribute == .notAnAttribute ? attribute : toAttribute
-            let constraint = NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : toAttributeChoice, multiplier: 1.0, constant:constant)
+            let constraint = NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : toAttributeChoice, multiplier: multiplier, constant:constant)
             constraint.isActive = true
         }
     }
@@ -173,6 +230,39 @@ extension UIView {
     func fadeOut(duration: TimeInterval = 0.2, completion:@escaping (() -> Void) = {}) {
         UIView.animate(withDuration: duration, animations: { self.alpha = 0.0 }, completion: { _ in completion() })
     }
+    
+    func scaleIn(delay: TimeInterval = 0, completion: @escaping ((Bool) -> Void) = {_ in }) {
+        self.transform = self.transform.scaledBy(x: 0.9, y: 0.9)
+
+        UIView.animate(withDuration: 0.2, delay: delay, usingSpringWithDamping: 0.25, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
+            self.transform = .identity
+            }, completion: nil)
+    }
+    
+    func squeezeIn(delay: TimeInterval = 0, completion: @escaping ((Bool) -> Void) = {_ in }) {
+        UIView.animate(withDuration: 0.2, delay: delay, usingSpringWithDamping: 0.1, initialSpringVelocity: 1, options: .allowUserInteraction, animations: {
+            self.transform = self.transform.scaledBy(x: 0.9, y: 0.9)
+            }, completion: nil)
+    }
+    func squeezeOut(delay: TimeInterval = 0, completion: @escaping ((Bool) -> Void) = {_ in }) {
+        UIView.animate(withDuration: 0.2, delay: delay, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .allowUserInteraction, animations: {
+            self.transform = .identity
+        }, completion: completion)
+    }
+    func squeezeInOut(delay: TimeInterval = 0, completion: @escaping ((Bool) -> Void) = {_ in }) {
+        squeezeIn(delay: delay)
+        squeezeOut(delay: 0.2, completion: completion)
+    }
+    
+    func round(corners: UIRectCorner, radius: CGFloat) {
+        let rect = self.bounds
+        let maskPath = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = rect
+        maskLayer.path = maskPath.cgPath
+        layer.mask = maskLayer
+    }
 }
 
 extension UINavigationController {
@@ -196,13 +286,9 @@ extension UserDefaults {
 }
 
 extension Int {
-    func perform(_ closure: () -> Void) {
-        (0..<self).forEach { _ in closure() }
-    }
+    func perform(_ closure: () -> Void) { (0..<self).forEach { _ in closure() } }
     
-    func performIndex(_ closure: @escaping (Int) -> Void) {
-        (0..<self).forEach { index in closure(index) }
-    }
+    func performIndex(_ closure: @escaping (Int) -> Void) { (0..<self).forEach { index in closure(index) } }
 }
 
 extension Collection {
@@ -214,9 +300,6 @@ extension Collection {
 
 protocol Then {}
 extension Then where Self: AnyObject {
-    func then(_ block: (Self) -> Void) -> Self {
-        block(self)
-        return self
-    }
+    func then(_ block: (Self) -> Void) -> Self { block(self); return self }
 }
 extension NSObject: Then {}

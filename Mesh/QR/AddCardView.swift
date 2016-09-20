@@ -21,6 +21,9 @@ class AddCardView: CardView {
         self.init()
         handler = touchHandler
         text.text = "Add Card"
+        
+        constrain((.height, 180))
+
         let stackView = UIStackView(arrangedSubviews: [add, text])
         addSubview(stackView)
         

@@ -88,9 +88,9 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 CoreData.backgroundContext.perform({
                     guard let json = response.result.value as? JSONDictionary else { return }
                     guard let messages = (json["messages"] as? JSONDictionary)?["messages"] as? JSONArray else { return }
-                    let data = messages.map({return Message(JSON: $0)})
+                    _ = messages.map({return Message(JSON: $0)})
                     CoreData.saveBackgroundContext()
-                    let fetched = CoreData.fetch(Message.self) as! [Message]
+                    _ = CoreData.fetch(Message.self) as! [Message]
                 })
             }
         })
@@ -284,8 +284,8 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         cell.contentView.backgroundColor = .white
         cell.reply.isHidden = true
         cell.name.text = user.fullName()
-        cell.profile.image = #imageLiteral(resourceName: "profile_sample")
-        cell.company.image = #imageLiteral(resourceName: "tesla")
+        cell.profile.image = .imageWithColor(.gray)
+        cell.company.image = .imageWithColor(.gray)
         cell.message.text = message.text ?? ""
         cell.message.numberOfLines = 2
         
@@ -316,8 +316,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         field.backgroundColor = .white
         blurView.addSubview(field)
         field.constrain(.height, constant: 50)
-        field.constrain(.width, constant: 2, toItem: cell.contentView)
-        field.constrain(.leading, constant: -1, toItem: cell.contentView)
+        field.constrain((.width, 2), (.leading, -1), toItem: cell.contentView)
         field.constrain(.top, toItem: cell.contentView, toAttribute: .bottom)
 
         quickReplyAction = {

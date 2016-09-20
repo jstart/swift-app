@@ -208,7 +208,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         self.editCard.fields = card.fields
 
         editCard.constrain(.centerX, .centerY, .width, toItem: pager?.currentView())
-        editCard.constrain(.height, constant: 180)
+        editCard.constrain((.height, 180))
         editCard.fadeIn(completion: {
                 self.editCard.layoutIfNeeded()
                 UIView.animate(withDuration: 0.2, animations: {
@@ -322,8 +322,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             
             overlay.addSubview(message)
             message.constrain(.centerX, toItem: view)
-            message.constrain(.leading, constant: 40,  toItem: view)
-            message.constrain(.trailing, constant: -40,  toItem: view)
+            message.constrain((.leading, 40), (.trailing, -40),  toItem: view)
             message.constrain(.top, constant: 5, toItem: header, toAttribute: .bottom)
             
             let edit = UIButton(translates: false).then {
@@ -358,8 +357,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     }
     
     func editAndDismiss() {
-        self.edit()
-        self.dismissOverlay()
+        self.edit(); self.dismissOverlay()
     }
     
     func dismissOverlay() {

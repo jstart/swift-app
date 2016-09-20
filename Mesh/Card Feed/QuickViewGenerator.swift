@@ -37,14 +37,14 @@ struct QuickViewGenerator {
         let viewCount = Int(UIScreen.main.bounds.size.width / 70)
         
         for _ in 1...viewCount {
-            views.append(square(#imageLiteral(resourceName: "tesla"), title: category.rawValue.capitalized))
+            views.append(square(#imageLiteral(resourceName: "tesla"), title: category.title()))
         }
         let stack = stackOf(views)
         stack.constrain(.height, constant: 75)
         
         let label = UILabel(translates: false).then {
             $0.backgroundColor = .white
-            $0.text = category.rawValue.capitalized
+            $0.text = category.title()
             $0.font = .proxima(ofSize: 14)
             $0.textAlignment = .center
             $0.textColor = .lightGray

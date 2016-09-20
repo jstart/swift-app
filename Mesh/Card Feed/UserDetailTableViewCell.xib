@@ -7,6 +7,12 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="proximanovasoft-bold.otf">
+            <string>ProximaNovaSoft-Bold</string>
+        </array>
+        <array key="proximanovasoft-medium.otf">
+            <string>ProximaNovaSoft-Medium</string>
+        </array>
         <array key="proximanovasoft-regular.otf">
             <string>ProximaNovaSoft-Regular</string>
         </array>
@@ -14,28 +20,39 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserDetailTableViewCell" rowHeight="75" id="KGk-i7-Jjw" customClass="UserDetailTableViewCell" customModule="Mesh" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="77"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserDetailTableViewCell" rowHeight="111" id="KGk-i7-Jjw" customClass="UserDetailTableViewCell" customModule="Mesh" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="113"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="320" height="76.5"/>
+                <frame key="frameInset" width="320" height="112"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9S1-Lu-jlT">
-                        <frame key="frameInset" minX="98" minY="8" width="42" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="ProximaNovaSoft-Regular" family="Proxima Nova Soft" pointSize="17"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K2i-5A-MnK">
-                        <frame key="frameInset" minX="98" minY="27" width="42" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="ProximaNovaSoft-Regular" family="Proxima Nova Soft" pointSize="17"/>
-                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bYY-Fr-fp6">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hVu-Qn-bEn">
+                        <constraints>
+                            <constraint firstAttribute="height" priority="750" constant="75" id="7jD-w1-XpU"/>
+                            <constraint firstAttribute="width" constant="75" id="lW5-3A-aNP"/>
+                        </constraints>
+                    </imageView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="3xe-pW-8jo">
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9S1-Lu-jlT">
+                                <fontDescription key="fontDescription" name="ProximaNovaSoft-Bold" family="Proxima Nova Soft" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K2i-5A-MnK">
+                                <fontDescription key="fontDescription" name="ProximaNovaSoft-Medium" family="Proxima Nova Soft" pointSize="14"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vXS-is-Vgw">
+                                <fontDescription key="fontDescription" name="ProximaNovaSoft-Medium" family="Proxima Nova Soft" pointSize="11"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bYY-Fr-fp6">
                         <constraints>
                             <constraint firstAttribute="width" constant="58" id="WTu-ok-PDQ"/>
                         </constraints>
@@ -45,31 +62,41 @@
                             <action selector="pressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="NHn-tv-WFW"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vXS-is-Vgw">
-                        <frame key="frameInset" minX="98" minY="50" width="42" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="ProximaNovaSoft-Regular" family="Proxima Nova Soft" pointSize="17"/>
-                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hVu-Qn-bEn">
-                        <frame key="frameInset" minX="10" minY="1" width="75" height="75"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </imageView>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="McS-eq-F2M">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="1sT-ot-cIc"/>
+                            <constraint firstAttribute="width" constant="45" id="6Qv-QC-yhF"/>
+                        </constraints>
+                        <state key="normal" title="Delete"/>
+                        <connections>
+                            <action selector="deletePressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="xgE-wc-TAB"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="topMargin" relation="greaterThanOrEqual" secondItem="3xe-pW-8jo" secondAttribute="top" constant="-15" id="0Cp-Rn-M3N"/>
+                    <constraint firstItem="McS-eq-F2M" firstAttribute="centerX" secondItem="bYY-Fr-fp6" secondAttribute="centerX" id="2CH-Ph-6hY"/>
+                    <constraint firstItem="hVu-Qn-bEn" firstAttribute="top" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="6Nu-5r-crv"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="hVu-Qn-bEn" secondAttribute="bottom" constant="15" id="FfL-L6-nXi"/>
                     <constraint firstAttribute="trailingMargin" secondItem="bYY-Fr-fp6" secondAttribute="trailing" constant="8" id="OGz-4b-PXv"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="3xe-pW-8jo" secondAttribute="bottom" constant="15" id="OjJ-UI-H52"/>
+                    <constraint firstItem="McS-eq-F2M" firstAttribute="centerY" secondItem="bYY-Fr-fp6" secondAttribute="centerY" id="Qhb-SG-wcn"/>
+                    <constraint firstItem="bYY-Fr-fp6" firstAttribute="leading" secondItem="3xe-pW-8jo" secondAttribute="trailing" constant="5" id="TcA-SL-1Wk"/>
                     <constraint firstItem="bYY-Fr-fp6" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="URF-v1-32V"/>
+                    <constraint firstItem="3xe-pW-8jo" firstAttribute="leading" secondItem="hVu-Qn-bEn" secondAttribute="trailing" constant="13" id="bsl-38-Pdi"/>
+                    <constraint firstItem="hVu-Qn-bEn" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="2" id="qEn-mh-d14"/>
+                    <constraint firstItem="hVu-Qn-bEn" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="y1s-mB-S56"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="bottom" destination="K2i-5A-MnK" id="hvK-Kp-tcl"/>
                 <outlet property="button" destination="bYY-Fr-fp6" id="Kg4-dc-2s8"/>
+                <outlet property="delete" destination="McS-eq-F2M" id="wEt-7o-zaJ"/>
                 <outlet property="icon" destination="hVu-Qn-bEn" id="79y-do-x1U"/>
                 <outlet property="top" destination="9S1-Lu-jlT" id="RvB-SO-xbv"/>
                 <outlet property="year" destination="vXS-is-Vgw" id="u2p-an-BDx"/>
             </connections>
-            <point key="canvasLocation" x="32" y="78.5"/>
+            <point key="canvasLocation" x="29" y="105.5"/>
         </tableViewCell>
     </objects>
 </document>

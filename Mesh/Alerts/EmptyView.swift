@@ -41,13 +41,13 @@ class EmptyView: UIView {
         addSubviews(imageView, titleLabel, textLabel)
         
         imageView.constrain(.centerX, toItem: self)
-        imageView.constrain(.top, constant: 40, toItem: self)
+        imageView.constrain((.top, 40), toItem: self)
         
         titleLabel.constrain(.width, .centerX, toItem:self)
         titleLabel.constrain(.top, constant: 20, toItem: imageView, toAttribute: .bottom)
         
         textLabel.constrain(.centerX, toItem:self)
-        textLabel.constrain(.width, constant: -40, toItem:self)
+        textLabel.constrain((.width, -40), toItem:self)
         textLabel.constrain(.top, toItem: titleLabel, toAttribute: .bottom)
 
         for action in actions {

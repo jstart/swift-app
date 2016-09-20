@@ -8,8 +8,11 @@
 
 import UIKit
 import Fabric
+import TwitterKit
 import Crashlytics
-import CoreData
+import Google
+import GoogleSignIn
+import LinkedinSwift
 
 //import Starscream
 
@@ -18,19 +21,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
 
     var window: UIWindow?
     //let socket = WebSocket(url: URL(string: "ws://dev.mesh.tinderventures.com:2000/")!)
-
+    /*func websocketDidConnect(_ socket: WebSocket) { }
+     func websocketDidDisconnect(_ socket: WebSocket, error: NSError?){ print(error) }
+     func websocketDidReceiveMessage(_ socket: WebSocket, text: String){ }
+     func websocketDidReceiveData(_ socket: WebSocket, data: Data){ }*/
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         window = UIWindow()
         window?.tintColor = #colorLiteral(red: 0.2, green: 0.7843137255, blue: 0.9960784314, alpha: 1)
+        window?.backgroundColor = .white
         appearance()
+        var configureError: NSError?
+        GGLContext.sharedInstance().configureWithError(&configureError)
+        assert(configureError == nil, "Error configuring Google services: \(configureError)")
 
-        if TARGET_IPHONE_SIMULATOR == 0 { Fabric.with([Crashlytics.self]) }
+        if TARGET_IPHONE_SIMULATOR == 0 { Fabric.with([Crashlytics.self, Twitter.self]) }
+        else { Fabric.with([Twitter.self]) }
         NotificationCenter.default.addObserver(self, selector: #selector(logout(_:)), name: .logout, object: nil)
 
-        if (Token.retrieveToken() != nil && Token.retrieveToken() != "") {
+        if (Keychain.fetchLogin() != nil) {
             guard let JSON = UserDefaults.standard["CurrentUser"] as? JSONDictionary else { logout(UIKeyCommand()); return true}
             UserResponse.current = UserResponse(JSON: JSON)
-            
             LaunchData.fetchLaunchData()
             
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
@@ -38,8 +49,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
             let tab = window?.rootViewController as! UITabBarController
             tab.tabBar.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         } else {
-            let vc = JoinTableViewController(style: .grouped)
-            window?.rootViewController = UINavigationController(rootViewController: vc)
+            let vc = LaunchViewController()
+            window?.rootViewController = vc.withNav()
         }
 
         //socket.delegate = self
@@ -48,11 +59,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         window?.makeKeyAndVisible()
         return true
     }
-    
-    /*func websocketDidConnect(_ socket: WebSocket) { }
-    func websocketDidDisconnect(_ socket: WebSocket, error: NSError?){ print(error) }
-    func websocketDidReceiveMessage(_ socket: WebSocket, text: String){ }
-    func websocketDidReceiveData(_ socket: WebSocket, data: Data){ }*/
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        if LinkedinSwiftHelper.shouldHandle(url) {
+            return LinkedinSwiftHelper.application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+        }
+        return GIDSignIn.sharedInstance().handle(url as URL!,
+                                                 sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
+                                                 annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+    }
 
     func applicationWillResignActive(_ application: UIApplication) {
         CoreData.saveContext()
@@ -66,11 +81,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
     }
     
     func appearance() {
-        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: UIFont.proxima(ofSize: 17)]
+        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: UIFont.proxima(ofSize: 17), NSForegroundColorAttributeName: #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)]
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).font = .proxima(ofSize: 20)
         UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont.proxima(ofSize: 17)], for: .normal)
         UILabel.appearance(whenContainedInInstancesOf: [UITableViewCell.self]).font = .regularProxima(ofSize: 17)
         UITextField.appearance(whenContainedInInstancesOf: [UITableViewCell.self]).font = .proxima(ofSize: 17)
+        UISwitch.appearance().onTintColor = Colors.brand
     }
 
     override var canBecomeFirstResponder: Bool { return true }
@@ -81,13 +97,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
     func logout(_ command: UIKeyCommand) {
         Token.persistToken("")
         Token.persistLogin((phone_number: "", password: ""))
+        Keychain.deleteLogin()
         UserResponse.current = nil
         UserResponse.connections = []
         UserResponse.messages = []
         CardResponse.cards = []
         URLCache.shared.removeAllCachedResponses()
-        let vc = JoinTableViewController(style: .grouped)
-        window?.rootViewController = UINavigationController(rootViewController: vc)
+        let vc = LaunchViewController()
+        window?.rootViewController = vc.withNav()
         CoreData.delete()
     }
 }

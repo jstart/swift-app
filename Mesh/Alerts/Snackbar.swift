@@ -34,12 +34,10 @@ class Snackbar : UIView {
         message.text = title
         addSubviews(message, button)
         
-        message.constrain(.leading, constant: 15, toItem: self)
+        message.constrain((.leading, 15), (.top, 6), (.bottom, -6), toItem: self)
         message.constrain(.trailing, constant: 5, toItem: button)
-        message.constrain(.top, constant: 6, toItem: self)
-        message.constrain(.bottom, constant: -6, toItem: self)
 
-        button.constrain(.trailing, constant: -15, toItem: self)
+        button.constrain((.trailing, -15), toItem: self)
         button.constrain(.top, .bottom, constant: 2, toItem: self)
     }
     

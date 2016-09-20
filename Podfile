@@ -8,13 +8,17 @@ pod 'Alamofire'#, :git => 'https://github.com/Alamofire/Alamofire.git', :commit 
 pod 'AlamofireImage'#, :git => 'https://github.com/Alamofire/AlamofireImage.git', :commit => 'b02916e89cb7158994df04bf282b3170964e1eaa'
 
 pod 'JSQMessagesViewController', :git => 'https://github.com/jessesquires/JSQMessagesViewController.git', :commit => 'bbc6d27a483388a4c6413fc63bbf9c367054be21'
+#pod 'SkyFloatingLabelTextField'
 #pod 'MGSwipeTableCell'
 
 #pod 'Starscream', :git => 'https://github.com/daltoniam/Starscream.git', :branch => 'swift3'
 
 #pod 'NearbyMessages'
 pod 'TwitterKit'
-#pod 'TwitterCore'
+pod 'TwitterCore'
+pod 'Google/SignIn'
+pod 'LinkedinSwift', '~> 1.6.6'
+
 pod 'Crashlytics'
 pod 'Fabric'
 

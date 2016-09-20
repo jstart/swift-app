@@ -16,6 +16,11 @@ class JoinTableViewController: UITableViewController {
         tableView.registerClass(UITableViewCell.self)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
 

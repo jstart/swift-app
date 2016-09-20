@@ -22,10 +22,11 @@ class EditCardTableViewCell : UITableViewCell {
         selectionStyle = .none
         addSubviews(icon, contactField, check)
         
-        icon.constrain(.leading, constant: 16, toItem: self)
-        icon.constrain(.centerY, toItem: self)
+        icon.constrain((.leading, 16), (.centerY, 0), toItem: self)
         icon.constrain(.trailing, constant: -16, toItem: contactField, toAttribute: .leading)
+        
         contactField.constrain(.centerY, toItem: self)
+        
         check.constrain(.width, constant: 19)
         check.constrain(.trailing, constant: -16, toItem: self)
         check.constrain(.centerY, toItem: self)

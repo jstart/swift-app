@@ -15,10 +15,13 @@ class UserDetailTableViewCell: UITableViewCell {
     @IBOutlet weak var bottom: UILabel!
     @IBOutlet weak var year: UILabel!
     @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var delete: UIButton!
+    
+    var deleteHandler = {}
+    var buttonHandler = {}
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        selectionStyle = .none
         icon.layer.cornerRadius = 5.0
         
         button.layer.borderColor = #colorLiteral(red: 0.1647058824, green: 0.7098039216, blue: 0.9960784314, alpha: 1).cgColor
@@ -26,11 +29,20 @@ class UserDetailTableViewCell: UITableViewCell {
         button.layer.cornerRadius = 5.0
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        button.isHidden = true
+        year.isHidden = true
+        delete.isHidden = true
+    }
+    
     func configure(_ detail:UserDetail) {
+        
         button.isHidden = !detail.hasButton
         year.isHidden = !detail.hasDate
     }
     
-    @IBAction func pressed(_ sender: AnyObject) { }
-    
+    @IBAction func pressed(_ sender: AnyObject) { buttonHandler() }
+    @IBAction func deletePressed(_ sender: AnyObject) { deleteHandler() }
 }

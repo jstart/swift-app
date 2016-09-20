@@ -2,6 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.228192547663-9t49pktojotguforksq9vg7sj132flcs</string>
+				<string>li4579643</string>
+			</array>
+		</dict>
+	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>proximanovasoft-bold.otf</string>
@@ -9,6 +19,14 @@
 		<string>proximanovasoft-semibold.otf</string>
 		<string>proximanovasoft-regular.otf</string>
 	</array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>linkedin</string>
+        <string>linkedin-sdk2</string>
+        <string>linkedin-sdk</string>
+    </array>
+	<key>LIAppId</key>
+	<string>4579643</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -24,7 +42,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>41</string>
+	<string>53</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>Fabric</key>

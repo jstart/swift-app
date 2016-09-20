@@ -12,19 +12,32 @@ import UIKit
 
 class LocationManager : NSObject, CLLocationManagerDelegate {
     
+    static let shared = LocationManager()
+    
+    static var currentLocation : CLLocation?
+    static var currentPlacemark : CLPlacemark?
+    
+    let geocoder = CLGeocoder()
     let manager = CLLocationManager()
-    var locationUpdate : ((CLLocation) -> Void)? = nil
+    static var locationUpdate : ((CLLocation) -> Void)? = nil
+    
+    static func cityState() -> String{
+        if currentPlacemark?.locality != nil && currentPlacemark?.administrativeArea != nil {
+            return currentPlacemark!.locality! + ", " + currentPlacemark!.administrativeArea!
+        }
+        return ""
+    }
 
-    func startTracking() {// -> (enabled: Bool, status: CLAuthorizationStatus) {
-        manager.delegate = self
-        manager.distanceFilter = 10
-        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+    static func startTracking() {// -> (enabled: Bool, status: CLAuthorizationStatus) {
+        shared.manager.delegate = shared
+        shared.manager.distanceFilter = 10
+        shared.manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         if CLLocationManager.locationServicesEnabled() {
-            manager.startMonitoringSignificantLocationChanges()
-            manager.requestLocation()
+            shared.manager.startMonitoringSignificantLocationChanges()
+            shared.manager.requestLocation()
         }
         if CLLocationManager.authorizationStatus() == .notDetermined {
-            manager.requestWhenInUseAuthorization()
+            shared.manager.requestWhenInUseAuthorization()
         }
         //return (CLLocationManager.locationServicesEnabled(), CLLocationManager.authorizationStatus())
     }
@@ -55,6 +68,10 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { print(error) }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        locationUpdate?(locations.first!)
+        LocationManager.currentLocation = locations.first!
+        LocationManager.locationUpdate?(locations.first!)
+        geocoder.reverseGeocodeLocation(locations.first!, completionHandler: { placemark, error in
+            LocationManager.currentPlacemark = placemark!.first
+        })
     }
 }

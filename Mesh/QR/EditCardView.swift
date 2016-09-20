@@ -38,7 +38,6 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
     
     convenience init(_ user: UserResponse) {
         self.init()
-        done.titleLabel
         clipsToBounds = true
         layer.shadowColor = UIColor.clear.cgColor
         addSubviews(tableView, cancel, done)
@@ -53,7 +52,7 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
         super.layoutSubviews()
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         tableView.constrain(.width, .centerX, .top, toItem: self)
-        tableView.constrain(.height, constant: -50, toItem: self)
+        tableView.constrain((.height, -50), toItem: self)
         cancel.constrain(.leading, toItem: self)
         cancel.constrain(.trailing, toItem: done, toAttribute: .leading)
         done.constrain(.trailing, toItem: self)
