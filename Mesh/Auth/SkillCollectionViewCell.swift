@@ -12,11 +12,17 @@ class SkillCollectionViewCell: UICollectionViewCell {
     
     let title = UILabel(translates: false).then {
         $0.font = .boldProxima(ofSize: 14)
+        $0.numberOfLines = 0
+        $0.textAlignment = .center
+        $0.textColor = .gray
     }
     let popular = UILabel(translates: false).then {
         $0.isHidden = true
     }
-    let icon = UIImageView(translates: false)
+    let icon = UIImageView(translates: false).then {
+        $0.contentMode = .scaleAspectFit
+        $0.tintColor = .white
+    }
     let gradient = Colors.gradient
     
     required override init(frame: CGRect) {
@@ -41,10 +47,10 @@ class SkillCollectionViewCell: UICollectionViewCell {
         
         title.constrain(.top, constant: 5, toItem: icon, toAttribute: .bottom)
         title.constrain((.height, 14))
-        title.constrain(.centerX, toItem: self)
+        title.constrain((.centerX, 0), (.leading, 5), (.trailing, -5), toItem: self)
         title.constrain(.bottom, toItem: self, toAttribute: .bottomMargin)
         
-        addMotionEffect(UIMotionEffect.twoAxesTilt(strength: 0.5))
+//        addMotionEffect(UIMotionEffect.twoAxesTilt(strength: 0.5))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -61,29 +67,34 @@ class SkillCollectionViewCell: UICollectionViewCell {
     
     func configure(_ title: String, image: UIImage, isPopular: Bool = false, searching: Bool = false) {
         self.title.text = title
-        self.icon.image = image
-        self.popular.isHidden = isPopular
+        icon.image = image
+        popular.isHidden = isPopular
+        isSelected = isSelected ? true : false
         
         if searching { return }
-        let rotation = CABasicAnimation(keyPath: "transform.rotation.y")
-        rotation.duration = 0.75
-        rotation.fromValue = 0
-        rotation.toValue = 2 * CGFloat(M_PI)
-        layer.add(rotation, forKey: rotation.keyPath)
-
-        let crossFade = CABasicAnimation(keyPath:"transform.scale.x")
-        crossFade.duration = 0.75
-        crossFade.fromValue = 0.0
-        crossFade.toValue = 1
-        layer.add(crossFade, forKey: crossFade.keyPath)
+//        let rotation = CABasicAnimation(keyPath: "transform.rotation.y")
+//        rotation.duration = 0.75
+//        rotation.fromValue = 0
+//        rotation.toValue = 2 * CGFloat(M_PI)
+//        layer.add(rotation, forKey: rotation.keyPath)
+//
+//        let crossFade = CABasicAnimation(keyPath:"transform.scale.x")
+//        crossFade.duration = 0.75
+//        crossFade.fromValue = 0.0
+//        crossFade.toValue = 1
+//        layer.add(crossFade, forKey: crossFade.keyPath)
     }
     
     override var isSelected: Bool {
         didSet {
             if self.isSelected {
+                icon.image = icon.image?.withRenderingMode(.alwaysTemplate)
+                self.title.textColor = .white
                 self.gradient.frame = self.contentView.frame
                 self.contentView.layer.addSublayer(self.gradient)
             } else {
+                icon.image = icon.image?.withRenderingMode(.alwaysOriginal)
+                self.title.textColor = .gray
                 gradient.removeFromSuperlayer()
             }
         }
@@ -92,6 +103,8 @@ class SkillCollectionViewCell: UICollectionViewCell {
     override var isHighlighted: Bool {
         didSet {
             if self.isHighlighted && !self.isSelected {
+                icon.image = icon.image?.withRenderingMode(.alwaysTemplate)
+                self.title.textColor = .white
                 gradient.frame = contentView.frame
                 contentView.layer.addSublayer(gradient)
                 let alpha = CABasicAnimation(keyPath: "opacity")
@@ -100,6 +113,8 @@ class SkillCollectionViewCell: UICollectionViewCell {
                 gradient.add(alpha, forKey: "opacity")
             } else {
                 gradient.removeFromSuperlayer()
+                icon.image = icon.image?.withRenderingMode(.alwaysOriginal)
+                self.title.textColor = .gray
             }
         }
     }

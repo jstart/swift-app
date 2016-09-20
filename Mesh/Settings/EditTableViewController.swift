@@ -24,8 +24,8 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         $0.constrain(.height, constant: 325)
     }
     
-    var items : [UserDetail] = [Experience(company: "Tinder", position: "iOS", startYear: "2012", endYear: "2016"),
-                                Education(schoolName: "Harvard", degreeType: "Masters", startYear: "2012", endYear: "2016"),
+    var items : [UserDetail] = [Experience(company: "Tinder", position: "iOS", startMonth: "January", startYear: "2012", endMonth: "January", endYear: "2016"),
+                                Education(schoolName: "Harvard", degreeType: "Masters", startYear: "2012", endYear: "2016", field: "Engineering", graduated: true),
                                 Skill(name: "iOS Development", numberOfMembers: "2,000 Members", isAdded: true)]
 
     override func viewDidLoad() {
@@ -116,8 +116,20 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 && indexPath.row == 0 { photoOptions() }
-        navigationController?.push(EditProfileListTableViewController())
+        if indexPath.section == 0 && indexPath.row == 0 { photoOptions(); return }
+        let edit = EditProfileListTableViewController()
+        
+        var type : QuickViewCategory
+        switch indexPath.section - 1 {
+        case 0: type = .experience; break
+        case 1: type = .education; break
+        case 2: type = .skills; break
+        default: type = .experience; break }
+        edit.itemType = type
+        if items.count > 0 {
+            edit.items = [items[indexPath.section - 1]]
+        }
+        navigationController?.push(edit)
     }
     
     func uploadChoice(_ sender: UIAlertAction) {

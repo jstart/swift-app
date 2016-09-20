@@ -32,7 +32,7 @@ class UserDetailTableViewController : UITableViewController {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return UILabel().then {
-            $0.text = "     " + (category?.rawValue)!.capitalized
+            $0.text = "     " + (category?.title() ?? "")
             $0.textColor = .lightGray
             $0.backgroundColor = .white
         }

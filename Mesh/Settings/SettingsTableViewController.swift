@@ -40,7 +40,7 @@ enum Settings : Int {
     
     var cellModels : [SettingCell] {
         switch self {
-        case .ConnectedAccounts: return [SettingCell("Twitter", slider: true), SettingCell("Google", slider: true)]
+        case .ConnectedAccounts: return [SettingCell("Twitter", hasSwitch: true), SettingCell("Google", hasSwitch: true)]
         case .MatchSettings: return [SettingCell("Location"), SettingCell("I'm Interested In")]
         case .GeneralSettings: return [SettingCell("Add Email"), SettingCell("Edit Phone Number"), SettingCell("Change Password"), SettingCell("Edit Name")]
         case .PushNotifications: return [SettingCell("TBD")]
@@ -53,14 +53,14 @@ enum Settings : Int {
 }
 
 struct SettingCell {
-    var title: String, accessoryType: UITableViewCellAccessoryType, textAlignment: NSTextAlignment, image: UIImage?, slider: Bool
+    var title: String, accessoryType: UITableViewCellAccessoryType, textAlignment: NSTextAlignment, image: UIImage?, hasSwitch: Bool
     
-    init(_ title: String, accessoryType: UITableViewCellAccessoryType = .disclosureIndicator, textAlignment: NSTextAlignment = .left, image: UIImage? = nil, slider: Bool = false) {
+    init(_ title: String, accessoryType: UITableViewCellAccessoryType = .disclosureIndicator, textAlignment: NSTextAlignment = .left, image: UIImage? = nil, hasSwitch: Bool = false) {
         self.title = title
-        self.accessoryType = slider ? .none : accessoryType
+        self.accessoryType = hasSwitch ? .none : accessoryType
         self.textAlignment = textAlignment
         self.image = image
-        self.slider = slider
+        self.hasSwitch = hasSwitch
     }
 }
 

@@ -10,12 +10,7 @@ import UIKit
 
 class LaunchViewController: UIViewController {
     
-    let card = CardView(translates: false).then {
-        $0.layer.shadowOpacity = 0.20
-        $0.layer.shadowRadius = 5
-        $0.addMotionEffect(UIMotionEffect.twoAxesTilt(strength: 0.25))
-        $0.constrain((.height, 380))
-    }
+    let card = LaunchCardView("")
     let logo = UIImageView(image: #imageLiteral(resourceName: "logo")).then {
         $0.translates = false
     }
@@ -53,10 +48,10 @@ class LaunchViewController: UIViewController {
         view.addSubviews(logo, subtitle, card, getStarted, signIn, legal)
         
         logo.constrain(.centerX, toItem: view)
-        logo.constrain(.top, constant: 40, toItem: view, toAttribute: .topMargin)
+        logo.constrain(.bottom, constant: -10, toItem: subtitle, toAttribute: .top)
         
         subtitle.constrain(.centerX, toItem: view)
-        subtitle.constrain(.top, constant: 20, toItem: logo, toAttribute: .bottomMargin)
+        subtitle.constrain(.bottom, constant: -25, toItem: card, toAttribute: .top)
         
         card.constrain(.centerX, toItem: view)
         card.constrain((.width, -120), (.centerY, -40), toItem: view)
@@ -83,8 +78,7 @@ class LaunchViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
-    func skills() { navigationController?.push(IndustryViewController()) }
-    
+    func skills() { navigationController?.push(SkillsViewController()) }
     func phone() { navigationController?.push(JoinTableViewController(style: .grouped)) }
 
 }

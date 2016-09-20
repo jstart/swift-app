@@ -34,7 +34,8 @@ class UserEditEmailViewController: UITableViewController {
         $0.constrain((.height, 70))
     }
     let email = SkyFloatingLabelTextField.branded("Email").then {
-        $0.isSecureTextEntry = true
+        $0.keyboardType = .emailAddress
+        $0.autocapitalizationType = .none
     }
     
     override func viewDidLoad() {

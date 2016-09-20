@@ -24,13 +24,13 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         }
     }()
     
-    lazy var dataSource : SkillsCollectionViewDataSource = { return SkillsCollectionViewDataSource(self.collectionView) }()
+    lazy var dataSource : SkillsData = { return IndustriesCollectionViewDataSource(self.collectionView) }()
     let search = UISearchBar()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "Select Skills"
+        title = "Select Industry"
         
         collectionView.alwaysBounceVertical = true
         collectionView.collectionViewLayout = layout
@@ -40,69 +40,87 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         view.addSubview(collectionView)
         
         collectionView.constrain(.centerX, .centerY, .width, .height, toItem: view)
-        collectionView.reloadData()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search", style: .done, target: self, action: #selector(openSearch))
         search.delegate = self
+        search.showsCancelButton = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
+
+        if Token.retrieveToken() == nil { Client.execute(TokenRequest(), completionHandler: { _ in }) }
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchBar.text == "" || searchText == "" {
-            dataSource.count = 30
-            collectionView.reloadSections(IndexSet(integer: 0))
-            return
-        }
-        dataSource.count -= 1
-        if dataSource.count > 0 {
-            collectionView.deleteItems(at: [IndexPath(item: dataSource.count, section: 0)])
-        }else {
-            dataSource.count = 0
-            collectionView.reloadItems(at: [IndexPath(item: 0, section: 0)])
-        }
+        dataSource.filter(searchText)
+        collectionView.reloadSections(IndexSet(integer: 0))
     }
     
-    func openSearch() {
-        if dataSource.searching {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) { enterSearch(false) }
+    
+    func openSearch() { enterSearch(true) }
+    
+    func enterSearch(_ open: Bool) {
+        if !open {
             search.text = ""
-            dataSource.count = 30
             collectionView.reloadSections(IndexSet(integer: 0))
             dataSource.searching = false
-            navigationItem.rightBarButtonItem?.title = "Search"
+            navigationItem.setRightBarButtonItems([UIBarButtonItem(title: "Search", style: .done, target: self, action: #selector(openSearch))], animated: true)
             navigationItem.titleView = nil
             search.resignFirstResponder()
         } else {
+            navigationItem.setRightBarButton(nil, animated: true)
             dataSource.searching = true
-            navigationItem.rightBarButtonItem?.title = "Cancel"
             navigationItem.titleView = search
             search.becomeFirstResponder()
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cell.scaleIn(delay: 0.1)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        if collectionView.cellForItem(at: indexPath)!.isHighlighted {
+            collectionView.cellForItem(at: indexPath)!.squeezeIn()
+        } else {
+            collectionView.cellForItem(at: indexPath)!.squeezeOut()
+        }
+    }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let rotation = CABasicAnimation(keyPath: "transform.rotation.y")
-        rotation.duration = 0.2
-        rotation.fromValue = 0
-        rotation.toValue = 0.1 * CGFloat(M_PI)
-        rotation.repeatCount = 1
-        rotation.autoreverses = true
-        collectionView.cellForItem(at: indexPath)?.layer.add(rotation, forKey: rotation.keyPath)
-        
-        if collectionView.indexPathsForSelectedItems!.count > 2 && dataSource.count > 0 { toFeed() }
+        collectionView.cellForItem(at: indexPath)?.squeezeInOut() { _ in
+            if self.dataSource is SkillsCollectionViewDataSource {
+                if collectionView.indexPathsForSelectedItems!.count > 2 { self.toFeed() }
+            } else {
+                self.switchToSkills()
+            }
+        }
+    }
+    
+    func switchToIndustries() {
+        enterSearch(false)
+        navigationItem.backBarButtonItem = nil
+        dataSource = IndustriesCollectionViewDataSource(self.collectionView)
+        title = "Select Industries"
+        collectionView.dataSource = self.dataSource
+        collectionView.reloadSections(IndexSet(integer: 0))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: navigationController!, action: #selector(UINavigationController.popViewController(animated:)))
+    }
+    
+    func switchToSkills() {
+        enterSearch(false)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: self, action: #selector(switchToIndustries))
+        dataSource = SkillsCollectionViewDataSource(self.collectionView)
+        title = "Select Skills"
+        collectionView.dataSource = self.dataSource
+        collectionView.reloadSections(IndexSet(integer: 0))
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        let rotation = CABasicAnimation(keyPath: "transform.rotation.y")
-        rotation.duration = 0.2
-        rotation.fromValue = 0
-        rotation.toValue = -(0.1 * CGFloat(M_PI))
-        rotation.repeatCount = 1
-        rotation.autoreverses = true
-        collectionView.cellForItem(at: indexPath)?.layer.add(rotation, forKey: rotation.keyPath)
+        collectionView.cellForItem(at: indexPath)?.squeezeInOut()
     }
     
     func toFeed() { navigationController?.push(FeedViewController()) }

@@ -16,9 +16,7 @@ extension SkyFloatingLabelTextField {
             $0.titleLabel.font = .proxima(ofSize: 10)
             $0.placeholderFont = .proxima(ofSize: 20)
             $0.selectedTitleColor = Colors.brand; $0.selectedLineColor = Colors.brand
-            $0.titleFormatter = { string in
-                return string
-            }
+            $0.titleFormatter = { string in return string }
         }
     }
 }
@@ -65,10 +63,8 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
         $0.constrain((.height, 70))
     }
     
-    let firstName = SkyFloatingLabelTextField.branded("First Name")
-    let lastName = SkyFloatingLabelTextField.branded("Last Name")
-    let titleField = SkyFloatingLabelTextField.branded("Job Title")
-    let company = SkyFloatingLabelTextField.branded("Company")
+    let firstName = SkyFloatingLabelTextField.branded("First Name"), lastName = SkyFloatingLabelTextField.branded("Last Name"),
+    titleField = SkyFloatingLabelTextField.branded("Job Title"), company = SkyFloatingLabelTextField.branded("Company")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,6 +76,7 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
         tableView.estimatedRowHeight = 100
         tableView.backgroundColor = .white
         
+        UITextField.connectFields(fields: [firstName, lastName, titleField, company])
         [firstName, lastName, titleField, company].forEach({$0.addTarget(self, action: #selector(fieldEdited), for: .allEditingEvents)})
         [linkedIn, twitter, google].forEach({$0.addTarget(self, action:#selector(prefill(sender:)), for:.touchUpInside)})
         nextButton.addTarget(self, action: #selector(complete), for: .touchUpInside)
@@ -147,22 +144,12 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
     }
     
     func prefill(sender: UIButton) {
-        if sender == twitter{
-            TwitterProfile.prefill() { response in
-                self.fill(response)
-            }
-        }
+        if sender == twitter { TwitterProfile.prefill() { response in self.fill(response) } }
         if sender == google {
             GIDSignIn.sharedInstance().uiDelegate = self
-            GoogleProfile.shared.prefill() { response in
-                self.fill(response)
-            }
+            GoogleProfile.shared.prefill() { response in self.fill(response) }
         }
-        if sender == linkedIn {
-            LinkedInProfile.prefill() { response in
-                self.fill(response)
-            }
-        }
+        if sender == linkedIn { LinkedInProfile.prefill() { response in self.fill(response) } }
     }
 
     func fill(_ prefill: PrefillResponse) {

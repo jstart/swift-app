@@ -23,6 +23,20 @@ enum QuickViewCategory : String  {
             $0.backgroundColor = .white
         }
     }
+    
+    func title() -> String { return rawValue.capitalized }
+
+    func editFields() -> [EditField] {
+        switch self {
+        case .connections: return ConnectionDetail.fields
+        case .experience: return Experience.fields
+        case .education: return Education.fields
+        case .skills: return Skill.fields
+        case .events: return Event.fields
+
+        }
+    }
+
 }
 
 protocol QuickPageControlDelegate { func selectedIndex(_ index:Int, animated:Bool) }

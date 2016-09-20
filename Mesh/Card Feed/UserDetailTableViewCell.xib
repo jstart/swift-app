@@ -45,14 +45,14 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vXS-is-Vgw">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vXS-is-Vgw">
                                 <fontDescription key="fontDescription" name="ProximaNovaSoft-Medium" family="Proxima Nova Soft" pointSize="11"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                     </stackView>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bYY-Fr-fp6">
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bYY-Fr-fp6">
                         <constraints>
                             <constraint firstAttribute="width" constant="58" id="WTu-ok-PDQ"/>
                         </constraints>
@@ -62,13 +62,25 @@
                             <action selector="pressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="NHn-tv-WFW"/>
                         </connections>
                     </button>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="McS-eq-F2M">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="1sT-ot-cIc"/>
+                            <constraint firstAttribute="width" constant="45" id="6Qv-QC-yhF"/>
+                        </constraints>
+                        <state key="normal" title="Delete"/>
+                        <connections>
+                            <action selector="deletePressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="xgE-wc-TAB"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="topMargin" relation="greaterThanOrEqual" secondItem="3xe-pW-8jo" secondAttribute="top" constant="-15" id="0Cp-Rn-M3N"/>
+                    <constraint firstItem="McS-eq-F2M" firstAttribute="centerX" secondItem="bYY-Fr-fp6" secondAttribute="centerX" id="2CH-Ph-6hY"/>
                     <constraint firstItem="hVu-Qn-bEn" firstAttribute="top" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="6Nu-5r-crv"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="hVu-Qn-bEn" secondAttribute="bottom" constant="15" id="FfL-L6-nXi"/>
                     <constraint firstAttribute="trailingMargin" secondItem="bYY-Fr-fp6" secondAttribute="trailing" constant="8" id="OGz-4b-PXv"/>
                     <constraint firstAttribute="bottomMargin" secondItem="3xe-pW-8jo" secondAttribute="bottom" constant="15" id="OjJ-UI-H52"/>
+                    <constraint firstItem="McS-eq-F2M" firstAttribute="centerY" secondItem="bYY-Fr-fp6" secondAttribute="centerY" id="Qhb-SG-wcn"/>
                     <constraint firstItem="bYY-Fr-fp6" firstAttribute="leading" secondItem="3xe-pW-8jo" secondAttribute="trailing" constant="5" id="TcA-SL-1Wk"/>
                     <constraint firstItem="bYY-Fr-fp6" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="URF-v1-32V"/>
                     <constraint firstItem="3xe-pW-8jo" firstAttribute="leading" secondItem="hVu-Qn-bEn" secondAttribute="trailing" constant="13" id="bsl-38-Pdi"/>
@@ -79,6 +91,7 @@
             <connections>
                 <outlet property="bottom" destination="K2i-5A-MnK" id="hvK-Kp-tcl"/>
                 <outlet property="button" destination="bYY-Fr-fp6" id="Kg4-dc-2s8"/>
+                <outlet property="delete" destination="McS-eq-F2M" id="wEt-7o-zaJ"/>
                 <outlet property="icon" destination="hVu-Qn-bEn" id="79y-do-x1U"/>
                 <outlet property="top" destination="9S1-Lu-jlT" id="RvB-SO-xbv"/>
                 <outlet property="year" destination="vXS-is-Vgw" id="u2p-an-BDx"/>

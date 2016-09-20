@@ -64,6 +64,7 @@ class SMSViewController: UITableViewController {
         nextButton.constrain(.leading, relatedBy: .lessThanOrEqual, toItem: inputView, toAttribute: .leadingMargin)
         nextButton.constrain(.trailing, relatedBy: .lessThanOrEqual, toItem: inputView, toAttribute: .trailingMargin)
         
+        UITextField.connectFields(fields: [phone, password, confirmPassword])
         [phone, password, confirmPassword].forEach({
             $0.addTarget(self, action: #selector(fieldEdited), for: .allEditingEvents)
             $0.inputAccessoryView = inputView

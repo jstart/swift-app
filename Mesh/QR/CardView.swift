@@ -11,7 +11,7 @@ import UIKit
 class CardView: UIView {
     
     convenience init() {
-        self.init(frame:CGRect.zero)
+        self.init(frame: .zero)
         layer.shadowColor = UIColor.darkGray.cgColor
         layer.shadowOpacity = 0.25
         layer.shadowRadius = 5

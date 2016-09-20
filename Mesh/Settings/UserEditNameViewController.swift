@@ -55,6 +55,8 @@ class UserEditNameViewController: UITableViewController {
         nextButton.constrain(.leading, relatedBy: .lessThanOrEqual, toItem: inputView, toAttribute: .leadingMargin)
         nextButton.constrain(.trailing, relatedBy: .lessThanOrEqual, toItem: inputView, toAttribute: .trailingMargin)
         
+        UITextField.connectFields(fields: [firstName, lastName])
+
         [firstName, lastName].forEach({
             $0.addTarget(self, action: #selector(fieldEdited), for: .allEditingEvents)
             $0.inputAccessoryView = inputView

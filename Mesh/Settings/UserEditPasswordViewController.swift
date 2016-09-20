@@ -62,6 +62,8 @@ class UserEditPasswordViewController: UITableViewController {
         nextButton.constrain(.leading, relatedBy: .lessThanOrEqual, toItem: inputView, toAttribute: .leadingMargin)
         nextButton.constrain(.trailing, relatedBy: .lessThanOrEqual, toItem: inputView, toAttribute: .trailingMargin)
         
+        UITextField.connectFields(fields: [current, password, confirmPassword])
+
         [current, password, confirmPassword].forEach({
             $0.addTarget(self, action: #selector(fieldEdited), for: .allEditingEvents)
             $0.inputAccessoryView = inputView

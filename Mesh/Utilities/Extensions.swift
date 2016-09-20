@@ -230,6 +230,39 @@ extension UIView {
     func fadeOut(duration: TimeInterval = 0.2, completion:@escaping (() -> Void) = {}) {
         UIView.animate(withDuration: duration, animations: { self.alpha = 0.0 }, completion: { _ in completion() })
     }
+    
+    func scaleIn(delay: TimeInterval = 0, completion: @escaping ((Bool) -> Void) = {_ in }) {
+        self.transform = self.transform.scaledBy(x: 0.9, y: 0.9)
+
+        UIView.animate(withDuration: 0.2, delay: delay, usingSpringWithDamping: 0.25, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
+            self.transform = .identity
+            }, completion: nil)
+    }
+    
+    func squeezeIn(delay: TimeInterval = 0, completion: @escaping ((Bool) -> Void) = {_ in }) {
+        UIView.animate(withDuration: 0.2, delay: delay, usingSpringWithDamping: 0.1, initialSpringVelocity: 1, options: .allowUserInteraction, animations: {
+            self.transform = self.transform.scaledBy(x: 0.9, y: 0.9)
+            }, completion: nil)
+    }
+    func squeezeOut(delay: TimeInterval = 0, completion: @escaping ((Bool) -> Void) = {_ in }) {
+        UIView.animate(withDuration: 0.2, delay: delay, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .allowUserInteraction, animations: {
+            self.transform = .identity
+        }, completion: completion)
+    }
+    func squeezeInOut(delay: TimeInterval = 0, completion: @escaping ((Bool) -> Void) = {_ in }) {
+        squeezeIn(delay: delay)
+        squeezeOut(delay: 0.2, completion: completion)
+    }
+    
+    func round(corners: UIRectCorner, radius: CGFloat) {
+        let rect = self.bounds
+        let maskPath = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = rect
+        maskLayer.path = maskPath.cgPath
+        layer.mask = maskLayer
+    }
 }
 
 extension UINavigationController {

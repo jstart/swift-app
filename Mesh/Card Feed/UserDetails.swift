@@ -20,7 +20,8 @@ protocol UserDetail {
     var secondText : String { get }
     var thirdText : String { get }
     
-    var fields : [EditField] { get }
+    static var fields : [EditField] { get }
+    func fieldValues() -> [Any]
 
     var category : QuickViewCategory { get }
 }
@@ -33,10 +34,11 @@ extension UserDetail {
     var secondText : String { return "" }
     var thirdText : String { return "" }
     
-    var fields : [EditField] { return [] }
+    static var fields : [EditField] { return [] }
+    func fieldValues() -> [Any] { return [Any]() }
 }
 
-struct ConnectionResponses : UserDetail {
+struct ConnectionDetail : UserDetail {
     var name : String
     var position : String
     var isConnected : Bool
@@ -47,7 +49,9 @@ struct ConnectionResponses : UserDetail {
 struct Experience : UserDetail {
     var company : String
     var position : String
+    var startMonth : String
     var startYear : String
+    var endMonth : String
     var endYear : String
     var hasDate : Bool { return true }
     
@@ -55,7 +59,11 @@ struct Experience : UserDetail {
     var secondText : String { return position }
     var thirdText : String { return startYear + " - " + endYear } //TODO: Current
     
-    var fields : [EditField] { return [("Company Name", .text), ("Job Title", .text), ("From", .month), ("To", .month), ("I currently work here", .toggle)] }
+    static var fields : [EditField] { return [("Company Name", .text), ("Job Title", .text), ("From", .month), ("To", .month), ("I currently work here", .toggle)] }
+    
+    func fieldValues() -> [Any] {
+        return [company, position, [startMonth, startYear], [endMonth, endYear], true]
+    }
     
     let category = QuickViewCategory.experience
 }
@@ -65,14 +73,19 @@ struct Education : UserDetail {
     var degreeType : String
     var startYear : String
     var endYear : String
+    var field : String
+    var graduated : Bool
+
     var hasDate : Bool { return true }
     
     var firstText : String { return schoolName }
     var secondText : String { return degreeType }
     var thirdText : String { return startYear + " - " + endYear } //TODO: Current
 
-    var fields : [EditField] { return [("School", .text), ("Start Year", .year), ("End Year", .year), ("Graduated", .toggle), ("Degree", .text), ("Field of Study", .text)] }
-
+    static var fields : [EditField] { return [("School", .text), ("Start Year", .year), ("End Year", .year), ("Graduated", .toggle), ("Degree", .text), ("Field of Study", .text)] }
+    func fieldValues() -> [Any] {
+        return [schoolName, startYear, endYear, true, degreeType, field]
+    }
     let category = QuickViewCategory.education
 }
 
@@ -96,7 +109,7 @@ struct Event : UserDetail {
 }
 
 struct UserDetails {
-    var connections : [ConnectionResponses]
+    var connections : [ConnectionDetail]
     var experiences : [Experience]
     var educationItems : [Education]
     var skills : [Skill]
