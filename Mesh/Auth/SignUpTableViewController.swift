@@ -10,9 +10,8 @@ import UIKit
 
 class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
 
-    var phoneField : UITextField?
-    var passwordField : UITextField?
-    var formatter = PhoneNumberFormatter()
+    var phoneField, passwordField : UITextField?,
+        formatter = PhoneNumberFormatter()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +26,7 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
-    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? { return section == 0 ? "Phone Number" : "Password" }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 1 }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -44,6 +41,7 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
             phoneField?.keyboardType = .phonePad
             phoneField?.autocapitalizationType = .none
             phoneField?.autocorrectionType = .no
+            phoneField?.addTarget(self, action: #selector(format), for: .allEditingEvents)
         } else {
             passwordField = field
             passwordField?.isSecureTextEntry = true
@@ -53,13 +51,10 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func signUp() {
-        Client.execute(AuthRequest(phone_number: phoneField!.text!.onlyNumbers(), password: passwordField!.text!, password_verify: passwordField!.text!), completionHandler: { response in
+        Client.execute(AuthRequest(phone_number: phoneField!.text!.onlyNumbers(), password: passwordField!.text!, password_verify: passwordField!.text!), complete: { response in
             if response.result.value != nil {
                 LaunchData.fetchLaunchData()
-                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
-                UIApplication.shared.delegate!.window??.rootViewController = vc
-                let tab = UIApplication.shared.delegate!.window??.rootViewController as! UITabBarController
-                tab.tabBar.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+                UIApplication.shared.delegate!.window??.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
             } else {
                 let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
                 alert.addAction(UIAlertAction.ok())

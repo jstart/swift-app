@@ -50,6 +50,7 @@ class UserEditEmailViewController: UITableViewController {
         tableView.estimatedRowHeight = 100
         tableView.backgroundColor = .white
         
+        email.text = UserResponse.current?.email
         
         let inputView = UIView(translates: false)
         inputView.addSubview(nextButton)
@@ -101,7 +102,10 @@ class UserEditEmailViewController: UITableViewController {
     func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 90; nextButton.isEnabled = (email.text != "") }
     
     func complete() {
-        navigationController?.pop()
+        let request = ProfileRequest(email: email.text)
+        Client.execute(request) { _ in
+            self.navigationController?.pop()
+        }
     }
 
 }

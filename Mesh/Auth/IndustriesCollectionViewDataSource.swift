@@ -29,12 +29,8 @@ class IndustriesCollectionViewDataSource: NSObject, UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if filteredData == nil {
-            return data.count
-        }
-        if filteredData?.count == 0 {
-            return 1
-        }
+        if filteredData == nil { return data.count }
+        if filteredData?.count == 0 { return 1 }
         return filteredData?.count ?? 0
     }
     

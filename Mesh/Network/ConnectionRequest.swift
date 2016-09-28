@@ -12,14 +12,10 @@ struct ConnectionRequest : AuthenticatedRequest {
     let path = "connection", method = HTTPMethod.put
     
     let recipient : String
-    
-    func parameters() -> [String : Any] { return ["recipient": recipient] }
 }
 
 struct ConnectionDeleteRequest : AuthenticatedRequest {
     let path = "connection", method = HTTPMethod.delete
     
     let connection_id : String
-    
-    func parameters() -> [String : Any] { return ["connection_id": connection_id] }
 }

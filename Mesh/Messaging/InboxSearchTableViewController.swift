@@ -64,7 +64,7 @@ class InboxSearchTableViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .fade)
             guard let inbox = inbox else { return }
             inbox.recentSearches = recentSearches
-            UserDefaults.standard.set(recentSearches, forKey: "RecentConnectionSearches")
+            StandardDefaults.set(recentSearches, forKey: "RecentConnectionSearches")
         }
     }
     
@@ -73,11 +73,10 @@ class InboxSearchTableViewController: UITableViewController {
             guard let inbox = inbox else { return }
             inbox.searchController.searchBar.text = recentSearches[indexPath.row]; return
         }
-        let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
-        let person = Person(user: filteredConnections[indexPath.row], details: details)
-        
+//        let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
+
         let cardVC = PersonCardViewController()
-        cardVC.card = Rec(type:.person, person: person)
+//        cardVC.card = Rec(type:.person, person: person, content: nil)
         cardVC.modalPresentationStyle = .overFullScreen
         present(cardVC)
     }

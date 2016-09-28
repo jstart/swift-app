@@ -29,14 +29,10 @@ class AlertTransition: NSObject, UIViewControllerAnimatedTransitioning {
         detail.translates = false
         detail.constrain(.centerX, .centerY, toItem: containerView)
         
-        detail.fadeIn { context.completeTransition(true) }
+        containerView.fadeIn { context.completeTransition(true) }
     }
     
     func dismiss(_ context: UIViewControllerContextTransitioning) {
-        let containerView = context.containerView
-        let detail = context.view(forKey: UITransitionContextViewKey.from)!
-        containerView.addSubview(detail)
-        
-        detail.fadeOut { context.completeTransition(true) }
+        context.containerView.fadeOut { context.completeTransition(true) }
     }
 }

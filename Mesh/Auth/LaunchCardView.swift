@@ -18,7 +18,6 @@ class LaunchCardView: CardView {
         $0.image = #imageLiteral(resourceName: "discover")
         $0.contentMode = .scaleAspectFit
     }
-    
     let header = UILabel().then {
         $0.text = "Network"
         $0.font = .boldProxima(ofSize: 20)
@@ -48,9 +47,8 @@ class LaunchCardView: CardView {
         
         bottom.constrain(.bottom, .leading, .trailing, toItem: self)
         
-        let stack = UIStackView(arrangedSubviews: [header, text])
+        let stack = UIStackView(header, text, axis: .vertical)
         stack.translates = false
-        stack.axis = .vertical
         stack.alignment = .center
         bottom.addSubview(stack)
         stack.constrain(.centerX, .centerY, .leadingMargin, .trailingMargin, toItem: bottom)
@@ -58,7 +56,7 @@ class LaunchCardView: CardView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        bottom.round(corners: [UIRectCorner.bottomLeft, UIRectCorner.bottomRight], radius: 5.0)
+        bottom.round(corners: [.bottomLeft, .bottomRight])
     }
     
 }

@@ -12,11 +12,7 @@ import Alamofire
 struct ProfileRequest : AuthenticatedRequest {
     let path = "profile", method = HTTPMethod.post
     
-    var first_name : String?,
-        last_name : String?,
-        email : String?,
-        title : String?,
-        profession : String?,
+    var first_name, last_name, email, title, profession : String?,
         companies : [CompanyModel]?
     
     func parameters() -> [String : Any] {
@@ -32,35 +28,26 @@ struct ProfileRequest : AuthenticatedRequest {
     }
     
     init(first_name: String? = nil, last_name: String? = nil, email: String? = nil, title: String? = nil, profession: String? = nil, companies: [CompanyModel]? = nil) {
-        self.first_name = first_name
-        self.last_name = last_name
-        self.email = email
-        self.title = title
-        self.profession = profession
-        self.companies = companies
+        self.first_name = first_name; self.last_name = last_name
+        self.email = email; self.title = title
+        self.profession = profession; self.companies = companies
     }
 }
 
 struct CompanyModel {
     let id : String,
-        start_month : String,
-        start_year : String,
-        end_month : String,
-        end_year : String,
+        start_month, start_year, end_month, end_year : String,
         current : Bool
     
-    func parameters() -> [String : Any] {
-        return ["id" : id, "start_month" : start_month, "start_year" : start_year, "end_month" : end_month, "end_year" : end_year, "current" : current]
-    }
+    func parameters() -> [String : Any] { return ["_id" : id, "start_month" : start_month, "start_year" : start_year, "end_month" : end_month, "end_year" : end_year, "current" : current] }
     
     static func create(JSON: JSONDictionary) -> CompanyModel{
-        let id = JSON["id"] as? String ?? ""
-        let start_month = JSON["start_month"] as? String ?? ""
-
-        let start_year = JSON["start_year"] as? String ?? ""
-        let end_month = JSON["end_month"] as? String ?? ""
-        let end_year = JSON["end_year"] as? String ?? ""
-        let current = JSON["current"] as? Bool ?? false
+        let id = JSON["id"] as? String ?? "",
+            start_month = JSON["start_month"] as? String ?? "",
+            start_year = JSON["start_year"] as? String ?? "",
+            end_month = JSON["end_month"] as? String ?? "",
+            end_year = JSON["end_year"] as? String ?? "",
+            current = JSON["current"] as? Bool ?? false
         
         return CompanyModel(id: id, start_month: start_month, start_year: start_year, end_month: end_month, end_year: end_year, current: current)
     }

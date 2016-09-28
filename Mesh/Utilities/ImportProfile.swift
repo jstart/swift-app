@@ -10,8 +10,6 @@ import Foundation
 import Fabric
 import TwitterKit
 import GoogleSignIn
-import Google
-import LinkedinSwift
 
 typealias PrefillResponse = (first_name: String, last_name: String, title: String, company: String, image_url: String)
 
@@ -63,9 +61,10 @@ class GoogleProfile : NSObject, GIDSignInDelegate {
     
     func login() {
         GIDSignIn.sharedInstance().delegate = self
-        GIDSignIn.sharedInstance().signInSilently()
-        GIDSignIn.sharedInstance().signIn()
+        GIDSignIn.sharedInstance().signInSilently(); GIDSignIn.sharedInstance().signIn()
     }
+    
+    static func isLoggedIn() -> Bool { return GIDSignIn.sharedInstance().hasAuthInKeychain() }
     
     public func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if (error == nil) {
@@ -90,30 +89,28 @@ class GoogleProfile : NSObject, GIDSignInDelegate {
 
 struct LinkedInProfile {
     static var imageURL: String?
-
-    static let linkedinHelper = LinkedinSwiftHelper(configuration: LinkedinSwiftConfiguration(clientId: "775eh4hg8ks2le", clientSecret: "HHTipcKAKIH1DtfK", state: "DLKDJF45DIWOERCM", permissions: ["r_basicprofile", "r_emailaddress"], redirectUrl: "http://google.com"))
     
     static func prefill(_ completion: @escaping ((PrefillResponse) -> Void)) {
-        linkedinHelper.authorizeSuccess({ (lsToken) -> Void in
-            linkedinHelper.requestURL("https://api.linkedin.com/v1/people/~:(id,first-name,last-name,location,positions,industry,headline,specialties,public-profile-url,email-address,num-connections,picture-urls::(original))?format=json", requestType: LinkedinSwiftRequestGet, success: { (response) -> Void in
-//                let email = (response.jsonObject["email-address"] as? String) ?? ""
-                let firstName = (response.jsonObject["firstName"] as? String) ?? ""
-                let lastName = (response.jsonObject["lastName"] as? String) ?? ""
-                let imageURL = (((response.jsonObject["pictureUrls"] as? [String:Any])?["values"] as? [String])?[safe: 0]) ?? ""
+        LinkedInSwiftHelper.authorize(inViewController: UIApplication.shared.delegate!.window!!.rootViewController!, success: { token in
+            LinkedInSwiftHelper.request(url: "https://api.linkedin.com/v1/people/~:(id,first-name,last-name,location,positions,industry,headline,specialties,public-profile-url,email-address,num-connections,picture-urls::(original))?format=json", requestMethod: "GET", success: { response in
+                //                let email = (response.jsonObject["email-address"] as? String) ?? ""
+                let firstName = (response["firstName"] as? String) ?? ""
+                let lastName = (response["lastName"] as? String) ?? ""
+                let imageURL = (((response["pictureUrls"] as? [String:Any])?["values"] as? [String])?[safe: 0]) ?? ""
                 LinkedInProfile.imageURL = imageURL
-//                let industry = response.jsonObject["industry"]
-//                let headline = response.jsonObject["headline"]
-                let position = ((response.jsonObject["positions"] as? JSONDictionary)?["values"] as? JSONArray)?.first
+                //                let industry = response.jsonObject["industry"]
+                //                let headline = response.jsonObject["headline"]
+                let position = ((response["positions"] as? JSONDictionary)?["values"] as? JSONArray)?.first
                 let title = position?["title"] as? String ?? ""
                 let company = ((position?["company"] as? JSONDictionary)?["name"] as? String) ?? ""
-                completion(PrefillResponse(firstName, lastName, title, company, imageURL))
-            })
+                DispatchQueue.main.async { completion(PrefillResponse(firstName, lastName, title, company, imageURL)) }
+                }, failure: { _ in
+                    completion(PrefillResponse("", "", "", "", ""))
+                })
             }, error: { (error) -> Void in
-                print(error)
-                completion(PrefillResponse("", "", "", "", ""))
-            }, cancel: { () -> Void in
-                //User Cancelled!
-                completion(PrefillResponse("", "", "", "", ""))
+                    completion(PrefillResponse("", "", "", "", ""))
+                }, cancel: { () -> Void in
+                    completion(PrefillResponse("", "", "", "", ""))
         })
     }
 }

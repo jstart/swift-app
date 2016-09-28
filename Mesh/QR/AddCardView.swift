@@ -24,12 +24,10 @@ class AddCardView: CardView {
         
         constrain((.height, 180))
 
-        let stackView = UIStackView(arrangedSubviews: [add, text])
+        let stackView = UIStackView(add, text, spacing: 15)
         addSubview(stackView)
         
         stackView.translates = false
-        stackView.axis = .horizontal
-        stackView.spacing = 15
         stackView.distribution = .equalSpacing
         stackView.alignment = .center
         stackView.constrain(.centerX, .centerY, .height, toItem: self)

@@ -15,7 +15,7 @@ public class User: NSManagedObject {
     convenience init(JSON: JSONDictionary) {
         self.init(entity: NSEntityDescription.entity(forEntityName: "User", in: CoreData.backgroundContext)!, insertInto: CoreData.backgroundContext)
         
-        id = JSON["_id"] as? String
+        id = (JSON["_id"] as? String) ?? ""
         id = (JSON["user_id"] as? String?)! ?? id
         phone_number = (JSON["phone_number"] as? String?)!
         email = (JSON["email"] as? String?)!
@@ -34,4 +34,18 @@ public class User: NSManagedObject {
         //        }
         CoreData.backgroundContext.insert(self)
     }
+    
+    func fullName() -> String {
+        return (first_name ?? "") + " " + (last_name ?? "")
+    }
+    
+    func fullTitle() -> String {
+//        guard let company = companies?.first else { return title ?? "" }
+        return (title ?? "") //+ " at " + company.id
+    }
+//
+//    func searchText() -> String {
+//        let companyNames = companies?.map({return $0.id}).joined(separator: " ")
+//        return fullName() + (title ?? "") + (companyNames ?? "") // profession?
+//    }
 }

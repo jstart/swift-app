@@ -8,34 +8,22 @@
 
 import Alamofire
 
-struct AuthRequest : Request {
+struct AuthRequest : AuthenticatedRequest {
     let path = "auth", method = HTTPMethod.post
     
-    let phone_number : String, password : String, password_verify : String
-    
-    func parameters() -> [String : Any] {
-        return ["phone_number": phone_number, "password" : password, "password_verify" : password_verify]
-    }
+    let phone_number, password, password_verify : String
 }
 
-struct TokenRequest : Request {
-    let path = "token", method = HTTPMethod.get
-}
+struct TokenRequest : Request { let path = "token", method = HTTPMethod.get }
 
 struct LoginRequest : Request {
     let path = "login", method = HTTPMethod.post
     
-    let phone_number : String, password : String
-    
-    func parameters() -> [String : Any] { return ["phone_number": phone_number, "password" : password] }
+    let phone_number, password : String
 }
 
 struct MessageResponse {
-    let _id : String,
-        ts : Int,
-        sender : String,
-        recipient : String,
-        text : String?
+    let _id, sender, recipient : String, text : String?, ts : Int
     
     init(JSON: JSONDictionary) {
         _id = JSON["_id"] as! String
@@ -49,8 +37,7 @@ struct MessageResponse {
 struct ConnectionResponse {
     let _id: String,
         user: UserResponse
-    var read: Bool,
-        muted: Bool,
+    var read, muted: Bool,
         update_date: Date
     
     init(JSON: JSONDictionary) {
@@ -69,41 +56,27 @@ struct UserResponse {
     static var messages = [MessageResponse]()
 
     var _id : String,
-        phone_number : String?,
-        email : String?,
-        first_name : String?,
-        last_name : String?,
+        phone_number, email, first_name, last_name, profession, title, token : String?,
         companies : [CompanyModel]?,
-        profession : String?,
-        title : String?,
         photos : PhotoResponse?,
-        position : PositionResponse?,
-        token : String?
+        position : PositionResponse?
     
     init(JSON: JSONDictionary) {
         _id = JSON["_id"] as! String
         _id = (JSON["user_id"] as? String?)! ?? _id
         phone_number = (JSON["phone_number"] as? String?)!
         email = (JSON["email"] as? String?)!
-        first_name = (JSON["first_name"] as? String?)!
-        last_name = (JSON["last_name"] as? String?)!
-        title = (JSON["title"] as? String?)!
-        if let companiesJSON = JSON["companies"] as? JSONArray{
-            companies = companiesJSON.map({return CompanyModel.create(JSON: $0)})
-        }
-        profession = (JSON["profession"] as? String?)!
-        token = (JSON["token"] as? String?)!
-        if JSON["profile_photo"] != nil{
-            photos = PhotoResponse(JSON:(JSON["profile_photo"] as! JSONDictionary))
-        }
-        if JSON["position"] != nil{
-            position = PositionResponse(JSON:(JSON["position"] as! JSONDictionary))
-        }
+        first_name = (JSON["first_name"] as? String) ?? ""
+        last_name = (JSON["last_name"] as? String) ?? ""
+        title = (JSON["title"] as? String?) ?? ""
+        if let companiesJSON = JSON["companies"] as? JSONArray { companies = companiesJSON.map({return CompanyModel.create(JSON: $0)}) }
+        profession = (JSON["profession"] as? String?) ?? ""
+        token = (JSON["token"] as? String?) ?? ""
+        if JSON["profile_photo"] != nil { photos = PhotoResponse(JSON:(JSON["profile_photo"] as! JSONDictionary)) }
+        if JSON["position"] != nil { position = PositionResponse(JSON:(JSON["position"] as! JSONDictionary)) }
     }
     
-    func fullName() -> String {
-        return (first_name ?? "") + " " + (last_name ?? "")
-    }
+    func fullName() -> String { return (first_name ?? "") + " " + (last_name ?? "") }
     
     func fullTitle() -> String {
         guard let company = companies?.first else { return title ?? "" }
@@ -117,24 +90,15 @@ struct UserResponse {
 }
 
 struct PhotoResponse {
-    let small : String?, medium : String?, large : String?
+    let small, medium, large : String
     
-    init(JSON: [String : Any]) {
-        small = (JSON["small"] as? String?)!
-        medium = (JSON["medium"] as? String?)!
-        large = (JSON["large"] as? String?)!
-    }
+    init(JSON: [String : Any]) { small = (JSON["small"] as? String)!.trim; medium = (JSON["medium"] as? String)!.trim; large = (JSON["large"] as? String)!.trim }
 }
 
 struct PositionResponse {
     let lat : Double, lon : Double
     
-    init(JSON: [String : Any]) {
-        lat = JSON["lat"] as! Double
-        lon = JSON["lon"] as! Double
-    }
+    init(JSON: [String : Any]) { lat = JSON["lat"] as! Double; lon = JSON["lon"] as! Double }
 }
 
-struct LogoutRequest : AuthenticatedRequest {
-    let path = "logout", method = HTTPMethod.post
-}
+struct LogoutRequest : AuthenticatedRequest { let path = "logout", method = HTTPMethod.post }

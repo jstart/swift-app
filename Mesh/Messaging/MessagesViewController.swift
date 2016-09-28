@@ -28,7 +28,7 @@ class MessagesViewController: JSQMessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(#imageLiteral(resourceName: "chatOverflow"), target: self, action: #selector(overflow)),
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(#imageLiteral(resourceName: "overflow"), target: self, action: #selector(overflow)),
                                               UIBarButtonItem(#imageLiteral(resourceName: "chatMarkAsUnread"), target: self, action: #selector(toggleReadState))]
         
         let imageButton = UIButton(translates: false)
@@ -103,7 +103,7 @@ class MessagesViewController: JSQMessagesViewController {
     }
     
     func refresh() {
-        Client.execute(UpdatesRequest.latest(), completionHandler: { response in
+        Client.execute(UpdatesRequest.latest(), complete: { response in
             UpdatesRequest.append(response)
             if self.meshMessages?.count != UserResponse.messages.filter({return ($0.recipient == self.recipient?.user._id || $0.sender == self.recipient?.user._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts}).count {
                 self.messages.removeAll()
@@ -117,14 +117,13 @@ class MessagesViewController: JSQMessagesViewController {
                 if self.messages.count > 0 {
                     self.collectionView?.scrollToItem(at: IndexPath(item: max(0, self.messages.count - 1), section: 0), at: .bottom, animated: false)
                 }
-                
             }
         })
     }
     
     func toggleReadState() {
         guard let recipient = recipient else { return }
-        Client.execute(MarkReadRequest(read: !recipient.read, id: recipient.user._id), completionHandler: { _ in
+        Client.execute(MarkReadRequest(read: !recipient.read, id: recipient.user._id), complete: { _ in
             for (index, outer) in UserResponse.connections.enumerated() {
                 if outer._id == self.recipient?._id {
                     UserResponse.connections.remove(at: index)
@@ -154,7 +153,7 @@ class MessagesViewController: JSQMessagesViewController {
     
     func block() {
         guard let recipient = recipient else { return }
-        Client.execute(ConnectionDeleteRequest(connection_id: recipient._id), completionHandler: { _ in })
+        Client.execute(ConnectionDeleteRequest(connection_id: recipient._id))
         //UserResponse.connections?.remove(at: indexPath.row)
         navigationController?.pop()
     }
@@ -163,7 +162,7 @@ class MessagesViewController: JSQMessagesViewController {
     override func collectionView(_ collectionView: JSQMessagesCollectionView, messageDataForItemAt indexPath: IndexPath) -> JSQMessageData { return messages[indexPath.item] }
     
     override func didPressSend(_ button: UIButton, withMessageText text: String, senderId: String, senderDisplayName: String, date: Date) {
-        Client.execute(MessagesSendRequest(recipient: recipient?.user._id ?? "", text: text), completionHandler: { response in
+        Client.execute(MessagesSendRequest(recipient: recipient?.user._id ?? "", text: text), complete: { response in
             self.messages.append(JSQMessage(senderId: senderId, displayName: senderDisplayName, text: text))
             self.finishSendingMessage(animated: true)
         })
@@ -225,7 +224,7 @@ class MessagesViewController: JSQMessagesViewController {
     
     func editMessage(_ indexPath: IndexPath) {
         //guard let meshMessage = meshMessages?[indexPath.row] else { return }
-        /*Client().execute(MessagesEditRequest(_id: meshMessage._id), completionHandler: { response in
+        /*Client().execute(MessagesEditRequest(_id: meshMessage._id), complete: { response in
          let message = messages[indexPath.row]
          self.collectionView.reloadData()
         })*/
@@ -233,7 +232,7 @@ class MessagesViewController: JSQMessagesViewController {
     
     func deleteMessage(_ indexPath: IndexPath) {
         guard let meshMessage = meshMessages?[indexPath.row] else { return }
-        Client.execute(MessagesDeleteRequest(id: meshMessage._id), completionHandler: { response in
+        Client.execute(MessagesDeleteRequest(id: meshMessage._id), complete: { response in
             for (index, outer) in UserResponse.messages.enumerated() {
                 if outer._id == meshMessage._id {
                     UserResponse.messages.remove(at: index)

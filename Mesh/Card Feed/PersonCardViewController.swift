@@ -12,18 +12,13 @@ import AlamofireImage
 class PersonCardViewController : BaseCardViewController, UIViewControllerTransitioningDelegate, QuickPageControlDelegate {
     
     var control = QuickPageControl(categories: [.connections, .experience, .education, .skills, .events])
-    var card : Rec?
     var viewPager : ViewPager?
+    let transition = CardDetailTransition()
     let imageView = UIImageView(image: .imageWithColor(.gray)).then {
         $0.clipsToBounds = true
-        $0.backgroundColor = .white
         $0.contentMode = .scaleAspectFill
         $0.translates = false
-        $0.layer.borderWidth = 1;
-        $0.layer.borderColor = UIColor.clear.cgColor
     }
-    let transition = CardDetailTransition()
-    
     let name = UILabel(translates: false).then {
         $0.textColor = .black
         $0.backgroundColor = .white
@@ -40,49 +35,31 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.layer.cornerRadius = 5.0
-        view.layer.shadowColor = UIColor.lightGray.cgColor
-        view.layer.shadowOpacity = 1.0
-        view.layer.shadowRadius = 5
-        view.backgroundColor = .white
-        //view.layer.shadowOffset = CGSize(width: 2, height: 2)
-        
         transition.cardVC = self
-
-        gestureRec = UIPanGestureRecognizer(target: self, action: #selector(pan))
         gestureRec?.delegate = self
-        tapRec = UITapGestureRecognizer(target: self, action: #selector(tap))
-        view.addGestureRecognizer(gestureRec!)
-        view.addGestureRecognizer(tapRec!)
         
-        let quickViewStack = UIStackView(arrangedSubviews: [bar(), control.stack!, bar()])
-        quickViewStack.backgroundColor = .white
+        let quickViewStack = UIStackView(bar(), control.stack!, bar())
         quickViewStack.distribution = .fillProportionally
         quickViewStack.alignment = .center
-        quickViewStack.spacing = 0
         
-        viewPager = ViewPager(views: QuickViewGenerator.viewsForDetails(card?.person?.details))
+//        viewPager = ViewPager(views: QuickViewGenerator.viewsForDetails(card?.person?.details))
+        viewPager = ViewPager(views: QuickViewGenerator.viewsForDetails(UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])))
         viewPager?.scroll.panGestureRecognizer.require(toFail: gestureRec!)
         viewPager?.scroll.backgroundColor = .white
         control.delegate = viewPager!
         viewPager?.delegate = control
         control.selectIndex(0)
 
-        name.text = card?.person?.user?.first_name != nil ? card!.person!.user!.first_name! : "Micha Kaufman"
-        position.text = "VP of Engineering at Tesla"
-
         let namePositionContainer = UIView().then { $0.backgroundColor = .white }
         
         namePositionContainer.addSubviews(name, position)
         
-        let bottomStack = UIStackView(arrangedSubviews: [namePositionContainer, quickViewStack, viewPager!.scroll])
-        bottomStack.axis = .vertical
+        let bottomStack = UIStackView(namePositionContainer, quickViewStack, viewPager!.scroll, axis: .vertical)
         bottomStack.distribution = .fillProportionally
         bottomStack.alignment = .fill
         bottomStack.constrain((.height, 200))
         
-        let topStack = UIStackView(arrangedSubviews: [imageView, bottomStack])
-        topStack.axis = .vertical
+        let topStack = UIStackView(imageView, bottomStack, axis: .vertical)
         topStack.distribution = .fillProportionally
         topStack.alignment = .fill
         
@@ -134,11 +111,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         rect.size.height = imageView.frame.size.height + 100
         let maskPath = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 5.0, height: 5.0))
         
-        let maskLayer = CAShapeLayer()
-        maskLayer.frame = rect
-        maskLayer.path = maskPath.cgPath
-        
-        imageView.layer.mask = maskLayer
+        imageView.layer.mask = CAShapeLayer().then { $0.frame = rect; $0.path = maskPath.cgPath }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -149,10 +122,10 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         control.selectIndex(0)
         viewPager?.selectedIndex(0, animated: false)
         
-        name.text = card?.person?.user?.fullName() ?? "Test Name"
-        position.text = card?.person?.user?.fullTitle() ?? "Test Title"
+        name.text = rec?.user?.fullName() ?? "Test Name"
+        position.text = rec?.user?.fullTitle() ?? "Test Title"
         
-        guard let largeURL = card?.person?.user?.photos?.large else { imageView.image = .imageWithColor(.gray); return }
+        guard let largeURL = rec?.user?.photos?.large else { imageView.image = .imageWithColor(.gray); return }
         imageView.alpha = 0
         imageView.af_setImage(withURL: URL(string: largeURL)!, completion: { response in self.imageView.fadeIn() })
     }
@@ -168,27 +141,16 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         }
     }
     
-    func selectedIndex(_ index: Int, animated: Bool) {
-        control.selectIndex(index)
-        viewPager?.selectedIndex(index)
-    }
+    func selectedIndex(_ index: Int, animated: Bool) { control.selectIndex(index); viewPager?.selectedIndex(index) }
     
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return !otherGestureRecognizer.isMember(of: UITapGestureRecognizer.self)
     }
     
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+    override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         let touchPoint = touch.location(in: gestureRecognizer.view)
         let subview = gestureRec?.view?.hitTest(touchPoint, with: nil)
         return !(subview?.isDescendant(of: viewPager!.scroll))!
-    }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return false
-    }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return false
     }
     
     override func tap(_ sender: UITapGestureRecognizer) {

@@ -17,8 +17,7 @@ class UserDetailTableViewCell: UITableViewCell {
     @IBOutlet weak var button: UIButton!
     @IBOutlet weak var delete: UIButton!
     
-    var deleteHandler = {}
-    var buttonHandler = {}
+    var deleteHandler = {}, buttonHandler = {}
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -37,10 +36,13 @@ class UserDetailTableViewCell: UITableViewCell {
         delete.isHidden = true
     }
     
-    func configure(_ detail:UserDetail) {
-        
+    func configure(_ detail: UserDetail) {        
         button.isHidden = !detail.hasButton
         year.isHidden = !detail.hasDate
+        
+        top.text = detail.firstText
+        bottom.text = detail.secondText
+        year.text = detail.thirdText
     }
     
     @IBAction func pressed(_ sender: AnyObject) { buttonHandler() }

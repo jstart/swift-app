@@ -19,6 +19,10 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 extension String {
     
+    var URLEncoded : String {
+        return CFURLCreateStringByReplacingPercentEscapes(nil, self as CFString, "!*'();:@&=+$,/?%#[]" as CFString) as String
+    }
+    
     var trim: String { return trimmingCharacters(in: .whitespacesAndNewlines) }
     
     var extendedTrim: String {

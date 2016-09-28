@@ -27,16 +27,11 @@ class EditCardTableViewCell : UITableViewCell {
         
         contactField.constrain(.centerY, toItem: self)
         
-        check.constrain(.width, constant: 19)
-        check.constrain(.trailing, constant: -16, toItem: self)
-        check.constrain(.centerY, toItem: self)
+        check.constrain((.width, 19))
+        check.constrain((.trailing, -16), (.centerY, 0), toItem: self)
     }
     
-    func setChecked(_ selected: Bool) {
-        check.image = selected ? #imageLiteral(resourceName: "checkMark") : nil
-    }
+    func setChecked(_ selected: Bool) { check.image = selected ? #imageLiteral(resourceName: "checkMark") : nil }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 }

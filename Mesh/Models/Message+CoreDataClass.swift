@@ -9,7 +9,6 @@
 
 import Foundation
 import CoreData
-import CoreSpotlight
 
 @objc(Message)
 public class Message: NSManagedObject {
@@ -22,14 +21,5 @@ public class Message: NSManagedObject {
 //        recipient = JSON["recipient"] as! String
         text = (JSON["text"] as? String) ?? ""
         CoreData.backgroundContext.insert(self)
-//        let set = CSSearchableItemAttributeSet(itemContentType: "")
-//        set.title = "Mesh"
-//        set.contentDescription = text
-//        if let img = thumbnailImage {
-//            set.thumbnailData = UIImageJPEGRepresentation(img, 0.9)
-//        }
-        
-//        let item = CSSearchableItem(uniqueIdentifier: id, domainIdentifier: "Messages", attributeSet: set)
-//        CSSearchableIndex.default().indexSearchableItems([item], completionHandler: nil)
     }
 }

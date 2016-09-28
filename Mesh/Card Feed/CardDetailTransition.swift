@@ -59,9 +59,8 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
     }
     
     func dismiss(_ context: UIViewControllerContextTransitioning) {
-        let containerView = context.containerView
+        let containerView = context.containerView, detail = context.view(forKey: .from)!
         containerView.frame.size.height = (cardVC?.view.frame.size.height)! + 81
-        let detail = context.view(forKey: UITransitionContextViewKey.from)!
         detail.frame.origin.y = 81 * 3
         containerView.addSubview(detail)
         

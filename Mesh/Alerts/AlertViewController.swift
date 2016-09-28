@@ -10,24 +10,22 @@ import UIKit
 
 struct AlertAction {
     static let defaultBackground = #colorLiteral(red: 0.4196078431, green: 0.768627451, blue: 0.9647058824, alpha: 1)
-    var title : String
-    var backgroundColor : UIColor
-    var titleColor : UIColor
+    let title : String, backgroundColor, titleColor : UIColor
     var handler : (() -> Void)
 }
 
 class AlertViewController: UIViewController, UIViewControllerTransitioningDelegate {
 
-    var imageView = UIImageView(translates: false).then {
+    let imageView = UIImageView(translates: false).then {
         $0.contentMode = .scaleAspectFit
         $0.constrain(.height, .width, constant: 100)
     }
-    var titleLabel = UILabel(translates: false).then {
+    let titleLabel = UILabel(translates: false).then {
         $0.textAlignment = .center
         $0.font = .boldProxima(ofSize: 20)
         $0.textColor = .black
     }
-    var textLabel = UILabel(translates: false).then {
+    let textLabel = UILabel(translates: false).then {
         $0.contentMode = .top
         $0.numberOfLines = 0
         $0.textAlignment = .center
@@ -92,18 +90,10 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
         }
     }
 
-    func buttonPress(sender: UIButton) {
-        for action in actions {
-            if sender.titleLabel?.text == action.title { action.handler() }
-        }
-    }
+    func buttonPress(sender: UIButton) { for action in actions {  if sender.titleLabel?.text == action.title { action.handler() } } }
     
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return AlertTransition().then { $0.presenting = false }
-    }
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? { return AlertTransition().then { $0.presenting = false } }
     
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return AlertTransition()
-    }
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? { return AlertTransition() }
 }
 

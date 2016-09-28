@@ -15,15 +15,13 @@ class EmptyView: UIView {
     }
     var titleLabel = UILabel(translates: false).then {
         $0.textAlignment = .center
-        $0.font = .boldProxima(ofSize: 20)
-        $0.textColor = .black
+        $0.font = .boldProxima(ofSize: 20); $0.textColor = .black
     }
     var textLabel = UILabel(translates: false).then {
         $0.contentMode = .top
         $0.numberOfLines = 0
         $0.textAlignment = .center
-        $0.font = .proxima(ofSize: 16)
-        $0.textColor = .lightGray
+        $0.font = .proxima(ofSize: 16); $0.textColor = .lightGray
     }
     var actions = [AlertAction]()
     var buttons : [UIButton] = []
@@ -37,7 +35,6 @@ class EmptyView: UIView {
     }
     
     func configure() {
-        
         addSubviews(imageView, titleLabel, textLabel)
         
         imageView.constrain(.centerX, toItem: self)
@@ -76,4 +73,3 @@ class EmptyView: UIView {
     }
     
 }
-

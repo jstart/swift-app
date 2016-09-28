@@ -9,9 +9,7 @@
 import Alamofire
 import Contacts
 
-struct ContactsRequest : AuthenticatedRequest {
-    let path = "contacts", method = HTTPMethod.get
-}
+struct ContactsRequest : AuthenticatedRequest { let path = "contacts", method = HTTPMethod.get }
 
 struct ContactsSaveRequest : AuthenticatedRequest {
     let path = "contacts", method = HTTPMethod.put
@@ -20,8 +18,7 @@ struct ContactsSaveRequest : AuthenticatedRequest {
     
     func parameters() -> [String : Any] { return ["contacts" : contacts.map({
         return ["phone_number": $0.phoneNumberStrings?.first ?? "",
-                "first_name": $0.givenName,
-                "last_name": $0.familyName,
+                "first_name": $0.givenName, "last_name": $0.familyName,
                 "email": $0.emailStrings?.first ?? ""]
         })]
     }

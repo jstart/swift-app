@@ -18,34 +18,32 @@ class CoreData {
         return urls[urls.count-1].appendingPathComponent("Data.sqlite")
     }()
     
-    static var managedObjectModel: NSManagedObjectModel = NSManagedObjectModel(contentsOf: Bundle.main.url(forResource: "Data", withExtension: "momd")!)!
+    static var managedObjectModel = NSManagedObjectModel(contentsOf: MainBundle.url(forResource: "Data", withExtension: "momd")!)!
     
     static var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-        do {
-            try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: applicationDataPath, options: nil)
-        } catch {
-            reload()
-        }
+        do { try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: applicationDataPath, options: nil)
+        } catch { reload() }
         return coordinator
     }()
     
     static var managedObjectContext: NSManagedObjectContext = {
         return NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType).then {
-            $0.persistentStoreCoordinator = persistentStoreCoordinator
-            $0.mergePolicy = NSOverwriteMergePolicy
+            $0.persistentStoreCoordinator = persistentStoreCoordinator; $0.mergePolicy = NSOverwriteMergePolicy
         }
     }()
     
     static var backgroundContext: NSManagedObjectContext = {
         return NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType).then {
-            $0.persistentStoreCoordinator = persistentStoreCoordinator
-            $0.mergePolicy = NSOverwriteMergePolicy
+            $0.persistentStoreCoordinator = persistentStoreCoordinator; $0.mergePolicy = NSOverwriteMergePolicy
         }
     }()
     
-    static func fetch(_ entity: AnyClass) -> [NSManagedObject] {
-        do { return try CoreData.backgroundContext.fetch(NSFetchRequest(entityName: String(describing: entity))) } catch {}; return []
+    static func fetch(_ entity: AnyClass, sortKey: String? = nil, ascending: Bool = false, predicate: NSPredicate? = nil) -> [NSManagedObject] {
+        let request = NSFetchRequest<NSManagedObject>(entityName: String(describing: entity))
+        if sortKey != nil { request.sortDescriptors = [NSSortDescriptor(key: sortKey, ascending: ascending)] }
+        if predicate != nil { request.predicate = predicate }
+        do { return try CoreData.backgroundContext.fetch(request) } catch {}; return []
     }
     
     static func saveBackgroundContext() {
@@ -53,10 +51,7 @@ class CoreData {
         do { try backgroundContext.save() }
         catch {
             // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            let nserror = error as NSError
-            NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
-            abort()
+            NSLog("Unresolved error \(error)"); abort()
         }
     }
     
@@ -65,10 +60,7 @@ class CoreData {
         do { try managedObjectContext.save() }
         catch {
             // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            let nserror = error as NSError
-            NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
-            abort()
+            NSLog("Unresolved error \(error)"); abort()
         }
     }
     
@@ -84,12 +76,10 @@ class CoreData {
             persistentStoreCoordinator = coordinator
             
             managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType).then {
-                $0.persistentStoreCoordinator = persistentStoreCoordinator
-                $0.mergePolicy = NSOverwriteMergePolicy
+                $0.persistentStoreCoordinator = persistentStoreCoordinator; $0.mergePolicy = NSOverwriteMergePolicy
             }
             backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType).then {
-                $0.persistentStoreCoordinator = persistentStoreCoordinator
-                $0.mergePolicy = NSOverwriteMergePolicy
+                $0.persistentStoreCoordinator = persistentStoreCoordinator; $0.mergePolicy = NSOverwriteMergePolicy
             }
         }
     }
@@ -102,9 +92,7 @@ class CoreData {
                     let delete = NSBatchDeleteRequest(fetchRequest: entity as! NSFetchRequest<NSFetchRequestResult>)
                     try managedObjectContext.execute(delete)
                 }
-            } catch {
-                print (error)
-            }
+            } catch { print (error) }
         }
     }
 

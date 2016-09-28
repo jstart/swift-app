@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MGSwipeTableCell
 
 class ConnectionTableViewCell: MGSwipeTableCell {
 
@@ -17,11 +16,11 @@ class ConnectionTableViewCell: MGSwipeTableCell {
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var button: UIButton!
     @IBOutlet weak var initials: UILabel!
-    var buttonHandler : (() -> Void)?
     
-    let read = MGSwipeButton(title: "Mark Unread", backgroundColor: Colors.brand, callback: nil)!
-    let mute = MGSwipeButton(title: "Mute", backgroundColor: .gray, callback: nil)!
-    let block = MGSwipeButton(title: "Block", backgroundColor: .red, callback: nil)!
+    var buttonHandler : (() -> Void)?
+    let read = MGSwipeButton(title: "Mark Unread", backgroundColor: Colors.brand, callback: nil)!,
+        mute = MGSwipeButton(title: "Mute", backgroundColor: .gray, callback: nil)!,
+        block = MGSwipeButton(title: "Block", backgroundColor: .red, callback: nil)!
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -69,15 +68,29 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         initials.text = ([firstInitial, lastInitial] as NSArray).componentsJoined(by: "").replace("\"", with: "").uppercased()
     }
     
+    //TODO Only core data
+    func configure(_ user: User){
+        name.text = user.fullName()
+        title.text = user.fullTitle()
+        profile.backgroundColor = .gray
+    }
+    
     func configure(_ user: UserResponse){
         name.text = user.fullName()
         title.text = user.fullTitle()
         profile.backgroundColor = .gray
-//        profile.image = #imageLiteral(resourceName: "profile_sample")
-//        company.image = #imageLiteral(resourceName: "tesla")
+    }
+    
+    func configure(_ detail: UserDetail){
+        name.text = detail.firstText
+        title.text = detail.secondText
+        profile.backgroundColor = .gray
+        company.image = nil
     }
     
     func add(message: MessageResponse? = nil, read: Bool) {
+        self.read.title = read ? "Mark Unread" : "Mark Read"
+        
         if !read {
             name.font = .boldProxima(ofSize: name.font.pointSize)
             title.font = .boldProxima(ofSize: title.font.pointSize)

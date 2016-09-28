@@ -57,7 +57,6 @@ public struct PhoneNumberFormatter {
     
     /**
         Turns a phone number into a pretty formatted phone number for the current locale. Strips text down to numbers before running.
-        
         - parameter phoneNumber:      Any string with numbers or existing formatting
         - parameter hash:             If you are dealing with multiple phone numbers, you will need to include a unique id for each (field.hash is good)
         - returns:                Formatted phone number string
@@ -103,7 +102,6 @@ public struct PhoneNumberFormatter {
     
     /**
         Checks phone number is a valid phone number for the current locale.
-        
         - parameter phoneNumber:      A numeric phone number. Expects no formatting!
         - returns:                True if phone number matches locale pattern
     */

@@ -128,7 +128,7 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
             for (index, _) in type(of:item!).fields.enumerated() {
                 guard let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? EditFieldsTableViewCell else { continue }
                 switch index {
-                case 0: id = cell.first.text ?? ""; break
+                case 0: id = "1681681"; break//cell.first.text ?? ""; break
                 case 1: title = cell.first.text ?? ""; break
                 case 2: start_month = cell.first.text ?? ""; start_year = cell.second.text ?? ""; break
                 case 3: end_month = cell.first.text ?? ""; end_year = cell.second.text ?? ""; break
@@ -138,7 +138,7 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
             request = ProfileRequest(title: title, companies: [company!])
         }
 
-        Client.execute(request, completionHandler: { _ in
+        Client.execute(request, complete: { _ in
             self.navigationController?.pop()
         })
     }

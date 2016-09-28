@@ -16,13 +16,11 @@ class QRCardView: CardView {
         $0.constrain(.width, .height, constant: 100)
         $0.backgroundColor = .white
     }
-    
     let name = UILabel(translates: false).then {
         $0.textColor = .black
         $0.font = .boldProxima(ofSize: 22)
         $0.backgroundColor = .white
     }
-    
     let pageControl = UIPageControl(translates: false).then {
         $0.currentPageIndicatorTintColor = Colors.brand
         $0.pageIndicatorTintColor = .lightGray
@@ -49,27 +47,22 @@ class QRCardView: CardView {
         
         viewsForFields(fields).forEach({ $0.isHidden = false })
 
-        stackView = UIStackView(arrangedSubviews: [name, title, email, phone]).then {
-            $0.axis = .vertical
+        stackView = UIStackView(name, title, email, phone, axis: .vertical, spacing: 2).then {
             $0.distribution = .equalSpacing
             $0.alignment = .leading
-            $0.spacing = 2
             $0.translates = false
         }
         
         addSubview(stackView!)
 
         stackView?.constrain(.leading, constant: 10, toItem: qrImage, toAttribute: .trailing)
-        stackView?.constrain((.trailing, 10), toItem: self)
-
-        stackView?.constrain(.centerY, toItem: self)
+        stackView?.constrain((.trailing, 10), (.centerY, 0), toItem: self)
         stackView?.constrain(.top, relatedBy: .greaterThanOrEqual, constant: 10, toItem: self)
         stackView?.constrain(.bottom, relatedBy: .lessThanOrEqual, constant: -10, toItem: self)
         
         addSubview(pageControl)
 
-        pageControl.constrain(.centerX, toItem: self)
-        pageControl.constrain((.bottom, -10), toItem: self)
+        pageControl.constrain((.centerX, 0), (.bottom, -10), toItem: self)
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped)))
     }
@@ -105,11 +98,8 @@ class QRCardView: CardView {
         var views = [UIView]()
         for field in fields {
             switch field {
-            case .name: views.append(name); break
-            case .title: views.append(title); break
-            case .email: views.append(email); break
-            case .phone: views.append(phone); break
-            }
+            case .name: views.append(name); break; case .title: views.append(title); break
+            case .email: views.append(email); break; case .phone: views.append(phone); break }
         }
         return views
     }

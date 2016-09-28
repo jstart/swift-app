@@ -9,15 +9,9 @@
 import Foundation
 
 enum CardType : String {
-    case person = "Person", tweet = "Tweet", skill = "Skill", event = "Event"
+    case person = "person", tweet = "tweet", medium = "medium", skill = "skill", event = "event"
 }
 
-struct Person {
-    var user : UserResponse?
-    var details : UserDetails
-}
-
-struct Rec {
-    var type : CardType
-    var person : Person?
+enum Content {
+    case photo, article
 }

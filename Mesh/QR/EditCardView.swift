@@ -19,7 +19,6 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
         $0.tableFooterView = UIView()
         $0.registerClass(EditCardTableViewCell.self)
     }
-    
     let cancel = UIButton(translates: false).then {
         $0.setTitle("CANCEL", for: .normal)
         $0.titleLabel?.font = .boldProxima(ofSize: 18)
@@ -27,7 +26,6 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
         $0.setTitleColor(.white, for: .normal)
         $0.constrain(.height, constant: 50)
     }
-    
     let done = UIButton(translates: false).then {
         $0.setTitle("DONE", for: .normal)
         $0.titleLabel?.font = .boldProxima(ofSize: 18)
@@ -53,21 +51,17 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         tableView.constrain(.width, .centerX, .top, toItem: self)
         tableView.constrain((.height, -50), toItem: self)
-        cancel.constrain(.leading, toItem: self)
         cancel.constrain(.trailing, toItem: done, toAttribute: .leading)
-        done.constrain(.trailing, toItem: self)
-        cancel.constrain(.bottom, toItem: self)
-        done.constrain(.bottom, toItem: self)
+        cancel.constrain(.leading, .bottom, toItem: self)
+        done.constrain(.trailing, .bottom, toItem: self)
         cancel.constrain(.width, toItem: done)
         tableView.reloadData()
     }
     
     func cancelPressed(sender: UIButton){ cancelHandler?() }
-    
     func donePressed(sender: UIButton){ doneHandler?(fields!) }
     
     func numberOfSections(in tableView: UITableView) -> Int { return 1 }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 4 }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -93,8 +87,7 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
             cell.contactField.text = UserResponse.current?.phone_number
             cell.setChecked(fields?.contains(.phone) ?? false)
             break
-        default: break
-        }
+        default: break }
         
         return cell
     }

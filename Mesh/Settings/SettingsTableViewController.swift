@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import AlamofireImage
+import TwitterKit
+import GoogleSignIn
 
 enum Settings : Int {
     case ConnectedAccounts, MatchSettings, GeneralSettings, PushNotifications, EmailNotifications, ContactUs, Legal, Logout, DeleteAccount
@@ -21,34 +22,31 @@ enum Settings : Int {
         case .EmailNotifications: return "Email Notifications"
         case .ContactUs: return "Contact Us"
         case .Legal: return "Legal"
-        case .Logout: return ""
-        case .DeleteAccount: return "" }
+        case .Logout: return ""; case .DeleteAccount: return "" }
     }
     
     var numberOfRows : Int {
         switch self {
-        case .ConnectedAccounts: return 2
+        case .ConnectedAccounts: return 3
         case .MatchSettings: return 2
         case .GeneralSettings: return 4
         case .PushNotifications: return 1
         case .EmailNotifications: return 1
         case .ContactUs: return 1
         case .Legal: return 3
-        case .Logout: return 1
-        case .DeleteAccount: return 1 }
+        case .Logout: return 1; case .DeleteAccount: return 1 }
     }
     
     var cellModels : [SettingCell] {
         switch self {
-        case .ConnectedAccounts: return [SettingCell("Twitter", hasSwitch: true), SettingCell("Google", hasSwitch: true)]
+        case .ConnectedAccounts: return [SettingCell("Twitter", hasSwitch: true), SettingCell("Google", hasSwitch: true), SettingCell("Medium", hasSwitch: true)]
         case .MatchSettings: return [SettingCell("Location"), SettingCell("I'm Interested In")]
         case .GeneralSettings: return [SettingCell("Add Email"), SettingCell("Edit Phone Number"), SettingCell("Change Password"), SettingCell("Edit Name")]
         case .PushNotifications: return [SettingCell("TBD")]
         case .EmailNotifications: return [SettingCell("TBD")]
         case .ContactUs: return [SettingCell("Help & Support", accessoryType: .none, textAlignment: .center)]
         case .Legal: return [SettingCell("Privacy Policy"), SettingCell("Terms of Service"), SettingCell("Licenses")]
-        case .Logout: return [SettingCell("Logout", accessoryType: .none, textAlignment: .center)]
-        case .DeleteAccount: return [SettingCell("Delete Account", accessoryType: .none, textAlignment: .center)] }
+        case .Logout: return [SettingCell("Logout", accessoryType: .none, textAlignment: .center)]; case .DeleteAccount: return [SettingCell("Delete Account", accessoryType: .none, textAlignment: .center)] }
     }
 }
 
@@ -64,7 +62,7 @@ struct SettingCell {
     }
 }
 
-class SettingsTableViewController: UITableViewController {
+class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,13 +70,9 @@ class SettingsTableViewController: UITableViewController {
         
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
-        
         tableView.registerClass(UITableViewCell.self)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
+        
+        
     }
 
     // MARK: - Table view data source
@@ -95,7 +89,14 @@ class SettingsTableViewController: UITableViewController {
             cell.detailTextLabel?.text = LocationManager.cityState()
         }
         
-        cell.accessoryView = section == .ConnectedAccounts ? UISwitch() : nil
+        let switchView = UISwitch()
+        switchView.tag = indexPath.row
+        if Twitter.sharedInstance().sessionStore.session() != nil && indexPath.row == 0 { switchView.setOn(true, animated: false) }
+        if GoogleProfile.isLoggedIn() && indexPath.row == 1 { switchView.setOn(true, animated: false) }
+        if MediumSDKManager.isAuthorized() && indexPath.row == 2 { switchView.setOn(true, animated: false) }
+
+        switchView.addTarget(self, action: #selector(switchChanged(sender:)), for: .valueChanged)
+        cell.accessoryView = section == .ConnectedAccounts ? switchView : nil
         
         let settings = section.cellModels[indexPath.row]
         cell.textLabel?.text = settings.title
@@ -132,8 +133,28 @@ class SettingsTableViewController: UITableViewController {
     
     func legal() { }
     
-    func logout() { Client.execute(LogoutRequest(), completionHandler: { response in NotificationCenter.default.post(name: .logout, object: nil) }) }
+    func logout() { Client.execute(LogoutRequest(), complete: { response in NotificationCenter.default.post(name: .logout, object: nil) }) }
     
     func delete() { }
-
+    
+    func switchChanged(sender: UISwitch) {
+        switch sender.tag {
+        case 0:
+            guard sender.isOn else { Twitter.sharedInstance().sessionStore.logOutUserID(Twitter.sharedInstance().sessionStore.session()!.userID); return }
+            TwitterProfile.prefill({ _ in
+                let token = Twitter.sharedInstance().sessionStore.session()?.authToken, secret = Twitter.sharedInstance().sessionStore.session()?.authTokenSecret
+                Client.execute(TwitterConnectRequest(twitter_token: token!, twitter_secret: secret!))
+            })
+        case 1:
+            guard sender.isOn else { return }
+            GIDSignIn.sharedInstance().uiDelegate = self
+            GoogleProfile.shared.prefill({ _ in })
+        case 2:
+            guard sender.isOn else { MediumSDKManager.sharedInstance.signOutMedium(completionHandler: { state, response in }); return }
+            MediumSDKManager.sharedInstance.doOAuthMedium(completionHandler: { state, response in
+                print(state, response)
+                if state == "success" { Client.execute(MediumConnectRequest(medium_token: response)) }
+            })
+        default: break }
+    }
 }

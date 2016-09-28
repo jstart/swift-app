@@ -1,0 +1,106 @@
+//
+//  QuickReplyViewController.swift
+//  Mesh
+//
+//  Created by Christopher Truman on 8/29/16.
+//  Copyright © 2016 Tinder. All rights reserved.
+//
+
+import UIKit
+
+enum QuickReplyType { case tweet, message }
+
+class QuickReplyViewController: UIViewController, UIViewControllerTransitioningDelegate, UITextFieldDelegate {
+    
+    var cell : MessageTableViewCell?
+    let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark)).then { $0.translates = false }
+    let field = UITextField(translates: false).then {
+        $0.font = .proxima(ofSize: 15)
+        $0.rightViewMode = .always
+        $0.leftViewMode = .always
+        $0.layer.borderColor = UIColor.lightGray.cgColor
+        $0.layer.borderWidth = 1.0
+        $0.backgroundColor = .white
+        $0.constrain(.height, relatedBy: .greaterThanOrEqual, constant: 50)
+    }
+    let sendButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 15)).then {
+        $0.titleColor = Colors.brand
+        $0.setTitleColor(.lightGray, for: .disabled)
+        $0.titleLabel?.font = .semiboldProxima(ofSize: 17)
+        $0.title = "Send"
+        $0.isEnabled = false
+    }
+    
+    var user: User?, text: String?, type: QuickReplyType?
+    var action : ((String?) -> Void)?
+    
+    convenience init(_ user: User?, text: String, type: QuickReplyType = .message) {
+        self.init(); self.user = user; self.text = text; self.type = type
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        cell = (MainBundle.loadNibNamed("MessageTableViewCell", owner: self, options: [:])!.first as! MessageTableViewCell).then {
+            $0.contentView.translates = false
+            $0.contentView.backgroundColor = .white
+            $0.reply.isHidden = true
+            $0.profile.image = .imageWithColor(.gray)
+            $0.message.numberOfLines = 2
+            $0.name.text = user?.fullName()
+            $0.message.text = text
+            $0.company.image = type! == .tweet ? #imageLiteral(resourceName: "twtr-icn-logo") : .imageWithColor(.gray)
+        }
+
+        blurView.addSubview(cell!.contentView)
+        cell!.contentView.constrain(.width, .top, .leading, toItem: blurView)
+        
+        field.placeholder = "Send a message..."
+        let spacer = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        spacer.backgroundColor = .white
+        field.leftView = spacer;
+       
+        sendButton.addTarget(self, action: #selector(send), for: .touchUpInside)
+        
+        field.rightView = sendButton
+        field.delegate = self
+        field.addTarget(self, action: #selector(fieldChanged(sender:)), for: .allEditingEvents)
+
+        blurView.addSubview(field)
+        field.constrain((.width, 2), (.leading, -1), toItem: cell!.contentView)
+        field.constrain(.top, toItem: cell!.contentView, toAttribute: .bottom)
+        
+        view.addSubview(blurView)
+        
+        blurView.constrain(.leading, .trailing, .top, .bottom, toItem: view)
+        transitioningDelegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        field.becomeFirstResponder()
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismiss(animated:)))
+        blurView.addGestureRecognizer(tapGesture)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIApplication.shared.delegate?.window??.windowLevel = UIWindowLevelNormal
+    }
+    
+    func fieldChanged(sender: UITextField) {
+        sendButton.isEnabled = sender.text != ""
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField.text != "" { send(); return true }
+        return false
+    }
+    
+    func send() { action?(field.text); dismiss() }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? { return QuickReplyTransition().then { $0.presenting = false } }
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? { return QuickReplyTransition() }
+    
+}

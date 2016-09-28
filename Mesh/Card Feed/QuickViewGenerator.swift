@@ -75,7 +75,6 @@ struct QuickViewGenerator {
             $0.textColor = .lightGray
             $0.constrain(.height, constant: 20)
         }
-        
         let icon = UIImageView(image: image).then {
             $0.layer.borderWidth = 1
             $0.backgroundColor = .white
@@ -84,9 +83,6 @@ struct QuickViewGenerator {
             $0.constrain(.width, .height, constant: 50)
         }
         
-        return UIStackView(arrangedSubviews: [icon, label]).then {
-            $0.axis = .vertical
-            $0.spacing = 5
-        }
+        return UIStackView(icon, label, axis: .vertical, spacing: 5)
     }
 }

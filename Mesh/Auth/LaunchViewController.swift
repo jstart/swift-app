@@ -10,8 +10,7 @@ import UIKit
 
 class LaunchViewController: UIViewController {
     
-    let topCard = LaunchCardView("")
-    let bottomCard = LaunchCardView("")
+    let topCard = LaunchCardView(""), bottomCard = LaunchCardView("")
 
     let logo = UIImageView(image: #imageLiteral(resourceName: "logo_large")).then {
         $0.translates = false
@@ -53,7 +52,7 @@ class LaunchViewController: UIViewController {
         signIn.addTarget(self, action: #selector(phone), for: .touchUpInside)
         view.addSubviews(logo, subtitle, bottomCard, topCard, getStarted, signIn, legal)
         
-        logo.constrain(.centerX, toItem: view)
+        logo.constrain((.leading, 100), (.trailing, -100), (.top, 35), toItem: view)
         logo.constrain(.bottom, constant: -10, toItem: subtitle, toAttribute: .top)
         
         subtitle.constrain(.centerX, toItem: view)
@@ -87,10 +86,8 @@ class LaunchViewController: UIViewController {
         topTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(swipe), userInfo: nil, repeats: true)
         center = CGPoint(x: view.center.x, y: view.center.y - 40)
         
-        topCard.center = center!
-        topCard.transform = .identity
-        bottomCard.center = center!
-        bottomCard.transform = .identity
+        topCard.center = center!; topCard.transform = .identity
+        bottomCard.center = center!; bottomCard.transform = .identity
         top = true
     }
     
@@ -101,7 +98,6 @@ class LaunchViewController: UIViewController {
     
     func swipe() {
         if top {
-            top = false
             view.bringSubview(toFront: bottomCard)
             topCard.center = center!
             topCard.transform = .identity
@@ -113,7 +109,6 @@ class LaunchViewController: UIViewController {
                 self.topCard.transform = .identity
             })
         }else {
-            top = true
             view.bringSubview(toFront: topCard)
             bottomCard.center = center!
             bottomCard.transform = .identity
@@ -125,6 +120,7 @@ class LaunchViewController: UIViewController {
                 self.bottomCard.transform = .identity
             })
         }
+        top = !top
     }
     
     func skills() { navigationController?.push(SkillsViewController()) }

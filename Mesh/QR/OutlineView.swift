@@ -32,8 +32,7 @@ class OutlineView: UIView {
         }
         
         addSubview(image)
-        image.constrain(.leading, constant: 25, toItem: self)
-        image.constrain(.centerY, toItem: self)
+        image.constrain((.leading, 25), (.centerY, 0), toItem: self)
         
         let name = UIView(translates: false).then {
             $0.backgroundColor = .white
@@ -58,20 +57,15 @@ class OutlineView: UIView {
         title.constrain((.trailing, -50), toItem: self)
         title.constrain(.top, constant: 5, toItem: name, toAttribute: .bottom)
         
-        let cornerUL = OutlineView.qrCorner(.identity)
-        addSubview(cornerUL)
+        let cornerUL = OutlineView.qrCorner(.identity),
+            cornerBL = OutlineView.qrCorner(.init(rotationAngle: -90 * CGFloat(M_PI)/180)),
+            cornerUR = OutlineView.qrCorner(.init(rotationAngle: 90 * CGFloat(M_PI)/180)),
+            cornerBR = OutlineView.qrCorner(.init(rotationAngle: 180 * CGFloat(M_PI)/180))
+        addSubviews(cornerUL, cornerBL, cornerUR, cornerBR)
+        
         cornerUL.constrain(.leading, .top, toItem: self)
-        
-        let cornerBL = OutlineView.qrCorner(.init(rotationAngle: -90 * CGFloat(M_PI)/180))
-        addSubview(cornerBL)
         cornerBL.constrain(.leading, .bottom, toItem: self)
-        
-        let cornerUR = OutlineView.qrCorner(.init(rotationAngle: 90 * CGFloat(M_PI)/180))
-        addSubview(cornerUR)
         cornerUR.constrain(.trailing, .top, toItem: self)
-        
-        let cornerBR = OutlineView.qrCorner(.init(rotationAngle: 180 * CGFloat(M_PI)/180))
-        addSubview(cornerBR)
         cornerBR.constrain(.trailing, .bottom, toItem: self)
     }
 

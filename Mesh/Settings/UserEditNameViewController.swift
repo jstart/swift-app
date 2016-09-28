@@ -48,6 +48,8 @@ class UserEditNameViewController: UITableViewController {
         tableView.estimatedRowHeight = 100
         tableView.backgroundColor = .white
         
+        firstName.text = UserResponse.current?.first_name
+        lastName.text = UserResponse.current?.last_name
         
         let inputView = UIView(translates: false)
         inputView.addSubview(nextButton)
@@ -101,6 +103,11 @@ class UserEditNameViewController: UITableViewController {
     
     func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 90; nextButton.isEnabled = (firstName.text != "" && lastName.text != "") }
     
-    func complete() { navigationController?.pop() }
+    func complete() {
+        let request = ProfileRequest(first_name: firstName.text, last_name: lastName.text)
+        Client.execute(request) { _ in
+            self.navigationController?.pop()
+        }
+    }
 
 }

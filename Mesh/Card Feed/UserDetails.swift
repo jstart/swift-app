@@ -105,6 +105,9 @@ struct Event : UserDetail {
     var date : String
     var isGoing : Bool
     
+    var firstText : String { return name }
+    var secondText : String { return date }
+    
     let category = QuickViewCategory.events
 }
 

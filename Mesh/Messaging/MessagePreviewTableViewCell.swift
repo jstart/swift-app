@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MGSwipeTableCell
 
 class MessagePreviewTableViewCell : MGSwipeTableCell {
 
@@ -84,10 +83,7 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
                     self.preview(url: error?.userInfo["NSErrorFailingURLStringKey"] as! String)
                     return
                 }
-                DispatchQueue.main.async {
-                    self.activity.stopAnimating()
-                    self.activity.isHidden = true
-                }
+                DispatchQueue.main.async { self.activity.stopAnimating(); self.activity.isHidden = true }
                 
                 //TODO: Handle preview failures, HTTPS ATS
                 /*UIView.animate(withDuration: 0.2, animations: {

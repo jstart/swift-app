@@ -17,8 +17,7 @@ class EditProfileListTableViewController: UITableViewController {
         
         title = "Edit " + items.first!.category.title()
         
-        tableView.registerNib(UserDetailTableViewCell.self)
-        tableView.registerClass(AddItemTableViewCell.self)
+        tableView.registerNib(UserDetailTableViewCell.self); tableView.registerClass(AddItemTableViewCell.self)
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 70
     }
@@ -43,11 +42,7 @@ class EditProfileListTableViewController: UITableViewController {
         cell.icon.image = #imageLiteral(resourceName: "tesla")
         
         cell.button.isHidden = true
-        cell.year.isHidden = !item.hasDate
-        
-        cell.top.text = item.firstText
-        cell.bottom.text = item.secondText
-        cell.year.text = item.thirdText
+        cell.configure(item)
         
         if item.category == .skills {
             cell.deleteHandler = { }
@@ -65,10 +60,7 @@ class EditProfileListTableViewController: UITableViewController {
 
         let detail = EditProfileDetailTableViewController()
         detail.itemType = itemType
-        if indexPath.row != items.count {
-            let item =  items[indexPath.row]
-            detail.item = item
-        }
+        if indexPath.row != items.count { detail.item = items[indexPath.row] }
         
         navigationController?.push(detail)
     }

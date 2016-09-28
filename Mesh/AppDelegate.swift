@@ -10,75 +10,50 @@ import UIKit
 import Fabric
 import TwitterKit
 import Crashlytics
-import Google
 import GoogleSignIn
-import LinkedinSwift
-
-//import Starscream
+import OAuthSwift
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    //let socket = WebSocket(url: URL(string: "ws://dev.mesh.tinderventures.com:2000/")!)
-    /*func websocketDidConnect(_ socket: WebSocket) { }
-     func websocketDidDisconnect(_ socket: WebSocket, error: NSError?){ print(error) }
-     func websocketDidReceiveMessage(_ socket: WebSocket, text: String){ }
-     func websocketDidReceiveData(_ socket: WebSocket, data: Data){ }*/
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
-        window = UIWindow()
-        window?.tintColor = #colorLiteral(red: 0.2, green: 0.7843137255, blue: 0.9960784314, alpha: 1)
-        window?.backgroundColor = .white
-        appearance()
-        var configureError: NSError?
-        GGLContext.sharedInstance().configureWithError(&configureError)
-        assert(configureError == nil, "Error configuring Google services: \(configureError)")
+        window = UIWindow(); window?.tintColor = #colorLiteral(red: 0.2, green: 0.7843137255, blue: 0.9960784314, alpha: 1); appearance()
 
-        if TARGET_IPHONE_SIMULATOR == 0 { Fabric.with([Crashlytics.self, Twitter.self]) }
-        else { Fabric.with([Twitter.self]) }
+        if let path = MainBundle.path(forResource: "GoogleService-Info", ofType: "plist") {
+            let info = NSDictionary(contentsOfFile: path)!; GIDSignIn.sharedInstance().clientID = info["CLIENT_ID"] as! String
+        }
+        
+        Fabric.with([Crashlytics.self, Twitter.self])
+        
         NotificationCenter.default.addObserver(self, selector: #selector(logout(_:)), name: .logout, object: nil)
 
         if (Keychain.fetchLogin() != nil) {
-            guard let JSON = UserDefaults.standard["CurrentUser"] as? JSONDictionary else { logout(UIKeyCommand()); return true}
+            guard let JSON = StandardDefaults["CurrentUser"] as? JSONDictionary else { logout(); return true}
             UserResponse.current = UserResponse(JSON: JSON)
             LaunchData.fetchLaunchData()
             
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
-            window?.rootViewController = vc
-            let tab = window?.rootViewController as! UITabBarController
-            tab.tabBar.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            window?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
         } else {
-            let vc = LaunchViewController()
-            window?.rootViewController = vc.withNav()
+            window?.rootViewController = LaunchViewController().withNav()
         }
-
-        //socket.delegate = self
-        //socket.connect()
-
+        
         window?.makeKeyAndVisible()
         return true
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        if LinkedinSwiftHelper.shouldHandle(url) {
-            return LinkedinSwiftHelper.application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
-        }
-        return GIDSignIn.sharedInstance().handle(url as URL!,
-                                                 sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
-                                                 annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+        let source = options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String
+        let annotation = options[UIApplicationOpenURLOptionsKey.annotation]
+        if source == "com.apple.SafariViewService" { OAuthSwift.handleOpenURL(url); return true }
+        if Twitter.sharedInstance().application(app, open: url, options: options) { return true }
+        if LinkedInSwiftHelper.shouldHandle(url) { return LinkedInSwiftHelper.application(app, openURL: url as NSURL, sourceApplication: source!, annotation: annotation) }
+        return GIDSignIn.sharedInstance().handle(url as URL!, sourceApplication: source, annotation: annotation)
     }
 
-    func applicationWillResignActive(_ application: UIApplication) {
-        CoreData.saveContext()
-    }
-//    func applicationDidEnterBackground(_ application: UIApplication) { }
-//    func applicationWillEnterForeground(_ application: UIApplication) { }
-    func applicationDidBecomeActive(_ application: UIApplication) { }
-    
-    func applicationWillTerminate(_ application: UIApplication) {
-        CoreData.saveContext()
-    }
+    func applicationWillResignActive(_ application: UIApplication) { CoreData.saveContext() }
+    func applicationWillTerminate(_ application: UIApplication) { CoreData.saveContext() }
     
     func appearance() {
         UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: UIFont.proxima(ofSize: 17), NSForegroundColorAttributeName: #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)]
@@ -87,24 +62,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate { //, WebSocketDelegate {
         UILabel.appearance(whenContainedInInstancesOf: [UITableViewCell.self]).font = .regularProxima(ofSize: 17)
         UITextField.appearance(whenContainedInInstancesOf: [UITableViewCell.self]).font = .proxima(ofSize: 17)
         UISwitch.appearance().onTintColor = Colors.brand
+        UITabBar.appearance().tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     }
 
     override var canBecomeFirstResponder: Bool { return true }
-    override var keyCommands: [UIKeyCommand]? {
-        return [UIKeyCommand(input: "l", modifierFlags: [.command, .alternate], action: #selector(logout), discoverabilityTitle: "Convenience")]
-    }
+    override var keyCommands: [UIKeyCommand]? { return [UIKeyCommand(input: "l", modifierFlags: [.command, .alternate], action: #selector(logout), discoverabilityTitle: "Convenience")] }
     
-    func logout(_ command: UIKeyCommand) {
-        Token.persistToken("")
-        Token.persistLogin((phone_number: "", password: ""))
-        Keychain.deleteLogin()
-        UserResponse.current = nil
-        UserResponse.connections = []
-        UserResponse.messages = []
-        CardResponse.cards = []
+    func logout(_ command: UIKeyCommand? = nil) {
+        Token.deleteToken(); Token.deleteLogin(); Keychain.deleteLogin(); CoreData.delete()
+        UserResponse.current = nil; UserResponse.connections = []; UserResponse.messages = []; CardResponse.cards = []
         URLCache.shared.removeAllCachedResponses()
-        let vc = LaunchViewController()
-        window?.rootViewController = vc.withNav()
-        CoreData.delete()
+        
+        MediumSDKManager.sharedInstance.signOutMedium(completionHandler: {_,_ in })
+        GIDSignIn.sharedInstance().signOut()
+        if let userID = Twitter.sharedInstance().sessionStore.session()?.userID {
+            Twitter.sharedInstance().sessionStore.logOutUserID(userID)
+        }
+        
+        window?.rootViewController = LaunchViewController().withNav()
     }
 }

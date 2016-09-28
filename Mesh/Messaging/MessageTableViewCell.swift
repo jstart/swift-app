@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MGSwipeTableCell
 
 class MessageTableViewCell: MGSwipeTableCell {
 
@@ -18,11 +17,10 @@ class MessageTableViewCell: MGSwipeTableCell {
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var reply: UIButton!
     
-    let skip = MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: nil)!
-    
-    let read = MGSwipeButton(title: "Mark Unread", backgroundColor: Colors.brand, callback: nil)!
-    let mute = MGSwipeButton(title: "Mute", backgroundColor: .gray, callback: nil)!
-    let block = MGSwipeButton(title: "Block", backgroundColor: .red, callback: nil)!
+    let skip = MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: nil)!,
+        read = MGSwipeButton(title: "Mark Unread", backgroundColor: Colors.brand, callback: nil)!,
+        mute = MGSwipeButton(title: "Mute", backgroundColor: .gray, callback: nil)!,
+        block = MGSwipeButton(title: "Block", backgroundColor: .red, callback: nil)!
     
     var pressedAction = {}
     
@@ -62,7 +60,7 @@ class MessageTableViewCell: MGSwipeTableCell {
         rightSwipeSettings.transition = .drag
     }
     
-    func configure(_ aMessage: MessageResponse, user: UserResponse, read: Bool) {
+    func configure(_ aMessage: MessageResponse, user: User, read: Bool) {
         name.text = user.fullName()
         if !read {
             name.font = .boldProxima(ofSize: name.font.pointSize)
@@ -72,11 +70,13 @@ class MessageTableViewCell: MGSwipeTableCell {
         profile.backgroundColor = .gray
 //        company.image = #imageLiteral(resourceName: "tesla")
         message.text = aMessage.text ?? ""
-        guard let small = user.photos?.small else { return }
-        profile.af_setImage(withURL: URL(string: small)!)
+//        guard let small = user.photos?.small else { return }
+//        profile.af_setImage(withURL: URL(string: small)!)
     }
     
     func add(message: MessageResponse? = nil, read: Bool) {
+        self.read.title = read ? "Mark Unread" : "Mark Read"
+
         if !read {
             name.font = .boldProxima(ofSize: name.font.pointSize)
             self.message.font = .boldProxima(ofSize: self.message.font.pointSize)

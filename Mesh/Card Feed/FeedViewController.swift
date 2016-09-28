@@ -77,7 +77,7 @@ class FeedViewController: UIViewController {
             LocationManager.shared.geocoder.reverseGeocodeLocation(LocationManager.currentLocation!, completionHandler: { placemark, error in
                 LocationManager.currentPlacemark = placemark!.first
             })
-            Client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), completionHandler: { response in
+            Client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), complete: { response in
                 guard let JSON = response.result.value as? JSONDictionary else { return }
                 guard JSON["msg"] == nil else { NotificationCenter.default.post(name: .logout, object: nil); return }
                 UserResponse.current = UserResponse(JSON: JSON)
@@ -85,7 +85,7 @@ class FeedViewController: UIViewController {
         }
 
         LocationManager.locationUpdate = { loc in
-            Client.execute(PositionRequest(lat: loc.coordinate.latitude, lon: loc.coordinate.longitude), completionHandler: { response in
+            Client.execute(PositionRequest(lat: loc.coordinate.latitude, lon: loc.coordinate.longitude), complete: { response in
                 guard let JSON = response.result.value as? JSONDictionary else { return }
                 guard JSON["msg"] == nil else { NotificationCenter.default.post(name: .logout, object: nil); return }
                 UserResponse.current = UserResponse(JSON: JSON)
@@ -94,20 +94,23 @@ class FeedViewController: UIViewController {
         LocationManager.startTracking()
         
         if cardStack.cards?.count != nil || cardStack.cards?.count == cardStack.cardIndex - 1 { return }
-        Client.execute(RecommendationsRequest(), completionHandler: { response in
+        Client.execute(RecommendationsRequest(), complete: { [weak self] response in
+//            self?.cardStack.cards = [RecommendationResponse(JSON: ["type": "event"])]
+//            self?.cardStack.addNewCard()
             guard let jsonArray = response.result.value as? JSONArray else { return }
-            let array = jsonArray.map({return UserResponse(JSON: $0)})
-            self.cardStack.cards = array.map({
-                let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
-                return Rec(type: .person, person: Person(user: $0, details: details))
-            })
-            self.cardStack.addNewCard()
-            //self.cardStack.cards?.append(Card(type: .tweet, person: nil))
+            self?.cardStack.cards = jsonArray.map({return RecommendationResponse(JSON: $0)})
+//            for index in 0..<self!.cardStack.cards!.count {
+//                guard let recId = self?.cardStack.cards?[index].user?._id else {return}
+//                Client.execute(ConnectionRequest(recipient: recId), complete: { response in
+//                    print(response)
+//                })
+//            }
+             //.map({
+//                let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
+//                return Rec(type: $0.cardType(), person: Person(user: $0.user, details: details), content: nil)
+//            })
+            self?.cardStack.addNewCard()
         })
-//        for index in 0..<cardStack.cards?.count {
-//            guard let recIds = cardStack.cards?[index].person?.user?._id else {return}
-//            Client.execute(ConnectionResponseRequest(recipient: recIds), completionHandler: { response in })
-//        }
     }
     
     func profile() {

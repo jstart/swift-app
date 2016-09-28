@@ -11,10 +11,9 @@ import UIKit
 class SkillCollectionViewCell: UICollectionViewCell {
     
     let title = UILabel(translates: false).then {
-        $0.font = .boldProxima(ofSize: 14)
+        $0.font = .boldProxima(ofSize: 14); $0.textColor = .gray
         $0.numberOfLines = 0
         $0.textAlignment = .center
-        $0.textColor = .gray
     }
     let popular = UILabel(translates: false).then {
         $0.isHidden = true

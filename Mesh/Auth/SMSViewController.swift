@@ -17,8 +17,7 @@ class SMSViewController: UITableViewController {
     }
     let subtitle = UILabel(translates: false).then {
         $0.text = "Tinder for Business"
-        $0.textColor = .black
-        $0.font = .boldProxima(ofSize: 20)
+        $0.textColor = .black; $0.font = .boldProxima(ofSize: 20)
     }
     let nextButton = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
@@ -116,7 +115,7 @@ class SMSViewController: UITableViewController {
     func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 90; nextButton.isEnabled = (phone.text != "" && password.text != "" && confirmPassword.text != "") }
     
     func complete() {
-        Client.execute(AuthRequest(phone_number: phone.text!.onlyNumbers(), password: password.text!, password_verify: confirmPassword.text!), completionHandler: { response in
+        Client.execute(AuthRequest(phone_number: phone.text!.onlyNumbers(), password: password.text!, password_verify: confirmPassword.text!), complete: { response in
             if response.result.value == nil {
                 let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
                 alert.addAction(UIAlertAction.ok())

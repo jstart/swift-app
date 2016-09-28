@@ -34,19 +34,12 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
         $0.textColor = .gray
         $0.textAlignment = .center
     }
-    let linkedIn = UIButton().then {
-        $0.setTitle("Linked In", for: .normal); $0.setTitleColor(Colors.brand, for: .normal)
-    }
-    let twitter = UIButton().then {
-        $0.setTitle("Twitter", for: .normal); $0.setTitleColor(Colors.brand, for: .normal)
-    }
-    let google = UIButton().then {
-        $0.setTitle("Google", for: .normal); $0.setTitleColor(Colors.brand, for: .normal)
-    }
+    let linkedIn = UIButton().then { $0.title = "Linked In"; $0.titleColor = Colors.brand }
+    let twitter = UIButton().then { $0.title = "Twitter"; $0.titleColor = Colors.brand }
+    let google = UIButton().then { $0.title = "Google"; $0.titleColor = Colors.brand }
     lazy var buttons : UIStackView = {
-        let stack = UIStackView(arrangedSubviews:[self.linkedIn, self.twitter, self.google])
+        let stack = UIStackView(self.linkedIn, self.twitter, self.google, spacing: 5)
         stack.distribution = .fillEqually
-        stack.spacing = 5
         stack.translates = false
         stack.constrain((.height, 35))
         return stack
@@ -136,8 +129,7 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
             case 1: field = lastName; cell.addSubview(lastName); break
             case 2: field = titleField; cell.addSubview(titleField); break
             case 3: field = company; cell.addSubview(company); break
-            default: break
-            }
+            default: break }
             field?.constrain((.height, -10), (.leading, 15), (.trailing, -15), toItem: cell)
         }
         return cell
@@ -163,8 +155,8 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
     func fieldEdited() { nextButton.isEnabled = (firstName.text != "" && lastName.text != "" && titleField.text != "" && company.text != "") }
     
     func complete() {
-        let companies = [CompanyModel(id: company.text ?? "tinder", start_month: "January", start_year: "2014", end_month: "March", end_year: "2016", current: false)]
-        Client.execute(ProfileRequest(first_name: firstName.text, last_name: lastName.text, email: nil, title: titleField.text, profession: nil, companies: companies), completionHandler: { _ in
+        let companies = [CompanyModel(id: "1681681", start_month: "January", start_year: "2014", end_month: "March", end_year: "2016", current: false)]
+        Client.execute(ProfileRequest(first_name: firstName.text, last_name: lastName.text, email: nil, title: titleField.text, profession: nil, companies: companies), complete: { _ in
             self.navigationController?.push(AddPhotoViewController())
         })
     }

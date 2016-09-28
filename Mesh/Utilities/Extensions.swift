@@ -8,64 +8,44 @@
 
 import UIKit
 
+let StandardDefaults = UserDefaults.standard
+let MainBundle = Bundle.main
+
 extension String {
     private var qrImage: CIImage? {
         let textData = data(using: .isoLatin1, allowLossyConversion: false)
         let filter = CIFilter(name: "CIQRCodeGenerator")
-        
         filter?.setValue(textData, forKey: "inputMessage")
         filter?.setValue("H", forKey: "inputCorrectionLevel")
-        
         return filter?.outputImage
     }
     
-    func qrImage(withSize size: CGSize, foreground: UIColor = .black, background: UIColor = .white) -> UIImage? {
-        return qrImage?.scaledWithSize(size).colored(withForeground: foreground, background: background)?.uiImage
-    }
+    func qrImage(withSize size: CGSize, foreground: UIColor = .black, background: UIColor = .white) -> UIImage? { return qrImage?.scaledWithSize(size).colored(withForeground: foreground, background: background)?.uiImage }
 }
 
 private extension CIImage {
     var uiImage: UIImage? { return UIImage(ciImage: self) }
     
     func scaledWithSize(_ size: CGSize) -> CIImage {
-        let scaleX = size.width / extent.size.width
-        let scaleY = size.height / extent.size.height
-        
+        let scaleX = size.width / extent.size.width, scaleY = size.height / extent.size.height
         return applying(CGAffineTransform(scaleX: scaleX, y: scaleY))
     }
     
     func colored(withForeground foreground: UIColor, background: UIColor) -> CIImage? {
-        let foregroundCoreColor = CIColor(uiColor: foreground)
-        let backgroundCoreColor = CIColor(uiColor: background)
-        
-        let colorFilter = CIFilter(name: "CIFalseColor", withInputParameters: [
-            "inputImage": self,
-            "inputColor0":foregroundCoreColor,
-            "inputColor1":backgroundCoreColor
-            ])
-        
-        return colorFilter?.outputImage
+        return CIFilter(name: "CIFalseColor", withInputParameters: ["inputImage": self, "inputColor0": CIColor(uiColor: foreground), "inputColor1": CIColor(uiColor: background)])?.outputImage
     }
 }
 
 private extension CIColor {
     convenience init(uiColor: UIColor) {
-        let foregroundColorRef = uiColor.cgColor
-        let foregroundColorString = CIColor(cgColor: foregroundColorRef).stringRepresentation
-        
+        let foregroundColorRef = uiColor.cgColor, foregroundColorString = CIColor(cgColor: foregroundColorRef).stringRepresentation
         self.init(string: foregroundColorString)
     }
 }
 
-extension UIMotionEffectGroup {
-    convenience init(_ motionEffects: [UIMotionEffect]) {
-        self.init()
-        self.motionEffects = motionEffects
-    }
-}
+extension UIMotionEffectGroup { convenience init(_ motionEffects: [UIMotionEffect]) { self.init(); self.motionEffects = motionEffects } }
 
 extension UIMotionEffect {
-    
     class func twoAxesTilt(strength: Float) -> UIMotionEffect {
         func relativeValue(_ isMax: Bool, type: UIInterpolatingMotionEffectType) -> NSValue {
             var transform = CATransform3DIdentity
@@ -73,28 +53,22 @@ extension UIMotionEffect {
             
             let axisValue: CGFloat
             if type == .tiltAlongVerticalAxis {
-                // transform vertically
                 axisValue = isMax ? -1.0 : 1.0
                 transform = CATransform3DRotate(transform, axisValue * CGFloat(M_PI_4), 1, 0, 0)
             } else {
-                // transform horizontally
                 axisValue = isMax ? 1.0 : -1.0
                 transform = CATransform3DRotate(transform, axisValue * CGFloat(M_PI_4), 0, 1, 0)
             }
             return NSValue(caTransform3D: transform)
         }
         
-        // create motion for specified `type`.
         func motion(_ type: UIInterpolatingMotionEffectType) -> UIInterpolatingMotionEffect {
             let motion = UIInterpolatingMotionEffect(keyPath: "layer.transform", type: type)
-            motion.minimumRelativeValue = relativeValue(false, type: type)
-            motion.maximumRelativeValue = relativeValue(true, type: type)
+            motion.minimumRelativeValue = relativeValue(false, type: type); motion.maximumRelativeValue = relativeValue(true, type: type)
             return motion
         }
         
-        // create group of horizontal and vertical tilt motions
-        let group = UIMotionEffectGroup([motion(.tiltAlongHorizontalAxis), motion(.tiltAlongVerticalAxis)])
-        return group
+        return UIMotionEffectGroup([motion(.tiltAlongHorizontalAxis), motion(.tiltAlongVerticalAxis)])
     }
 }
 
@@ -103,13 +77,8 @@ extension UIImage {
         let rect = CGRect(x: 0, y: 0, width: 1.0, height: 1.0)
         UIGraphicsBeginImageContext(rect.size)
         let context = UIGraphicsGetCurrentContext()!
-        
-        context.setFillColor(color.cgColor)
-        context.fill(rect)
-        
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
+        context.setFillColor(color.cgColor); context.fill(rect)
+        let image = UIGraphicsGetImageFromCurrentImageContext(); UIGraphicsEndImageContext()
         return image!
     }
 }
@@ -127,152 +96,104 @@ extension UIAlertController {
 }
 
 extension UIAlertAction {
-    convenience init(_ title: String, style: UIAlertActionStyle = .default, handler: ((UIAlertAction) -> Swift.Void)? = nil) {
-        self.init(title: title, style: style, handler: handler)
-    }
+    convenience init(_ title: String, style: UIAlertActionStyle = .default, handler: ((UIAlertAction) -> Swift.Void)? = nil) { self.init(title: title, style: style, handler: handler) }
     static func cancel(handler: ((UIAlertAction) -> Swift.Void)? = nil) -> UIAlertAction { return UIAlertAction("Cancel", style: .cancel, handler: handler) }
     static func ok(handler: ((UIAlertAction) -> Swift.Void)? = nil) -> UIAlertAction { return UIAlertAction("OK", style: .cancel, handler: handler) }
 }
 
 extension UIBarButtonItem {
-    convenience init(_ image: UIImage, style: UIBarButtonItemStyle = .plain, target: AnyObject, action: Selector) {
-        self.init(image: image, style: .plain, target: target, action: action)
-    }
+    convenience init(_ image: UIImage, style: UIBarButtonItemStyle = .plain, target: AnyObject, action: Selector) { self.init(image: image, style: .plain, target: target, action: action) }
+}
+
+extension UIButton {
+    var title : String { set { setTitle(newValue, for: .normal) } get { return title(for: .normal)! } }
+    var titleColor : UIColor { set { setTitleColor(newValue, for: .normal) } get { return titleColor(for: .normal)! } }
+    var image : UIImage { set { setImage(newValue, for: .normal) } get { return image(for: .normal)! } }
+    override open var intrinsicContentSize : CGSize { get {
+        let intrinsicContentSize = super.intrinsicContentSize
+        let adjustedWidth = intrinsicContentSize.width + titleEdgeInsets.left + titleEdgeInsets.right
+        let adjustedHeight = intrinsicContentSize.height + titleEdgeInsets.top + titleEdgeInsets.bottom
+        
+        return CGSize(width: adjustedWidth, height: adjustedHeight) } }
 }
 
 extension UICollectionView {
-    func registerClass(_ cellClasses: AnyClass...) {
-        for aClass in cellClasses { register(aClass, forCellWithReuseIdentifier: String(describing: aClass)) }
-    }
-    
-    func registerNib(_ cellClasses: AnyClass...) {
-        for aClass in cellClasses {
-            let string = String(describing: aClass)
-            register(UINib(nibName: string, bundle: nil), forCellWithReuseIdentifier: string)
-        }
-    }
-    
-    func dequeue<T: UICollectionViewCell>(_ cellClass: T.Type, indexPath: IndexPath) -> T{
-        let string = String(describing: cellClass)
-        return dequeueReusableCell(withReuseIdentifier: string, for: indexPath) as! T
-    }
+    func registerClass(_ cellClasses: AnyClass...) { for aClass in cellClasses { register(aClass, forCellWithReuseIdentifier: String(describing: aClass)) } }
+    func registerNib(_ cellClasses: AnyClass...) { for aClass in cellClasses { let string = String(describing: aClass); register(UINib(nibName: string, bundle: nil), forCellWithReuseIdentifier: string) } }
+    func dequeue<T: UICollectionViewCell>(_ cellClass: T.Type, indexPath: IndexPath) -> T { let string = String(describing: cellClass); return dequeueReusableCell(withReuseIdentifier: string, for: indexPath) as! T }
 }
 
 extension UITableView {
-    func registerClass(_ cellClasses: AnyClass...) {
-        for aClass in cellClasses { register(aClass, forCellReuseIdentifier: String(describing: aClass)) }
-    }
-    
-    func registerNib(_ cellClasses: AnyClass...) {
-        for aClass in cellClasses {
-            let string = String(describing: aClass)
-            register(UINib(nibName: string, bundle: nil), forCellReuseIdentifier: string)
-        }
-    }
-    
-    func dequeue<T: UITableViewCell>(_ cellClass: T.Type, indexPath: IndexPath) -> T{
-        let string = String(describing: cellClass)
-        return dequeueReusableCell(withIdentifier: string, for: indexPath) as! T
-    }
+    func registerClass(_ cellClasses: AnyClass...) { for aClass in cellClasses { register(aClass, forCellReuseIdentifier: String(describing: aClass)) } }
+    func registerNib(_ cellClasses: AnyClass...) { for aClass in cellClasses { let string = String(describing: aClass); register(UINib(nibName: string, bundle: nil), forCellReuseIdentifier: string) } }
+    func dequeue<T: UITableViewCell>(_ cellClass: T.Type, indexPath: IndexPath) -> T { let string = String(describing: cellClass); return dequeueReusableCell(withIdentifier: string, for: indexPath) as! T }
+}
+
+extension UIStackView {
+    convenience init(_ views : UIView..., axis : UILayoutConstraintAxis = .horizontal, spacing : CGFloat = 0) { self.init(arrangedSubviews: views); self.axis = axis; self.spacing = spacing }
 }
 
 extension UIView {
-    var translates: Bool {
-        get { return translatesAutoresizingMaskIntoConstraints }
-        set { translatesAutoresizingMaskIntoConstraints = newValue }
-    }
-    
-    convenience init(translates: Bool) {
-        self.init(); self.translates = translates
-    }
+    var translates: Bool { get { return translatesAutoresizingMaskIntoConstraints } set { translatesAutoresizingMaskIntoConstraints = newValue } }
+    convenience init(translates: Bool) { self.init(); self.translates = translates }
     
     func constrain(_ constants : (attr: NSLayoutAttribute, const: CGFloat)..., toItem: UIView? = nil){
         for constantPair in constants {
-            let constraint = NSLayoutConstraint(item: self, attribute: constantPair.attr, relatedBy: .equal, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : constantPair.attr, multiplier: 1.0, constant:constantPair.const)
-            constraint.isActive = true
+            NSLayoutConstraint(item: self, attribute: constantPair.attr, relatedBy: .equal, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : constantPair.attr, multiplier: 1.0, constant:constantPair.const).isActive = true
         }
     }
     
     func constrain(_ attributes: NSLayoutAttribute..., relatedBy: NSLayoutRelation = .equal, constant: CGFloat = 0.0, toItem: UIView? = nil, toAttribute: NSLayoutAttribute = .notAnAttribute, multiplier: CGFloat = 1.0){
         for attribute in attributes {
             let toAttributeChoice = toAttribute == .notAnAttribute ? attribute : toAttribute
-            let constraint = NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : toAttributeChoice, multiplier: multiplier, constant:constant)
-            constraint.isActive = true
+            NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : toAttributeChoice, multiplier: multiplier, constant:constant).isActive = true
         }
     }
     
     func constraint(_ attribute: NSLayoutAttribute, relatedBy: NSLayoutRelation = .equal, constant: CGFloat = 0.0, toItem: UIView? = nil, toAttribute: NSLayoutAttribute = .notAnAttribute) -> NSLayoutConstraint {
         let toAttributeChoice = toAttribute == .notAnAttribute ? attribute : toAttribute
-        let constraint = NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : toAttributeChoice, multiplier: 1.0, constant:constant)
-        return constraint
+        return NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : toAttributeChoice, multiplier: 1.0, constant:constant)
     }
     
-    var heightConstraint: NSLayoutConstraint { return constraintFor(.height) }
-    var widthConstraint: NSLayoutConstraint { return constraintFor(.width) }
-    var topConstraint: NSLayoutConstraint { return constraintFor(.top) }
-    var bottomConstraint: NSLayoutConstraint { return constraintFor(.bottom) }
-    var leadingConstraint: NSLayoutConstraint { return constraintFor(.leading) }
-    var trailingConstraint: NSLayoutConstraint { return constraintFor(.trailing) }
+    var heightConstraint: NSLayoutConstraint { return constraintFor(.height) }; var widthConstraint: NSLayoutConstraint { return constraintFor(.width) }
+    var topConstraint: NSLayoutConstraint { return constraintFor(.top) }; var bottomConstraint: NSLayoutConstraint { return constraintFor(.bottom) }
+    var leadingConstraint: NSLayoutConstraint { return constraintFor(.leading) }; var trailingConstraint: NSLayoutConstraint { return constraintFor(.trailing) }
     
     func constraintFor(_ attribute: NSLayoutAttribute, toItem: UIView? = nil) -> NSLayoutConstraint {
-        guard let item = toItem as UIView! else {
-            return constraints.filter({ return $0.firstAttribute == attribute }).first!
-        }
+        guard let item = toItem as UIView! else { return constraints.filter({ return $0.firstAttribute == attribute }).first! }
         return constraints.filter({ return $0.firstAttribute == attribute && $0.firstItem as! UIView == item }).first!
     }
     
     func addSubviews(_ views: UIView...) { views.forEach { self.addSubview($0) } }
     
-    func fadeIn(duration: TimeInterval = 0.2, completion:@escaping (() -> Void) = {}) {
-        alpha = 0.0; UIView.animate(withDuration: duration, animations: { self.alpha = 1.0 }, completion: { _ in completion() })
-    }
-    
-    func fadeOut(duration: TimeInterval = 0.2, completion:@escaping (() -> Void) = {}) {
-        UIView.animate(withDuration: duration, animations: { self.alpha = 0.0 }, completion: { _ in completion() })
-    }
+    func fadeIn(duration: TimeInterval = 0.2, completion:@escaping (() -> Void) = {}) { alpha = 0.0; UIView.animate(withDuration: duration, animations: { self.alpha = 1.0 }, completion: { _ in completion() }) }
+    func fadeOut(duration: TimeInterval = 0.2, completion:@escaping (() -> Void) = {}) { UIView.animate(withDuration: duration, animations: { self.alpha = 0.0 }, completion: { _ in completion() }) }
     
     func scaleIn(delay: TimeInterval = 0, completion: @escaping ((Bool) -> Void) = {_ in }) {
         self.transform = self.transform.scaledBy(x: 0.9, y: 0.9)
-
         UIView.animate(withDuration: 0.2, delay: delay, usingSpringWithDamping: 0.25, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
-            self.transform = .identity
-            }, completion: nil)
+            self.transform = .identity }, completion: nil)
     }
     
     func squeezeIn(delay: TimeInterval = 0, completion: @escaping ((Bool) -> Void) = {_ in }) {
-        UIView.animate(withDuration: 0.2, delay: delay, usingSpringWithDamping: 0.1, initialSpringVelocity: 1, options: .allowUserInteraction, animations: {
-            self.transform = self.transform.scaledBy(x: 0.9, y: 0.9)
-            }, completion: nil)
+        UIView.animate(withDuration: 0.2, delay: delay, usingSpringWithDamping: 0.1, initialSpringVelocity: 1, options: .allowUserInteraction, animations: { self.transform = self.transform.scaledBy(x: 0.9, y: 0.9) }, completion: nil)
     }
     func squeezeOut(delay: TimeInterval = 0, completion: @escaping ((Bool) -> Void) = {_ in }) {
-        UIView.animate(withDuration: 0.2, delay: delay, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .allowUserInteraction, animations: {
-            self.transform = .identity
-        }, completion: completion)
+        UIView.animate(withDuration: 0.2, delay: delay, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .allowUserInteraction, animations: { self.transform = .identity }, completion: completion)
     }
-    func squeezeInOut(delay: TimeInterval = 0, completion: @escaping ((Bool) -> Void) = {_ in }) {
-        squeezeIn(delay: delay)
-        squeezeOut(delay: 0.2, completion: completion)
-    }
+    func squeezeInOut(delay: TimeInterval = 0, completion: @escaping ((Bool) -> Void) = {_ in }) { squeezeIn(delay: delay); squeezeOut(delay: 0.2, completion: completion) }
     
-    func round(corners: UIRectCorner, radius: CGFloat) {
+    func round(corners: UIRectCorner, radius: CGFloat = 10) {
         let rect = self.bounds
         let maskPath = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        
-        let maskLayer = CAShapeLayer()
-        maskLayer.frame = rect
-        maskLayer.path = maskPath.cgPath
+        let maskLayer = CAShapeLayer(); maskLayer.frame = rect; maskLayer.path = maskPath.cgPath
         layer.mask = maskLayer
     }
 }
 
 extension UINavigationController {
-    func push(_ viewController: UIViewController, animated: Bool = true) {
-        pushViewController(viewController, animated: animated)
-    }
-    
-    @discardableResult func pop(_ animated: Bool = true) {
-        popViewController(animated: animated)
-    }
+    func push(_ viewController: UIViewController, animated: Bool = true) { pushViewController(viewController, animated: animated) }
+    @discardableResult func pop(_ animated: Bool = true) { popViewController(animated: animated) }
 }
 
 extension UIViewController {
@@ -287,19 +208,13 @@ extension UserDefaults {
 
 extension Int {
     func perform(_ closure: () -> Void) { (0..<self).forEach { _ in closure() } }
-    
     func performIndex(_ closure: @escaping (Int) -> Void) { (0..<self).forEach { index in closure(index) } }
 }
 
 extension Collection {
-    /// Returns the element at the specified index if it is within bounds, otherwise nil.
-    public subscript(safe index: Index) -> _Element? {
-        return index >= startIndex && index < endIndex ? self[index] : nil
-    }
+    public subscript(safe index: Index) -> _Element? { return index >= startIndex && index < endIndex ? self[index] : nil }
 }
 
 protocol Then {}
-extension Then where Self: AnyObject {
-    func then(_ block: (Self) -> Void) -> Self { block(self); return self }
-}
+extension Then where Self: AnyObject { func then(_ block: (Self) -> Void) -> Self { block(self); return self } }
 extension NSObject: Then {}

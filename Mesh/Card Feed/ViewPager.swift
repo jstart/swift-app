@@ -55,13 +55,9 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         width.isActive = true
     }
     
-    func currentView() -> UIView {
-        return stack.arrangedSubviews[previousPage]
-    }
+    func currentView() -> UIView { return stack.arrangedSubviews[previousPage] }
     
-    func removeView(atIndex: Int) {
-        stack.arrangedSubviews[atIndex].removeFromSuperview()
-    }
+    func removeView(atIndex: Int) { stack.arrangedSubviews[atIndex].removeFromSuperview() }
     
     func selectedIndex(_ index: Int, animated: Bool = true){
         guard index >= 0 else { return }

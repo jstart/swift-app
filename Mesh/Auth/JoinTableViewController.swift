@@ -23,7 +23,6 @@ class JoinTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 2 }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -36,8 +35,7 @@ class JoinTableViewController: UITableViewController {
         switch indexPath.row {
         case 0: navigationController?.push(LoginTableViewController(style: .grouped)); break
         case 1: navigationController?.push(SignUpTableViewController(style: .grouped)); break
-        default: break
-        }
+        default: break }
     }
 
 }

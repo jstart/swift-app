@@ -8,37 +8,41 @@
 
 import UIKit
 
-protocol CardDelegate { func swiped(_ direction: UISwipeGestureRecognizerDirection) }
+protocol CardDelegate { func swiped(_ direction: UISwipeGestureRecognizerDirection); func passCard(_ direction: UISwipeGestureRecognizerDirection) }
 
 class CardStack : UIViewController, CardDelegate {
     
-    var cards : [Rec]? = nil
+    var cards : [RecommendationResponse]? = nil
     var topCard = PersonCardViewController()
     var bottomCard = PersonCardViewController()
+    var currentCard : BaseCardViewController?
     var cardIndex = 0
     
     func addNewCard() {
         let card = cards![cardIndex]
-        _ = cards![cardIndex + 1]
+//        let next = cards![cardIndex + 1]
 
-        switch card.type {
+        switch card.cardType() {
         case .person:
 //            bottomCard.card = next
 //            bottomCard.delegate = self
 //            addCard(bottomCard, animated: false)
-            
-            topCard.card = card
-            topCard.delegate = self
-            addCard(topCard)
-            break
+            currentCard = topCard; break
         case .tweet:
-            topCard.view.alpha = 0.0
-            let tweet = TweetPersonCardViewController()
-            tweet.delegate = self
-            addChildViewController(tweet)
-            addCard(tweet)
-        default: return
-        }
+            topCard.view.alpha = 0
+            currentCard = TweetCardViewController(); break
+        case .medium:
+            topCard.view.alpha = 0
+            currentCard = TweetCardViewController(); break
+        case .event:
+            topCard.view.alpha = 0
+            currentCard = EventCardViewController(); break
+        default: currentCard = nil; return }
+        
+        currentCard!.delegate = self
+        addChildViewController(currentCard!)
+        currentCard!.rec = card
+        addCard(currentCard!)
     }
 
     func addCard(_ card: UIViewController, animated: Bool = true) {
@@ -56,28 +60,34 @@ class CardStack : UIViewController, CardDelegate {
         
         if !animated { return }
         
-        UIView.animate(withDuration: 0.2, animations: {
-            card.view.alpha = 1.0
-            card.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-        })
+        UIView.animate(withDuration: 0.2, animations: { card.view.alpha = 1.0; card.view.transform = .identity })
     }
     
     func showPreviousCard() { }
     
+    func passCard(_ direction: UISwipeGestureRecognizerDirection) {
+        switch direction {
+        case UISwipeGestureRecognizerDirection.left:
+            let card = self.currentCard!
+            UIView.animate(withDuration: 0.5, animations: {
+                card.view.transform = card.view.transform.rotated(by: (-45 * CGFloat(M_PI)) / 180).translatedBy(x: -(card.view.frame.size.width + 300), y: 100)
+            }) { _ in self.currentCard!.view.removeFromSuperview(); self.swiped(direction) }
+        default: return  }
+    }
+    
     func swiped(_ direction: UISwipeGestureRecognizerDirection) {
         let card = cards?[cardIndex]
-        guard let id = card?.person?.user?._id else { return }
-        let request : AuthenticatedRequest = direction == .right ? LikeRequest(_id: id) : PassRequest(_id: id)
-        Client.execute(request) {_ in }
+        if let id = card?.user?._id { Client.execute(direction == .right ? LikeRequest(_id: id) : PassRequest(_id: id)) }
         
         if cardIndex + 5 == cards?.count {
-            Client.execute(RecommendationsRequest(), completionHandler: { response in
+            Client.execute(RecommendationsRequest(), complete: { response in
                 guard let jsonArray = response.result.value as? JSONArray else { return }
-                let array = jsonArray.map({return UserResponse(JSON: $0)})
-                self.cards?.append(contentsOf: array.map({
-                    let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
-                    return Rec(type: .person, person: Person(user: $0, details: details))
-                }))
+                let array = jsonArray.map({return RecommendationResponse(JSON: $0)})
+                self.cards?.append(contentsOf: array)
+//                self.cards?.append(contentsOf: array.map({
+//                    let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
+//                    return Rec(type: .person, person: Person(user: $0, details: details), content: nil)
+//                }))
             })
             cardIndex += 1
             addNewCard()

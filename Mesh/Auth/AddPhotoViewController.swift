@@ -29,8 +29,7 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
         $0.text = "We’re almost there! In order to match with people on Mesh, we need you to do this last step to complete your profile."
-        $0.font = .proxima(ofSize: 16)
-        $0.textColor = .gray
+        $0.font = .proxima(ofSize: 16); $0.textColor = .gray
         $0.textAlignment = .center
     }
     let upload = UIButton(translates: false).then {
@@ -38,8 +37,8 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
         $0.isEnabled = true
         $0.titleLabel?.font = .boldProxima(ofSize: 20)
-        $0.setTitle("UPLOAD PHOTO", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
+        $0.title = "UPLOAD PHOTO"
+        $0.titleColor = .white
         $0.layer.cornerRadius = 5
         $0.clipsToBounds = true
         $0.constrain((.height, 70))
@@ -106,9 +105,9 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
     }
     
     func photoOptions() {
-        let twitter = UIAlertAction("Import from Twitter") { sender in self.uploadChoice(sender)}
-        let google = UIAlertAction("Import from Google") { sender in self.uploadChoice(sender)}
-        let library = UIAlertAction("Choose from Library") { sender in self.uploadChoice(sender)}
+        let twitter = UIAlertAction("Import from Twitter") { sender in self.uploadChoice(sender) }
+        let google = UIAlertAction("Import from Google") { sender in self.uploadChoice(sender) }
+        let library = UIAlertAction("Choose from Library") { sender in self.uploadChoice(sender) }
 
         let sheet = UIAlertController(title: "Add Profile Photo", message: nil, preferredStyle: .actionSheet)
         sheet.addActions(twitter, google, library, UIAlertAction.cancel())
@@ -134,9 +133,7 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
         Client.upload(PhotoRequest(file: data!), completionHandler: { response in
             if response.result.value != nil {
                 let alert = UIAlertController(title: "Photo Updated", message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction.ok() { _ in
-                    self.navigationController?.push(SMSViewController())
-                })
+                alert.addAction(UIAlertAction.ok() { _ in self.navigationController?.push(SMSViewController()) })
                 self.present(alert)
             }
             else {

@@ -53,6 +53,8 @@ class UserEditPhoneViewController: UITableViewController {
         tableView.estimatedRowHeight = 100
         tableView.backgroundColor = .white
         
+        phone.text = UserResponse.current?.phone_number
+        
         phone.addTarget(self, action: #selector(format), for: .allEditingEvents)
         
         let inputView = UIView(translates: false)

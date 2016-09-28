@@ -10,20 +10,12 @@ import UIKit
 import GoogleSignIn
 
 class EditTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, GIDSignInUIDelegate {
-
-    var phone : UITextField?
-    var first_name : UITextField?
-    var last_name : UITextField?
-    var email : UITextField?
-    var titleField : UITextField?
-    var profession : UITextField?
     
     let profile = UIImageView(translates: false).then {
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
         $0.constrain(.height, constant: 325)
     }
-    
     var items : [UserDetail] = [Experience(company: "Tinder", position: "iOS", startMonth: "January", startYear: "2012", endMonth: "January", endYear: "2016"),
                                 Education(schoolName: "Harvard", degreeType: "Masters", startYear: "2012", endYear: "2016", field: "Engineering", graduated: true),
                                 Skill(name: "iOS Development", numberOfMembers: "2,000 Members", isAdded: true)]
@@ -36,46 +28,41 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         tableView.contentInset = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
         tableView.registerClass(UITableViewCell.self); tableView.registerNib(UserDetailTableViewCell.self)
         tableView.estimatedRowHeight = 100
-        navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "connectionsOverflow"), style: .done, target: self, action: #selector(settings))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "mainNavSettings").withRenderingMode(.alwaysOriginal), style: .done, target: self, action: #selector(settings))
     }
     
     func settings() { navigationController?.push(SettingsTableViewController(style: .grouped)) }
-    
-    func save() {
-        //let phone_number = self.phone?.text
-        let first_name = self.first_name?.text
-        let last_name = self.last_name?.text
-        let email = self.email?.text
-        let title = self.titleField?.text
-        let profession = self.profession?.text
-        
-        let companies = [CompanyModel(id: "tinder", start_month: "January", start_year: "2014", end_month: "March", end_year: "2016", current: false)]
-        Client.execute(ProfileRequest(first_name: first_name, last_name: last_name, email: email, title: title, profession: profession, companies: companies), completionHandler: { response in
-            if response.result.value != nil {
-                let alert = UIAlertController(title: "Profile Updated", message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction.ok() { _ in self.navigationController?.pop() })
-                self.present(alert)
-            } else {
-                let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
-                alert.addAction(UIAlertAction.ok())
-                self.present(alert)
-            }
-        })
-    }
 
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int { return 4 }
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard section != 0 else { return nil }
+        let header = UIButton().then { $0.backgroundColor = .white }
+        let icon = UIImageView(translates: false).then { $0.contentMode = .scaleAspectFit }
+        let title = UILabel(translates: false).then { $0.font = .proxima(ofSize: 14); $0.textColor = .lightGray }
+        let edit = UIImageView(translates: false).then { $0.image = #imageLiteral(resourceName: "edit") }
+        header.addSubviews(icon, title, edit)
+
+        icon.constrain((.leading, 15), (.centerY, 0), toItem: header)
+        icon.constrain(.height, .width, constant: 16)
+        title.constrain((.centerY, 0), toItem: icon)
+        title.constrain(.leading, constant: 10, toItem: icon, toAttribute: .trailing)
+        title.constrain(.trailing, constant: -10, toItem: edit, toAttribute: .leading)
+        edit.constrain((.trailing, -30), (.centerY, 0), toItem: header)
+        edit.constrain(.height, .width, constant: 20)
+        
+        var selector : Selector?
         switch section {
-        case 1: return "Experience"
-        case 2: return "Education"
-        case 3: return "Skills"
-        default: return "" }
+        case 1: title.text = "Experience"; icon.image = #imageLiteral(resourceName: "experience"); selector = #selector(editExperience)
+        case 2: title.text = "Education"; icon.image = #imageLiteral(resourceName: "education"); selector = #selector(editEducation)
+        case 3: title.text = "Skills"; icon.image = #imageLiteral(resourceName: "skills"); selector = #selector(editSkills); default: break }
+        
+        header.addTarget(self, action: selector!, for: .touchUpInside)
+        return header
     }
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 { return 1.0 }
-        return 50
-    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { if section == 0 { return 1.0 }; return 50 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return section == 0 ? 2 : 1 }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -117,6 +104,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 && indexPath.row == 0 { photoOptions(); return }
+        if indexPath.section == 0 && indexPath.row == 1 { return }
         let edit = EditProfileListTableViewController()
         
         var type : QuickViewCategory
@@ -132,12 +120,29 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         navigationController?.push(edit)
     }
     
+    func editExperience() {
+        let edit = EditProfileListTableViewController(); edit.itemType = .experience
+        if items.count > 0 { edit.items = [items[0]] }
+        navigationController?.push(edit)
+    }
+    
+    func editEducation() {
+        let edit = EditProfileListTableViewController(); edit.itemType = .education
+        if items.count > 0 { edit.items = [items[1]] }
+        navigationController?.push(edit)
+    }
+    
+    func editSkills() {
+        let edit = EditProfileListTableViewController(); edit.itemType = .skills
+        if items.count > 0 { edit.items = [items[2]] }
+        navigationController?.push(edit)
+    }
+    
     func uploadChoice(_ sender: UIAlertAction) {
         if sender.title == "Import from Twitter"{
             TwitterProfile.prefillImage() { response in
                 self.profile.af_setImage(withURL: URL(string: response.image_url)!) { response in
-                    guard let image = response.result.value else { return }
-                    self.upload(image)
+                    guard let image = response.result.value else { return }; self.upload(image)
                 }
             }
         } else if sender.title == "Import from Google" {
@@ -145,8 +150,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
             GoogleProfile.shared.prefillImage() { response in
                 guard response.image_url != "" else { return }
                 self.profile.af_setImage(withURL: URL(string: response.image_url)!) { response in
-                    guard let image = response.result.value else { return }
-                    self.upload(image)
+                    guard let image = response.result.value else { return }; self.upload(image)
                 }
             }
         } else if sender.title == "Choose from Library" {

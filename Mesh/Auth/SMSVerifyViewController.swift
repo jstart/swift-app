@@ -12,8 +12,7 @@ class SMSVerifyViewController: UIViewController {
 
     let header = UILabel(translates: false).then {
         $0.text = "Enter your code"
-        $0.textColor = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
-        $0.font = .regularProxima(ofSize: 30)
+        $0.textColor = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1); $0.font = .regularProxima(ofSize: 30)
     }
     let text = UILabel(translates: false).then {
         $0.text = "A text message was sent to "

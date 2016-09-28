@@ -78,7 +78,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
             }
             ContactsManager().allContacts(results: { contactResults in
                 self.contacts = contactResults
-                Client.execute(ContactsSaveRequest(contacts: contactResults), completionHandler: { response in
+                Client.execute(ContactsSaveRequest(contacts: contactResults), complete: { response in
                     self.fetchMeshContacts()
                 })
                 self.tableView.reloadData()
@@ -87,7 +87,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     }
     
     func fetchMeshContacts() {
-        Client.execute(ContactsRequest(), completionHandler: { response in
+        Client.execute(ContactsRequest(), complete: { response in
             guard let meshPeople = response.result.value as? JSONArray else { return }
             let phoneNumbers = meshPeople.flatMap({return $0["phone_number"]} ) as! [String]
             let emails = meshPeople.flatMap({return $0["email"] }) as! [String]
@@ -171,7 +171,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     func like(_ contact: CNContact) {
         let phone = contact.phoneNumbers[safe: 0]?.value.value(forKey: "digits") as? String
         let email = contact.emailAddresses[safe: 0]?.value as? String
-        Client.execute(LikeContactRequest(phone_number: phone, email: email), completionHandler: { response in })
+        Client.execute(LikeContactRequest(phone_number: phone, email: email), complete: { response in })
     }
 
     func addAll() {

@@ -2,31 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.228192547663-9t49pktojotguforksq9vg7sj132flcs</string>
-				<string>li4579643</string>
-			</array>
-		</dict>
-	</array>
-	<key>UIAppFonts</key>
-	<array>
-		<string>proximanovasoft-bold.otf</string>
-		<string>proximanovasoft-medium.otf</string>
-		<string>proximanovasoft-semibold.otf</string>
-		<string>proximanovasoft-regular.otf</string>
-	</array>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>linkedin</string>
-        <string>linkedin-sdk2</string>
-        <string>linkedin-sdk</string>
-    </array>
-	<key>LIAppId</key>
-	<string>4579643</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -41,10 +16,20 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tvmeshdev</string>
+				<string>com.googleusercontent.apps.228192547663-9t49pktojotguforksq9vg7sj132flcs</string>
+				<string>li4579643</string>
+				<string>twitterkit-5h56ksYyu5tljEbdqmAGfXIj1</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
-	<string>53</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
+	<string>84</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -55,15 +40,26 @@
 				<key>KitInfo</key>
 				<dict>
 					<key>consumerKey</key>
-					<string>hp8FYjyep7o7TsaScLn2EC4NH</string>
+					<string>5h56ksYyu5tljEbdqmAGfXIj1</string>
 					<key>consumerSecret</key>
-					<string>nrlf3tkIUmLZbuteJlzZe2x2bXvpA5MTc6rM637MOX5aYZnCXe</string>
+					<string>UbhaqO1dMp2AOy1TOsJJlw58gtBcXXiTEmfxCoivns0XQq0neY</string>
 				</dict>
 				<key>KitName</key>
 				<string>Twitter</string>
 			</dict>
 		</array>
 	</dict>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>LIAppId</key>
+	<string>4579643</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>twitter</string>
+		<string>linkedin</string>
+		<string>linkedin-sdk2</string>
+		<string>linkedin-sdk</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -120,11 +116,18 @@
 	<string>Need location for nearby matches</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Upload photos from your library</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>proximanovasoft-bold.otf</string>
+		<string>proximanovasoft-medium.otf</string>
+		<string>proximanovasoft-semibold.otf</string>
+		<string>proximanovasoft-regular.otf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
-		<string>armv7</string>
+		<string>arm64</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
@@ -139,5 +142,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>MediumCallbackURL</key>
+	<string>http://tv-mesh.appspot.com/callback</string>
+	<key>MediumClientID</key>
+	<string>fed05de2b939</string>
+	<key>MediumClientSecret</key>
+	<string>aaa4eeda7bb7eb5982962cd5b7f428c8da328fd3</string>
 </dict>
 </plist>

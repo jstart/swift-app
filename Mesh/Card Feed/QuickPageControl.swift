@@ -32,9 +32,7 @@ enum QuickViewCategory : String  {
         case .experience: return Experience.fields
         case .education: return Education.fields
         case .skills: return Skill.fields
-        case .events: return Event.fields
-
-        }
+        case .events: return Event.fields }
     }
 
 }
@@ -49,19 +47,16 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
     
     init(categories: [QuickViewCategory]) {
         let array = categories.map({return $0.button()})
-        
+
         stack = UIStackView(arrangedSubviews: array).then {
             $0.translates = false
-            $0.spacing = 0
             $0.distribution = .fillEqually
             $0.alignment = .center
         }
 
         super.init()
         
-        array.forEach({ button in
-            button.addTarget(self, action: #selector(selected), for: .touchUpInside)
-        })
+        array.forEach({ $0.addTarget(self, action: #selector(selected), for: .touchUpInside) })
     }
     
     func selectIndex(_ index:Int){
