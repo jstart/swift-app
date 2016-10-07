@@ -16,7 +16,7 @@ typealias PrefillResponse = (first_name: String, last_name: String, title: Strin
 struct TwitterProfile {
     static var imageURL: String?
     
-    static func prefillImage(_ completion: @escaping ((PrefillResponse) -> Void)) {
+    static func prefillImage(_ completion: @escaping ((PrefillResponse?) -> Void)) {
         if let imageURL = TwitterProfile.imageURL {
             completion(PrefillResponse("", "", "", "", imageURL))
         } else {
@@ -24,12 +24,12 @@ struct TwitterProfile {
         }
     }
     
-    static func prefill(_ completion: @escaping ((PrefillResponse) -> Void)) {
+    static func prefill(_ completion: @escaping ((PrefillResponse?) -> Void)) {
         Twitter.sharedInstance().logIn {(session, error) in
-            guard session != nil else { return }
+            guard session != nil else { completion(nil); return }
             let client = TWTRAPIClient.withCurrentUser()
             client.loadUser(withID: client.userID!, completion: { user, error in
-                guard let user = user else { completion(("","","","","")); return }
+                guard let user = user else { completion(nil); return }
                 let nameSplit = user.name.components(separatedBy: " ")
                 let first_name = nameSplit[safe: 0] ?? ""
                 let last_name = nameSplit[safe: 1] ?? ""
@@ -44,10 +44,10 @@ struct TwitterProfile {
 class GoogleProfile : NSObject, GIDSignInDelegate {
     static let shared = GoogleProfile()
     static var imageURL: String?
-    static var completion: ((PrefillResponse) -> Void)?
-    static var imageCompletion: ((PrefillResponse) -> Void)?
+    static var completion: ((PrefillResponse?) -> Void)? = { _ in }
+    static var imageCompletion: ((PrefillResponse?) -> Void)? = { _ in }
 
-    func prefillImage(_ completion: @escaping ((PrefillResponse) -> Void)) {
+    func prefillImage(_ completion: @escaping ((PrefillResponse?) -> Void)) {
         if let imageURL = GoogleProfile.imageURL {
             completion(PrefillResponse("","","","", imageURL))
         } else {
@@ -55,13 +55,13 @@ class GoogleProfile : NSObject, GIDSignInDelegate {
         }
     }
     
-    func prefill(_ completion: @escaping ((PrefillResponse) -> Void)) {
+    func prefill(_ completion: @escaping ((PrefillResponse?) -> Void)) {
         GoogleProfile.completion = completion; login()
     }
     
     func login() {
         GIDSignIn.sharedInstance().delegate = self
-        GIDSignIn.sharedInstance().signInSilently(); GIDSignIn.sharedInstance().signIn()
+        GIDSignIn.sharedInstance().signIn()
     }
     
     static func isLoggedIn() -> Bool { return GIDSignIn.sharedInstance().hasAuthInKeychain() }
@@ -78,9 +78,9 @@ class GoogleProfile : NSObject, GIDSignInDelegate {
             GoogleProfile.imageCompletion?((givenName, familyName, "", "", imageURL))
             GoogleProfile.imageCompletion = nil
         } else {
-            GoogleProfile.completion?(("", "", "", "", ""))
+            GoogleProfile.completion?(nil)
             GoogleProfile.completion = nil
-            GoogleProfile.imageCompletion?(("", "", "", "", ""))
+            GoogleProfile.imageCompletion?(nil)
             GoogleProfile.imageCompletion = nil
             print("\(error.localizedDescription)")
         }
@@ -90,7 +90,7 @@ class GoogleProfile : NSObject, GIDSignInDelegate {
 struct LinkedInProfile {
     static var imageURL: String?
     
-    static func prefill(_ completion: @escaping ((PrefillResponse) -> Void)) {
+    static func prefill(_ completion: @escaping ((PrefillResponse?) -> Void)) {
         LinkedInSwiftHelper.authorize(inViewController: UIApplication.shared.delegate!.window!!.rootViewController!, success: { token in
             LinkedInSwiftHelper.request(url: "https://api.linkedin.com/v1/people/~:(id,first-name,last-name,location,positions,industry,headline,specialties,public-profile-url,email-address,num-connections,picture-urls::(original))?format=json", requestMethod: "GET", success: { response in
                 //                let email = (response.jsonObject["email-address"] as? String) ?? ""
@@ -105,12 +105,12 @@ struct LinkedInProfile {
                 let company = ((position?["company"] as? JSONDictionary)?["name"] as? String) ?? ""
                 DispatchQueue.main.async { completion(PrefillResponse(firstName, lastName, title, company, imageURL)) }
                 }, failure: { _ in
-                    completion(PrefillResponse("", "", "", "", ""))
+                    completion(nil)
                 })
             }, error: { (error) -> Void in
-                    completion(PrefillResponse("", "", "", "", ""))
+                    completion(nil)
                 }, cancel: { () -> Void in
-                    completion(PrefillResponse("", "", "", "", ""))
+                    completion(nil)
         })
     }
 }

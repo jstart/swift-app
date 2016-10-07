@@ -12,7 +12,7 @@ class InboxSearchTableViewController: UITableViewController {
 
     var showRecents = true
     var recentSearches = [String]()
-    var filteredConnections = [UserResponse]()
+    var filteredConnections = [ConnectionResponse]()
     weak var inbox: InboxTableViewController?
 
     override func viewDidLoad() {
@@ -23,12 +23,9 @@ class InboxSearchTableViewController: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.tableFooterView = UIView()
         automaticallyAdjustsScrollViewInsets = false
-        tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
     }
 
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return showRecents ? recentSearches.count : filteredConnections.count
     }
@@ -41,18 +38,15 @@ class InboxSearchTableViewController: UITableViewController {
             return cell
         } else {
             let cell = tableView.dequeue(ConnectionTableViewCell.self, indexPath: indexPath)
-            cell.profile.image = .imageWithColor(.gray)
-            cell.company.image = #imageLiteral(resourceName: "tesla")
-            
             let connection = filteredConnections[indexPath.row]
-            cell.configure(connection)
+            cell.configure(connection.user)
             
             return cell
         }
     }
     
     func filterBy(text: String) {
-        filteredConnections = UserResponse.connections.map({ return $0.user }).filter({return $0.searchText().localizedCaseInsensitiveContains(text)}) 
+        filteredConnections = UserResponse.connections.filter({ return $0.user!.searchText().localizedCaseInsensitiveContains(text) })
         tableView.reloadData()
     }
     
@@ -69,16 +63,13 @@ class InboxSearchTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard !showRecents else {
-            guard let inbox = inbox else { return }
+        guard !showRecents else { guard let inbox = inbox else { return }
             inbox.searchController.searchBar.text = recentSearches[indexPath.row]; return
         }
-//        let details = UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])
 
-        let cardVC = PersonCardViewController()
-//        cardVC.card = Rec(type:.person, person: person, content: nil)
-        cardVC.modalPresentationStyle = .overFullScreen
-        present(cardVC)
+        let messageView = MessagesViewController()
+        messageView.recipient = filteredConnections[indexPath.row]
+        presentingViewController?.navigationController?.push(messageView)
     }
  
 }

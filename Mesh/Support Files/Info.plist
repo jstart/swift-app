@@ -29,7 +29,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>84</string>
+	<string>106</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -40,9 +40,9 @@
 				<key>KitInfo</key>
 				<dict>
 					<key>consumerKey</key>
-					<string>5h56ksYyu5tljEbdqmAGfXIj1</string>
+					<string>qMfcBmkawFEjhksKTQX8DZ55d</string>
 					<key>consumerSecret</key>
-					<string>UbhaqO1dMp2AOy1TOsJJlw58gtBcXXiTEmfxCoivns0XQq0neY</string>
+					<string>kjIO0RBgykCp9M5cqeTsWVCPKg7Tmbk2Ij1oiNMwaN7xyRu3LC</string>
 				</dict>
 				<key>KitName</key>
 				<string>Twitter</string>
@@ -125,10 +125,6 @@
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>arm64</string>
-	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -143,10 +139,8 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>MediumCallbackURL</key>
-	<string>http://tv-mesh.appspot.com/callback</string>
+	<string>http://dev.mesh.tinderventures.com:1337/account/medium</string>
 	<key>MediumClientID</key>
-	<string>fed05de2b939</string>
-	<key>MediumClientSecret</key>
-	<string>aaa4eeda7bb7eb5982962cd5b7f428c8da328fd3</string>
+	<string>4ab8973cb07b</string>
 </dict>
 </plist>

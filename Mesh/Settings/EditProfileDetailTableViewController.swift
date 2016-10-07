@@ -48,11 +48,10 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
         picker.delegate = self; picker.dataSource = self
         
         let year = NSCalendar.autoupdatingCurrent.dateComponents([.year], from: Date()).year!
-        for index in (year - 70)...year { years.append(String(describing: index)) }
+        for index in 0...70 { years.append(String(describing: year - index)) }
     }
 
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return itemType?.editFields().count ?? 0 }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -93,23 +92,22 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
         guard textField.inputView == picker else { return }
         guard let cell = textField.superview as? EditFieldsTableViewCell else { return }
         index = tableView.indexPath(for: cell)
-        picker.selectRow(50, inComponent: type == .month ? 1 : 0, animated: false)
 
         if type == .month && cell.first.text == "" {
             cell.first.text = months[0]
-            cell.second.text = years[50]; return
+            cell.second.text = years[0]; return
         } else if cell.first.text == "" {
-            cell.first.text = years[50]; return
+            cell.first.text = years[0]; return
         }
         
         if type == .month {
             let month = months.index(of: cell.first.text!) ?? 0
             let year = years.index(of: cell.second.text!) ?? 0
-            picker.selectRow(month, inComponent: 0, animated: true)
-            picker.selectRow(year, inComponent: 1, animated: true)
+            if picker.selectedRow(inComponent: 0) != month { picker.selectRow(month, inComponent: 0, animated: true) }
+            if picker.selectedRow(inComponent: 1) != year { picker.selectRow(year, inComponent: 1, animated: true) }
         } else {
             let index = years.index(of: cell.first.text!)!
-            picker.selectRow(index, inComponent: 0, animated: true)
+            if picker.selectedRow(inComponent: 0) != index { picker.selectRow(index, inComponent: 0, animated: true) }
         }
     }
     
@@ -120,7 +118,7 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
         
         if item!.category == .education {
             request = ProfileRequest()
-        }else { // .experience
+        } else { // .experience
             var id = "", start_month = "", start_year = "", end_month = "", end_year = "", title = ""
             let current = switchView.isOn
             var company : CompanyModel?
@@ -138,14 +136,13 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
             request = ProfileRequest(title: title, companies: [company!])
         }
 
-        Client.execute(request, complete: { _ in
-            self.navigationController?.pop()
-        })
+        Client.execute(request, complete: { _ in self.navigationController?.pop() })
     }
     
     func deleteItem() { }
     
     public func numberOfComponents(in pickerView: UIPickerView) -> Int { return type == .month ? 2 : 1 }
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if type == .month { return component == 0 ?  months.count : years.count }
         return years.count
@@ -162,4 +159,5 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
         if type == .month && component == 1 { cell.second.text = year; return }
         cell.first.text = year
     }
+    
 }

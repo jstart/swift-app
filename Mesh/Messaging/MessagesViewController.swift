@@ -14,20 +14,29 @@ class MessagesViewController: JSQMessagesViewController {
     var messages = [JSQMessage]()
     var recipient : ConnectionResponse?
     var meshMessages : [MessageResponse]?
-    let label = UILabel(translates: false).then { $0.constrain(.height, constant: 44) }
+    
     var timer : Timer?
+    var senderImage : UIImage?
+    var shouldReload = true
+    
+    let label = UILabel(translates: false).then {
+        $0.constrain(.height, constant: 44)
+        $0.font = .proxima(ofSize: 18)
+    }
     let imageView = UIImageView(translates: false).then {
         $0.layer.cornerRadius = 5.0
         $0.clipsToBounds = true
         $0.backgroundColor = .gray
+        $0.contentMode = .scaleAspectFit
         $0.constrain(.width, .height, constant: 30)
     }
+    let container = UIView(translates: false).then { $0.constrain(.height, constant: 44) }
+    
     let outgoingImage = JSQMessagesBubbleImage(messageBubble: .imageWithColor(Colors.brand), highlightedImage: .imageWithColor(#colorLiteral(red: 0.9450980392, green: 0.9411764706, blue: 0.9411764706, alpha: 1)))
     let incomingImage = JSQMessagesBubbleImage(messageBubble: .imageWithColor(#colorLiteral(red: 0.9450980392, green: 0.9411764706, blue: 0.9411764706, alpha: 1)), highlightedImage: .imageWithColor(Colors.brand))
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         navigationItem.rightBarButtonItems = [UIBarButtonItem(#imageLiteral(resourceName: "overflow"), target: self, action: #selector(overflow)),
                                               UIBarButtonItem(#imageLiteral(resourceName: "chatMarkAsUnread"), target: self, action: #selector(toggleReadState))]
         
@@ -55,67 +64,56 @@ class MessagesViewController: JSQMessagesViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        title = recipient?.user.fullName()
-        self.refresh()
-
-//        showTypingIndicator = true
-        
-        Client.execute(MarkReadRequest(read: true, id: recipient?.user._id ?? "")) { _ in
-            for (index, outer) in UserResponse.connections.enumerated() {
-                if outer._id == self.recipient?._id {
-                    UserResponse.connections.remove(at: index)
-                    self.recipient!.read = true
-                    UserResponse.connections.append(self.recipient!)
-                }
+        //title = recipient?.user?.fullName()
+        if shouldReload {
+            self.refresh()
+            timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(refresh), userInfo: nil, repeats: true)
+            Client.execute(MarkReadRequest(read: true, id: recipient?.user?._id ?? "")) { _ in
+                self.recipient?.write { $0.read = true }
             }
         }
-        timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(refresh), userInfo: nil, repeats: true)
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        collectionView?.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 44, right: 0)
-        collectionView?.collectionViewLayout.invalidateLayout()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+//        showTypingIndicator = true
         
-//        label.text = recipient?.user.fullName() ?? ""
-//        
-//        let container = UIStackView(arrangedSubviews: [imageView, label]).then {
-//            $0.axis = .horizontal
-//            $0.alignment = .center
-//            $0.distribution = .fillProportionally
-//            $0.spacing = 10
-//            $0.translates = false
-//            $0.constrain(.height, constant: 44)
-//        }
-//        navigationItem.titleView = container
-//
-//        guard let url = recipient?.user.photos?.large else { return }
-//        imageView.af_setImage(withURL: URL(string: url)!)
+        label.text = recipient?.user?.fullName()
+
+        container.addSubviews(imageView, label)
+        
+        imageView.constrain(.leading, .centerY, toItem: container)
+        label.constrain(.leading, constant: 5, toItem: imageView, toAttribute: .trailing)
+        label.constrain(.trailing, .centerY, toItem: container)
+        
+        guard let url = recipient?.user?.photos?.large else { return }
+        imageView.af_setImage(withURL: URL(string: url)!)
+        container.layoutIfNeeded()
+        navigationController?.navigationBar.addSubview(container)
+        container.constrain(.centerY, .centerX, toItem: navigationController?.navigationBar)
+        container.constrain((.width, 150))
+        container.alpha = 0.0; container.fadeIn(duration: 0.2, delay: 0.2)
+        
+        container.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedUser)))
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        container.fadeOut(duration: 0.1)
         timer?.invalidate()
     }
     
     func refresh() {
         Client.execute(UpdatesRequest.latest(), complete: { response in
-            UpdatesRequest.append(response)
-            if self.meshMessages?.count != UserResponse.messages.filter({return ($0.recipient == self.recipient?.user._id || $0.sender == self.recipient?.user._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts}).count {
-                self.messages.removeAll()
+            UpdatesRequest.append(response) {
+                if self.meshMessages?.count != UserResponse.messages.filter({return ($0.recipient == self.recipient?.user?._id || $0.sender == self.recipient?.user?._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts}).count {
+                    self.messages.removeAll()
 
-                self.meshMessages = UserResponse.messages.filter({return ($0.recipient == self.recipient?.user._id || $0.sender == self.recipient?.user._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts})
-                self.meshMessages?.forEach({
-                    let message = JSQMessage(senderId: $0.sender, senderDisplayName: self.senderDisplayName(), date: Date(timeIntervalSince1970: TimeInterval($0.ts/1000)), text: $0.text!)
-                    self.messages.append(message)
-                })
-                self.collectionView?.reloadData()
-                if self.messages.count > 0 {
-                    self.collectionView?.scrollToItem(at: IndexPath(item: max(0, self.messages.count - 1), section: 0), at: .bottom, animated: false)
+                    self.meshMessages = UserResponse.messages.filter({return ($0.recipient == self.recipient?.user?._id || $0.sender == self.recipient?.user?._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts})
+                    self.meshMessages?.forEach({
+                        let message = JSQMessage(senderId: $0.sender, senderDisplayName: self.senderDisplayName(), date: Date(timeIntervalSince1970: TimeInterval($0.ts/1000)), text: $0.text!)
+                        self.messages.append(message)
+                    })
+                    self.collectionView?.reloadData()
+                    if self.messages.count > 0 {
+                        self.collectionView?.scrollToItem(at: IndexPath(item: max(0, self.messages.count - 1), section: 0), at: .bottom, animated: false)
+                    }
                 }
             }
         })
@@ -123,14 +121,8 @@ class MessagesViewController: JSQMessagesViewController {
     
     func toggleReadState() {
         guard let recipient = recipient else { return }
-        Client.execute(MarkReadRequest(read: !recipient.read, id: recipient.user._id), complete: { _ in
-            for (index, outer) in UserResponse.connections.enumerated() {
-                if outer._id == self.recipient?._id {
-                    UserResponse.connections.remove(at: index)
-                    self.recipient!.read = !self.recipient!.read
-                    UserResponse.connections.append(self.recipient!)
-                }
-            }
+        Client.execute(MarkReadRequest(read: !recipient.read, id: (recipient.user?._id)!), complete: { _ in
+            self.recipient?.write { $0.read = !$0.read }
         })
         
         Snackbar(title: "Marked " + (!recipient.read ? "Read" : "Unread")).presentIn(inputToolbar)
@@ -140,7 +132,6 @@ class MessagesViewController: JSQMessagesViewController {
         guard let recipient = recipient else { return }
 
         let title = recipient.read ? "Mark Unread" : "Mark Read"
-        
         let readState = UIAlertAction(title) { _ in self.inputToolbar.fadeIn(); self.toggleReadState() }
         let mute = UIAlertAction("Mute") { _ in self.inputToolbar.fadeIn() }
         let block = UIAlertAction("Block") { _ in self.inputToolbar.fadeIn(); self.block() }
@@ -154,7 +145,7 @@ class MessagesViewController: JSQMessagesViewController {
     func block() {
         guard let recipient = recipient else { return }
         Client.execute(ConnectionDeleteRequest(connection_id: recipient._id))
-        //UserResponse.connections?.remove(at: indexPath.row)
+        recipient.delete()
         navigationController?.pop()
     }
     
@@ -162,7 +153,7 @@ class MessagesViewController: JSQMessagesViewController {
     override func collectionView(_ collectionView: JSQMessagesCollectionView, messageDataForItemAt indexPath: IndexPath) -> JSQMessageData { return messages[indexPath.item] }
     
     override func didPressSend(_ button: UIButton, withMessageText text: String, senderId: String, senderDisplayName: String, date: Date) {
-        Client.execute(MessagesSendRequest(recipient: recipient?.user._id ?? "", text: text), complete: { response in
+        Client.execute(MessagesSendRequest(recipient: recipient?.user?._id ?? "", text: text), complete: { response in
             self.messages.append(JSQMessage(senderId: senderId, displayName: senderDisplayName, text: text))
             self.finishSendingMessage(animated: true)
         })
@@ -178,10 +169,15 @@ class MessagesViewController: JSQMessagesViewController {
         cell.messageBubbleContainerView?.clipsToBounds = true
         cell.textView?.textColor = isOutgoingMessage(messages[indexPath.row]) ? .white : .black
         cell.cellBottomLabel?.font = .proxima(ofSize: 10)
+        cell.avatarImageView?.layer.cornerRadius = 5
+        cell.avatarImageView?.clipsToBounds = true
+        
         return cell
     }
 
     override func collectionView(_ collectionView: JSQMessagesCollectionView, attributedTextForCellBottomLabelAt indexPath: IndexPath) -> NSAttributedString? {
+        if indexPath.row == 0 { return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: messages[indexPath.row].date) }
+        
         let message = messages[indexPath.row]
         guard let secondMessage = messages[safe: indexPath.row - 1] else { return nil }
         guard messages[safe: indexPath.row + 1] != nil else { return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: messages[indexPath.row].date) }
@@ -191,6 +187,8 @@ class MessagesViewController: JSQMessagesViewController {
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout, heightForCellBottomLabelAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 { return kJSQMessagesCollectionViewCellLabelHeightDefault }
+        
         let message = messages[indexPath.row]
         guard let secondMessage = messages[safe: indexPath.row - 1] else { return 0 }
         guard messages[safe: indexPath.row + 1] != nil else { return kJSQMessagesCollectionViewCellLabelHeightDefault }
@@ -198,7 +196,7 @@ class MessagesViewController: JSQMessagesViewController {
         return kJSQMessagesCollectionViewCellLabelHeightDefault
     }
     
-    override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? { return nil }
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? { return isOutgoingMessage(messages[indexPath.row]) ? nil : JSQMessagesAvatarImage(placeholder: .imageWithColor(.gray, width: 10, height: 10)) }
     
     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         if action == #selector(editMessage(_:)) || action == #selector(deleteMessage(_:)){ return true }
@@ -209,10 +207,6 @@ class MessagesViewController: JSQMessagesViewController {
 //        if action == #selector(editMessage(_:)){ editMessage(indexPath) }
         if action == #selector(deleteMessage(_:)){ deleteMessage(indexPath) }
         super.collectionView(collectionView, performAction: action, forItemAt: indexPath, withSender: sender)
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        (cell as? JSQMessagesCollectionViewCell)?.textView?.delegate = self
     }
     
     override func didReceiveMenuWillShow(_ notification: Notification) {
@@ -233,11 +227,7 @@ class MessagesViewController: JSQMessagesViewController {
     func deleteMessage(_ indexPath: IndexPath) {
         guard let meshMessage = meshMessages?[indexPath.row] else { return }
         Client.execute(MessagesDeleteRequest(id: meshMessage._id), complete: { response in
-            for (index, outer) in UserResponse.messages.enumerated() {
-                if outer._id == meshMessage._id {
-                    UserResponse.messages.remove(at: index)
-                }
-            }
+            meshMessage.delete()
             self.messages.remove(at: indexPath.row)
             self.collectionView?.reloadData()
         })
@@ -254,7 +244,15 @@ class MessagesViewController: JSQMessagesViewController {
 //        return true
     }
     
-    override func didPressAccessoryButton(_ sender: UIButton) {  }
+    func tappedUser() {
+        let cardVC = PersonCardViewController(); cardVC.modalPresentationStyle = .overFullScreen
+        let rec = RecommendationResponse(); rec.user = recipient?.user
+        cardVC.rec = rec
+        present(cardVC)
+    }
+    
+    override func didPressAccessoryButton(_ sender: UIButton) { }
     
     func image() { }
+    
 }

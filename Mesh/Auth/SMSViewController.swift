@@ -12,22 +12,17 @@ class SMSViewController: UITableViewController {
     
     var formatter = PhoneNumberFormatter()
     
-    let logo = UIImageView(image: #imageLiteral(resourceName: "logo")).then {
-        $0.translates = false
-    }
+    let logo = UIImageView(image: #imageLiteral(resourceName: "logo")).then { $0.translates = false }
     let subtitle = UILabel(translates: false).then {
-        $0.text = "Tinder for Business"
-        $0.textColor = .black; $0.font = .boldProxima(ofSize: 20)
+        $0.text = "Tinder for Business"; $0.textColor = .black; $0.font = .boldProxima(ofSize: 20)
     }
     let nextButton = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
         $0.isEnabled = true
         $0.titleLabel?.font = .boldProxima(ofSize: 20)
-        $0.setTitle("CONTINUE", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.layer.cornerRadius = 5
-        $0.clipsToBounds = true
+        $0.title = "CONTINUE"; $0.titleColor = .white
+        $0.layer.cornerRadius = 5; $0.clipsToBounds = true
         $0.constrain((.height, 70))
     }
     
@@ -36,12 +31,8 @@ class SMSViewController: UITableViewController {
         $0.autocapitalizationType = .none
         $0.autocorrectionType = .no
     }
-    let password = SkyFloatingLabelTextField.branded("Password").then {
-        $0.isSecureTextEntry = true
-    }
-    let confirmPassword = SkyFloatingLabelTextField.branded("Confirm Password").then {
-        $0.isSecureTextEntry = true
-    }
+    let password = SkyFloatingLabelTextField.branded("Password").then { $0.isSecureTextEntry = true }
+    let confirmPassword = SkyFloatingLabelTextField.branded("Confirm Password").then { $0.isSecureTextEntry = true }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,13 +77,10 @@ class SMSViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //navigationController?.setNavigationBarHidden(true, animated: true)
-       
         let _ = phone.becomeFirstResponder()
     }
     
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 3 }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -104,8 +92,7 @@ class SMSViewController: UITableViewController {
         case 0: field = phone; cell.addSubview(phone); break
         case 1: field = password; cell.addSubview(password); break
         case 2: field = confirmPassword; cell.addSubview(confirmPassword); break
-        default: break
-        }
+        default: break }
         field?.constrain((.height, -10), (.leading, 15), (.trailing, -15), toItem: cell)
         return cell
     }
@@ -117,7 +104,7 @@ class SMSViewController: UITableViewController {
     func complete() {
         Client.execute(AuthRequest(phone_number: phone.text!.onlyNumbers(), password: password.text!, password_verify: confirmPassword.text!), complete: { response in
             if response.result.value == nil {
-                let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
+                let alert = UIAlertController.alert(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error")
                 alert.addAction(UIAlertAction.ok())
                 self.present(alert)
             }

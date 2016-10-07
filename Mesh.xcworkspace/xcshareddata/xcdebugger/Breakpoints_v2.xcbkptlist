@@ -16,7 +16,6 @@
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
-            condition = "(BOOL)(! (BOOL)[[(NSException *)$eax className] hasPrefix:@&#x201c;_NSCoreData&#x201d;])"
             continueAfterRunningActions = "No"
             symbolName = "objc_exception_throw"
             moduleName = "">

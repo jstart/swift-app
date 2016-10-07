@@ -11,17 +11,14 @@ import UIKit
 class UserEditPasswordViewController: UITableViewController {
     
     let header = UILabel(translates: false).then {
-        $0.text = "Change Your Password"
-        $0.font = .boldProxima(ofSize: 20)
+        $0.text = "Change Your Password"; $0.font = .boldProxima(ofSize: 20)
     }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
         $0.text = "This new phone number will replace the number that you’re currently using."
-        $0.font = .proxima(ofSize: 16)
-        $0.textColor = .gray
+        $0.font = .proxima(ofSize: 16); $0.textColor = .gray
         $0.textAlignment = .center
     }
-    
     let nextButton = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
@@ -33,15 +30,9 @@ class UserEditPasswordViewController: UITableViewController {
         $0.clipsToBounds = true
         $0.constrain((.height, 70))
     }
-    let current = SkyFloatingLabelTextField.branded("Current Password").then {
-        $0.isSecureTextEntry = true
-    }
-    let password = SkyFloatingLabelTextField.branded("Password").then {
-        $0.isSecureTextEntry = true
-    }
-    let confirmPassword = SkyFloatingLabelTextField.branded("Confirm Password").then {
-        $0.isSecureTextEntry = true
-    }
+    let current = SkyFloatingLabelTextField.branded("Current Password").then { $0.isSecureTextEntry = true }
+    let password = SkyFloatingLabelTextField.branded("Password").then { $0.isSecureTextEntry = true }
+    let confirmPassword = SkyFloatingLabelTextField.branded("Confirm Password").then { $0.isSecureTextEntry = true }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +45,6 @@ class UserEditPasswordViewController: UITableViewController {
         tableView.separatorStyle = .none
         tableView.estimatedRowHeight = 100
         tableView.backgroundColor = .white
-        
         
         let inputView = UIView(translates: false)
         inputView.addSubview(nextButton)
@@ -89,8 +79,6 @@ class UserEditPasswordViewController: UITableViewController {
     }
     
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 3 }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -102,16 +90,13 @@ class UserEditPasswordViewController: UITableViewController {
         case 0: field = current; cell.addSubview(current); break
         case 1: field = password; cell.addSubview(password); break
         case 2: field = confirmPassword; cell.addSubview(confirmPassword); break
-        default: break
-        }
+        default: break }
         field?.constrain((.height, -10), (.leading, 15), (.trailing, -15), toItem: cell)
         return cell
     }
     
     func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 90; nextButton.isEnabled = (current.text != "" && password.text != "" && confirmPassword.text != "") }
     
-    func complete() {
-        
-    }
+    func complete() { }
 
 }

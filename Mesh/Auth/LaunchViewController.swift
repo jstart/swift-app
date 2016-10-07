@@ -14,11 +14,12 @@ class LaunchViewController: UIViewController {
 
     let logo = UIImageView(image: #imageLiteral(resourceName: "logo_large")).then {
         $0.translates = false
+        $0.contentMode = .scaleAspectFit
+        $0.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
     }
     let subtitle = UILabel(translates: false).then {
-        $0.text = "Tinder for Business"
-        $0.textColor = .black
-        $0.font = .boldProxima(ofSize: 20)
+        $0.text = "Tinder for Business"; $0.textColor = .black; $0.font = .boldProxima(ofSize: 20)
+        $0.constrain((.height, 24))
     }
     let getStarted = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
@@ -41,7 +42,6 @@ class LaunchViewController: UIViewController {
     }
     var topTimer : Timer?
     var center : CGPoint?
-    
     var top = true
 
     override func viewDidLoad() {
@@ -51,19 +51,24 @@ class LaunchViewController: UIViewController {
         getStarted.addTarget(self, action: #selector(skills), for: .touchUpInside)
         signIn.addTarget(self, action: #selector(phone), for: .touchUpInside)
         view.addSubviews(logo, subtitle, bottomCard, topCard, getStarted, signIn, legal)
-        
-        logo.constrain((.leading, 100), (.trailing, -100), (.top, 35), toItem: view)
-        logo.constrain(.bottom, constant: -10, toItem: subtitle, toAttribute: .top)
+        logo.constrain(.top, relatedBy: .greaterThanOrEqual, constant: 20, toItem: view)
+        logo.constrain(.top, relatedBy: .lessThanOrEqual, constant: 35, toItem: view)
+        logo.constrain((.leading, 100), (.trailing, -100), toItem: view)
+        logo.constrain(.bottom, relatedBy: .lessThanOrEqual, constant: -20, toItem: subtitle, toAttribute: .top)
         
         subtitle.constrain(.centerX, toItem: view)
-        subtitle.constrain(.bottom, constant: -25, toItem: topCard, toAttribute: .top)
+        subtitle.constrain(.bottom, relatedBy: .lessThanOrEqual, constant: -20, toItem: topCard, toAttribute: .top)
         
         topCard.constrain(.centerX, toItem: view)
         topCard.constrain((.width, -120), (.centerY, -40), toItem: view)
         bottomCard.constrain(.centerX, toItem: view)
         bottomCard.constrain((.width, -120), (.centerY, -40), toItem: view)
-//      card.constrain(.height, toItem: card, toAttribute: .width, multiplier: 760/690)
+        topCard.constrain(.height, toItem: topCard, toAttribute: .width, multiplier: 760/690)
+        bottomCard.constrain(.height, toItem: bottomCard, toAttribute: .width, multiplier: 760/690)
 
+        topCard.constrain(.height, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .height, multiplier: 0.4)
+        bottomCard.constrain(.height, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .height, multiplier: 0.4)
+        
 //      getStarted.constrain(.top, constant: 70, toItem: card, toAttribute: .bottom)
         getStarted.constrain(.centerX, toItem: view)
         getStarted.constrain(.leading, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .leadingMargin)
@@ -108,7 +113,7 @@ class LaunchViewController: UIViewController {
                 self.bottomCard.transform = self.bottomCard.transform.rotated(by: (-45 * CGFloat(M_PI)) / 180)
                 self.topCard.transform = .identity
             })
-        }else {
+        } else {
             view.bringSubview(toFront: topCard)
             bottomCard.center = center!
             bottomCard.transform = .identity

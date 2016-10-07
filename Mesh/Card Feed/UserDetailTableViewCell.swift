@@ -22,6 +22,7 @@ class UserDetailTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         icon.layer.cornerRadius = 5.0
+        icon.clipsToBounds = true
         
         button.layer.borderColor = #colorLiteral(red: 0.1647058824, green: 0.7098039216, blue: 0.9960784314, alpha: 1).cgColor
         button.layer.borderWidth = 1.5
@@ -43,6 +44,9 @@ class UserDetailTableViewCell: UITableViewCell {
         top.text = detail.firstText
         bottom.text = detail.secondText
         year.text = detail.thirdText
+        if let logo = detail.logo {
+            icon.af_setImage(withURL: URL(string: logo)!)
+        }
     }
     
     @IBAction func pressed(_ sender: AnyObject) { buttonHandler() }

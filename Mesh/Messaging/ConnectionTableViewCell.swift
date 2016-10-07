@@ -58,6 +58,8 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         
         profile.backgroundColor = .gray
         company.image = #imageLiteral(resourceName: "tesla")
+        
+        separatorInset = .zero
     }
     
     func showInitials(firstName: String, lastName: String) {
@@ -67,18 +69,12 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         let firstInitial = firstName.characters.first ?? Character(" "), lastInitial = lastName.characters.first ?? Character(" ")
         initials.text = ([firstInitial, lastInitial] as NSArray).componentsJoined(by: "").replace("\"", with: "").uppercased()
     }
-    
-    //TODO Only core data
-    func configure(_ user: User){
-        name.text = user.fullName()
-        title.text = user.fullTitle()
-        profile.backgroundColor = .gray
-    }
-    
-    func configure(_ user: UserResponse){
-        name.text = user.fullName()
-        title.text = user.fullTitle()
-        profile.backgroundColor = .gray
+
+    func configure(_ user: UserResponse?){
+        name.text = user?.fullName()
+        title.text = user?.fullTitle()
+        guard let url = user?.photos?.large else { showInitials(firstName: (user?.first_name) ?? "", lastName: (user?.last_name) ?? ""); return }
+        profile.af_setImage(withURL: URL(string: url)!)
     }
     
     func configure(_ detail: UserDetail){

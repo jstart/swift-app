@@ -10,9 +10,7 @@ import Foundation
 import UIKit
 import Alamofire
 
-struct LIAccessToken {
-    let accessToken: String, expireDate: TimeInterval, isFromMobileSDK: Bool
-}
+struct LIAccessToken { let accessToken: String, expireDate: TimeInterval, isFromMobileSDK: Bool }
 
 struct LinkedInSwiftHelper {
     static var accessToken: LIAccessToken?
@@ -41,9 +39,8 @@ struct LinkedInSwiftHelper {
     }
     
     static func authorize(inViewController: UIViewController, success: @escaping ((LIAccessToken) -> Void), error: @escaping ((Error) -> Void), cancel: @escaping ((Void) -> Void)) {
-        if accessToken != nil {
-            success(accessToken!)
-        } else {
+        if accessToken != nil { success(accessToken!) }
+        else {
             // removing LinkedIn SDK because it causes warnings and prevents bitcode compilation.  Also probably not that valuable to let people auth through the linkedin app
 //            if isLinkedInInstalled {
 //                if LISDKSessionManager.sharedInstance().session.accessToken != nil {

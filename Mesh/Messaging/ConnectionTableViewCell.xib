@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A319" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -33,18 +33,22 @@
                             <constraint firstAttribute="height" constant="30" id="VM6-jI-B3K"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="753" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MNl-z4-Zl3">
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <fontDescription key="fontDescription" name="ProximaNovaSoft-Regular" family="Proxima Nova Soft" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VL6-KE-beo">
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <fontDescription key="fontDescription" name="ProximaNovaSoft-Regular" family="Proxima Nova Soft" pointSize="17"/>
-                        <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="t8g-ta-sVc">
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MNl-z4-Zl3">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="ProximaNovaSoft-Regular" family="Proxima Nova Soft" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VL6-KE-beo">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="ProximaNovaSoft-Regular" family="Proxima Nova Soft" pointSize="17"/>
+                                <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRu-7B-g3X">
                         <fontDescription key="fontDescription" name="ProximaNovaSoft-Regular" family="Proxima Nova Soft" pointSize="17"/>
                         <state key="normal" title="Button"/>
@@ -59,23 +63,20 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottomMargin" secondItem="VL6-KE-beo" secondAttribute="bottom" constant="8" id="3sX-3s-H6c"/>
                     <constraint firstItem="645-uL-DIc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="4Uv-yz-S5F"/>
+                    <constraint firstItem="t8g-ta-sVc" firstAttribute="leading" secondItem="645-uL-DIc" secondAttribute="trailing" constant="8" id="6xf-4C-jAY"/>
                     <constraint firstAttribute="trailingMargin" secondItem="hZD-gg-LGe" secondAttribute="trailing" id="9hG-WC-4gG"/>
+                    <constraint firstItem="t8g-ta-sVc" firstAttribute="centerY" secondItem="645-uL-DIc" secondAttribute="centerY" id="BFY-W6-fym"/>
                     <constraint firstAttribute="trailingMargin" secondItem="eRu-7B-g3X" secondAttribute="trailing" id="D7T-mI-Dt6"/>
                     <constraint firstItem="CQu-At-0RE" firstAttribute="width" secondItem="645-uL-DIc" secondAttribute="width" id="FXU-zh-bon"/>
                     <constraint firstItem="hZD-gg-LGe" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="FbO-7r-1iJ"/>
                     <constraint firstItem="645-uL-DIc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="4" id="Gh0-Nh-wN8"/>
-                    <constraint firstItem="hZD-gg-LGe" firstAttribute="leading" secondItem="MNl-z4-Zl3" secondAttribute="trailing" constant="8" id="HAt-zp-D9a"/>
                     <constraint firstItem="CQu-At-0RE" firstAttribute="centerX" secondItem="645-uL-DIc" secondAttribute="centerX" id="Jp2-0i-ci6"/>
                     <constraint firstItem="CQu-At-0RE" firstAttribute="centerY" secondItem="645-uL-DIc" secondAttribute="centerY" id="NKX-uP-obC"/>
-                    <constraint firstItem="MNl-z4-Zl3" firstAttribute="leading" secondItem="645-uL-DIc" secondAttribute="trailing" constant="8" id="Ng4-eu-fdR"/>
-                    <constraint firstItem="MNl-z4-Zl3" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="2" id="Og9-vZ-eaM"/>
+                    <constraint firstItem="t8g-ta-sVc" firstAttribute="height" secondItem="645-uL-DIc" secondAttribute="height" id="Twn-FB-cIP"/>
                     <constraint firstItem="645-uL-DIc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="4" id="ZQu-vs-Y8O"/>
+                    <constraint firstItem="eRu-7B-g3X" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="t8g-ta-sVc" secondAttribute="trailing" constant="8" id="b7L-pp-cFW"/>
                     <constraint firstAttribute="bottomMargin" secondItem="645-uL-DIc" secondAttribute="bottom" constant="4" id="fy7-ef-0Tb"/>
-                    <constraint firstItem="VL6-KE-beo" firstAttribute="leading" secondItem="645-uL-DIc" secondAttribute="trailing" constant="8" id="gIX-Rr-fE1"/>
-                    <constraint firstItem="hZD-gg-LGe" firstAttribute="leading" secondItem="VL6-KE-beo" secondAttribute="trailing" constant="8" id="ldQ-my-xJg"/>
-                    <constraint firstItem="VL6-KE-beo" firstAttribute="top" secondItem="MNl-z4-Zl3" secondAttribute="bottom" constant="8" id="qAx-fP-lqH"/>
                     <constraint firstItem="eRu-7B-g3X" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="vai-VB-iOq"/>
                     <constraint firstItem="CQu-At-0RE" firstAttribute="height" secondItem="645-uL-DIc" secondAttribute="height" id="yE4-rV-SqD"/>
                 </constraints>

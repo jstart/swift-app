@@ -16,11 +16,14 @@ struct ContactsSaveRequest : AuthenticatedRequest {
     
     let contacts : [CNContact]
     
-    func parameters() -> [String : Any] { return ["contacts" : contacts.map({
-        return ["phone_number": $0.phoneNumberStrings?.first ?? "",
-                "first_name": $0.givenName, "last_name": $0.familyName,
-                "email": $0.emailStrings?.first ?? ""]
-        })]
+    func parameters() -> JSONDictionary {
+        var contacts = [JSONDictionary]()
+        self.contacts.forEach({
+            contacts.append(["phone_number": $0.phoneNumberStrings?.first ?? "",
+                    "first_name": $0.givenName, "last_name": $0.familyName,
+                    "email": $0.emailStrings?.first ?? ""])
+        })
+        return ["contacts" : contacts]
     }
 }
 

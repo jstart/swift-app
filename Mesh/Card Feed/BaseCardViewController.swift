@@ -23,8 +23,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
     }
     let leftLabel = UILabel(translates: false).then {
         $0.text = "PASS"
-        $0.font = .boldProxima(ofSize: 25)
-        $0.textColor = .white
+        $0.font = .boldProxima(ofSize: 25); $0.textColor = .white
         $0.textAlignment = .center
         $0.constrain((.height, 25))
     }
@@ -42,8 +41,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
     }
     let rightLabel = UILabel(translates: false).then {
         $0.text = "LIKE"
-        $0.font = .boldProxima(ofSize: 25)
-        $0.textColor = .white
+        $0.font = .boldProxima(ofSize: 25); $0.textColor = .white
         $0.textAlignment = .center
         $0.constrain((.height, 25))
     }
@@ -68,8 +66,9 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
         
         rightStamp.addArrangedSubview(rightIcon); rightStamp.addArrangedSubview(rightLabel)
         leftStamp.addArrangedSubview(leftIcon); leftStamp.addArrangedSubview(leftLabel)
-        overlayView.addSubviews(leftStamp, rightStamp)
+        [leftIcon, leftLabel, rightIcon, rightLabel].forEach({ $0.layer.shadowColor = UIColor.darkGray.cgColor; $0.layer.shadowOpacity = 1.0; $0.layer.shadowRadius = 5; $0.layer.shadowOffset = .zero })
         
+        overlayView.addSubviews(leftStamp, rightStamp)
         leftStamp.constrain(.centerX, .centerY, .width, toItem: overlayView); rightStamp.constrain(.centerX, .centerY, .width, toItem: overlayView)
     }
     
@@ -109,22 +108,22 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
             switch swipeDirection {
             case UISwipeGestureRecognizerDirection.up:
                 UIView.animate(withDuration: 0.2, animations: {
-                    sender.view?.frame.origin.y = -800
+                    sender.view?.frame.origin.y = -sender.view!.superview!.frame.height
                     }, completion: { _ in
                         self.removeSelf(.up) }); break
             case UISwipeGestureRecognizerDirection.left:
                 UIView.animate(withDuration: 0.2, animations: {
-                    sender.view?.frame.origin.x = -800
+                    sender.view?.frame.origin.x = -sender.view!.superview!.frame.width - 50
                     }, completion: { _ in
                         self.removeSelf(.left) }); break
             case UISwipeGestureRecognizerDirection.right:
                 UIView.animate(withDuration: 0.2, animations: {
-                    sender.view?.frame.origin.x = 800
+                    sender.view?.frame.origin.x = sender.view!.superview!.frame.width + 100
                     }, completion: { _ in
                         self.removeSelf(.right) }); break
             case UISwipeGestureRecognizerDirection.down:
                 UIView.animate(withDuration: 0.2, animations: {
-                    sender.view?.frame.origin.y = 800
+                    sender.view?.frame.origin.y = sender.view!.superview!.frame.height
                     }, completion: { _ in
                         self.removeSelf(.down) }); break
             default:
@@ -148,7 +147,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
             let translation = sender.translation(in: view)
             sender.view?.center = CGPoint(x: (sender.view?.center.x)! + translation.x, y: (sender.view?.center.y)! + translation.y)
             if state.draggingInCurrentDirectionAllowed(){
-                animateOverlay(state.getSwipeDirection(), translation: translation)
+                animateOverlay(state.getSwipeDirection())
             }
             sender.setTranslation(.zero, in: view)
         default: break }
@@ -157,36 +156,39 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
     func removeSelf(_ direction : UISwipeGestureRecognizerDirection) {
         viewWillDisappear(true); viewDidDisappear(true)
         presentingViewController?.dismiss()
-        if self is TweetCardViewController || self is EventCardViewController || self is SkillCardViewController { view.removeFromSuperview() }
+        view.removeFromSuperview()
         delegate?.swiped(direction)
     }
     
-    func animateOverlay(_ direction: UISwipeGestureRecognizerDirection, translation: CGPoint) {
+    func animateOverlay(_ direction: UISwipeGestureRecognizerDirection) {
         if state.meetsPositionRequirements(direction) {
             rightStamp.alpha = direction == .right ? 1.0 : 0; leftStamp.alpha = direction == .left ? 1.0 : 0
         }
+        var overlayAlpha : CGFloat = 0
         switch direction {
         case UISwipeGestureRecognizerDirection.up:
-            overlayView.alpha = min(1, ((view.superview!.center.y - view.center.y)/100))
+            overlayAlpha = min(1, ((view.superview!.center.y - view.center.y)/50))
         case UISwipeGestureRecognizerDirection.down:
-            overlayView.alpha = min(1, ((view.center.y - view.superview!.center.y)/100))
+            overlayAlpha = min(1, ((view.center.y - view.superview!.center.y)/50))
         case UISwipeGestureRecognizerDirection.left:
             let progress = min(1, ((view.center.x - view.superview!.center.x)/200)) * 10
             view.transform = CGAffineTransform(rotationAngle:(progress * CGFloat(M_PI)) / 180)
             if view.center.x <= view.superview!.center.x {
-                overlayView.alpha = min(1, ((view.superview!.center.x - view.center.x)/100))
+                overlayAlpha = min(1, ((view.superview!.center.x - view.center.x)/50))
             } else {
-                overlayView.alpha = min(1, ((view.center.x - view.superview!.center.x)/100))
+                overlayAlpha = min(1, ((view.center.x - view.superview!.center.x)/50))
             }
         case UISwipeGestureRecognizerDirection.right:
             let progress = min(1, ((view.center.x - view.superview!.center.x)/200)) * 10
             view.transform = CGAffineTransform(rotationAngle:(progress * CGFloat(M_PI)) / 180)
             if view.center.x >= view.superview!.center.x {
-                overlayView.alpha = min(1, ((view.center.x - view.superview!.center.x)/100))
+                overlayAlpha = min(1, ((view.center.x - view.superview!.center.x)/50))
             } else {
-                overlayView.alpha = min(1, ((view.superview!.center.x - view.center.x)/100))
+                overlayAlpha = min(1, ((view.superview!.center.x - view.center.x)/50))
             }
         default: return }
+        
+        overlayView.alpha = overlayAlpha
     }
     
 }

@@ -20,6 +20,9 @@ class LIALinkedInAuthorizationViewController : UIViewController, WKNavigationDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "Connect LinkedIn"
+        
         let cancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(tappedCancel(sender:)))
         navigationItem.leftBarButtonItem = cancel;
     

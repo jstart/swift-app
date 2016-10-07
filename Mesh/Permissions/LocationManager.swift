@@ -6,11 +6,13 @@
 //  Copyright © 2016 Tinder. All rights reserved.
 //
 
-import Foundation
 import CoreLocation
+import MapKit
 import UIKit
 
-class LocationManager : NSObject, CLLocationManagerDelegate {
+typealias PlacemarkResult = (lat: Double, lon: Double, title: String, subtitle: String?)
+
+class LocationManager : NSObject, CLLocationManagerDelegate, MKLocalSearchCompleterDelegate {
     
     static let shared = LocationManager()
     
@@ -19,6 +21,10 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     
     let geocoder = CLGeocoder()
     let manager = CLLocationManager()
+    var searchResults = [MKLocalSearchCompletion]()
+    let searchCompleter = MKLocalSearchCompleter()
+    var searchCompletion = {}
+
     static var locationUpdate : ((CLLocation) -> Void)? = nil
     
     static func cityState() -> String{
@@ -36,22 +42,17 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
             shared.manager.startMonitoringSignificantLocationChanges()
             shared.manager.requestLocation()
         }
-        if CLLocationManager.authorizationStatus() == .notDetermined {
-            shared.manager.requestWhenInUseAuthorization()
-        }
+        if CLLocationManager.authorizationStatus() == .notDetermined { shared.manager.requestWhenInUseAuthorization() }
         //return (CLLocationManager.locationServicesEnabled(), CLLocationManager.authorizationStatus())
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch (status) {
-        case .authorizedWhenInUse:
-            manager.startMonitoringSignificantLocationChanges()
-            break
+        case .authorizedWhenInUse: manager.startMonitoringSignificantLocationChanges(); break
         case .restricted, .denied:
-            let alertController = UIAlertController(
+            let alertController = UIAlertController.alert(
                 title: "Location Access Disabled",
-                message: "In order to match you with nearby users & events, please open this app's settings and set location access to 'When in use'.",
-                preferredStyle: .alert)
+                message: "In order to match you with nearby users & events, please open this app's settings and set location access to 'When in use'.")
             
             let openAction = UIAlertAction("Open Settings") { (action) in
                 guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
@@ -59,10 +60,8 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
             }
             alertController.addActions(UIAlertAction.cancel(), openAction)
             
-            UIApplication.shared.keyWindow!.rootViewController!.present(alertController)
-            break
-        default: break
-        }
+            UIApplication.shared.keyWindow!.rootViewController!.present(alertController); break
+        default: break }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { print(error) }
@@ -74,4 +73,30 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
             LocationManager.currentPlacemark = placemark!.first
         })
     }
+    
+    func search(_ text: String) {
+        if text == "" {
+            searchResults = [MKLocalSearchCompletion](); searchCompletion(); return
+        }
+        searchCompleter.delegate = self
+        searchCompleter.queryFragment = text
+    }
+    
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        searchResults = completer.results; searchCompletion()
+    }
+    
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+        print(error)
+    }
+    
+    func searchResultToPlacemark(_ result: MKLocalSearchCompletion, completion: @escaping ((PlacemarkResult?) -> Void)) {
+        let searchRequest = MKLocalSearchRequest(completion: result)
+        let search = MKLocalSearch(request: searchRequest)
+        search.start { (response, error) in
+            guard let mapItem = response?.mapItems[safe: 0] else { completion(nil); return }
+            completion((mapItem.placemark.coordinate.latitude, mapItem.placemark.coordinate.longitude, mapItem.name!, nil))
+        }
+    }
+    
 }

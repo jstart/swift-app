@@ -11,6 +11,7 @@ import UIKit
 class CardDetailViewController : UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource, QuickPageControlDelegate {
     
     var tapRec : UITapGestureRecognizer?
+    var details : UserDetails?
     let control = QuickPageControl(categories: [.connections, .experience, .education, .skills, .events])
     let pageController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil).then {
         $0.view.translates = false
@@ -21,7 +22,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.layer.cornerRadius = 5.0
+        view.layer.cornerRadius = 10.0
         view.layer.shadowColor = UIColor.lightGray.cgColor
         view.layer.shadowOpacity = 0.5
         view.backgroundColor = .white
@@ -32,7 +33,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         for (index, category) in [QuickViewCategory.connections, QuickViewCategory.experience, QuickViewCategory.education, QuickViewCategory.skills, QuickViewCategory.events].enumerated() {
             let table = UserDetailTableViewController()
             table.category = category
-            table.details = []
+            table.details = details!.details(forIndex: index)
             table.index = index
             table.dismissHandler = {
                 self.presentingViewController?.dismiss()

@@ -22,18 +22,16 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
     }
     let titleLabel = UILabel(translates: false).then {
         $0.textAlignment = .center
-        $0.font = .boldProxima(ofSize: 20)
-        $0.textColor = .black
+        $0.font = .boldProxima(ofSize: 20); $0.textColor = .black
     }
     let textLabel = UILabel(translates: false).then {
         $0.contentMode = .top
         $0.numberOfLines = 0
         $0.textAlignment = .center
-        $0.font = .proxima(ofSize: 16)
-        $0.textColor = .lightGray
+        $0.font = .proxima(ofSize: 16); $0.textColor = .lightGray
     }
     var actions = [AlertAction]()
-    var buttons : [UIButton] = []
+    var buttons = [UIButton]()
     
     convenience init(_ newActions : [AlertAction], image: UIImage = UIImage()) {
         self.init()
@@ -93,7 +91,6 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
     func buttonPress(sender: UIButton) { for action in actions {  if sender.titleLabel?.text == action.title { action.handler() } } }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? { return AlertTransition().then { $0.presenting = false } }
-    
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? { return AlertTransition() }
-}
 
+}

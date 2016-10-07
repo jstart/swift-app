@@ -25,10 +25,10 @@ class LaunchCardView: CardView {
     }
     let text = UILabel().then {
         $0.text = "Connect and chat with people in your industry"
-        $0.font = .proxima(ofSize: 16)
+        $0.font = .proxima(ofSize: 16); $0.textColor = .lightGray
         $0.textAlignment = .center
-        $0.textColor = .lightGray
         $0.numberOfLines = 0
+        $0.adjustsFontSizeToFitWidth = true
     }
     
     convenience init(_ string: String) {
@@ -36,7 +36,6 @@ class LaunchCardView: CardView {
         backgroundColor = #colorLiteral(red: 0.7254901961, green: 0.9019607843, blue: 1, alpha: 1)
         layer.shadowOpacity = 0.20
         layer.shadowRadius = 5
-//        addMotionEffect(UIMotionEffect.twoAxesTilt(strength: 0.25))
         translates = false
         constrain((.height, 305))
         
@@ -52,6 +51,7 @@ class LaunchCardView: CardView {
         stack.alignment = .center
         bottom.addSubview(stack)
         stack.constrain(.centerX, .centerY, .leadingMargin, .trailingMargin, toItem: bottom)
+        stack.constrain((.bottom, -5), toItem: bottom)
     }
     
     override func layoutSubviews() {
@@ -60,4 +60,3 @@ class LaunchCardView: CardView {
     }
     
 }
-

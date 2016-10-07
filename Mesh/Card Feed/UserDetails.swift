@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import RealmSwift
 
-enum FieldType { case text, month, year, toggle }
+enum FieldType { case text, autocomplete, month, year, toggle }
 
 typealias EditField = (placeholder: String, type: FieldType)
 
@@ -16,6 +17,7 @@ protocol UserDetail {
     var hasButton : Bool { get }
     var hasDate : Bool { get }
     
+    var logo : String? { get }
     var firstText : String { get }
     var secondText : String { get }
     var thirdText : String { get }
@@ -30,6 +32,7 @@ extension UserDetail {
     var hasButton : Bool { return false }
     var hasDate : Bool { return false }
     
+    var logo : String? { return nil }
     var firstText : String { return "" }
     var secondText : String { return "" }
     var thirdText : String { return "" }
@@ -113,8 +116,18 @@ struct Event : UserDetail {
 
 struct UserDetails {
     var connections : [ConnectionDetail]
-    var experiences : [Experience]
-    var educationItems : [Education]
-    var skills : [Skill]
+    var experiences : [CompanyResponse]
+    var educationItems : [SchoolResponse]
+    var skills : [InterestResponse]
     var events : [Event]
+    
+    func details(forIndex: Int) -> [UserDetail]? {
+        switch forIndex {
+        case 0: return connections
+        case 1: return experiences
+        case 2: return educationItems
+        case 3: return skills
+        case 4: return events
+        default: return nil }
+    }
 }

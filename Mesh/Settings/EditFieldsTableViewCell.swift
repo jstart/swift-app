@@ -11,12 +11,10 @@ import UIKit
 class EditFieldsTableViewCell : UITableViewCell {
     
     let first = SkyFloatingLabelTextField.branded("").then {
-        $0.lineColor = .clear
-        $0.selectedLineColor = .clear
+        $0.lineColor = .clear; $0.selectedLineColor = .clear
     }
     let second = SkyFloatingLabelTextField.branded("").then {
-        $0.lineColor = .clear
-        $0.selectedLineColor = .clear
+        $0.lineColor = .clear;  $0.selectedLineColor = .clear
     }
 
     func configure(twoFields: Bool = false) {
@@ -27,13 +25,13 @@ class EditFieldsTableViewCell : UITableViewCell {
             second.constrain((.trailing, -15), (.height, -10), (.top, 5), toItem: self)
             second.constrain(.leading, constant: 5, toItem: first, toAttribute: .trailing)
             second.constrain((.width, 0), toItem: first)
-        }else {
+        } else {
             addSubview(first)
             first.constrain((.height, -10), (.leading, 15), (.trailing, -15), (.top, 5), toItem: self)
         }
     }
     
     required override init(style: UITableViewCellStyle, reuseIdentifier: String?) { super.init(style: style, reuseIdentifier: reuseIdentifier) }
-    
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    
 }

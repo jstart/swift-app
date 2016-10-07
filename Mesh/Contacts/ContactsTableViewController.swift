@@ -27,7 +27,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         searchController.delegate = self
         searchController.searchBar.placeholder = "Search for people"
         searchController.searchBar.delegate = self
-        
+        searchController.hidesNavigationBarDuringPresentation = false
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
         //navigationItem.titleView = searchController.searchBar
@@ -38,14 +38,16 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.tableFooterView = UIView()
+        tableView.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
         tableView.allowsSelection = false
         //navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close   ", style: .plain, target: self, action: #selector(close))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add All", style: .plain, target: self, action: #selector(addAll))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add All", style: .plain, target: self, action: #selector(addAll))        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        navigationController?.navigationBar.topItem?.title = ""
+//        UINavigationBar.appearance().isTranslucent = true
 
         guard ContactsManager.authStatus != .authorized else { fetchContacts(); return }
         
@@ -102,9 +104,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         })
     }
     
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        navigationItem.setRightBarButton(nil, animated: true)
-    }
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) { }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) { }
     
@@ -183,4 +183,5 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         alert.modalPresentationStyle = .overFullScreen
         present(alert)
     }
+    
 }

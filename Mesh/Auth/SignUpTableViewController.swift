@@ -56,7 +56,7 @@ class SignUpTableViewController: UITableViewController, UITextFieldDelegate {
                 LaunchData.fetchLaunchData()
                 UIApplication.shared.delegate!.window??.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
             } else {
-                let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
+                let alert = UIAlertController.alert(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error")
                 alert.addAction(UIAlertAction.ok())
                 self.present(alert)
             }

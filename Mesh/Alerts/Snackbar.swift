@@ -15,15 +15,12 @@ class Snackbar : UIView {
     var handler = { return false }
     var dismissed = {}
     let message = UILabel(translates: false).then {
-        $0.textColor = .white
-        $0.font = .proxima(ofSize: 14)
+        $0.textColor = .white; $0.font = .proxima(ofSize: 14)
         $0.numberOfLines = 3
         $0.backgroundColor = #colorLiteral(red: 0.1960784314, green: 0.1960784314, blue: 0.1960784314, alpha: 1)
     }
-    
     let button = UIButton(translates: false).then {
-        $0.titleLabel?.font = .semiboldProxima(ofSize: 13)
-        $0.titleColor = #colorLiteral(red: 0.09803921569, green: 0.7058823529, blue: 1, alpha: 1)
+        $0.titleLabel?.font = .semiboldProxima(ofSize: 13); $0.titleColor = #colorLiteral(red: 0.09803921569, green: 0.7058823529, blue: 1, alpha: 1)
     }
     
     var timer : Timer?
@@ -67,12 +64,14 @@ class Snackbar : UIView {
             view.layoutIfNeeded()
             }, completion: { _ in
                 guard !self.persist else { return }
-                self.timer = Timer.scheduledTimer(timeInterval: self.snackDuration, target: self, selector: #selector(self.dismiss), userInfo: nil, repeats: false)
+                self.timer = Timer.scheduledTimer(timeInterval: self.snackDuration, target: self, selector: #selector(self.dismissWithHandler), userInfo: nil, repeats: false)
         })
     }
     
     func pressed() { if handler() { dismiss(false) } }
     
+    func dismissWithHandler() { dismiss() }
+        
     func dismiss(_ callDismissHandler: Bool = true) {
         UIView.animate(withDuration: 0.2, animations: {
             self.superview?.constraintFor(.top, toItem: self).constant = 0

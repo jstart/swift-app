@@ -11,8 +11,7 @@ import UIKit
 class UserEditEmailViewController: UITableViewController {
     
     let header = UILabel(translates: false).then {
-        $0.text = "Add Your Email"
-        $0.font = .boldProxima(ofSize: 20)
+        $0.text = "Add Your Email"; $0.font = .boldProxima(ofSize: 20)
     }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
@@ -21,7 +20,6 @@ class UserEditEmailViewController: UITableViewController {
         $0.textColor = .gray
         $0.textAlignment = .center
     }
-    
     let nextButton = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
@@ -34,8 +32,7 @@ class UserEditEmailViewController: UITableViewController {
         $0.constrain((.height, 70))
     }
     let email = SkyFloatingLabelTextField.branded("Email").then {
-        $0.keyboardType = .emailAddress
-        $0.autocapitalizationType = .none
+        $0.keyboardType = .emailAddress; $0.autocapitalizationType = .none
     }
     
     override func viewDidLoad() {
@@ -82,8 +79,6 @@ class UserEditEmailViewController: UITableViewController {
     }
     
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 1 }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -93,8 +88,7 @@ class UserEditEmailViewController: UITableViewController {
         var field : SkyFloatingLabelTextField? = nil
         switch indexPath.row {
         case 0: field = email; cell.addSubview(email); break
-        default: break
-        }
+        default: break }
         field?.constrain((.height, -10), (.leading, 15), (.trailing, -15), toItem: cell)
         return cell
     }
@@ -102,10 +96,7 @@ class UserEditEmailViewController: UITableViewController {
     func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 90; nextButton.isEnabled = (email.text != "") }
     
     func complete() {
-        let request = ProfileRequest(email: email.text)
-        Client.execute(request) { _ in
-            self.navigationController?.pop()
-        }
+        Client.execute(ProfileRequest(email: email.text)) { _ in self.navigationController?.pop() }
     }
 
 }

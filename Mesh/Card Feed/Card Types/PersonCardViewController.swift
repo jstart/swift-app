@@ -8,16 +8,18 @@
 
 import UIKit
 import AlamofireImage
+import RealmSwift
 
 class PersonCardViewController : BaseCardViewController, UIViewControllerTransitioningDelegate, QuickPageControlDelegate {
     
-    var control = QuickPageControl(categories: [.connections, .experience, .education, .skills, .events])
+    let control = QuickPageControl(categories: [.connections, .experience, .education, .skills, .events])
     var viewPager : ViewPager?
     let transition = CardDetailTransition()
     let imageView = UIImageView(image: .imageWithColor(.gray)).then {
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
         $0.translates = false
+        $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
     }
     let name = UILabel(translates: false).then {
         $0.textColor = .black
@@ -42,8 +44,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         quickViewStack.distribution = .fillProportionally
         quickViewStack.alignment = .center
         
-//        viewPager = ViewPager(views: QuickViewGenerator.viewsForDetails(card?.person?.details))
-        viewPager = ViewPager(views: QuickViewGenerator.viewsForDetails(UserDetails(connections: [], experiences: [], educationItems: [], skills: [], events: [])))
+        viewPager = ViewPager(views: [])
         viewPager?.scroll.panGestureRecognizer.require(toFail: gestureRec!)
         viewPager?.scroll.backgroundColor = .white
         control.delegate = viewPager!
@@ -70,6 +71,11 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         viewPager!.scroll.constrain(.width, .centerX, toItem: view)
 
         imageView.constrain(.bottom, constant: -11, toItem: name, toAttribute: .top)
+        let height = imageView.constraint(.height, relatedBy: .equal, toItem: view, multiplier: 680/1052)
+        height.priority = UILayoutPriorityDefaultHigh
+        height.isActive = true
+        
+        //imageView.constrain(.height, relatedBy: .greaterThanOrEqual, constant: 80)
 
         topStack.translates = false
         topStack.constrain(.top, .width, toItem: view)
@@ -107,9 +113,9 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         imageView.layoutIfNeeded()
         
         var rect = imageView.bounds
-        rect.size.width = view.frame.size.width
+        rect.size.width = view.frame.size.width * (view.transform.d == 0.5 ? 2 : 1)
         rect.size.height = imageView.frame.size.height + 100
-        let maskPath = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 5.0, height: 5.0))
+        let maskPath = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 10.0, height: 10.0))
         
         imageView.layer.mask = CAShapeLayer().then { $0.frame = rect; $0.path = maskPath.cgPath }
     }
@@ -119,6 +125,20 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         overlayView.alpha = 0.0
         overlayView.isHidden = true
         
+        imageView.layer.mask = nil
+        var rect = imageView.bounds
+        rect.size.width = view.frame.size.width * (view.transform.d == 0.5 ? 2 : 1)
+        rect.size.height = imageView.frame.size.height + 100
+        let maskPath = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 10.0, height: 10.0))
+        
+        imageView.layer.mask = CAShapeLayer().then { $0.frame = rect; $0.path = maskPath.cgPath }
+        
+        viewPager?.removeAllViews()
+        if let user = rec?.user {
+            let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: [], experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: []))
+            viewPager?.insertViews(quickViews)
+        }
+        
         control.selectIndex(0)
         viewPager?.selectedIndex(0, animated: false)
         
@@ -126,8 +146,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         position.text = rec?.user?.fullTitle() ?? "Test Title"
         
         guard let largeURL = rec?.user?.photos?.large else { imageView.image = .imageWithColor(.gray); return }
-        imageView.alpha = 0
-        imageView.af_setImage(withURL: URL(string: largeURL)!, completion: { response in self.imageView.fadeIn() })
+        imageView.af_setImage(withURL: URL(string: largeURL)!)
     }
     
     func bar() -> UIView {
@@ -155,6 +174,8 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
     
     override func tap(_ sender: UITapGestureRecognizer) {
         let details = CardDetailViewController()
+        guard let user = rec?.user else { return }
+        details.details = UserDetails(connections: [], experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: [])
         details.delegate = self
         details.transistionToIndex = control.previousIndex
         details.control.selectIndex(control.previousIndex)

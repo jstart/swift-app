@@ -12,19 +12,14 @@ import GoogleSignIn
 class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     let profile = UIImageView(translates: false).then {
-        $0.layer.cornerRadius = 5
-        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 5; $0.clipsToBounds = true
     }
-    let placeholder = CardView(translates: false).then {
-        $0.backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.8784313725, blue: 0.8784313725, alpha: 1)
-    }
+    let placeholder = CardView(translates: false).then { $0.backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.8784313725, blue: 0.8784313725, alpha: 1) }
     let addPhoto = UILabel(translates: false).then {
-        $0.text = "Add Photo"
-        $0.font = .boldProxima(ofSize: 20)
+        $0.text = "Add Photo"; $0.font = .boldProxima(ofSize: 20)
     }
     let header = UILabel(translates: false).then {
-        $0.text = "Add Profile Picture"
-        $0.font = .boldProxima(ofSize: 20)
+        $0.text = "Add Profile Picture"; $0.font = .boldProxima(ofSize: 20)
     }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
@@ -36,11 +31,9 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
         $0.isEnabled = true
-        $0.titleLabel?.font = .boldProxima(ofSize: 20)
+        $0.titleLabel?.font = .boldProxima(ofSize: 20); $0.titleColor = .white
         $0.title = "UPLOAD PHOTO"
-        $0.titleColor = .white
-        $0.layer.cornerRadius = 5
-        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 5; $0.clipsToBounds = true
         $0.constrain((.height, 70))
     }
     
@@ -80,20 +73,21 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //        navigationItem.setHidesBackButton(true, animated: true)
+        navigationItem.setHidesBackButton(true, animated: true)
     }
     
     func uploadChoice(_ sender: UIAlertAction) {
         if sender.title == "Import from Twitter"{
             TwitterProfile.prefillImage() { response in
-                self.profile.af_setImage(withURL: URL(string: response.image_url)!)
+                guard let imageURL = response?.image_url else { return }
+                self.profile.af_setImage(withURL: URL(string: imageURL )!)
                 self.changeToComplete()
             }
         } else if sender.title == "Import from Google" {
             GIDSignIn.sharedInstance().uiDelegate = self
             GoogleProfile.shared.prefillImage() { response in
-                guard response.image_url != "" else { return }
-                self.profile.af_setImage(withURL: URL(string: response.image_url)!)
+                guard let imageURL = response?.image_url else { return }
+                self.profile.af_setImage(withURL: URL(string: imageURL)!)
                 self.changeToComplete()
             }
         } else if sender.title == "Choose from Library" {
@@ -109,7 +103,7 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
         let google = UIAlertAction("Import from Google") { sender in self.uploadChoice(sender) }
         let library = UIAlertAction("Choose from Library") { sender in self.uploadChoice(sender) }
 
-        let sheet = UIAlertController(title: "Add Profile Photo", message: nil, preferredStyle: .actionSheet)
+        let sheet = UIAlertController.sheet(title: "Add Profile Photo")
         sheet.addActions(twitter, google, library, UIAlertAction.cancel())
         present(sheet)
     }

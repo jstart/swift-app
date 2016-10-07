@@ -141,15 +141,16 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
     func uploadChoice(_ sender: UIAlertAction) {
         if sender.title == "Import from Twitter"{
             TwitterProfile.prefillImage() { response in
-                self.profile.af_setImage(withURL: URL(string: response.image_url)!) { response in
+                guard let imageURL = response?.image_url else { return }
+                self.profile.af_setImage(withURL: URL(string: imageURL)!) { response in
                     guard let image = response.result.value else { return }; self.upload(image)
                 }
             }
         } else if sender.title == "Import from Google" {
             GIDSignIn.sharedInstance().uiDelegate = self
             GoogleProfile.shared.prefillImage() { response in
-                guard response.image_url != "" else { return }
-                self.profile.af_setImage(withURL: URL(string: response.image_url)!) { response in
+                guard response?.image_url != "" else { return }
+                self.profile.af_setImage(withURL: URL(string: response!.image_url)!) { response in
                     guard let image = response.result.value else { return }; self.upload(image)
                 }
             }
@@ -166,7 +167,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         let google = UIAlertAction("Import from Google") { sender in self.uploadChoice(sender)}
         let library = UIAlertAction("Choose from Library") { sender in self.uploadChoice(sender)}
         
-        let sheet = UIAlertController(title: "Add Profile Photo", message: nil, preferredStyle: .actionSheet)
+        let sheet = UIAlertController.sheet(title: "Add Profile Photo")
         sheet.addActions(twitter, google, library, UIAlertAction.cancel())
         present(sheet)
     }
@@ -174,8 +175,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         dismiss()
         guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
-        profile.image = image
-        upload(image)
+        profile.image = image; upload(image)
     }
     
     func upload(_ image: UIImage?) {
@@ -183,11 +183,8 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         let data = UIImageJPEGRepresentation(image, 1.0)
         Client.upload(PhotoRequest(file: data!), completionHandler: { response in
             let alert : UIAlertController?
-            if response.result.value != nil {
-                alert = UIAlertController(title: "Photo Updated", message: "", preferredStyle: .alert)
-            } else {
-                alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
-            }
+            if response.result.value != nil { alert = UIAlertController.alert(title: "Photo Updated") }
+            else { alert = UIAlertController.alert(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error") }
             alert?.addAction(UIAlertAction.ok())
             self.present(alert!)
         })

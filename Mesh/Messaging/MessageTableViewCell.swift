@@ -32,8 +32,8 @@ class MessageTableViewCell: MGSwipeTableCell {
         name.font = .proxima(ofSize: name.font.pointSize)
         message.font = .proxima(ofSize: message.font.pointSize)
         
-//        profile.image = nil
-//        company.image = nil
+        profile.image = nil
+        company.image = nil
     }
     
     override func awakeFromNib() {
@@ -60,18 +60,17 @@ class MessageTableViewCell: MGSwipeTableCell {
         rightSwipeSettings.transition = .drag
     }
     
-    func configure(_ aMessage: MessageResponse, user: User, read: Bool) {
+    func configure(_ messageText: String?, user: UserResponse, read: Bool) {
         name.text = user.fullName()
         if !read {
             name.font = .boldProxima(ofSize: name.font.pointSize)
             message.font = .boldProxima(ofSize: message.font.pointSize)
         }
-//        profile.image = .imageWithColor(.gray)
-        profile.backgroundColor = .gray
-//        company.image = #imageLiteral(resourceName: "tesla")
-        message.text = aMessage.text ?? ""
-//        guard let small = user.photos?.small else { return }
-//        profile.af_setImage(withURL: URL(string: small)!)
+        profile.image = .imageWithColor(.gray)
+//        company.image = .imageWithColor(.gray)
+        message.text = messageText
+        guard let small = user.photos?.small else { return }
+        profile.af_setImage(withURL: URL(string: small)!)
     }
     
     func add(message: MessageResponse? = nil, read: Bool) {
@@ -88,4 +87,5 @@ class MessageTableViewCell: MGSwipeTableCell {
     }
     
     @IBAction func pressed(_ sender: AnyObject) { pressedAction() }
+    
 }

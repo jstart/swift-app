@@ -14,7 +14,6 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         let size = UIApplication.shared.keyWindow?.frame.size
         $0.itemSize = CGSize(width: size!.width * (120/414), height: size!.width * (120/414))
     }
-    
     lazy var collectionView : UICollectionView = {
         return UICollectionView(frame: CGRect.zero, collectionViewLayout: self.layout).then {
             $0.translates = false
@@ -22,28 +21,28 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
             $0.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         }
     }()
-    
     let complete = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
         $0.isEnabled = true
         $0.titleLabel?.font = .boldProxima(ofSize: 20); $0.titleColor = .white
+        $0.titleLabel?.adjustsFontSizeToFitWidth = true
         $0.title = "COMPLETE"
         $0.layer.cornerRadius = 5
         $0.clipsToBounds = true
         $0.constrain((.height, 50))
     }
-    
     let addSkills = UIButton(translates: false).then {
         $0.isEnabled = false
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .normal)
         $0.titleLabel?.font = .boldProxima(ofSize: 20); $0.titleColor = .white
         $0.setTitle("ADD MORE SKILLS", for: .normal)
+        $0.titleLabel?.adjustsFontSizeToFitWidth = true
         $0.layer.cornerRadius = 5
+        $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
         $0.clipsToBounds = true
         $0.constrain((.height, 50))
     }
-    
     let completeView = UIView(translates: false).then {
         $0.backgroundColor = .white
         $0.layer.shadowColor = UIColor.lightGray.cgColor
@@ -56,6 +55,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .white
         title = "Select Industry"
         
@@ -110,11 +110,11 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     func enterSearch(_ open: Bool) {
         if !open {
             search.text = ""
-            collectionView.reloadSections(IndexSet(integer: 0))
+            search.resignFirstResponder()
             dataSource.searching = false
+            collectionView.reloadSections(IndexSet(integer: 0))
             navigationItem.setRightBarButtonItems([UIBarButtonItem(title: "Search", style: .done, target: self, action: #selector(openSearch))], animated: true)
             navigationItem.titleView = nil
-            search.resignFirstResponder()
         } else {
             navigationItem.setRightBarButton(nil, animated: true)
             dataSource.searching = true
@@ -136,6 +136,8 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) { collectionView.cellForItem(at: indexPath)?.squeezeInOut() }
     
     func switchToIndustries() {
+        search.resignFirstResponder()
+
         addSkills.isEnabled = false
         collectionView.allowsSelection = false
         collectionView.fadeOut(duration: 0.35) {
@@ -148,6 +150,8 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     }
     
     func switchToSkills() {
+        search.resignFirstResponder()
+
         addSkills.isEnabled = true
         collectionView.allowsSelection = false
         collectionView.fadeOut(duration: 0.35) {

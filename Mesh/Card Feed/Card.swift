@@ -9,7 +9,7 @@
 import Foundation
 
 enum CardType : String {
-    case person = "person", tweet = "tweet", medium = "medium", skill = "skill", event = "event"
+    case people = "people", tweet = "tweet", medium = "medium", skill = "skill", event = "event"
 }
 
 enum Content {

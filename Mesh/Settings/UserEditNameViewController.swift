@@ -11,8 +11,7 @@ import UIKit
 class UserEditNameViewController: UITableViewController {
     
     let header = UILabel(translates: false).then {
-        $0.text = "Change Your Name"
-        $0.font = .boldProxima(ofSize: 20)
+        $0.text = "Change Your Name"; $0.font = .boldProxima(ofSize: 20)
     }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
@@ -21,7 +20,6 @@ class UserEditNameViewController: UITableViewController {
         $0.textColor = .gray
         $0.textAlignment = .center
     }
-    
     let nextButton = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
@@ -84,8 +82,6 @@ class UserEditNameViewController: UITableViewController {
     }
     
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 3 }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -105,9 +101,7 @@ class UserEditNameViewController: UITableViewController {
     
     func complete() {
         let request = ProfileRequest(first_name: firstName.text, last_name: lastName.text)
-        Client.execute(request) { _ in
-            self.navigationController?.pop()
-        }
+        Client.execute(request) { _ in self.navigationController?.pop() }
     }
 
 }

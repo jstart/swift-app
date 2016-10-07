@@ -31,10 +31,10 @@ class QuickReplyViewController: UIViewController, UIViewControllerTransitioningD
         $0.isEnabled = false
     }
     
-    var user: User?, text: String?, type: QuickReplyType?
+    var user: UserResponse?, text: String?, type: QuickReplyType?
     var action : ((String?) -> Void)?
     
-    convenience init(_ user: User?, text: String, type: QuickReplyType = .message) {
+    convenience init(_ user: UserResponse?, text: String, type: QuickReplyType = .message) {
         self.init(); self.user = user; self.text = text; self.type = type
     }
     
@@ -45,11 +45,9 @@ class QuickReplyViewController: UIViewController, UIViewControllerTransitioningD
             $0.contentView.translates = false
             $0.contentView.backgroundColor = .white
             $0.reply.isHidden = true
-            $0.profile.image = .imageWithColor(.gray)
             $0.message.numberOfLines = 2
-            $0.name.text = user?.fullName()
-            $0.message.text = text
             $0.company.image = type! == .tweet ? #imageLiteral(resourceName: "twtr-icn-logo") : .imageWithColor(.gray)
+            $0.configure(text, user: user!, read: false)
         }
 
         blurView.addSubview(cell!.contentView)

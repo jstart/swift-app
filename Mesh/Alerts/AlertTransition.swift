@@ -35,4 +35,5 @@ class AlertTransition: NSObject, UIViewControllerAnimatedTransitioning {
     func dismiss(_ context: UIViewControllerContextTransitioning) {
         context.containerView.fadeOut { context.completeTransition(true) }
     }
+    
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ViewPagerDelegate {
+protocol ViewPagerDelegate : class {
     func selectedIndex(_ index: Int)
 }
 
@@ -18,7 +18,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         $0.alwaysBounceHorizontal = true
         $0.showsHorizontalScrollIndicator = false
     }
-    var delegate : ViewPagerDelegate?
+    weak var delegate : ViewPagerDelegate?
     var views : [UIView] = []
     var previousPage = 0
     let stack : UIStackView
@@ -47,6 +47,16 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         scroll.delegate = self
     }
     
+    func insertViews(_ views: [UIView]) {
+        for (index, view) in views.enumerated() {
+            stack.insertArrangedSubview(view, at: index)
+            view.translates = false
+            let width = view.constraint(.width, constant: -30, toItem: scroll)
+            width.priority = UILayoutPriorityDefaultHigh
+            width.isActive = true
+        }
+    }
+    
     func insertView(_ view: UIView, atIndex: Int) {
         stack.insertArrangedSubview(view, at: atIndex)
         view.translates = false
@@ -58,7 +68,8 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
     func currentView() -> UIView { return stack.arrangedSubviews[previousPage] }
     
     func removeView(atIndex: Int) { stack.arrangedSubviews[atIndex].removeFromSuperview() }
-    
+    func removeAllViews() { stack.arrangedSubviews.forEach { $0.removeFromSuperview() } }
+
     func selectedIndex(_ index: Int, animated: Bool = true){
         guard index >= 0 else { return }
         scroll.setContentOffset(CGPoint(x: scroll.frame.size.width * CGFloat(index), y: scroll.contentOffset.y), animated: animated)

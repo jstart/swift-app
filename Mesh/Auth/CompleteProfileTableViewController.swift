@@ -24,8 +24,7 @@ extension SkyFloatingLabelTextField {
 class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDelegate {
     
     let header = UILabel(translates: false).then {
-        $0.text = "Add Your Basic Info"
-        $0.font = .boldProxima(ofSize: 20)
+        $0.text = "Add Your Basic Info"; $0.font = .boldProxima(ofSize: 20)
     }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
@@ -34,9 +33,9 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
         $0.textColor = .gray
         $0.textAlignment = .center
     }
-    let linkedIn = UIButton().then { $0.title = "Linked In"; $0.titleColor = Colors.brand }
-    let twitter = UIButton().then { $0.title = "Twitter"; $0.titleColor = Colors.brand }
-    let google = UIButton().then { $0.title = "Google"; $0.titleColor = Colors.brand }
+    let linkedIn = UIButton().then { $0.setImage(#imageLiteral(resourceName: "LinkedIn"), for: .normal); $0.title = "LinkedIn"; $0.titleColor = Colors.brand; $0.imageView?.contentMode = .scaleAspectFit }
+    let twitter = UIButton().then { $0.setImage(#imageLiteral(resourceName: "Twitter"), for: .normal); $0.title = "Twitter"; $0.titleColor = Colors.brand; $0.imageView?.contentMode = .scaleAspectFit }
+    let google = UIButton().then { $0.setImage(#imageLiteral(resourceName: "Google"), for: .normal); $0.title = "Google"; $0.titleColor = Colors.brand; $0.imageView?.contentMode = .scaleAspectFit }
     lazy var buttons : UIStackView = {
         let stack = UIStackView(self.linkedIn, self.twitter, self.google, spacing: 5)
         stack.distribution = .fillEqually
@@ -47,12 +46,10 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
     let nextButton = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
-        $0.isEnabled = true
-        $0.titleLabel?.font = .boldProxima(ofSize: 20)
-        $0.setTitle("NEXT", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.layer.cornerRadius = 5
-        $0.clipsToBounds = true
+        $0.isEnabled = false
+        $0.titleLabel?.font = .boldProxima(ofSize: 20); $0.titleColor = .white
+        $0.title = "NEXT"
+        $0.layer.cornerRadius = 5; $0.clipsToBounds = true
         $0.constrain((.height, 70))
     }
     
@@ -105,8 +102,7 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
         let title = section == 0 ? "    IMPORT YOUR PROFILE" : "    REQUIRED INFO"
         return UILabel().then {
             $0.text = title
-            $0.font = .proxima(ofSize:12)
-            $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
+            $0.font = .proxima(ofSize:12); $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
             $0.contentMode = .top
         }
     }
@@ -144,11 +140,11 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
         if sender == linkedIn { LinkedInProfile.prefill() { response in self.fill(response) } }
     }
 
-    func fill(_ prefill: PrefillResponse) {
-        if prefill.first_name != "" { firstName.text = prefill.first_name }
-        if prefill.last_name != "" { lastName.text = prefill.last_name }
-        if prefill.title != "" { titleField.text = prefill.title }
-        if prefill.company != "" { company.text = prefill.company }
+    func fill(_ prefill: PrefillResponse?) {
+        if prefill?.first_name != "" { firstName.text = prefill?.first_name }
+        if prefill?.last_name != "" { lastName.text = prefill?.last_name }
+        if prefill?.title != "" { titleField.text = prefill?.title }
+        if prefill?.company != "" { company.text = prefill?.company }
         fieldEdited()
     }
     

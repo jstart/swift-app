@@ -15,8 +15,8 @@ struct ProfileRequest : AuthenticatedRequest {
     var first_name, last_name, email, title, profession : String?,
         companies : [CompanyModel]?
     
-    func parameters() -> [String : Any] {
-        var parameters = [String : Any]()
+    func parameters() -> JSONDictionary {
+        var parameters = JSONDictionary()
         if first_name != nil { parameters["first_name"] = first_name! }
         if last_name != nil { parameters["last_name"] = last_name! }
         if email != nil { parameters["email"] = email! }
@@ -41,7 +41,7 @@ struct CompanyModel {
     
     func parameters() -> [String : Any] { return ["_id" : id, "start_month" : start_month, "start_year" : start_year, "end_month" : end_month, "end_year" : end_year, "current" : current] }
     
-    static func create(JSON: JSONDictionary) -> CompanyModel{
+    static func create(_ JSON: JSONDictionary) -> CompanyModel{
         let id = JSON["id"] as? String ?? "",
             start_month = JSON["start_month"] as? String ?? "",
             start_year = JSON["start_year"] as? String ?? "",

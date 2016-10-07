@@ -53,6 +53,6 @@ class SkillCardViewController : BaseCardViewController {
         media.af_setImage(withURL: URL(string: "https://scontent.xx.fbcdn.net/t31.0-8/12829144_10207668383179007_4083742861292722789_o.jpg")!)
     }
     
-//    override func tap(_ sender: UITapGestureRecognizer) { let safari = SFSafariViewController(url: URL(string: "https://twitter.com/@iAmChrisTruman")!); safari.modalPresentationStyle = .popover; present(safari) }
+//    override func tap(_ sender: UITapGestureRecognizer) { navigationController?.safari("https://twitter.com/@iAmChrisTruman") }
     
 }

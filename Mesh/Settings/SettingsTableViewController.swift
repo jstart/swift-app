@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 import TwitterKit
 import GoogleSignIn
 
@@ -62,7 +63,7 @@ struct SettingCell {
     }
 }
 
-class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate {
+class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, MFMailComposeViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,9 +71,7 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate {
         
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.registerClass(UITableViewCell.self)
-        
-        
+        tableView.registerClass(UITableViewCell.self)        
     }
 
     // MARK: - Table view data source
@@ -84,7 +83,7 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate {
         var cell = tableView.dequeue(UITableViewCell.self, indexPath: indexPath)
         
         let section = Settings(rawValue: indexPath.section)!
-        if section == .MatchSettings && indexPath.row == 0{
+        if section == .MatchSettings && indexPath.row == 0 {
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "")
             cell.detailTextLabel?.text = LocationManager.cityState()
         }
@@ -115,7 +114,7 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate {
         case .PushNotifications: break
         case .EmailNotifications: break
         case .ContactUs: contactUs(); break
-        case .Legal: legal(); break
+        case .Legal: legal(indexPath.row); break
         case .Logout: logout(); break
         case .DeleteAccount: delete(); break }
     }
@@ -129,9 +128,21 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate {
         default: break }
     }
     
-    func contactUs() { }
+    func contactUs() {
+        if !MFMailComposeViewController.canSendMail() { return }
+        let mail = MFMailComposeViewController(); mail.setToRecipients(["christopher@tinderventures.com"]); mail.mailComposeDelegate = self
+        present(mail)
+    }
     
-    func legal() { }
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) { controller.dismiss() }
+    
+    func legal(_ row: Int) {
+        switch row {
+        case 0: navigationController?.safari("https://www.gotinder.com/privacy"); break
+        case 1: navigationController?.safari("https://www.gotinder.com/terms"); break
+        case 2: navigationController?.safari("https://www.gotinder.com/safety"); break
+        default: break }
+    }
     
     func logout() { Client.execute(LogoutRequest(), complete: { response in NotificationCenter.default.post(name: .logout, object: nil) }) }
     
@@ -140,21 +151,32 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate {
     func switchChanged(sender: UISwitch) {
         switch sender.tag {
         case 0:
-            guard sender.isOn else { Twitter.sharedInstance().sessionStore.logOutUserID(Twitter.sharedInstance().sessionStore.session()!.userID); return }
-            TwitterProfile.prefill({ _ in
+            guard sender.isOn else {
+                if let session = Twitter.sharedInstance().sessionStore.session() {
+                    Twitter.sharedInstance().sessionStore.logOutUserID(session.userID)
+                }; return
+            }
+            TwitterProfile.prefill({ response in
+                if response == nil { sender.setOn(false, animated: true); return }
                 let token = Twitter.sharedInstance().sessionStore.session()?.authToken, secret = Twitter.sharedInstance().sessionStore.session()?.authTokenSecret
                 Client.execute(TwitterConnectRequest(twitter_token: token!, twitter_secret: secret!))
             })
         case 1:
             guard sender.isOn else { return }
             GIDSignIn.sharedInstance().uiDelegate = self
-            GoogleProfile.shared.prefill({ _ in })
+            GoogleProfile.shared.prefill({ response in
+                if response == nil {
+                    sender.setOn(false, animated: true)
+                }
+            })
         case 2:
             guard sender.isOn else { MediumSDKManager.sharedInstance.signOutMedium(completionHandler: { state, response in }); return }
-            MediumSDKManager.sharedInstance.doOAuthMedium(completionHandler: { state, response in
-                print(state, response)
-                if state == "success" { Client.execute(MediumConnectRequest(medium_token: response)) }
+            MediumSDKManager.sharedInstance.doOAuthMedium(controller: self, completionHandler: { state, response in
+                if !state {
+                    sender.setOn(false, animated: true)
+                }
             })
         default: break }
     }
+    
 }

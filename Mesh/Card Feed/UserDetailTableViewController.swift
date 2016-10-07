@@ -18,13 +18,12 @@ class UserDetailTableViewController : UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.registerNib(UserDetailTableViewCell.self)
-        view.layer.cornerRadius = 5.0
+        view.layer.cornerRadius = 10.0
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
+        tableView.estimatedRowHeight = 70
     }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return category?.rawValue
@@ -38,22 +37,16 @@ class UserDetailTableViewController : UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
-    }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return details!.count }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(UserDetailTableViewCell.self, indexPath: indexPath)
-        cell.icon.image = #imageLiteral(resourceName: "tesla")
-        //cell.configure(detail: nil)
+        let detail = details![indexPath.row]
+        cell.configure(detail)
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 90 }
-    
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y < -20 {
-            dismissHandler?()
-        }
+        if scrollView.contentOffset.y < -20 { dismissHandler?() }
     }
 }

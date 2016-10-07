@@ -18,5 +18,5 @@ struct TwitterConnectRequest : AuthenticatedRequest {
 struct MediumConnectRequest : AuthenticatedRequest {
     let path = "account/medium", method = HTTPMethod.put
     
-    var medium_token : String
+    var state, code : String
 }

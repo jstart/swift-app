@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import SafariServices
 
 let StandardDefaults = UserDefaults.standard
+let DefaultNotification = NotificationCenter.default
+
 let MainBundle = Bundle.main
 
 extension String {
@@ -73,8 +76,8 @@ extension UIMotionEffect {
 }
 
 extension UIImage {
-    static func imageWithColor(_ color: UIColor) -> UIImage {
-        let rect = CGRect(x: 0, y: 0, width: 1.0, height: 1.0)
+    static func imageWithColor(_ color: UIColor, width: CGFloat = 1.0, height: CGFloat = 1.0) -> UIImage {
+        let rect = CGRect(x: 0, y: 0, width: width, height: height)
         UIGraphicsBeginImageContext(rect.size)
         let context = UIGraphicsGetCurrentContext()!
         context.setFillColor(color.cgColor); context.fill(rect)
@@ -92,7 +95,8 @@ extension UIFont {
 
 extension UIAlertController {
     func addActions(_ actions: UIAlertAction...) { for action in actions { addAction(action) } }
-    static func sheet() -> UIAlertController { return UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet) }
+    static func sheet(title: String? = nil, message: String? = nil) -> UIAlertController { return UIAlertController(title: title, message: message, preferredStyle: .actionSheet) }
+    static func alert(title: String? = nil, message: String? = nil) -> UIAlertController { return UIAlertController(title: title, message: message, preferredStyle: .alert) }
 }
 
 extension UIAlertAction {
@@ -150,9 +154,9 @@ extension UIView {
         }
     }
     
-    func constraint(_ attribute: NSLayoutAttribute, relatedBy: NSLayoutRelation = .equal, constant: CGFloat = 0.0, toItem: UIView? = nil, toAttribute: NSLayoutAttribute = .notAnAttribute) -> NSLayoutConstraint {
+    func constraint(_ attribute: NSLayoutAttribute, relatedBy: NSLayoutRelation = .equal, constant: CGFloat = 0.0, toItem: UIView? = nil, toAttribute: NSLayoutAttribute = .notAnAttribute, multiplier: CGFloat = 1.0) -> NSLayoutConstraint {
         let toAttributeChoice = toAttribute == .notAnAttribute ? attribute : toAttribute
-        return NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : toAttributeChoice, multiplier: 1.0, constant:constant)
+        return NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : toAttributeChoice, multiplier: multiplier, constant:constant)
     }
     
     var heightConstraint: NSLayoutConstraint { return constraintFor(.height) }; var widthConstraint: NSLayoutConstraint { return constraintFor(.width) }
@@ -166,8 +170,8 @@ extension UIView {
     
     func addSubviews(_ views: UIView...) { views.forEach { self.addSubview($0) } }
     
-    func fadeIn(duration: TimeInterval = 0.2, completion:@escaping (() -> Void) = {}) { alpha = 0.0; UIView.animate(withDuration: duration, animations: { self.alpha = 1.0 }, completion: { _ in completion() }) }
-    func fadeOut(duration: TimeInterval = 0.2, completion:@escaping (() -> Void) = {}) { UIView.animate(withDuration: duration, animations: { self.alpha = 0.0 }, completion: { _ in completion() }) }
+    func fadeIn(duration: TimeInterval = 0.2, delay: TimeInterval = 0, completion:@escaping (() -> Void) = {}) { alpha = 0.0; UIView.animate(withDuration: duration, delay: delay, animations: { self.alpha = 1.0 }, completion: { _ in completion() }) }
+    func fadeOut(duration: TimeInterval = 0.2, delay: TimeInterval = 0, completion:@escaping (() -> Void) = {}) { UIView.animate(withDuration: duration, delay: delay, animations: { self.alpha = 0.0 }, completion: { _ in completion() }) }
     
     func scaleIn(delay: TimeInterval = 0, completion: @escaping ((Bool) -> Void) = {_ in }) {
         self.transform = self.transform.scaledBy(x: 0.9, y: 0.9)
@@ -194,6 +198,12 @@ extension UIView {
 extension UINavigationController {
     func push(_ viewController: UIViewController, animated: Bool = true) { pushViewController(viewController, animated: animated) }
     @discardableResult func pop(_ animated: Bool = true) { popViewController(animated: animated) }
+    
+    func safari(_ url: String, push: Bool = true, delegate: SFSafariViewControllerDelegate? = nil) {
+        let safari = SFSafariViewController(url: URL(string: url)!); safari.hidesBottomBarWhenPushed = true; safari.delegate = delegate
+        if push { self.push(safari) }
+        else { safari.modalPresentationStyle = .popover; self.present(safari) }
+    }
 }
 
 extension UIViewController {
@@ -209,6 +219,9 @@ extension UserDefaults {
 extension Int {
     func perform(_ closure: () -> Void) { (0..<self).forEach { _ in closure() } }
     func performIndex(_ closure: @escaping (Int) -> Void) { (0..<self).forEach { index in closure(index) } }
+    init(_ bool: Bool){
+        self.init(bool ? 1 : 0)
+    }
 }
 
 extension Collection {

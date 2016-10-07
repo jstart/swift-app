@@ -12,6 +12,7 @@ class EditProfileListTableViewController: UITableViewController {
     
     var items : [UserDetail] = []
     var itemType : QuickViewCategory?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,11 +24,9 @@ class EditProfileListTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return items.count + 1}
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return items.count + 1 }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         if indexPath.row == items.count {
             let cell = tableView.dequeue(AddItemTableViewCell.self, indexPath: indexPath)
             cell.configure(items.first!.category.title())
@@ -64,4 +63,5 @@ class EditProfileListTableViewController: UITableViewController {
         
         navigationController?.push(detail)
     }
+    
 }

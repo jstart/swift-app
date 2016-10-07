@@ -17,8 +17,8 @@ enum QuickViewCategory : String  {
     
     func button() -> UIButton {
         return UIButton().then {
-            $0.setImage(UIImage(named:rawValue), for: .normal)
-            let activeImage = UIImage(named:rawValue + "Active")
+            $0.setImage(UIImage(named: rawValue), for: .normal)
+            let activeImage = UIImage(named: rawValue + "Active")
             $0.setImage(activeImage, for: .selected)
             $0.backgroundColor = .white
         }
@@ -37,12 +37,12 @@ enum QuickViewCategory : String  {
 
 }
 
-protocol QuickPageControlDelegate { func selectedIndex(_ index:Int, animated:Bool) }
+protocol QuickPageControlDelegate: class { func selectedIndex(_ index: Int, animated: Bool) }
 
 class QuickPageControl : NSObject, ViewPagerDelegate {
 
     var stack : UIStackView? = nil
-    var delegate : QuickPageControlDelegate?
+    weak var delegate : QuickPageControlDelegate?
     var previousIndex = 0
     
     init(categories: [QuickViewCategory]) {
@@ -59,7 +59,7 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
         array.forEach({ $0.addTarget(self, action: #selector(selected), for: .touchUpInside) })
     }
     
-    func selectIndex(_ index:Int){
+    func selectIndex(_ index: Int){
         for button in (stack?.subviews)! as! [UIButton] {
             if (stack?.subviews.index(of: button))! == index {
                 previousIndex = index
@@ -70,7 +70,7 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
         }
     }
     
-    func selected(_ sender : UIButton){
+    func selected(_ sender: UIButton){
         for button in (stack?.subviews)! as! [UIButton] {
             button.isSelected = button == sender
         }

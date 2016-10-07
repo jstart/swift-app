@@ -7,6 +7,7 @@
 //
 
 import Alamofire
+import Crashlytics
 
 typealias JSONDictionary = [String : Any]
 typealias JSONArray = [JSONDictionary]
@@ -14,7 +15,7 @@ typealias JSONArray = [JSONDictionary]
 protocol Request {
     var path : String { get }
     var method : HTTPMethod { get }
-    func parameters() -> [String : Any]
+    func parameters() -> JSONDictionary
     func headers() -> [String : String]
  }
 
@@ -22,7 +23,7 @@ protocol AuthenticatedRequest : Request {}
 extension AuthenticatedRequest { func headers() -> [String : String] { return ["token" : Token.retrieveToken() ?? ""] } }
 
 extension Request {
-    func parameters () -> [String : Any] {
+    func parameters () -> JSONDictionary {
         let mirrorProperties = Mirror(reflecting: self).children
         var parameters = [String: Any]()
         mirrorProperties.forEach({
@@ -58,7 +59,7 @@ struct Client {
     static func execute(_ request : Request, complete: @escaping ((DataResponse<Any>) -> Void) = { _ in } ) {
         let fullPath = baseURL + request.path
 
-        Alamofire.request(fullPath, method: request.method, parameters: request.parameters().count == 0 ? nil : request.parameters(), encoding: JSONEncoding(), headers: request.headers())
+        Alamofire.request(fullPath, method: request.method, parameters: request.parameters().count == 0 ? nil : request.parameters(), encoding: request.method == .post || request.method == .put ? JSONEncoding() : URLEncoding(), headers: request.headers())
             .validate()
             .responseJSON { response in
                 if request is LogoutRequest { NotificationCenter.default.post(name: .logout, object: nil) }
@@ -67,9 +68,9 @@ struct Client {
                 
                 if request is LoginRequest || request is AuthRequest || request is ProfileRequest {
                     guard let JSON = response.result.value as? JSONDictionary else { complete(response); return }
-                    UserResponse.current = UserResponse(JSON: JSON)
-                    print(User(JSON: JSON))
+                    UserResponse.current = UserResponse.create(JSON)
                     StandardDefaults.set(JSON, forKey: "CurrentUser")
+                    Crashlytics.sharedInstance().setUserName(UserResponse.current?.fullName()); Crashlytics.sharedInstance().setUserIdentifier(UserResponse.current?._id)
                     if request is AuthRequest || request is LoginRequest {
                         Token.persistToken(UserResponse.current?.token ?? "")
                         Token.persistLogin((phone_number: UserResponse.current!.phone_number!, password: request.parameters()["password"] as! String))

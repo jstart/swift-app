@@ -11,27 +11,21 @@ import UIKit
 class UserEditPhoneViewController: UITableViewController {
     
     var formatter = PhoneNumberFormatter()
-    
     let header = UILabel(translates: false).then {
-        $0.text = "Change Your Phone Number"
-        $0.font = .boldProxima(ofSize: 20)
+        $0.text = "Change Your Phone Number"; $0.font = .boldProxima(ofSize: 20)
     }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
         $0.text = "This new phone number will replace the number that you're currently using in the app."
-        $0.font = .proxima(ofSize: 16)
-        $0.textColor = .gray
+        $0.font = .proxima(ofSize: 16); $0.textColor = .gray
         $0.textAlignment = .center
     }
     let nextButton = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
         $0.isEnabled = true
-        $0.titleLabel?.font = .boldProxima(ofSize: 20)
-        $0.setTitle("CONTINUE", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.layer.cornerRadius = 5
-        $0.clipsToBounds = true
+        $0.titleLabel?.font = .boldProxima(ofSize: 20); $0.title = "CONTINUE"; $0.titleColor = .white
+        $0.layer.cornerRadius = 5; $0.clipsToBounds = true
         $0.constrain((.height, 70))
     }
     
@@ -83,14 +77,10 @@ class UserEditPhoneViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //navigationController?.setNavigationBarHidden(true, animated: true)
-       
         let _ = phone.becomeFirstResponder()
     }
     
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 1 }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

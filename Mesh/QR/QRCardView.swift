@@ -42,8 +42,8 @@ class QRCardView: CardView {
         
         name.text = user.fullName()
         title.text = user.fullTitle()
-        email.text = "email@test.com"
-        phone.text = user.phone_number ?? ""
+        email.text = user.email
+        phone.text = user.phone_number
         
         viewsForFields(fields).forEach({ $0.isHidden = false })
 
@@ -52,16 +52,14 @@ class QRCardView: CardView {
             $0.alignment = .leading
             $0.translates = false
         }
-        
         addSubview(stackView!)
 
         stackView?.constrain(.leading, constant: 10, toItem: qrImage, toAttribute: .trailing)
-        stackView?.constrain((.trailing, 10), (.centerY, 0), toItem: self)
+        stackView?.constrain((.trailing, -10), (.centerY, 0), toItem: self)
         stackView?.constrain(.top, relatedBy: .greaterThanOrEqual, constant: 10, toItem: self)
         stackView?.constrain(.bottom, relatedBy: .lessThanOrEqual, constant: -10, toItem: self)
         
         addSubview(pageControl)
-
         pageControl.constrain((.centerX, 0), (.bottom, -10), toItem: self)
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped)))

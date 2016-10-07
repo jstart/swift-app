@@ -20,8 +20,7 @@ class CameraManager : NSObject {
         let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
         
         switch status {
-        case .authorized:
-            completionHandler(true); break
+        case .authorized: completionHandler(true); break
         case .denied: fallthrough
         case .restricted:
             let alertController = UIAlertController(

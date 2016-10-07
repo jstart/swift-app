@@ -79,7 +79,7 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
             break
         case 2:
             cell.icon.image = ProfileFields.email.image
-            cell.contactField.text = "example@mail.com"//UserResponse.current?.email
+            cell.contactField.text = UserResponse.current?.email
             cell.setChecked(fields?.contains(.email) ?? false)
             break
         case 3:
