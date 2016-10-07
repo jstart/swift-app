@@ -219,9 +219,7 @@ extension UserDefaults {
 extension Int {
     func perform(_ closure: () -> Void) { (0..<self).forEach { _ in closure() } }
     func performIndex(_ closure: @escaping (Int) -> Void) { (0..<self).forEach { index in closure(index) } }
-    init(_ bool: Bool){
-        self.init(bool ? 1 : 0)
-    }
+    init(_ bool: Bool){ self.init(bool ? 1 : 0) }
 }
 
 extension Collection {

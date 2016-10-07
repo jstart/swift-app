@@ -78,7 +78,7 @@ class EventCardViewController : BaseCardViewController {
         var barView = bar()
         view.addSubview(barView)
         barView.constrain(.top, constant: 10, toItem: headerStack, toAttribute: .bottom)
-        barView.constrain(.width, toItem: view)
+        barView.constrain(.width, .centerX, toItem: view)
         
         view.addSubview(text)
         text.constrain((.leading, 12), (.trailing, -12), toItem: view)
@@ -87,7 +87,7 @@ class EventCardViewController : BaseCardViewController {
         barView = bar()
         view.addSubview(barView)
         barView.constrain(.top, constant: 10, toItem: text, toAttribute: .bottom)
-        barView.constrain(.width, toItem: view)
+        barView.constrain(.width, .centerX, toItem: view)
         
         let clock = UIImageView(image: #imageLiteral(resourceName: "clock"))
         clock.contentMode = .scaleAspectFit
@@ -110,7 +110,7 @@ class EventCardViewController : BaseCardViewController {
         barView = bar()
         view.addSubview(barView)
         barView.constrain(.top, constant: 8, toItem: descriptionStack, toAttribute: .bottom)
-        barView.constrain(.width, toItem: view)
+        barView.constrain(.width, .centerX, toItem: view)
         
         let connectionView = QuickViewGenerator.quickView(RealmUtilities.objects(ConnectionResponse.self))
         connectionView.translates = false

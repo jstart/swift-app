@@ -6,9 +6,7 @@
 
 import SafariServices
 
-extension Notification.Name {
-    static let medium = NSNotification.Name("Medium")
-}
+extension Notification.Name { static let medium = NSNotification.Name("Medium") }
 
 public class MediumSDKManager: NSObject, SFSafariViewControllerDelegate {
 

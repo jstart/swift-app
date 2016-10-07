@@ -12,6 +12,7 @@
 		230FA4AF1D8A32AE00E2721C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 230FA4AE1D8A32AE00E2721C /* GoogleService-Info.plist */; };
 		230FA4B31D8A90D900E2721C /* AddPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230FA4B21D8A90D900E2721C /* AddPhotoViewController.swift */; };
 		231C40321DA6D8E2007162DD /* AutocompleteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 231C40311DA6D8E2007162DD /* AutocompleteRequest.swift */; };
+		231C40341DA71BAC007162DD /* SocketHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 231C40331DA71BAC007162DD /* SocketHandler.swift */; };
 		23218E511D906B920033FFC8 /* AddItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23218E501D906B920033FFC8 /* AddItemTableViewCell.swift */; };
 		23218E531D908A930033FFC8 /* InputToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23218E521D908A930033FFC8 /* InputToolbar.swift */; };
 		23218E551D909C770033FFC8 /* LaunchCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23218E541D909C770033FFC8 /* LaunchCardView.swift */; };
@@ -140,6 +141,7 @@
 		230FA4AE1D8A32AE00E2721C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		230FA4B21D8A90D900E2721C /* AddPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPhotoViewController.swift; sourceTree = "<group>"; };
 		231C40311DA6D8E2007162DD /* AutocompleteRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutocompleteRequest.swift; sourceTree = "<group>"; };
+		231C40331DA71BAC007162DD /* SocketHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketHandler.swift; sourceTree = "<group>"; };
 		23218E501D906B920033FFC8 /* AddItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemTableViewCell.swift; sourceTree = "<group>"; };
 		23218E521D908A930033FFC8 /* InputToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputToolbar.swift; sourceTree = "<group>"; };
 		23218E541D909C770033FFC8 /* LaunchCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchCardView.swift; sourceTree = "<group>"; };
@@ -386,6 +388,7 @@
 				23C872411D83760300B21AB6 /* MessageTableViewCell.swift */,
 				23C872421D83760300B21AB6 /* MessageTableViewCell.xib */,
 				23C872431D83760300B21AB6 /* TwitterMessageMedia.swift */,
+				231C40331DA71BAC007162DD /* SocketHandler.swift */,
 			);
 			path = Messaging;
 			sourceTree = "<group>";
@@ -810,6 +813,7 @@
 				237827231D7B50B20059AB37 /* CardRequest.swift in Sources */,
 				23C872321D83759A00B21AB6 /* QRCardView.swift in Sources */,
 				234FA17A1D83D45D00670E1D /* StringExtension.swift in Sources */,
+				231C40341DA71BAC007162DD /* SocketHandler.swift in Sources */,
 				23C8726C1D83762900B21AB6 /* ViewPager.swift in Sources */,
 				23383F4C1D9A2E2B0065C468 /* MGSwipeButton.m in Sources */,
 				234C4D1F1D8E56300075E470 /* UserEditEmailViewController.swift in Sources */,

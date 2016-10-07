@@ -34,6 +34,7 @@ struct Keychain {
         } else if (err == errSecItemNotFound) {
             return nil
         } else {
+            print(err)
             // probably a program error,
             // print and lookup err code (e.g., -50 = bad parameter)
         }

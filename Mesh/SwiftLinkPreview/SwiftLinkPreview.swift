@@ -27,22 +27,16 @@ open class SwiftLinkPreview {
         text = previewText
         
         guard let url = SwiftLinkPreview.extractURL(previewText) else { onError(nil); return }
-        
         self.url = url
         result["url"] = self.url.absoluteString
-        self.extractInfo({
-            onSuccess(self.result)
-            }, onError: onError)
+        self.extractInfo({ onSuccess(self.result) }, onError: onError)
     }
     
     // Reset data on result
     internal func resetResult() {
-        result = ["url": "" ,
-                  "finalUrl": "",
-                  "canonicalUrl": "",
-                  "title": "",
-                  "description": "",
-                  "image": ""]
+        result = ["url": "", "finalUrl": "",
+                  "canonicalUrl": "", "title": "",
+                  "description": "", "image": ""]
     }
     
     // Fill remaining info about the crawling
@@ -150,9 +144,7 @@ extension SwiftLinkPreview {
     
     // Add prefix image if needed
     fileprivate func addImagePrefixIfNeeded(_ image: String) -> String {
-        
         var image = image
-        
         guard let canonicalUrl: String = self.result["canonicalUrl"] else { return image }
             
         if image.hasPrefix("//") {

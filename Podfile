@@ -12,7 +12,8 @@ pod 'JSQMessagesViewController', :git => 'https://github.com/jessesquires/JSQMes
 #pod 'SkyFloatingLabelTextField'
 #pod 'MGSwipeTableCell'
 
-#pod 'Starscream', :git => 'https://github.com/daltoniam/Starscream.git', :branch => 'swift3'
+pod 'Socket.IO-Client-Swift'
+#pod 'Starscream'
 #pod 'NearbyMessages'
 pod 'TwitterKit'
 pod 'TwitterCore'
