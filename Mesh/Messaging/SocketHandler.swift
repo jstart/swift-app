@@ -30,10 +30,14 @@ class SocketHandler {
         }
         
         shared.socket.on("message") { data, ack in
-            DefaultNotification.post(name: .message, object: data)
+            DefaultNotification.post(name: .message, object: data.first)
         }
 
-        shared.socket.on("alive-ack") { data, ack in
+        shared.socket.on("alive") { data, ack in
+            print(data)
+        }
+        
+        shared.socket.on("error") { data, ack in
             print(data)
         }
         

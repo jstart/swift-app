@@ -43,7 +43,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         return true
     }
-
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        SocketHandler.startListening()
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        SocketHandler.stopListening()
+    }
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         let source = options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String
         let annotation = options[UIApplicationOpenURLOptionsKey.annotation]

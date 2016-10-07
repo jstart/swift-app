@@ -37,6 +37,7 @@ class MessagesViewController: JSQMessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         navigationItem.rightBarButtonItems = [UIBarButtonItem(#imageLiteral(resourceName: "overflow"), target: self, action: #selector(overflow)),
                                               UIBarButtonItem(#imageLiteral(resourceName: "chatMarkAsUnread"), target: self, action: #selector(toggleReadState))]
         
@@ -92,6 +93,7 @@ class MessagesViewController: JSQMessagesViewController {
         container.alpha = 0.0; container.fadeIn(duration: 0.2, delay: 0.2)
         
         container.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedUser)))
+        refresh()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -113,27 +115,38 @@ class MessagesViewController: JSQMessagesViewController {
     }
     
     func receivedMessage(notification: Notification) {
-        self.refresh()
+        guard let message = notification.object as? JSONDictionary else { return }
+        userStoppedTyping()
+        let meshMessage = MessageResponse.create(message)
+        let realm = RealmUtilities.realm()
+        try! realm.write { realm.add(meshMessage, update: true) }
+        UserResponse.messages.append(meshMessage)
+        self.reload()
     }
     
     func refresh() {
         Client.execute(UpdatesRequest.latest(), complete: { response in
             UpdatesRequest.append(response) {
-                if self.meshMessages?.count != UserResponse.messages.filter({return ($0.recipient == self.recipient?.user?._id || $0.sender == self.recipient?.user?._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts}).count {
-                    self.messages.removeAll()
-
-                    self.meshMessages = UserResponse.messages.filter({return ($0.recipient == self.recipient?.user?._id || $0.sender == self.recipient?.user?._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts})
-                    self.meshMessages?.forEach({
-                        let message = JSQMessage(senderId: $0.sender, senderDisplayName: self.senderDisplayName(), date: Date(timeIntervalSince1970: TimeInterval($0.ts/1000)), text: $0.text!)
-                        self.messages.append(message)
-                    })
-                    self.collectionView?.reloadData()
-                    if self.messages.count > 0 {
-                        self.collectionView?.scrollToItem(at: IndexPath(item: max(0, self.messages.count - 1), section: 0), at: .bottom, animated: false)
-                    }
-                }
+                self.reload()
             }
         })
+    }
+    
+    func reload() {
+        if meshMessages?.count != UserResponse.messages.filter({return ($0.recipient == recipient?.user?._id || $0.sender == recipient?.user?._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts}).count {
+            messages.removeAll()
+            
+            meshMessages = UserResponse.messages.filter({return ($0.recipient == recipient?.user?._id || $0.sender == recipient?.user?._id) && $0.text != ""}).sorted(by: { $0.ts < $1.ts})
+            meshMessages?.forEach({
+                let message = JSQMessage(senderId: $0.sender, senderDisplayName: senderDisplayName(), date: Date(timeIntervalSince1970: TimeInterval($0.ts/1000)), text: $0.text!)
+                messages.append(message)
+            })
+            collectionView?.reloadData()
+            if messages.count > 0 {
+                finishReceivingMessage()
+                collectionView?.scrollToItem(at: IndexPath(item: max(0, messages.count - 1), section: 0), at: .bottom, animated: false)
+            }
+        }
     }
     
     func toggleReadState() {
@@ -245,20 +258,23 @@ class MessagesViewController: JSQMessagesViewController {
         guard let meshMessage = meshMessages?[indexPath.row] else { return }
         Client.execute(MessagesDeleteRequest(id: meshMessage._id), complete: { response in
             meshMessage.delete()
+            self.meshMessages?.remove(at: indexPath.row)
             self.messages.remove(at: indexPath.row)
             self.collectionView?.reloadData()
         })
     }
     
     override func textViewDidBeginEditing(_ textView: UITextView) {
+        super.textViewDidBeginEditing(textView)
         if textView == inputToolbar.contentView?.textView {
-            SocketHandler.sendTyping(userID: UserResponse.current!._id)
+            SocketHandler.sendTyping(userID: recipient?.user?._id ?? "")
         }
     }
     
     override func textViewDidChange(_ textView: UITextView) {
+        super.textViewDidBeginEditing(textView)
         if textView == inputToolbar.contentView?.textView {
-            SocketHandler.sendTyping(userID: UserResponse.current!._id)
+            SocketHandler.sendTyping(userID: recipient?.user?._id ?? "")
         }
     }
     
