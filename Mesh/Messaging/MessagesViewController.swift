@@ -15,7 +15,7 @@ class MessagesViewController: JSQMessagesViewController {
     var recipient : ConnectionResponse?
     var meshMessages : [MessageResponse]?
     
-    var timer : Timer?
+    var typingTimer : Timer?
     var senderImage : UIImage?
     var shouldReload = true
     
@@ -51,6 +51,9 @@ class MessagesViewController: JSQMessagesViewController {
         
         collectionView?.collectionViewLayout.messageBubbleFont = .proxima(ofSize: 17)
         
+        DefaultNotification.addObserver(self, selector: #selector(userIsTyping(notification:)), name: .typing, object: nil)
+        DefaultNotification.addObserver(self, selector: #selector(receivedMessage(notification:)), name: .message, object: nil)
+
 //        TWTRAPIClient().loadTweet(withID: "631879971628183552") { (tweet, error) in
 //            guard let unwrappedTweet = tweet else { print("Tweet load error:\(error!.localizedDescription)"); return }
 //            let media = TwitterMessageMedia(TWTRTweetView(tweet: unwrappedTweet))
@@ -67,12 +70,10 @@ class MessagesViewController: JSQMessagesViewController {
         //title = recipient?.user?.fullName()
         if shouldReload {
             self.refresh()
-            timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(refresh), userInfo: nil, repeats: true)
             Client.execute(MarkReadRequest(read: true, id: recipient?.user?._id ?? "")) { _ in
                 self.recipient?.write { $0.read = true }
             }
         }
-//        showTypingIndicator = true
         
         label.text = recipient?.user?.fullName()
 
@@ -96,7 +97,23 @@ class MessagesViewController: JSQMessagesViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         container.fadeOut(duration: 0.1)
-        timer?.invalidate()
+        typingTimer?.invalidate()
+    }
+    
+    func userIsTyping(notification: Notification) {
+        guard let sender = notification.object as? JSONDictionary else { return }
+        guard (sender["sender"] as? String) == recipient?.user?._id else { return }
+        showTypingIndicator = true
+        typingTimer?.invalidate()
+        typingTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(userStoppedTyping), userInfo: nil, repeats: false)
+    }
+    
+    func userStoppedTyping() {
+        showTypingIndicator = false
+    }
+    
+    func receivedMessage(notification: Notification) {
+        self.refresh()
     }
     
     func refresh() {
@@ -231,6 +248,18 @@ class MessagesViewController: JSQMessagesViewController {
             self.messages.remove(at: indexPath.row)
             self.collectionView?.reloadData()
         })
+    }
+    
+    override func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView == inputToolbar.contentView?.textView {
+            SocketHandler.sendTyping(userID: UserResponse.current!._id)
+        }
+    }
+    
+    override func textViewDidChange(_ textView: UITextView) {
+        if textView == inputToolbar.contentView?.textView {
+            SocketHandler.sendTyping(userID: UserResponse.current!._id)
+        }
     }
     
     override func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
