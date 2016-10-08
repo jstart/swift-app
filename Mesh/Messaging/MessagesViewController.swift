@@ -106,6 +106,7 @@ class MessagesViewController: JSQMessagesViewController {
         guard let sender = notification.object as? JSONDictionary else { return }
         guard (sender["sender"] as? String) == recipient?.user?._id else { return }
         showTypingIndicator = true
+        scrollToBottom(animated: true)
         typingTimer?.invalidate()
         typingTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(userStoppedTyping), userInfo: nil, repeats: false)
     }
@@ -273,6 +274,7 @@ class MessagesViewController: JSQMessagesViewController {
     
     override func textViewDidChange(_ textView: UITextView) {
         super.textViewDidBeginEditing(textView)
+        
         if textView == inputToolbar.contentView?.textView {
             SocketHandler.sendTyping(userID: recipient?.user?._id ?? "")
         }

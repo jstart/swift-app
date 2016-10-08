@@ -38,7 +38,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             window?.rootViewController = LaunchViewController().withNav()
         }
-        SocketHandler.startListening()
         
         window?.makeKeyAndVisible()
         return true
