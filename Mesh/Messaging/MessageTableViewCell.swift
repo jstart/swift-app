@@ -69,8 +69,8 @@ class MessageTableViewCell: MGSwipeTableCell {
         profile.image = .imageWithColor(.gray)
 //        company.image = .imageWithColor(.gray)
         message.text = messageText
-        guard let small = user.photos?.small else { return }
-        profile.af_setImage(withURL: URL(string: small)!)
+        guard let large = user.photos?.large else { return }
+        profile.af_setImage(withURL: URL(string: large)!)
     }
     
     func add(message: MessageResponse? = nil, read: Bool) {

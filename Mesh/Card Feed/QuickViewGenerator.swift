@@ -123,7 +123,7 @@ struct QuickViewGenerator {
             $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
             $0.layer.cornerRadius = 5
             $0.clipsToBounds = true
-            $0.contentMode = .scaleAspectFit
+            $0.contentMode = .scaleAspectFill
             $0.constrain(.height, .width, constant: 50)
         }
         
@@ -154,7 +154,7 @@ struct QuickViewGenerator {
             $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
             $0.layer.cornerRadius = 5
             $0.clipsToBounds = true
-            $0.contentMode = .scaleAspectFit
+            $0.contentMode = .scaleAspectFill
             $0.constrain(.width, .height, constant: 50)
         }
         

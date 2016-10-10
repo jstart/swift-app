@@ -11,14 +11,8 @@ import SafariServices
 
 class EventCardViewController : BaseCardViewController {
 
-    let name = UILabel().then {
-        $0.textColor = .darkGray; $0.font = .boldProxima(ofSize: 20)
-        $0.text = "Google I/O 2016"
-    }
-    let subtitle = UILabel().then {
-        $0.textColor = .lightGray; $0.font = .proxima(ofSize: 12)
-        $0.text = "Related to Tech and Java"
-    }
+    let name = UILabel().then { $0.textColor = .darkGray; $0.font = .boldProxima(ofSize: 20) }
+    let subtitle = UILabel().then { $0.textColor = .lightGray; $0.font = .proxima(ofSize: 12); $0.text = "Related to Tech and Java" }
     let media = UIImageView(translates: false).then {
         $0.image = #imageLiteral(resourceName: "eventHeader")
         $0.contentMode = .scaleAspectFill
@@ -35,27 +29,11 @@ class EventCardViewController : BaseCardViewController {
         $0.backgroundColor = .white
         $0.constrain((.height, 50), (.width, 50))
     }
-    let text = UILabel(translates: false).then {
-        $0.textColor = #colorLiteral(red: 0.6, green: 0.6, blue: 0.6, alpha: 1); $0.font = .proxima(ofSize: 14)
-        $0.numberOfLines = 0
-        $0.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis lacinia volutpat. Sed a sollicitudin metus, nec accumsan metus sed iaculis."
-    }
-    let date = UILabel(translates: false).then {
-        $0.textColor = .lightGray; $0.font = .proxima(ofSize: 14)
-        $0.text = "Tomorrow at 8 AM"
-    }
-    let location = UILabel(translates: false).then {
-        $0.textColor = .lightGray; $0.font = .proxima(ofSize: 14)
-        $0.text = "The Venetian"
-    }
-    let address = UILabel(translates: false).then {
-        $0.textColor = .lightGray; $0.font = .proxima(ofSize: 12)
-        $0.text = "3355 S Las Vegas Blvd, Las Vegas, NV 89109"
-    }
-    let url = UILabel(translates: false).then {
-        $0.textColor = .lightGray; $0.font = .proxima(ofSize: 14)
-        $0.text = "www.googleio2016.com"
-    }
+    let text = UILabel(translates: false).then { $0.textColor = #colorLiteral(red: 0.6, green: 0.6, blue: 0.6, alpha: 1); $0.font = .proxima(ofSize: 14); $0.numberOfLines = 0 }
+    let date = UILabel(translates: false).then { $0.textColor = .lightGray; $0.font = .proxima(ofSize: 14); $0.text = "Tomorrow at 8 AM" }
+    let location = UILabel(translates: false).then { $0.textColor = .lightGray; $0.font = .proxima(ofSize: 14); $0.text = "The Venetian" }
+    let address = UILabel(translates: false).then { $0.textColor = .lightGray; $0.font = .proxima(ofSize: 12); $0.text = "3355 S Las Vegas Blvd, Las Vegas, NV 89109" }
+    let url = UILabel(translates: false).then { $0.textColor = .lightGray; $0.font = .proxima(ofSize: 14); $0.text = "www.googleio2016.com" }
     
     var descriptionStack : UIStackView?
     
@@ -137,10 +115,7 @@ class EventCardViewController : BaseCardViewController {
     }
     
     func bar() -> UIView {
-        return UIView(translates: false).then {
-            $0.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
-            $0.constrain(.height, constant: 1)
-        }
+        return UIView(translates: false).then { $0.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1); $0.constrain(.height, constant: 1) }
     }
     
     override func tap(_ sender: UITapGestureRecognizer) { navigationController?.safari("https://eventbrite.com", push: false) }

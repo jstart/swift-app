@@ -18,10 +18,11 @@ class SocketHandler {
     
     static let shared = SocketHandler()
     let socket = SocketIOClient(socketURL: URL(string: "http://dev.mesh.tinderventures.com:2222")!, config: [.extraHeaders(["token" : Token.retrieveToken() ?? ""])])
+    var typing : Date?
     
     static func startListening() {
         shared.socket.on("connect") { data, ack in
-            print("socket connected", data)
+            print("socket connected")
             shared.socket.emit("alive", with: [""])
         }
         
@@ -49,7 +50,14 @@ class SocketHandler {
     }
     
     static func sendTyping(userID: String) {
-        shared.socket.emit("typing", with: [["_id": userID]])
+        if shared.typing == nil {
+            shared.typing = Date()
+            shared.socket.emit("typing", with: [["_id": userID]]); return
+        }
+        if shared.typing?.timeIntervalSinceNow ?? 0 < -2.5 {
+            shared.typing = Date()
+            shared.socket.emit("typing", with: [["_id": userID]])
+        }
     }
     
     static func stopListening() {

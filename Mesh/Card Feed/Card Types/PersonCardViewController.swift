@@ -22,15 +22,13 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
     }
     let name = UILabel(translates: false).then {
-        $0.textColor = .black
+        $0.textColor = .black; $0.font = UIFont.proxima(ofSize: 20)
         $0.backgroundColor = .white
-        $0.font = UIFont.proxima(ofSize: 20)
         $0.constrain(.height, constant: 22)
     }
     let position = UILabel(translates: false).then {
-        $0.textColor = #colorLiteral(red: 0.7810397744, green: 0.7810582519, blue: 0.7810482979, alpha: 1)
+        $0.textColor = #colorLiteral(red: 0.7810397744, green: 0.7810582519, blue: 0.7810482979, alpha: 1); $0.font = UIFont.proxima(ofSize: 16)
         $0.backgroundColor = .white
-        $0.font = UIFont.proxima(ofSize: 16)
         $0.constrain(.height, constant: 20)
     }
 

@@ -54,8 +54,8 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
         activity.startAnimating()
         preview(url: message.text!)
         
-        guard let small = user.photos?.small else { profile.image = nil; return }
-        profile.af_setImage(withURL: URL(string: small)!)
+        guard let large = user.photos?.large else { profile.image = nil; return }
+        profile.af_setImage(withURL: URL(string: large)!)
     }
     
     func preview(url: String) {
