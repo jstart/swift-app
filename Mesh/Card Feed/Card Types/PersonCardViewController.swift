@@ -74,8 +74,8 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         viewPager!.scroll.constrain(.width, .centerX, toItem: view)
 
         imageView.constrain(.bottom, constant: -11, toItem: name, toAttribute: .top)
-        let height = imageView.constraint(.height, relatedBy: .equal, toItem: view, multiplier: 680/1052)
-        height.priority = UILayoutPriorityDefaultHigh
+        let height = imageView.constraint(.height, relatedBy: .equal, toItem: view, multiplier: 660/1052)
+        height.priority = UILayoutPriorityRequired
         height.isActive = true
         
         //imageView.constrain(.height, relatedBy: .greaterThanOrEqual, constant: 80)

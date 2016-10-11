@@ -52,7 +52,7 @@ class MessageTableViewCell: MGSwipeTableCell {
         profile.backgroundColor = .gray
         company.image = #imageLiteral(resourceName: "tesla")
         
-        leftExpansion.threshold = 1.5
+        leftExpansion.threshold = 0
         leftExpansion.fillOnTrigger = true
         leftExpansion.buttonIndex = 0
 
