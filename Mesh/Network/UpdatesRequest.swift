@@ -48,6 +48,7 @@ struct UpdatesRequest : AuthenticatedRequest {
             
             DispatchQueue.main.async {
                 let realm = RealmUtilities.realm()
+                realm.refresh()
                 UserResponse.connections = Array(realm.objects(ConnectionResponse.self));
                 UserResponse.messages = Array(realm.objects(MessageResponse.self));
                 UserResponse.events = Array(realm.objects(EventResponse.self));

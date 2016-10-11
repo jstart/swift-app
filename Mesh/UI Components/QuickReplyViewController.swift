@@ -89,6 +89,7 @@ class QuickReplyViewController: UIViewController, UIViewControllerTransitioningD
     
     func fieldChanged(sender: UITextField) {
         sendButton.isEnabled = sender.text != ""
+        SocketHandler.sendTyping(userID: user?._id ?? "")
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

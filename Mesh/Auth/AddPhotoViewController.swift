@@ -30,7 +30,6 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
     let upload = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
-        $0.isEnabled = true
         $0.titleLabel?.font = .boldProxima(ofSize: 20); $0.titleColor = .white
         $0.title = "UPLOAD PHOTO"
         $0.layer.cornerRadius = 5; $0.clipsToBounds = true
@@ -63,7 +62,7 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
         text.constrain(.top, toItem: header, toAttribute: .bottom)
         text.constrain((.centerX, 0), (.leading, 40), (.trailing, -40), toItem: view)
 
-        upload.addTarget(self, action: #selector(complete), for: .touchUpInside)
+        upload.addTarget(self, action: #selector(photoOptions), for: .touchUpInside)
 
         upload.constrain(.centerX, toItem: view)
         upload.constrain(.bottom, constant: -20, toItem: view, toAttribute: .bottom)
@@ -123,12 +122,16 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
     
     func complete() {
         guard let image = profile.image as UIImage! else { return }
-        let data = UIImageJPEGRepresentation(image, 0.1)
+        let data = UIImageJPEGRepresentation(image, 1.0)
+        let activity = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge); activity.translates = false
+        profile.addSubview(activity)
+        activity.constrain(.centerX, .centerY, toItem: profile)
+        activity.startAnimating()
+        
         Client.upload(PhotoRequest(file: data!), completionHandler: { response in
             if response.result.value != nil {
-                let alert = UIAlertController(title: "Photo Updated", message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction.ok() { _ in self.navigationController?.push(SMSViewController()) })
-                self.present(alert)
+                activity.stopAnimating()
+                self.navigationController?.push(SMSViewController())
             }
             else {
                 let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)

@@ -111,25 +111,13 @@ class MessagesViewController: JSQMessagesViewController {
         typingTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(userStoppedTyping), userInfo: nil, repeats: false)
     }
     
-    func userStoppedTyping() {
-        showTypingIndicator = false
-    }
+    func userStoppedTyping() { showTypingIndicator = false }
     
-    func receivedMessage(notification: Notification) {
-        guard let message = notification.object as? JSONDictionary else { return }
-        userStoppedTyping()
-        let meshMessage = MessageResponse.create(message)
-        let realm = RealmUtilities.realm()
-        try! realm.write { realm.add(meshMessage, update: true) }
-        UserResponse.messages.append(meshMessage)
-        self.reload()
-    }
+    func receivedMessage(notification: Notification) { self.reload() }
     
     func refresh() {
         Client.execute(UpdatesRequest.latest(), complete: { response in
-            UpdatesRequest.append(response) {
-                self.reload()
-            }
+            UpdatesRequest.append(response) { self.reload() }
         })
     }
     

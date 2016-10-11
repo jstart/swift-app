@@ -46,6 +46,8 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         
         searchResults.recentSearches = recentSearches
         searchResults.inbox = self
+        
+        DefaultNotification.addObserver(self, selector: #selector(receivedMessage(notification:)), name: .message, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,6 +77,8 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         searchController.searchBar.resignFirstResponder(); searchController.isActive = false
         tableView.reloadData()
     }
+    
+    func receivedMessage(notification: Notification) { refresh() }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) { navigationItem.setRightBarButtonItems(nil, animated: true) }
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) { self.navigationItem.setRightBarButtonItems([self.sortItem!, self.addItem!], animated: true) }
@@ -130,8 +134,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             $0.text = section == 0 && todoMessages.count > 0 ? "    TO DO" : "    " + String(UserResponse.connections.count ) + " CONNECTION"
             if UserResponse.connections.count > 1 || UserResponse.connections.count == 0 { $0.text = $0.text! + "S" }
             $0.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
-            $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
-            $0.font = .proxima(ofSize: 12)
+            $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1); $0.font = .proxima(ofSize: 12)
         }
     }
 
@@ -192,7 +195,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             }
             cell.rightButtons = [cell.read, cell.mute, cell.block]
             cell.configure(message.text, user: connection.user!, read: connection.read)
-            cell.pressedAction = ({ self.presentQuickReply(user: connection.user!, message: message) })
+            cell.pressedAction = ({ self.presentQuickReply(user: connection.user!, message: message, index: indexPath) })
             
             cell.add(message: message, read: connection.read)
             return cell
@@ -226,10 +229,13 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         }
     }
     
-    func presentQuickReply(user: UserResponse, message: MessageResponse){
+    func presentQuickReply(user: UserResponse, message: MessageResponse, index: IndexPath){
         let quickReply = QuickReplyViewController(user, text: message.text!)
         quickReply.modalPresentationStyle = .overFullScreen
-        quickReply.action = { text in Client.execute(MessagesSendRequest(recipient: message.sender, text: text!), complete: { response in self.refresh() }) }
+        quickReply.action = { text in Client.execute(MessagesSendRequest(recipient: message.sender, text: text!), complete: { response in
+            self.todoMessages.remove(at: index.row);
+            if self.todoMessages.count > 0 { self.tableView.deleteRows(at: [index], with: .automatic); self.tableView.reloadData() } else { self.tableView.reloadData() }
+        }) }
         present(quickReply)
     }
 

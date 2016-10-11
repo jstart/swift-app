@@ -31,7 +31,12 @@ class SocketHandler {
         }
         
         shared.socket.on("message") { data, ack in
-            DefaultNotification.post(name: .message, object: data.first)
+            guard let message = data.first as? JSONDictionary else { return }
+            let meshMessage = MessageResponse.create(message)
+            let realm = RealmUtilities.realm()
+            try! realm.write { realm.add(meshMessage, update: true) }
+            UserResponse.messages.append(meshMessage)
+            DefaultNotification.post(name: .message, object: message)
         }
 
         shared.socket.on("alive") { data, ack in
