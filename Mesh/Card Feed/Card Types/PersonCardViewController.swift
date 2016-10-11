@@ -22,14 +22,19 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
     }
     let name = UILabel(translates: false).then {
-        $0.textColor = .black; $0.font = UIFont.proxima(ofSize: 20)
-        $0.backgroundColor = .white
+        $0.textColor = .black; $0.font = UIFont.proxima(ofSize: 20); $0.backgroundColor = .white
         $0.constrain(.height, constant: 22)
     }
     let position = UILabel(translates: false).then {
-        $0.textColor = #colorLiteral(red: 0.7810397744, green: 0.7810582519, blue: 0.7810482979, alpha: 1); $0.font = UIFont.proxima(ofSize: 16)
-        $0.backgroundColor = .white
+        $0.textColor = #colorLiteral(red: 0.7810397744, green: 0.7810582519, blue: 0.7810482979, alpha: 1); $0.font = UIFont.proxima(ofSize: 16); $0.backgroundColor = .white
         $0.constrain(.height, constant: 20)
+    }
+    let logo = UIImageView(image: .imageWithColor(.gray)).then {
+        $0.translates = false
+        $0.clipsToBounds = true
+        $0.contentMode = .scaleAspectFill
+        $0.layer.cornerRadius = 5.0
+        $0.constrain(.width, .height, constant: 62)
     }
 
     override func viewDidLoad() {
@@ -85,7 +90,6 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         
         imageView.constrain(.width, .centerX, toItem: view)
         
-        let logo = UIImageView(image: #imageLiteral(resourceName: "tesla"))
         view.addSubview(logo)
         
         logo.translates = false
@@ -145,6 +149,9 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         
         guard let largeURL = rec?.user?.photos?.large else { imageView.image = .imageWithColor(.gray); return }
         imageView.af_setImage(withURL: URL(string: largeURL)!)
+        
+        guard let companyURL = rec?.user?.companies.first?.logo else { return }
+        logo.af_setImage(withURL: URL(string: companyURL)!)
     }
     
     func bar() -> UIView {

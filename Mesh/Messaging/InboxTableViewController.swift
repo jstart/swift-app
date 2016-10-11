@@ -66,7 +66,6 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                         self.todoMessages.append(second)
                     }
                 } else { self.todoMessages = [] }
-
                 self.tableView.reloadData()
             }
         })
