@@ -12,6 +12,8 @@ import TwitterKit
 import Crashlytics
 import GoogleSignIn
 import RealmSwift
+import AlamofireImage
+import Alamofire
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -44,7 +46,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
-        SocketHandler.startListening()
+        if Token.retrieveLogin().phone_number != nil {
+            SocketHandler.startListening()
+        }
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -77,9 +81,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     override var keyCommands: [UIKeyCommand]? { return [UIKeyCommand(input: "l", modifierFlags: [.command, .alternate], action: #selector(logout), discoverabilityTitle: "Convenience")] }
     
     func logout(_ command: UIKeyCommand? = nil) {
+        SocketHandler.stopListening()
         Token.deleteToken(); Token.deleteLogin(); Keychain.deleteLogin(); RealmUtilities.deleteAll()
         UserResponse.current = nil; UserResponse.connections = []; UserResponse.messages = []; UserResponse.cards = []
-        URLCache.shared.removeAllCachedResponses()
+        //SessionManager.default.session.invalidateAndCancel()
+        URLCache.shared.removeAllCachedResponses();
+        //ImageDownloader.default.sessionManager.session.invalidateAndCancel();
+        ImageDownloader.default.sessionManager.session.configuration.urlCache?.removeAllCachedResponses();
+        ImageDownloader.default.imageCache?.removeAllImages()
         
         MediumSDKManager.sharedInstance.signOutMedium(completionHandler: {_,_ in })
         GIDSignIn.sharedInstance().signOut()

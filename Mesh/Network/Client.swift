@@ -72,6 +72,7 @@ struct Client {
                     StandardDefaults.set(JSON, forKey: "CurrentUser")
                     Crashlytics.sharedInstance().setUserName(UserResponse.current?.fullName()); Crashlytics.sharedInstance().setUserIdentifier(UserResponse.current?._id)
                     if request is AuthRequest || request is LoginRequest {
+                        SocketHandler.startListening()
                         Token.persistToken(UserResponse.current?.token ?? "")
                         Token.persistLogin((phone_number: UserResponse.current!.phone_number!, password: request.parameters()["password"] as! String))
                         Keychain.deleteLogin()

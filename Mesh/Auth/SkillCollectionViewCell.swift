@@ -15,9 +15,7 @@ class SkillCollectionViewCell: UICollectionViewCell {
         $0.numberOfLines = 0
         $0.textAlignment = .center
     }
-    let popular = UILabel(translates: false).then {
-        $0.isHidden = true
-    }
+    let popular = UILabel(translates: false).then { $0.isHidden = true }
     let icon = UIImageView(translates: false).then {
         $0.contentMode = .scaleAspectFit
         $0.tintColor = .white
@@ -45,16 +43,12 @@ class SkillCollectionViewCell: UICollectionViewCell {
         icon.constrain(.centerY, .centerX, toItem: self)
         
         title.constrain(.top, constant: 5, toItem: icon, toAttribute: .bottom)
-        title.constrain((.height, 14))
+        title.constrain((.height, 16))
         title.constrain((.centerX, 0), (.leading, 5), (.trailing, -5), toItem: self)
         title.constrain(.bottom, toItem: self, toAttribute: .bottomMargin)
-        
-//        addMotionEffect(UIMotionEffect.twoAxesTilt(strength: 0.5))
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -64,24 +58,43 @@ class SkillCollectionViewCell: UICollectionViewCell {
         gradient.removeFromSuperlayer()
     }
     
-    func configure(_ title: String, image: UIImage, isPopular: Bool = false, searching: Bool = false) {
+    func configure(_ title: String?, image: UIImage?, isPopular: Bool = false, searching: Bool = false) {
         self.title.text = title
         icon.image = image
         popular.isHidden = isPopular
         isSelected = isSelected ? true : false
         
         if searching { return }
-//        let rotation = CABasicAnimation(keyPath: "transform.rotation.y")
-//        rotation.duration = 0.75
-//        rotation.fromValue = 0
-//        rotation.toValue = 2 * CGFloat(M_PI)
-//        layer.add(rotation, forKey: rotation.keyPath)
-//
-//        let crossFade = CABasicAnimation(keyPath:"transform.scale.x")
-//        crossFade.duration = 0.75
-//        crossFade.fromValue = 0.0
-//        crossFade.toValue = 1
-//        layer.add(crossFade, forKey: crossFade.keyPath)
+        animate()
+    }
+    
+    func animate(direction: UISwipeGestureRecognizerDirection = .left) {
+        var flipX : CGFloat = -1.0
+        var flipY : CGFloat = -1.0
+        switch direction {
+        case UISwipeGestureRecognizerDirection.up: flipY = -1.0; break;
+        case UISwipeGestureRecognizerDirection.down: flipY = 1.0; break;
+        case UISwipeGestureRecognizerDirection.left: flipX = -1.0; break;
+        case UISwipeGestureRecognizerDirection.right: flipX = 1.0; break;
+        default: break; }
+        /*UIView.animate(withDuration: 0.2, animations: {
+            self.title.alpha = 0.0
+            self.icon.alpha = 0.0
+        })*/
+       /* let rotation = CAKeyframeAnimation(keyPath: "transform")
+        rotation.duration = 0.4
+        rotation.values = [NSValue(caTransform3D: self.layer.transform),
+                           NSValue(caTransform3D: CATransform3DRotate(self.layer.transform, CGFloat(M_PI)/2.0, flipX, flipY, 0)),
+                           NSValue(caTransform3D: CATransform3DIdentity)]
+        layer.add(rotation, forKey: "r1")*/
+        
+        /*UIView.animate(withDuration: 0.4, delay: 0.4, animations: {
+            self.layer.transform = CATransform3DIdentity
+        })
+        UIView.animate(withDuration: 0.2, delay: 0.2, animations: {
+            self.title.alpha = 1.0
+            self.icon.alpha = 1.0
+        })*/
     }
     
     override var isSelected: Bool {

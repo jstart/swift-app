@@ -12,7 +12,7 @@ import GoogleSignIn
 class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     let profile = UIImageView(translates: false).then {
-        $0.layer.cornerRadius = 5; $0.clipsToBounds = true
+        $0.layer.cornerRadius = 5; $0.clipsToBounds = true; $0.contentMode = .scaleAspectFill
     }
     let placeholder = CardView(translates: false).then { $0.backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.8784313725, blue: 0.8784313725, alpha: 1) }
     let addPhoto = UILabel(translates: false).then {

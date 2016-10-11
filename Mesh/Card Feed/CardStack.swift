@@ -33,19 +33,16 @@ class CardStack : UIViewController, CardDelegate {
         let timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionDefault)
         
         let scaleAnimation = CAKeyframeAnimation(keyPath: "transform.scale")
-        
         scaleAnimation.keyTimes = [0, 0.5, 1]
         scaleAnimation.timingFunctions = [timingFunction, timingFunction]
         scaleAnimation.values = [1, 0.5, 1]
         
         let opacityAnimation = CAKeyframeAnimation(keyPath: "opacity")
-        
         opacityAnimation.keyTimes = [0, 0.5, 1]
         opacityAnimation.timingFunctions = [timingFunction, timingFunction]
         opacityAnimation.values = [1, 0.7, 1]
         
         let animation = CAAnimationGroup()
-        
         animation.animations = [scaleAnimation, opacityAnimation]
         animation.repeatCount = HUGE
         animation.isRemovedOnCompletion = false
@@ -55,9 +52,7 @@ class CardStack : UIViewController, CardDelegate {
                 let circle = NVActivityIndicatorShape.circle.layerWith(size: CGSize(width: circleSize, height: circleSize), color: .lightGray)
                 let frame = CGRect(x: x + circleSize * CGFloat(j) + circleSpacing * CGFloat(j),
                                    y: y + circleSize * CGFloat(i) + circleSpacing * CGFloat(i),
-                                   width: circleSize,
-                                   height: circleSize)
-                
+                                   width: circleSize, height: circleSize)
                 animation.duration = durations[3 * i + j]
                 animation.beginTime = beginTime + beginTimes[3 * i + j]
                 circle.frame = frame
@@ -70,25 +65,16 @@ class CardStack : UIViewController, CardDelegate {
     func addNewCard() {
         let card = cards![cardIndex]
         let next = cards![safe: cardIndex + 1]
-
-        switch card.cardType() {
-        case .people: currentCard = PersonCardViewController(); break
-        case .tweet: currentCard = TweetCardViewController(); break
-        case .medium:  currentCard = TweetCardViewController(); break
-        case .event: currentCard = EventCardViewController(); break
-        default: currentCard = nil; return }
-        currentCard!.delegate = self
-        addChildViewController(currentCard!)
-        currentCard!.rec = card
-        bottomCard?.view.removeFromSuperview()
-        
+        if bottomCard == nil {
+            currentCard = card.cardType().viewController()
+            currentCard!.delegate = self
+            addChildViewController(currentCard!)
+            currentCard!.rec = card
+        } else {
+            currentCard = bottomCard
+        }
         guard let cardType = next?.cardType() else { addCard(currentCard!); bottomCard = nil; return }
-        switch cardType {
-        case .people: bottomCard = PersonCardViewController(); break
-        case .tweet: bottomCard = TweetCardViewController(); break
-        case .medium: bottomCard = TweetCardViewController(); break
-        case .event: bottomCard = EventCardViewController(); break
-        default: bottomCard = nil; return }
+        bottomCard = cardType.viewController()
         bottomCard?.delegate = self
         addChildViewController(bottomCard!)
         bottomCard?.rec = next

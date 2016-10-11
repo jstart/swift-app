@@ -128,9 +128,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) { collectionView.cellForItem(at: indexPath)!.squeezeOut() }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.cellForItem(at: indexPath)?.squeezeInOut() { _ in
-            if self.dataSource is IndustriesCollectionViewDataSource { self.switchToSkills() }
-        }
+        if self.dataSource is IndustriesCollectionViewDataSource { self.switchToSkills(indexPath) }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) { collectionView.cellForItem(at: indexPath)?.squeezeInOut() }
@@ -140,33 +138,39 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
 
         addSkills.isEnabled = false
         collectionView.allowsSelection = false
-        collectionView.fadeOut(duration: 0.35) {
-            self.navigationItem.backBarButtonItem = nil
-            self.dataSource = IndustriesCollectionViewDataSource(self.collectionView)
-            self.title = "Select Industries"; self.swap()
-            self.navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: self.navigationController!, action: #selector(UINavigationController.popViewController(animated:)))
-            self.collectionView.allowsSelection = true
-        }
+        navigationItem.backBarButtonItem = nil
+        dataSource = IndustriesCollectionViewDataSource(self.collectionView)
+        title = "Select Industry"; swap()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: navigationController!, action: #selector(UINavigationController.popViewController(animated:)))
+        collectionView.allowsSelection = true
     }
     
-    func switchToSkills() {
+    func switchToSkills(_ indexPath: IndexPath) {
         search.resignFirstResponder()
 
         addSkills.isEnabled = true
         collectionView.allowsSelection = false
-        collectionView.fadeOut(duration: 0.35) {
-            self.navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: self, action: #selector(self.switchToIndustries))
-            self.dataSource = SkillsCollectionViewDataSource(self.collectionView)
-            self.title = "Select Skills"; self.swap()
-            self.collectionView.allowsMultipleSelection = true
+        
+        let visible = collectionView.indexPathsForVisibleItems
+        for path in visible {
+            let cell = collectionView.cellForItem(at: path) as! SkillCollectionViewCell
+            if path.row > indexPath.row {
+                cell.animate(direction: .right)
+            } else if path.row < indexPath.row {
+                cell.animate(direction: .left)
+            }
         }
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: self, action: #selector(self.switchToIndustries))
+        //dataSource = SkillsCollectionViewDataSource(collectionView)
+        title = "Select Skills"; //swap()
+        collectionView.allowsMultipleSelection = true
     }
     
     func swap() {
-        self.enterSearch(false)
-        self.collectionView.dataSource = self.dataSource
-        self.collectionView.reloadSections(IndexSet(integer: 0))
-        self.collectionView.fadeIn(duration: 0.35)
+        enterSearch(false)
+        collectionView.dataSource = dataSource
+        collectionView.reloadSections(IndexSet(integer: 0))
     }
     
     func toFeed() { collectionView.allowsSelection = false; navigationController?.push(FeedViewController()) }

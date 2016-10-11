@@ -50,11 +50,7 @@ class SocketHandler {
     }
     
     static func sendTyping(userID: String) {
-        if shared.typing == nil {
-            shared.typing = Date()
-            shared.socket.emit("typing", with: [["_id": userID]]); return
-        }
-        if shared.typing?.timeIntervalSinceNow ?? 0 < -2.5 {
+        if shared.typing == nil || shared.typing?.timeIntervalSinceNow ?? 0 < -2.5 {
             shared.typing = Date()
             shared.socket.emit("typing", with: [["_id": userID]])
         }

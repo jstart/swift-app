@@ -148,7 +148,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     func refresh() {
         Client.execute(CardsRequest(), complete: { response in
-            UserResponse.cards = ((response.result.value as? JSONArray)?.map({ return CardResponse(JSON: $0) }))!
+            UserResponse.cards = ((response.result.value as? JSONArray)?.map({ return CardResponse(JSON: $0) })) ?? [CardResponse]()
             self.cards = UserResponse.cards.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) })
             for (index, card) in self.pager!.stack.arrangedSubviews.enumerated() {
                 (card as? QRCardView)?.setToken((UserResponse.current?._id ?? "") + "::" + self.cards[index].token, animated: true)
