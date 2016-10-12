@@ -106,39 +106,28 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
                 })
                 return
             }
+            UIView.animate(withDuration: 0.2, animations: {
             switch swipeDirection {
             case UISwipeGestureRecognizerDirection.up:
-                UIView.animate(withDuration: 0.2, animations: {
                     self.delegate?.swiping(percent: 100)
-                    sender.view?.frame.origin.y = -sender.view!.superview!.frame.height
-                    }, completion: { _ in
-                        self.removeSelf(.up) }); break
+                    sender.view?.frame.origin.y = -sender.view!.superview!.frame.height; break
             case UISwipeGestureRecognizerDirection.left:
-                UIView.animate(withDuration: 0.2, animations: {
                     self.delegate?.swiping(percent: 100)
-                    sender.view?.frame.origin.x = -sender.view!.superview!.frame.width - 50
-                    }, completion: { _ in
-                        self.removeSelf(.left) }); break
+                    sender.view?.frame.origin.x = -sender.view!.superview!.frame.width - 50; break
             case UISwipeGestureRecognizerDirection.right:
-                UIView.animate(withDuration: 0.2, animations: {
                     self.delegate?.swiping(percent: 100)
-                    sender.view?.frame.origin.x = sender.view!.superview!.frame.width + 100
-                    }, completion: { _ in
-                        self.removeSelf(.right) }); break
+                    sender.view?.frame.origin.x = sender.view!.superview!.frame.width + 100; break
             case UISwipeGestureRecognizerDirection.down:
-                UIView.animate(withDuration: 0.2, animations: {
                     self.delegate?.swiping(percent: 100)
-                    sender.view?.frame.origin.y = sender.view!.superview!.frame.height
-                    }, completion: { _ in
-                        self.removeSelf(.down) }); break
-            default:
-                UIView.animate(withDuration: 0.2, animations: {
-                    sender.view?.center = (self.view?.superview?.center)!
-                }); break }
+                    sender.view?.frame.origin.y = sender.view!.superview!.frame.height; break
+            default: sender.view?.center = (self.view?.superview?.center)!; break }
+                }, completion: { _ in
+                    self.removeSelf(swipeDirection) }); break
         case .cancelled : fallthrough
         case .failed :
             // Back to center
             UIView.animate(withDuration: 0.2, animations: {
+                self.delegate?.swiping(percent: 0)
                 sender.view?.center = (self.view?.superview?.center)!
             })
             break
