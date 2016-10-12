@@ -192,7 +192,11 @@ class TweetCardViewController : BaseCardViewController {
         present(quick)
     }
     
-    override func tap(_ sender: UITapGestureRecognizer) { navigationController?.safari("https://twitter.com/@iAmChrisTruman", push: false) }
+    override func tap(_ sender: UITapGestureRecognizer) {
+        guard let username = rec?.tweet?.screen_name else { return }
+        guard let id = rec?.tweet?._id else { return }
+        navigationController?.safari("https://twitter.com/" + username + "/status/" + id, push: false)
+    }
     
     override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return !otherGestureRecognizer.isMember(of: UITapGestureRecognizer.self)

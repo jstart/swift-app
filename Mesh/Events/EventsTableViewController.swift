@@ -91,7 +91,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
             $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1); $0.font = .proxima(ofSize: 12)
         }
         view.addSubview(label)
-        label.constrain((.leading, 0), (.trailing, 0), (.bottom, -10), toItem: view)
+        label.constrain((.leading, 0), (.trailing, 0), (.bottom, -8), toItem: view)
         
         return view
     }

@@ -101,9 +101,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
     }
     
     func selectedIndex(_ index:Int, animated:Bool) {
-        if index == control.previousIndex {
-            return
-        }
+        if index == control.previousIndex { return }
         delegate?.selectedIndex(index, animated: animated)
         pageController.setViewControllers([controllers[index]], direction: (control.previousIndex < index) ? .forward : .reverse, animated: animated, completion: nil)
     }

@@ -101,6 +101,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
                     sender.view?.center = (self.view?.superview?.center)!
                     sender.view?.transform = CGAffineTransform.identity
                     self.overlayView.alpha = 0.0
+                    self.delegate?.swiping(percent: 0)
                     self.overlayView.isHidden = true
                 })
                 return
@@ -108,21 +109,25 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
             switch swipeDirection {
             case UISwipeGestureRecognizerDirection.up:
                 UIView.animate(withDuration: 0.2, animations: {
+                    self.delegate?.swiping(percent: 100)
                     sender.view?.frame.origin.y = -sender.view!.superview!.frame.height
                     }, completion: { _ in
                         self.removeSelf(.up) }); break
             case UISwipeGestureRecognizerDirection.left:
                 UIView.animate(withDuration: 0.2, animations: {
+                    self.delegate?.swiping(percent: 100)
                     sender.view?.frame.origin.x = -sender.view!.superview!.frame.width - 50
                     }, completion: { _ in
                         self.removeSelf(.left) }); break
             case UISwipeGestureRecognizerDirection.right:
                 UIView.animate(withDuration: 0.2, animations: {
+                    self.delegate?.swiping(percent: 100)
                     sender.view?.frame.origin.x = sender.view!.superview!.frame.width + 100
                     }, completion: { _ in
                         self.removeSelf(.right) }); break
             case UISwipeGestureRecognizerDirection.down:
                 UIView.animate(withDuration: 0.2, animations: {
+                    self.delegate?.swiping(percent: 100)
                     sender.view?.frame.origin.y = sender.view!.superview!.frame.height
                     }, completion: { _ in
                         self.removeSelf(.down) }); break
@@ -187,7 +192,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
                 overlayAlpha = min(1, ((view.superview!.center.x - view.center.x)/50))
             }
         default: return }
-        
+        delegate?.swiping(percent: overlayAlpha)
         overlayView.alpha = overlayAlpha
     }
     

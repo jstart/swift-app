@@ -98,9 +98,9 @@ class FeedViewController: UIViewController {
         if cardStack.cards?.count != nil || cardStack.cards?.count == cardStack.cardIndex - 1 { return }
         cardStack.animate()
         Client.execute(RecommendationsRequest(), complete: { [weak self] response in
-            sleep(2)
             guard let jsonArray = response.result.value as? JSONArray else { return }
             self?.cardStack.cards = jsonArray.map({return RecommendationResponse.create($0)})
+            sleep(1)
             self?.cardStack.stopAnimation()
             self?.cardStack.addNewCard()
         })

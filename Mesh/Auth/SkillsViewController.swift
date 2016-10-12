@@ -49,6 +49,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         $0.layer.shadowOpacity = 1.0
         $0.layer.shadowRadius = 5
     }
+    var indexPath : IndexPath?
     
     lazy var dataSource : SkillsData = { return IndustriesCollectionViewDataSource(self.collectionView) }()
     let search = UISearchBar()
@@ -96,7 +97,12 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
 
-        if Token.retrieveToken() == nil { Client.execute(TokenRequest()) }
+        if Token.retrieveToken() == nil { Client.execute(TokenRequest()) { _ in
+                Client.execute(PickerRequest()) { response in
+                    print(response.result.value)
+                }
+            }
+        }
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -123,7 +129,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) { cell.scaleIn(delay: 0.5) }
+    //func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) { cell.scaleIn(delay: 0.5) }
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) { collectionView.cellForItem(at: indexPath)!.squeezeIn() }
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) { collectionView.cellForItem(at: indexPath)!.squeezeOut() }
 
@@ -139,38 +145,52 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         addSkills.isEnabled = false
         collectionView.allowsSelection = false
         navigationItem.backBarButtonItem = nil
-        dataSource = IndustriesCollectionViewDataSource(self.collectionView)
+        animateCells(self.indexPath!, reverse: true)
+        //dataSource = IndustriesCollectionViewDataSource(self.collectionView)
         title = "Select Industry"; swap()
         navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: navigationController!, action: #selector(UINavigationController.popViewController(animated:)))
         collectionView.allowsSelection = true
     }
     
     func switchToSkills(_ indexPath: IndexPath) {
+        self.indexPath = indexPath
         search.resignFirstResponder()
-
         addSkills.isEnabled = true
         collectionView.allowsSelection = false
-        
-        let visible = collectionView.indexPathsForVisibleItems
-        for path in visible {
-            let cell = collectionView.cellForItem(at: path) as! SkillCollectionViewCell
-            if path.row > indexPath.row {
-                cell.animate(direction: .right)
-            } else if path.row < indexPath.row {
-                cell.animate(direction: .left)
-            }
-        }
+        animateCells(indexPath)
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: self, action: #selector(self.switchToIndustries))
         //dataSource = SkillsCollectionViewDataSource(collectionView)
-        title = "Select Skills"; //swap()
+        title = "Select Skills"; swap()
         collectionView.allowsMultipleSelection = true
     }
     
+    func animateCells(_ indexPath: IndexPath, reverse: Bool = false) {
+        let visible = collectionView.indexPathsForVisibleItems
+        let row = indexPath.row/3
+        
+        for path in visible {
+            let cell = collectionView.cellForItem(at: path) as! SkillCollectionViewCell
+            let cellRow = path.row/3
+            
+            if cellRow > row {
+                if indexPath.row % 3 == path.row % 3 { cell.animate(direction: .down, row: cellRow - row, reverse: reverse)}
+                else if indexPath.row % 3 < path.row % 3 { cell.animate(direction: .leftDown, row: cellRow - row, reverse: reverse) }
+                else if indexPath.row % 3 > path.row % 3 { cell.animate(direction: .rightDown, row: cellRow - row, reverse: reverse) }
+            } else if cellRow < row {
+                if indexPath.row % 3 == path.row % 3 { cell.animate(direction: .up, row: row - cellRow, reverse: reverse) }
+                else if indexPath.row % 3 < path.row % 3 { cell.animate(direction: .leftUp, row: row - cellRow, reverse: reverse) }
+                else if indexPath.row % 3 > path.row % 3 { cell.animate(direction: .rightUp, row: row - cellRow, reverse: reverse) }
+            } else if cellRow == row && path != indexPath {
+                cell.animate(direction: indexPath.row < path.row ? .left : .right, reverse: reverse)
+            }
+        }
+    }
+    
     func swap() {
-        enterSearch(false)
-        collectionView.dataSource = dataSource
-        collectionView.reloadSections(IndexSet(integer: 0))
+        //enterSearch(false)
+        //collectionView.dataSource = dataSource
+        //collectionView.reloadData()
     }
     
     func toFeed() { collectionView.allowsSelection = false; navigationController?.push(FeedViewController()) }

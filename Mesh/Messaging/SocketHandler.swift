@@ -12,6 +12,7 @@ import SocketIO
 extension Notification.Name {
     static let typing = NSNotification.Name("Typing")
     static let message = NSNotification.Name("Message")
+    static let connection = NSNotification.Name("Connection")
 }
 
 class SocketHandler {
@@ -38,7 +39,16 @@ class SocketHandler {
             UserResponse.messages.append(meshMessage)
             DefaultNotification.post(name: .message, object: message)
         }
-
+        shared.socket.on("connection") { data, ack in
+            print(data)
+            guard let connection = data.first as? JSONDictionary else { return }
+            let meshConnection = ConnectionResponse.create(connection)
+            let realm = RealmUtilities.realm()
+            try! realm.write { realm.add(meshConnection, update: true) }
+            UserResponse.connections.append(meshConnection)
+            DefaultNotification.post(name: .connection, object: meshConnection)
+        }
+        
         shared.socket.on("alive") { data, ack in
             print(data)
         }

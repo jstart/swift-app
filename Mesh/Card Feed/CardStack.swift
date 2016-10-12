@@ -8,7 +8,11 @@
 
 import UIKit
 
-protocol CardDelegate { func swiped(_ direction: UISwipeGestureRecognizerDirection); func passCard(_ direction: UISwipeGestureRecognizerDirection) }
+protocol CardDelegate {
+    func swiped(_ direction: UISwipeGestureRecognizerDirection)
+    func passCard(_ direction: UISwipeGestureRecognizerDirection)
+    func swiping(percent: CGFloat)
+}
 
 class CardStack : UIViewController, CardDelegate {
     
@@ -67,9 +71,14 @@ class CardStack : UIViewController, CardDelegate {
         let next = cards![safe: cardIndex + 1]
         if bottomCard == nil {
             currentCard = card.cardType().viewController()
-            currentCard!.delegate = self
+            currentCard?.delegate = self
             addChildViewController(currentCard!)
-            currentCard!.rec = card
+            currentCard?.rec = card
+            bottomCard?.viewDidLayoutSubviews()
+            currentCard?.view.alpha = 0
+            let scale = CardFeedViewConfig().behindScale
+            let transform = CGAffineTransform(scaleX: scale, y: scale)
+            currentCard?.view.transform = transform;
         } else {
             currentCard = bottomCard
         }
@@ -79,15 +88,11 @@ class CardStack : UIViewController, CardDelegate {
         addChildViewController(bottomCard!)
         bottomCard?.rec = next
         bottomCard?.viewDidLayoutSubviews()
+        bottomCard?.view.alpha = 0
         addCard(currentCard!)
     }
 
     func addCard(_ card: UIViewController, animated: Bool = true) {
-        card.viewWillAppear(animated)
-        card.view.alpha = CardFeedViewConfig().behindAlpha
-        let scale = CardFeedViewConfig().behindScale
-        let transform = CGAffineTransform(scaleX: scale, y: scale)
-        card.view.transform = transform;
         card.viewWillAppear(animated)
         view.addSubview(card.view)
         addChildViewController(card)
@@ -144,4 +149,11 @@ class CardStack : UIViewController, CardDelegate {
             addNewCard()
         }
     }
+    
+    func swiping(percent: CGFloat) {
+        bottomCard?.view.alpha = percent
+        let scale = min(1, percent/1)
+        bottomCard?.view.transform = CGAffineTransform.init(scaleX: scale, y: scale)
+    }
+    
 }

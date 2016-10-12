@@ -8,6 +8,10 @@
 
 import UIKit
 
+enum SkillAnimationDirection {
+    case leftUp, up, rightUp, left, right, leftDown, down, rightDown
+}
+
 class SkillCollectionViewCell: UICollectionViewCell {
     
     let title = UILabel(translates: false).then {
@@ -28,6 +32,7 @@ class SkillCollectionViewCell: UICollectionViewCell {
         layer.shadowRadius = 5
         layer.shadowOpacity = 0.2
         layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = .zero
         backgroundColor = .white
         contentView.layer.cornerRadius = 5
         contentView.backgroundColor = .white
@@ -65,36 +70,49 @@ class SkillCollectionViewCell: UICollectionViewCell {
         isSelected = isSelected ? true : false
         
         if searching { return }
-        animate()
     }
     
-    func animate(direction: UISwipeGestureRecognizerDirection = .left) {
-        var flipX : CGFloat = -1.0
-        var flipY : CGFloat = -1.0
+    func animate(direction: SkillAnimationDirection = .left, row: Int = 0, reverse: Bool = false) {
+        var flipX : CGFloat = 0.0
+        var flipY : CGFloat = 0.0
         switch direction {
-        case UISwipeGestureRecognizerDirection.up: flipY = -1.0; break;
-        case UISwipeGestureRecognizerDirection.down: flipY = 1.0; break;
-        case UISwipeGestureRecognizerDirection.left: flipX = -1.0; break;
-        case UISwipeGestureRecognizerDirection.right: flipX = 1.0; break;
-        default: break; }
-        /*UIView.animate(withDuration: 0.2, animations: {
+        case .leftUp: flipY = -1.0; flipX = -1.0; break
+        case .up: flipX = 1.0; break
+        case .rightUp: flipY = 1.0; flipX = -1.0; break
+        case .left: flipY = 1.0; break
+        case .right: flipY = -1.0; break
+        case .leftDown: flipY = -1.0; flipX = 1.0; break
+        case .down: flipX = -1.0; break
+        case .rightDown: flipY = 1.0; flipX = 1.0; break }
+        UIView.animate(withDuration: 0.2, animations: {
             self.title.alpha = 0.0
             self.icon.alpha = 0.0
-        })*/
-       /* let rotation = CAKeyframeAnimation(keyPath: "transform")
-        rotation.duration = 0.4
-        rotation.values = [NSValue(caTransform3D: self.layer.transform),
-                           NSValue(caTransform3D: CATransform3DRotate(self.layer.transform, CGFloat(M_PI)/2.0, flipX, flipY, 0)),
-                           NSValue(caTransform3D: CATransform3DIdentity)]
-        layer.add(rotation, forKey: "r1")*/
-        
-        /*UIView.animate(withDuration: 0.4, delay: 0.4, animations: {
-            self.layer.transform = CATransform3DIdentity
         })
-        UIView.animate(withDuration: 0.2, delay: 0.2, animations: {
+        let rotation = CAKeyframeAnimation(keyPath: "transform")
+        rotation.beginTime = CACurrentMediaTime() + (0.1 * Double(row))
+        rotation.duration = 1
+        if reverse {
+            rotation.values = [NSValue(caTransform3D: self.layer.transform),
+                               NSValue(caTransform3D: CATransform3DRotate(self.layer.transform, CGFloat(M_PI), -flipX, -flipY, 0)),
+                               NSValue(caTransform3D: CATransform3DRotate(self.layer.transform, CGFloat(M_PI), flipX, flipY, 0))]
+        } else {
+            rotation.values = [NSValue(caTransform3D: self.layer.transform),
+                               NSValue(caTransform3D: CATransform3DRotate(self.layer.transform, CGFloat(M_PI), flipX, flipY, 0)),
+                               NSValue(caTransform3D: CATransform3DRotate(self.layer.transform, CGFloat(M_PI), -flipX, -flipY, 0))]
+        }
+        layer.add(rotation, forKey: "r1")
+        
+        let scale = CABasicAnimation(keyPath:"transform.scale")
+        scale.duration = 0.4
+        scale.fromValue = 1.0
+        scale.toValue = 1.08
+        scale.autoreverses = true
+        layer.add(scale, forKey: scale.keyPath)
+
+        UIView.animate(withDuration: 0.2, delay: 1.2, animations: {
             self.title.alpha = 1.0
             self.icon.alpha = 1.0
-        })*/
+        })
     }
     
     override var isSelected: Bool {

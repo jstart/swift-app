@@ -74,9 +74,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         viewPager!.scroll.constrain(.width, .centerX, toItem: view)
 
         imageView.constrain(.bottom, constant: -11, toItem: name, toAttribute: .top)
-        let height = imageView.constraint(.height, relatedBy: .equal, toItem: view, multiplier: 660/1052)
-        height.priority = UILayoutPriorityRequired
-        height.isActive = true
+        imageView.constrain(.height, relatedBy: .equal, toItem: view, multiplier: 660/1052)
         
         //imageView.constrain(.height, relatedBy: .greaterThanOrEqual, constant: 80)
 
@@ -115,7 +113,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         imageView.layoutIfNeeded()
         
         var rect = imageView.bounds
-        rect.size.width = view.frame.size.width * (view.transform.d == 0.5 ? 2 : 1)
+        rect.size.width = view.frame.size.width * (view.transform.d == CardFeedViewConfig().behindScale ? 2 : 1)
         rect.size.height = imageView.frame.size.height + 100
         let maskPath = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 10.0, height: 10.0))
         
@@ -127,14 +125,6 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         overlayView.alpha = 0.0
         overlayView.isHidden = true
         
-        imageView.layer.mask = nil
-        var rect = imageView.bounds
-        rect.size.width = view.frame.size.width * (view.transform.d == 0.5 ? 2 : 1)
-        rect.size.height = imageView.frame.size.height + 100
-        let maskPath = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 10.0, height: 10.0))
-        
-        imageView.layer.mask = CAShapeLayer().then { $0.frame = rect; $0.path = maskPath.cgPath }
-        
         viewPager?.removeAllViews()
         if let user = rec?.user {
             let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: [], experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: []))
@@ -144,8 +134,8 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         control.selectIndex(0)
         viewPager?.selectedIndex(0, animated: false)
         
-        name.text = rec?.user?.fullName() ?? "Test Name"
-        position.text = rec?.user?.fullTitle() ?? "Test Title"
+        name.text = rec?.user?.fullName() ?? ""
+        position.text = rec?.user?.fullTitle() ?? ""
         
         guard let largeURL = rec?.user?.photos?.large else { imageView.image = .imageWithColor(.gray); return }
         imageView.af_setImage(withURL: URL(string: largeURL)!)

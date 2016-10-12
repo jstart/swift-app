@@ -25,3 +25,9 @@ struct InterestsAutocompleteRequest : AuthenticatedRequest {
     
     let q : String
 }
+
+struct PickerRequest : AuthenticatedRequest {
+    let path = "picker", method = HTTPMethod.get
+    
+    //let parent : String
+}

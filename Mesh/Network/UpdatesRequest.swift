@@ -50,8 +50,8 @@ struct UpdatesRequest : AuthenticatedRequest {
                 let realm = RealmUtilities.realm()
                 realm.refresh()
                 UserResponse.connections = Array(realm.objects(ConnectionResponse.self));
-                UserResponse.messages = Array(realm.objects(MessageResponse.self));
-                UserResponse.events = Array(realm.objects(EventResponse.self));
+                UserResponse.messages = Array(realm.objects(MessageResponse.self)).sorted(by: { $0.ts > $1.ts });
+                UserResponse.events = Array(realm.objects(EventResponse.self)).sorted(by: { $0.start_time > $1.start_time });
                 callback()
             }
         }
