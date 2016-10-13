@@ -36,6 +36,7 @@ class LaunchViewController: UIViewController, CardDelegate {
         $0.constrain((.height, 44))
     }
     var topTimer : Timer?
+    var direction = UISwipeGestureRecognizerDirection.right
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +100,7 @@ class LaunchViewController: UIViewController, CardDelegate {
     }
     
     func swiped(_ direction: UISwipeGestureRecognizerDirection) {
+        self.direction = direction
         topCard = LaunchCardViewController()
         addCard(controller: topCard)
         topTimer?.invalidate()
@@ -124,7 +126,7 @@ class LaunchViewController: UIViewController, CardDelegate {
     }
     
     func swipe() {
-        cardStack.passCard(.left)
+        if direction == .left { cardStack.passCard(.right) } else { cardStack.passCard(.left) }
     }
     
     func skills() { navigationController?.push(SkillsViewController()) }

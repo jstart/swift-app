@@ -113,13 +113,15 @@ class CardStack : UIViewController, CardDelegate {
     func showPreviousCard() { }
     
     func passCard(_ direction: UISwipeGestureRecognizerDirection) {
-        switch direction {
-        case UISwipeGestureRecognizerDirection.left:
-            let card = self.currentCard!
-            UIView.animate(withDuration: 0.5, animations: {
+        let card = self.currentCard!
+        UIView.animate(withDuration: 0.5, animations: {
+            switch direction {
+            case UISwipeGestureRecognizerDirection.left:
                 card.view.transform = card.view.transform.rotated(by: (-45 * CGFloat(M_PI)) / 180).translatedBy(x: -(card.view.frame.size.width + 300), y: 100)
-            }) { _ in self.currentCard!.view.removeFromSuperview(); self.swiped(direction); self.currentCard!.delegate?.swiped(.left) }
-        default: return }
+            case UISwipeGestureRecognizerDirection.right:
+                card.view.transform = card.view.transform.rotated(by: (45 * CGFloat(M_PI)) / 180).translatedBy(x: (card.view.frame.size.width + 300), y: 100)
+            default: return }
+        }, completion: { _ in self.currentCard!.view.removeFromSuperview(); self.swiped(direction); self.currentCard!.delegate?.swiped(.left) })
     }
     
     func swiped(_ direction: UISwipeGestureRecognizerDirection) {
