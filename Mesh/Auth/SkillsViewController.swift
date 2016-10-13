@@ -136,7 +136,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) { collectionView.cellForItem(at: indexPath)!.squeezeOut() }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if self.dataSource is IndustriesCollectionViewDataSource { self.switchToSkills(indexPath) }
+        if self.title == "Select Industry" { self.switchToSkills(indexPath) }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) { collectionView.cellForItem(at: indexPath)?.squeezeInOut() }
@@ -165,6 +165,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         //dataSource = SkillsCollectionViewDataSource(collectionView)
         title = "Select Skills"; swap()
         collectionView.allowsMultipleSelection = true
+        collectionView.allowsSelection = true
     }
     
     func animateCells(_ indexPath: IndexPath, reverse: Bool = false) {

@@ -117,7 +117,7 @@ class TweetCardViewController : BaseCardViewController {
             actionStack.constrain((.leading, 15), (.bottom, 0), toItem: view)
         }
         
-        if rec!.contentType() == .article {
+        if rec!.contentType() != .article {
             let articleStack = UIStackView(articleTitle, articleURL, axis: .vertical, spacing: 5)
             articleStack.translates = false
             articleStack.constrain((.height, 50))
@@ -136,7 +136,7 @@ class TweetCardViewController : BaseCardViewController {
                 articleStack.constrain(.bottom, constant: -10, toItem: view)
             }
             media.constrain(.bottom, constant: -10, toItem: articleStack, toAttribute: .top)
-        } else if rec!.contentType() == .photo {
+        } else if true {//rec!.contentType() == .photo {
             media.constrain(.bottom, constant: 0, toItem: actionStack, toAttribute: .top)
         }
     }

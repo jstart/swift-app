@@ -76,7 +76,6 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
         super.viewWillAppear(animated)
         view.bringSubview(toFront: overlayView)
         overlayView.alpha = 0.0
-//        overlayView.isHidden = true
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool { return true }

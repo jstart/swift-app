@@ -53,6 +53,15 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        let valid = UserResponse.messages.filter({$0.sender != UserResponse.current?._id && $0.text != ""})
+        if let first = valid.first {
+            self.todoMessages = [first]
+            if let second = valid.filter({$0.sender != first.sender && $0.text != ""}).first {
+                self.todoMessages.append(second)
+            }
+        } else { self.todoMessages = [] }
+        self.tableView.reloadData()
+        
         refresh()
     }
     
@@ -232,7 +241,13 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         }
     }
     
-    func presentQuickReply(connection: ConnectionResponse, message: MessageResponse, index: IndexPath){
+    func presentQuickReply(connection: ConnectionResponse, message: MessageResponse, index: IndexPath) {
+        let cell = tableView.cellForRow(at: index)
+        cell?.removeFromSuperview()
+        view.addSubview(cell!)
+        UIView.animate(withDuration: 0.2, animations: {
+            cell?.frame.origin = .zero
+            }, completion: { _ in cell?.removeFromSuperview() })
         let quickReply = QuickReplyViewController(connection.user, text: message.text!)
         quickReply.modalPresentationStyle = .overFullScreen
         quickReply.action = { text in Client.execute(MessagesSendRequest(recipient: message.sender, text: text!), complete: { response in

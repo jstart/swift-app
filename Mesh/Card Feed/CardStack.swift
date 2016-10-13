@@ -101,9 +101,10 @@ class CardStack : UIViewController, CardDelegate {
         card.view.constrain(.height, relatedBy: .lessThanOrEqual, constant: -40, toItem: view)
         card.view.constrain(.centerX, .centerY, toItem: view)
         card.view.translates = false
+        card.view.layoutIfNeeded()
         
         if !animated { view.sendSubview(toBack: card.view); return }
-        UIView.animate(withDuration: 0.2, animations: { card.view.alpha = 1.0; card.view.transform = .identity }, completion: { _ in
+        UIView.animate(withDuration: 0.2, animations: { card.view.alpha = 1.0; card.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0) }, completion: { _ in
             guard self.bottomCard != nil else { return }
             self.addCard(self.bottomCard!, animated: false)
         })
@@ -151,8 +152,8 @@ class CardStack : UIViewController, CardDelegate {
     }
     
     func swiping(percent: CGFloat) {
-        bottomCard?.view.alpha = percent
-        let scale = min(1, (percent)/1)
+        bottomCard?.view.alpha = abs(percent)
+        let scale = min(1, abs(percent)/1)
         bottomCard?.view.transform = CGAffineTransform.init(scaleX: scale, y: scale)
     }
     
