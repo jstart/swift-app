@@ -152,7 +152,7 @@ class CardStack : UIViewController, CardDelegate {
     
     func swiping(percent: CGFloat) {
         bottomCard?.view.alpha = percent
-        let scale = min(1, percent/1)
+        let scale = min(1, (percent)/1)
         bottomCard?.view.transform = CGAffineTransform.init(scaleX: scale, y: scale)
     }
     

@@ -91,6 +91,8 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         
         addSkills.addTarget(self, action: #selector(switchToIndustries), for: .touchUpInside)
         complete.addTarget(self, action: #selector(toFeed), for: .touchUpInside)
+        
+        collectionView.contentInset = UIEdgeInsets(top: collectionView.contentInset.top, left: collectionView.contentInset.left, bottom: 80, right: collectionView.contentInset.right)
     }
     
     override func viewWillAppear(_ animated: Bool) {

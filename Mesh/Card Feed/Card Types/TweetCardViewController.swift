@@ -71,7 +71,7 @@ class TweetCardViewController : BaseCardViewController {
         super.viewDidLoad()
         view.addSubviews(profile, sourceIcon, media, text)
         
-        media.constrain(.height, relatedBy: .greaterThanOrEqual, constant: 80)
+        media.constrain(.height, relatedBy: .greaterThanOrEqual, constant: 120)
         media.constrain(.height, relatedBy: .lessThanOrEqual, toItem: view, multiplier: 600/1052)
 
         if let imageURL = rec?.user?.photos?.large { profile.af_setImage(withURL: URL(string: imageURL)!) }

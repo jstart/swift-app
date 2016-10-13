@@ -159,29 +159,34 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
             rightStamp.alpha = direction == .right ? 1.0 : 0; leftStamp.alpha = direction == .left ? 1.0 : 0
         }
         var overlayAlpha : CGFloat = 0
+        var screenProgress : CGFloat = 0
         switch direction {
         case UISwipeGestureRecognizerDirection.up:
-            overlayAlpha = min(1, ((view.superview!.center.y - view.center.y)/50))
+            screenProgress = view.superview!.center.y - view.center.y
+            overlayAlpha = min(1, (screenProgress/50))
         case UISwipeGestureRecognizerDirection.down:
-            overlayAlpha = min(1, ((view.center.y - view.superview!.center.y)/50))
+            screenProgress = view.center.y - view.superview!.center.y
+            overlayAlpha = min(1, (screenProgress/50))
         case UISwipeGestureRecognizerDirection.left:
-            let progress = min(1, ((view.center.x - view.superview!.center.x)/200)) * 10
+            screenProgress = view.center.x - view.superview!.center.x
+            let progress = min(1, (screenProgress/200)) * 10
             view.transform = CGAffineTransform(rotationAngle:(progress * CGFloat(M_PI)) / 180)
             if view.center.x <= view.superview!.center.x {
                 overlayAlpha = min(1, ((view.superview!.center.x - view.center.x)/50))
             } else {
-                overlayAlpha = min(1, ((view.center.x - view.superview!.center.x)/50))
+                overlayAlpha = min(1, (screenProgress/50))
             }
         case UISwipeGestureRecognizerDirection.right:
-            let progress = min(1, ((view.center.x - view.superview!.center.x)/200)) * 10
+            screenProgress = view.center.x - view.superview!.center.x
+            let progress = min(1, (screenProgress/200)) * 10
             view.transform = CGAffineTransform(rotationAngle:(progress * CGFloat(M_PI)) / 180)
             if view.center.x >= view.superview!.center.x {
-                overlayAlpha = min(1, ((view.center.x - view.superview!.center.x)/50))
+                overlayAlpha = min(1, (screenProgress/50))
             } else {
                 overlayAlpha = min(1, ((view.superview!.center.x - view.center.x)/50))
             }
         default: return }
-        delegate?.swiping(percent: overlayAlpha)
+        delegate?.swiping(percent: min(1, (screenProgress/100)))
         overlayView.alpha = overlayAlpha
     }
     
