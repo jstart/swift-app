@@ -64,10 +64,10 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
         detail.frame.origin.y = 81 * 3
         containerView.addSubview(detail)
         
-        UIView.animate(withDuration: 0.2, animations: {
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
             detail.frame.origin.y = 550
             detail.alpha = 0.0
-            self.blurView.alpha = 0.0
+            self?.blurView.alpha = 0.0
             }, completion:{_ in context.completeTransition(true) })
     }
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LaunchCardView: CardView {
+class LaunchCardViewController: BaseCardViewController {
     
     let bottom = UIView(translates: false).then {
         $0.backgroundColor = .white
@@ -31,20 +31,20 @@ class LaunchCardView: CardView {
         $0.adjustsFontSizeToFitWidth = true
     }
     
-    convenience init(_ string: String) {
-        self.init()
-        backgroundColor = #colorLiteral(red: 0.7254901961, green: 0.9019607843, blue: 1, alpha: 1)
-        layer.shadowOpacity = 0.20
-        layer.shadowRadius = 5
-        translates = false
-        constrain((.height, 305))
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = #colorLiteral(red: 0.7254901961, green: 0.9019607843, blue: 1, alpha: 1)
+        view.layer.shadowOpacity = 0.20
+        view.layer.shadowRadius = 5
+        view.translates = false
+        view.constrain((.height, 305))
         
-        addSubviews(top, bottom)
-        top.constrain(.centerX, toItem: self)
+        view.addSubviews(top, bottom)
+        top.constrain(.centerX, toItem: view)
         top.constrain(.bottom, constant: -30, toItem: bottom, toAttribute: .top)
-        top.constrain((.top, 40), (.leading, 25), (.trailing, -25), toItem: self)
+        top.constrain((.top, 40), (.leading, 25), (.trailing, -25), toItem: view)
         
-        bottom.constrain(.bottom, .leading, .trailing, toItem: self)
+        bottom.constrain(.bottom, .leading, .trailing, toItem: view)
         
         let stack = UIStackView(header, text, axis: .vertical)
         stack.translates = false
@@ -54,9 +54,13 @@ class LaunchCardView: CardView {
         stack.constrain((.bottom, -5), toItem: bottom)
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         bottom.round(corners: [.bottomLeft, .bottomRight])
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        bottom.round(corners: [.bottomLeft, .bottomRight])
+    }
 }

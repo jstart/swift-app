@@ -18,7 +18,6 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
     var tapRec : UITapGestureRecognizer?
     let overlayView  = UIView(translates: false).then {
         $0.alpha = 1.0
-        $0.isHidden = false
         $0.layer.cornerRadius = 10.0
     }
     let leftLabel = UILabel(translates: false).then {

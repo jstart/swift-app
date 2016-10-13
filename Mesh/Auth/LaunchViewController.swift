@@ -8,9 +8,10 @@
 
 import UIKit
 
-class LaunchViewController: UIViewController {
+class LaunchViewController: UIViewController, CardDelegate {
     
-    let topCard = LaunchCardView(""), bottomCard = LaunchCardView("")
+    var topCard = LaunchCardViewController()
+    let cardStack = CardStack()
 
     let logo = UIImageView(image: #imageLiteral(resourceName: "logo_large")).then {
         $0.translates = false
@@ -23,26 +24,18 @@ class LaunchViewController: UIViewController {
     }
     let getStarted = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
-        $0.titleLabel?.font = .boldProxima(ofSize: 20)
-        $0.setTitle("GET STARTED", for: .normal)
+        $0.title = "GET STARTED"; $0.titleLabel?.font = .boldProxima(ofSize: 20)
         $0.layer.cornerRadius = 5
         $0.clipsToBounds = true
         $0.constrain((.height, 70))
     }
-    let signIn = UIButton(translates: false).then {
-        $0.setTitle("SIGN IN", for: .normal)
-        $0.titleLabel?.font = .boldProxima(ofSize: 20)
-        $0.setTitleColor(Colors.brand, for: .normal)
-    }
+    let signIn = UIButton(translates: false).then { $0.title = "SIGN IN"; $0.titleColor = Colors.brand; $0.titleLabel?.font = .boldProxima(ofSize: 20) }
     let legal = UITextView(translates: false).then {
-        $0.textColor = .gray
-        $0.textAlignment = .center
+        $0.textColor = .gray; $0.textAlignment = .center
         $0.attributedText = NSAttributedString(string: "By using Mesh you agree to the Privacy Policy and the Terms of Service", attributes: [:])
         $0.constrain((.height, 44))
     }
     var topTimer : Timer?
-    var center : CGPoint?
-    var top = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,24 +43,31 @@ class LaunchViewController: UIViewController {
         view.backgroundColor = .white
         getStarted.addTarget(self, action: #selector(skills), for: .touchUpInside)
         signIn.addTarget(self, action: #selector(phone), for: .touchUpInside)
-        view.addSubviews(logo, subtitle, bottomCard, topCard, getStarted, signIn, legal)
+        view.addSubviews(logo, getStarted, signIn, legal)
         logo.constrain(.top, relatedBy: .greaterThanOrEqual, constant: 20, toItem: view)
         logo.constrain(.top, relatedBy: .lessThanOrEqual, constant: 35, toItem: view)
         logo.constrain((.leading, 100), (.trailing, -100), toItem: view)
-        logo.constrain(.bottom, relatedBy: .lessThanOrEqual, constant: -20, toItem: subtitle, toAttribute: .top)
+        //logo.constrain(.bottom, relatedBy: .lessThanOrEqual, constant: -20, toItem: subtitle, toAttribute: .top)
         
-        subtitle.constrain(.centerX, toItem: view)
-        subtitle.constrain(.bottom, relatedBy: .lessThanOrEqual, constant: -20, toItem: topCard, toAttribute: .top)
+        //subtitle.constrain(.centerX, toItem: view)
+        //subtitle.constrain(.bottom, relatedBy: .lessThanOrEqual, constant: -20, toItem: topCard.view, toAttribute: .top)
         
-        topCard.constrain(.centerX, toItem: view)
-        topCard.constrain((.width, -120), (.centerY, -40), toItem: view)
-        bottomCard.constrain(.centerX, toItem: view)
-        bottomCard.constrain((.width, -120), (.centerY, -40), toItem: view)
-        topCard.constrain(.height, toItem: topCard, toAttribute: .width, multiplier: 760/690)
-        bottomCard.constrain(.height, toItem: bottomCard, toAttribute: .width, multiplier: 760/690)
+        addChildViewController(cardStack)
+        view.addSubview(cardStack.view)
+        cardStack.view.translates = false
+        cardStack.view.constrain((.height, 305))
+        cardStack.view.constrain((.centerY, -40), toItem: view)
+        cardStack.view.constrain(.width, .centerX, toItem: view)
+        
+        /*topCard.view.constrain(.centerX, toItem: view)
+        topCard.view.constrain((.width, -120), (.centerY, -40), toItem: view)
+        bottomCard.view.constrain(.centerX, toItem: view)
+        bottomCard.view.constrain((.width, -120), (.centerY, -40), toItem: view)
+        topCard.view.constrain(.height, toItem: topCard.view, toAttribute: .width, multiplier: 760/690)
+        bottomCard.view.constrain(.height, toItem: bottomCard.view, toAttribute: .width, multiplier: 760/690)
 
-        topCard.constrain(.height, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .height, multiplier: 0.4)
-        bottomCard.constrain(.height, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .height, multiplier: 0.4)
+        topCard.view.constrain(.height, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .height, multiplier: 0.4)
+        bottomCard.view.constrain(.height, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .height, multiplier: 0.4)*/
         
 //      getStarted.constrain(.top, constant: 70, toItem: card, toAttribute: .bottom)
         getStarted.constrain(.centerX, toItem: view)
@@ -87,13 +87,10 @@ class LaunchViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: true)
-        topTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(swipe), userInfo: nil, repeats: true)
-        center = CGPoint(x: view.center.x, y: view.center.y - 40)
+        navigationController?.setNavigationBarHidden(true, animated: true)        
         
-        topCard.center = center!; topCard.transform = .identity
-        bottomCard.center = center!; bottomCard.transform = .identity
-        top = true
+        addCard(controller: topCard)
+        topTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(swipe), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -101,31 +98,33 @@ class LaunchViewController: UIViewController {
         topTimer?.invalidate()
     }
     
+    func swiped(_ direction: UISwipeGestureRecognizerDirection) {
+        topCard = LaunchCardViewController()
+        addCard(controller: topCard)
+        topTimer?.invalidate()
+        topTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(swipe), userInfo: nil, repeats: true)
+    }
+    
+    func addCard(controller: BaseCardViewController) {
+        controller.delegate = self
+        controller.view.alpha = 0.0
+        controller.view.translates = false
+        controller.view.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        controller.view.center = cardStack.view.center
+        cardStack.addCard(controller, width: -120)
+        cardStack.currentCard = controller
+    }
+    
+    func passCard(_ direction: UISwipeGestureRecognizerDirection) {
+        
+    }
+    
+    func swiping(percent: CGFloat) {
+        topTimer?.invalidate()
+    }
+    
     func swipe() {
-        if top {
-            view.bringSubview(toFront: bottomCard)
-            topCard.center = center!
-            topCard.transform = .identity
-            topCard.transform = topCard.transform.scaledBy(x: 0.5, y: 0.5)
-            view.layoutIfNeeded()
-            UIView.animate(withDuration: 0.75, animations: {
-                self.bottomCard.center = CGPoint(x: -300, y: 100 + self.bottomCard.center.y)
-                self.bottomCard.transform = self.bottomCard.transform.rotated(by: (-45 * CGFloat(M_PI)) / 180)
-                self.topCard.transform = .identity
-            })
-        } else {
-            view.bringSubview(toFront: topCard)
-            bottomCard.center = center!
-            bottomCard.transform = .identity
-            bottomCard.transform = bottomCard.transform.scaledBy(x: 0.5, y: 0.5)
-            view.layoutIfNeeded()
-            UIView.animate(withDuration: 0.75, animations: {
-                self.topCard.center = CGPoint(x: self.view.frame.size.width + 300, y: 100 + self.topCard.center.y)
-                self.topCard.transform = self.topCard.transform.rotated(by: (45 * CGFloat(M_PI)) / 180)
-                self.bottomCard.transform = .identity
-            })
-        }
-        top = !top
+        cardStack.passCard(.left)
     }
     
     func skills() { navigationController?.push(SkillsViewController()) }

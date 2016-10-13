@@ -92,17 +92,17 @@ class CardStack : UIViewController, CardDelegate {
         addCard(currentCard!)
     }
 
-    func addCard(_ card: UIViewController, animated: Bool = true) {
+    func addCard(_ card: UIViewController, animated: Bool = true, width: CGFloat = -13) {
         card.viewWillAppear(animated)
         view.addSubview(card.view)
         addChildViewController(card)
-        card.viewDidAppear(animated)
-        card.view.constrain((.width, -13), toItem: view)
+        card.view.constrain((.width, width), toItem: view)
         card.view.constrain(.height, relatedBy: .lessThanOrEqual, constant: -40, toItem: view)
         card.view.constrain(.centerX, .centerY, toItem: view)
         card.view.translates = false
         card.view.layoutIfNeeded()
-        
+        card.viewDidAppear(animated)
+
         if !animated { view.sendSubview(toBack: card.view); return }
         UIView.animate(withDuration: 0.2, animations: { card.view.alpha = 1.0; card.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0) }, completion: { _ in
             guard self.bottomCard != nil else { return }
@@ -118,16 +118,16 @@ class CardStack : UIViewController, CardDelegate {
             let card = self.currentCard!
             UIView.animate(withDuration: 0.5, animations: {
                 card.view.transform = card.view.transform.rotated(by: (-45 * CGFloat(M_PI)) / 180).translatedBy(x: -(card.view.frame.size.width + 300), y: 100)
-            }) { _ in self.currentCard!.view.removeFromSuperview(); self.swiped(direction) }
+            }) { _ in self.currentCard!.view.removeFromSuperview(); self.swiped(direction); self.currentCard!.delegate?.swiped(.left) }
         default: return }
     }
     
     func swiped(_ direction: UISwipeGestureRecognizerDirection) {
-        let card = cards?[cardIndex]
+        guard let card = cards?[cardIndex] else { return }
         
-        switch card!.cardType() {
-        case .people: if let id = card?.user?._id { Client.execute(direction == .right ? LikeRequest(_id: id) : PassRequest(_id: id)) }
-        case .event: if let id = card?.event?._id { Client.execute(direction == .right ? EventLikeRequest(_id: id) : EventPassRequest(_id: id)) }
+        switch card.cardType() {
+        case .people: if let id = card.user?._id { Client.execute(direction == .right ? LikeRequest(_id: id) : PassRequest(_id: id)) }
+        case .event: if let id = card.event?._id { Client.execute(direction == .right ? EventLikeRequest(_id: id) : EventPassRequest(_id: id)) }
         default: break }
         
         if cardIndex + 5 == cards?.count {

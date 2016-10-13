@@ -46,7 +46,7 @@ class QuickReplyViewController: UIViewController, UIViewControllerTransitioningD
             $0.contentView.backgroundColor = .white
             $0.reply.isHidden = true
             $0.message.numberOfLines = 2
-            $0.company.image = type! == .tweet ? #imageLiteral(resourceName: "twtr-icn-logo") : .imageWithColor(.gray)
+            $0.company.image = type! == .tweet ? #imageLiteral(resourceName: "twtr-icn-logo") : nil
             $0.configure(text, user: user!, read: false)
         }
 

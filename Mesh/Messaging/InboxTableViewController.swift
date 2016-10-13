@@ -244,10 +244,17 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     func presentQuickReply(connection: ConnectionResponse, message: MessageResponse, index: IndexPath) {
         let cell = tableView.cellForRow(at: index)
         cell?.removeFromSuperview()
-        view.addSubview(cell!)
+        UIApplication.shared.delegate?.window??.addSubview(cell!)
         UIView.animate(withDuration: 0.2, animations: {
-            cell?.frame.origin = .zero
-            }, completion: { _ in cell?.removeFromSuperview() })
+            cell?.frame.origin.y = 0
+            }, completion: { _ in
+                UIView.animate(withDuration: 0.2, animations: {
+                        cell?.alpha = 0
+                    }, completion: { _ in
+                        cell?.removeFromSuperview(); self.tableView.reloadData()
+                })
+        })
+        
         let quickReply = QuickReplyViewController(connection.user, text: message.text!)
         quickReply.modalPresentationStyle = .overFullScreen
         quickReply.action = { text in Client.execute(MessagesSendRequest(recipient: message.sender, text: text!), complete: { response in
