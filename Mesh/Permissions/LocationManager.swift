@@ -64,7 +64,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate, MKLocalSearchComple
         default: break }
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { print(error) }
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         LocationManager.currentLocation = locations.first!

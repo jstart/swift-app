@@ -58,8 +58,7 @@ class ContactsManager : NSObject {
                     }
                 }
             })
-        default: completionHandler(false)
-        }
+        default: completionHandler(false) }
     }
     
     func contacts() -> [CNContact] {

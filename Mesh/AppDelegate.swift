@@ -55,6 +55,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SocketHandler.stopListening()
     }
     
+    func applicationWillTerminate(_ application: UIApplication) {
+        SocketHandler.stopListening()
+    }
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         let source = options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String
         let annotation = options[UIApplicationOpenURLOptionsKey.annotation]

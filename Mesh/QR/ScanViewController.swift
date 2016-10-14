@@ -148,10 +148,11 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     func refresh() {
         Client.execute(CardsRequest(), complete: { response in
-            UserResponse.cards = ((response.result.value as? JSONArray)?.map({ return CardResponse(JSON: $0) })) ?? [CardResponse]()
+            guard let responseJSON = response.result.value as? JSONArray else { return }
+            UserResponse.cards = responseJSON.map({ return CardResponse(JSON: $0) })
             self.cards = UserResponse.cards.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) })
             for (index, card) in self.pager!.stack.arrangedSubviews.enumerated() {
-                (card as? QRCardView)?.setToken((UserResponse.current?._id ?? "") + "::" + self.cards[index].token, animated: true)
+                (card as? QRCardView)?.setToken((UserResponse.current?._id ?? "") + "::" + (self.cards[safe: index]?.token ?? ""), animated: true)
             }
         })
     }
@@ -303,9 +304,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             header.constrain(.top, constant: 30, toItem: pager?.scroll, toAttribute: .bottom)
             
             let message = UILabel(translates: false).then {
-                $0.font = .proxima(ofSize: 16)
+                $0.font = .proxima(ofSize: 16); $0.textColor = .white
                 $0.numberOfLines = 0
-                $0.textColor = .white
                 $0.text = "We’ve created your virtual business card to share with others. Everything look OK?"
                 $0.textAlignment = .center
             }
@@ -317,8 +317,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             let edit = UIButton(translates: false).then {
                 $0.setTitle("EDIT", for: .normal)
                 $0.layer.borderColor = UIColor.white.cgColor
-                $0.layer.borderWidth = 1.0
-                $0.layer.cornerRadius = 5.0
+                $0.layer.borderWidth = 1.0; $0.layer.cornerRadius = 5.0
                 $0.constrain((.width, 90), (.height, 30))
             }
             edit.addTarget(self, action: #selector(editAndDismiss), for: .touchUpInside)
@@ -328,11 +327,9 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             edit.constrain(.centerX, constant: -(25 + (90 / 2)), toItem: view)
             
             let yes = UIButton(translates: false).then {
-                $0.setTitle("YES", for: .normal)
-                $0.setTitleColor(Colors.brand, for: .normal)
+                $0.title = "YES"; $0.titleColor = Colors.brand
                 $0.layer.borderColor = Colors.brand.cgColor
-                $0.layer.borderWidth = 1.0
-                $0.layer.cornerRadius = 5.0
+                $0.layer.borderWidth = 1.0; $0.layer.cornerRadius = 5.0
                 $0.constrain((.width, 90), (.height, 30))
             }
             yes.addTarget(self, action: #selector(dismissOverlay), for: .touchUpInside)

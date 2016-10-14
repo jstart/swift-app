@@ -25,8 +25,7 @@ class LaunchViewController: UIViewController, CardDelegate {
     let getStarted = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.title = "GET STARTED"; $0.titleLabel?.font = .boldProxima(ofSize: 20)
-        $0.layer.cornerRadius = 5
-        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 5; $0.clipsToBounds = true
         $0.constrain((.height, 70))
     }
     let signIn = UIButton(translates: false).then { $0.title = "SIGN IN"; $0.titleColor = Colors.brand; $0.titleLabel?.font = .boldProxima(ofSize: 20) }
@@ -59,18 +58,7 @@ class LaunchViewController: UIViewController, CardDelegate {
         cardStack.view.constrain((.height, 305))
         cardStack.view.constrain((.centerY, -40), toItem: view)
         cardStack.view.constrain(.width, .centerX, toItem: view)
-        
-        /*topCard.view.constrain(.centerX, toItem: view)
-        topCard.view.constrain((.width, -120), (.centerY, -40), toItem: view)
-        bottomCard.view.constrain(.centerX, toItem: view)
-        bottomCard.view.constrain((.width, -120), (.centerY, -40), toItem: view)
-        topCard.view.constrain(.height, toItem: topCard.view, toAttribute: .width, multiplier: 760/690)
-        bottomCard.view.constrain(.height, toItem: bottomCard.view, toAttribute: .width, multiplier: 760/690)
 
-        topCard.view.constrain(.height, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .height, multiplier: 0.4)
-        bottomCard.view.constrain(.height, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .height, multiplier: 0.4)*/
-        
-//      getStarted.constrain(.top, constant: 70, toItem: card, toAttribute: .bottom)
         getStarted.constrain(.centerX, toItem: view)
         getStarted.constrain(.leading, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .leadingMargin)
         getStarted.constrain(.trailing, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .trailingMargin)
@@ -117,17 +105,11 @@ class LaunchViewController: UIViewController, CardDelegate {
         cardStack.currentCard = controller
     }
     
-    func passCard(_ direction: UISwipeGestureRecognizerDirection) {
-        
-    }
+    func passCard(_ direction: UISwipeGestureRecognizerDirection) { }
     
-    func swiping(percent: CGFloat) {
-        topTimer?.invalidate()
-    }
+    func swiping(percent: CGFloat) { topTimer?.invalidate() }
     
-    func swipe() {
-        if direction == .left { cardStack.passCard(.right) } else { cardStack.passCard(.left) }
-    }
+    func swipe() { if direction == .left { cardStack.passCard(.right) } else { cardStack.passCard(.left) } }
     
     func skills() { navigationController?.push(SkillsViewController()) }
     func phone() { navigationController?.push(JoinTableViewController(style: .grouped)) }

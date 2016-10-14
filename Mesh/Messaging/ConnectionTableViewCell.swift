@@ -70,7 +70,7 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         initials.text = ([firstInitial, lastInitial] as NSArray).componentsJoined(by: "").replace("\"", with: "").uppercased()
     }
 
-    func configure(_ user: UserResponse?){
+    func configure(_ user: UserResponse?) {
         name.text = user?.fullName()
         title.text = user?.fullTitle()
         guard let url = user?.photos?.large else { showInitials(firstName: (user?.first_name) ?? "", lastName: (user?.last_name) ?? ""); return }
@@ -103,4 +103,5 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         button.setTitle(button.title(for: .selected), for: .normal)
         buttonHandler?()
     }
+    
 }

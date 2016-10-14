@@ -12,6 +12,10 @@ protocol ViewPagerDelegate : class {
     func selectedIndex(_ index: Int)
 }
 
+enum ViewPagerAnimation {
+    case none, tilt
+}
+
 class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
     let scroll = UIScrollView().then {
         $0.isPagingEnabled = true
@@ -22,12 +26,13 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
     var views : [UIView] = []
     var previousPage = 0
     let stack : UIStackView
+    let animation : ViewPagerAnimation
 
-    init(views : [UIView]) {
+    init(views : [UIView], animation: ViewPagerAnimation = .none) {
+        self.animation = animation
         stack = UIStackView(arrangedSubviews: views).then {
             $0.translates = false
-            $0.distribution = .fill
-            $0.alignment = .center
+            $0.distribution = .fill; $0.alignment = .center
             $0.spacing = 30
         }
         
@@ -47,15 +52,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         scroll.delegate = self
     }
     
-    func insertViews(_ views: [UIView]) {
-        for (index, view) in views.enumerated() {
-            stack.insertArrangedSubview(view, at: index)
-            view.translates = false
-            let width = view.constraint(.width, constant: -30, toItem: scroll)
-            width.priority = UILayoutPriorityDefaultHigh
-            width.isActive = true
-        }
-    }
+    func insertViews(_ views: [UIView]) { for (index, view) in views.enumerated() { insertView(view, atIndex: index) } }
     
     func insertView(_ view: UIView, atIndex: Int) {
         stack.insertArrangedSubview(view, at: atIndex)
@@ -70,7 +67,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
     func removeView(atIndex: Int) { stack.arrangedSubviews[atIndex].removeFromSuperview() }
     func removeAllViews() { stack.arrangedSubviews.forEach { $0.removeFromSuperview() } }
 
-    func selectedIndex(_ index: Int, animated: Bool = true){
+    func selectedIndex(_ index: Int, animated: Bool = true) {
         guard index >= 0 else { return }
         scroll.setContentOffset(CGPoint(x: scroll.frame.size.width * CGFloat(index), y: scroll.contentOffset.y), animated: animated)
     }
@@ -83,5 +80,12 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
             delegate?.selectedIndex(page)
             previousPage = page;
         }
+        
+        /*let progress = (scrollView.contentOffset.x/scrollView.contentSize.width) * 3
+        for (index, view) in stack.arrangedSubviews.enumerated() {
+            if index != page {
+                view.transform = CGAffineTransform(rotationAngle: (-fractionalPage * CGFloat(-M_PI_2))/2)
+            }
+        }*/
     }
 }

@@ -18,7 +18,7 @@ class ArticleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = user != nil ? user!.fullName() + " " + "shared this with you" : "Reed Hastings shared this with you"
+        title = user != nil ? user!.fullName() + " " + "shared this with you" : "Article shared with you"
         view.addSubview(web)
 
         web.constrain(.width, .height, .centerX, .centerY, toItem: view)

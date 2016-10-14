@@ -35,9 +35,7 @@ class FeedViewController: UIViewController {
             completeProfile.constrain(.width, .centerX, .bottom, toItem: view)
             
             let label = UILabel(translates: false).then {
-                $0.font = .proxima(ofSize: 17)
-                $0.textColor = .white
-                $0.text = "Complete Your Profile"
+                $0.font = .proxima(ofSize: 17); $0.textColor = .white; $0.text = "Complete Your Profile"
             }
             
             completeProfile.addSubview(label)
@@ -46,8 +44,7 @@ class FeedViewController: UIViewController {
             label.constrain(.centerY, toItem: completeProfile)
             let image = #imageLiteral(resourceName: "name").withRenderingMode(.alwaysTemplate)
             let profile = UIImageView(image: image).then {
-                $0.translates = false
-                $0.tintColor = .white
+                $0.translates = false; $0.tintColor = .white
             }
             
             completeProfile.addSubview(profile)

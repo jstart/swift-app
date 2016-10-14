@@ -11,21 +11,14 @@ import GoogleSignIn
 
 class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    let profile = UIImageView(translates: false).then {
-        $0.layer.cornerRadius = 5; $0.clipsToBounds = true; $0.contentMode = .scaleAspectFill
-    }
+    let profile = UIImageView(translates: false).then { $0.layer.cornerRadius = 5; $0.clipsToBounds = true; $0.contentMode = .scaleAspectFill }
     let placeholder = CardView(translates: false).then { $0.backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.8784313725, blue: 0.8784313725, alpha: 1) }
-    let addPhoto = UILabel(translates: false).then {
-        $0.text = "Add Photo"; $0.font = .boldProxima(ofSize: 20)
-    }
-    let header = UILabel(translates: false).then {
-        $0.text = "Add Profile Picture"; $0.font = .boldProxima(ofSize: 20)
-    }
+    let addPhoto = UILabel(translates: false).then { $0.text = "Add Photo"; $0.font = .boldProxima(ofSize: 20) }
+    let header = UILabel(translates: false).then { $0.text = "Add Profile Picture"; $0.font = .boldProxima(ofSize: 20) }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
         $0.text = "We’re almost there! In order to match with people on Mesh, we need you to do this last step to complete your profile."
-        $0.font = .proxima(ofSize: 16); $0.textColor = .gray
-        $0.textAlignment = .center
+        $0.font = .proxima(ofSize: 16); $0.textColor = .gray; $0.textAlignment = .center
     }
     let upload = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
@@ -98,9 +91,9 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
     }
     
     func photoOptions() {
-        let twitter = UIAlertAction("Import from Twitter") { sender in self.uploadChoice(sender) }
-        let google = UIAlertAction("Import from Google") { sender in self.uploadChoice(sender) }
-        let library = UIAlertAction("Choose from Library") { sender in self.uploadChoice(sender) }
+        let twitter = UIAlertAction("Import from Twitter") { sender in self.uploadChoice(sender) },
+            google = UIAlertAction("Import from Google") { sender in self.uploadChoice(sender) },
+            library = UIAlertAction("Choose from Library") { sender in self.uploadChoice(sender) }
 
         let sheet = UIAlertController.sheet(title: "Add Profile Photo")
         sheet.addActions(twitter, google, library, UIAlertAction.cancel())
@@ -132,8 +125,7 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
             if response.result.value != nil {
                 activity.stopAnimating()
                 self.navigationController?.push(SMSViewController())
-            }
-            else {
+            } else {
                 let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
                 alert.addAction(UIAlertAction.ok())
                 self.present(alert)

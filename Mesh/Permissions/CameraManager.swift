@@ -40,7 +40,7 @@ class CameraManager : NSObject {
         case .notDetermined:
             AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { granted in
                 completionHandler(granted)
-            })
+            }); break
         }
     }
     

@@ -57,7 +57,7 @@ class TweetCardViewController : BaseCardViewController {
         $0.titleLabel?.font = .proxima(ofSize: 18)
         $0.titleEdgeInsets = UIEdgeInsetsMake(-10, 10, -10, 0)
         $0.contentEdgeInsets = UIEdgeInsetsMake(10, 0, 10, 0)
-        $0.constrain((.height, 40  ), (.width, 63))
+        $0.constrain((.height, 40), (.width, 63))
         $0.imageView?.contentMode = .scaleAspectFit
     }
     let reply = UIButton(translates: false).then {
