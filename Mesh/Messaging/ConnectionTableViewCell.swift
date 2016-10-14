@@ -77,7 +77,7 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         profile.af_setImage(withURL: URL(string: url)!)
     }
     
-    func configure(_ detail: UserDetail){
+    func configure(_ detail: UserDetail) {
         name.text = detail.firstText
         title.text = detail.secondText
         profile.backgroundColor = .gray

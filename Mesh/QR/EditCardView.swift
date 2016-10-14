@@ -58,8 +58,8 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
         tableView.reloadData()
     }
     
-    func cancelPressed(sender: UIButton){ cancelHandler?() }
-    func donePressed(sender: UIButton){ doneHandler?(fields!) }
+    func cancelPressed(sender: UIButton) { cancelHandler?() }
+    func donePressed(sender: UIButton) { doneHandler?(fields!) }
     
     func numberOfSections(in tableView: UITableView) -> Int { return 1 }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 4 }

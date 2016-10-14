@@ -141,13 +141,13 @@ extension UIView {
     var translates: Bool { get { return translatesAutoresizingMaskIntoConstraints } set { translatesAutoresizingMaskIntoConstraints = newValue } }
     convenience init(translates: Bool) { self.init(); self.translates = translates }
     
-    func constrain(_ constants : (attr: NSLayoutAttribute, const: CGFloat)..., toItem: UIView? = nil){
+    func constrain(_ constants : (attr: NSLayoutAttribute, const: CGFloat)..., toItem: UIView? = nil) {
         for constantPair in constants {
             NSLayoutConstraint(item: self, attribute: constantPair.attr, relatedBy: .equal, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : constantPair.attr, multiplier: 1.0, constant:constantPair.const).isActive = true
         }
     }
     
-    func constrain(_ attributes: NSLayoutAttribute..., relatedBy: NSLayoutRelation = .equal, constant: CGFloat = 0.0, toItem: UIView? = nil, toAttribute: NSLayoutAttribute = .notAnAttribute, multiplier: CGFloat = 1.0){
+    func constrain(_ attributes: NSLayoutAttribute..., relatedBy: NSLayoutRelation = .equal, constant: CGFloat = 0.0, toItem: UIView? = nil, toAttribute: NSLayoutAttribute = .notAnAttribute, multiplier: CGFloat = 1.0) {
         for attribute in attributes {
             let toAttributeChoice = toAttribute == .notAnAttribute ? attribute : toAttribute
             NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : toAttributeChoice, multiplier: multiplier, constant:constant).isActive = true
@@ -219,7 +219,7 @@ extension UserDefaults {
 extension Int {
     func perform(_ closure: () -> Void) { (0..<self).forEach { _ in closure() } }
     func performIndex(_ closure: @escaping (Int) -> Void) { (0..<self).forEach { index in closure(index) } }
-    init(_ bool: Bool){ self.init(bool ? 1 : 0) }
+    init(_ bool: Bool) { self.init(bool ? 1 : 0) }
 }
 
 extension Collection {

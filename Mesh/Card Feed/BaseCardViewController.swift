@@ -138,7 +138,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
             state.drag(gestureRec!)
             let translation = sender.translation(in: view)
             sender.view?.center = CGPoint(x: (sender.view?.center.x)! + translation.x, y: (sender.view?.center.y)! + translation.y)
-            if state.draggingInCurrentDirectionAllowed(){
+            if state.draggingInCurrentDirectionAllowed() {
                 animateOverlay(state.getSwipeDirection())
             }
             sender.setTranslation(.zero, in: view)

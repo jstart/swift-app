@@ -218,13 +218,13 @@ class MessagesViewController: JSQMessagesViewController {
     override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? { return isOutgoingMessage(messages[indexPath.row]) ? nil : JSQMessagesAvatarImage(placeholder: .imageWithColor(.gray, width: 10, height: 10)) }
     
     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        if action == #selector(editMessage(_:)) || action == #selector(deleteMessage(_:)){ return true }
+        if action == #selector(editMessage(_:)) || action == #selector(deleteMessage(_:)) { return true }
         return super.collectionView(collectionView, canPerformAction: action, forItemAt: indexPath, withSender: sender)
     }
     
     override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-//        if action == #selector(editMessage(_:)){ editMessage(indexPath) }
-        if action == #selector(deleteMessage(_:)){ deleteMessage(indexPath) }
+//        if action == #selector(editMessage(_:)) { editMessage(indexPath) }
+        if action == #selector(deleteMessage(_:)) { deleteMessage(indexPath) }
         super.collectionView(collectionView, performAction: action, forItemAt: indexPath, withSender: sender)
     }
     

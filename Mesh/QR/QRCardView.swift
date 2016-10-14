@@ -65,7 +65,7 @@ class QRCardView: CardView {
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped)))
     }
     
-    func tapped(){ tapAction() }
+    func tapped() { tapAction() }
     
     func setToken(_ token: String, animated: Bool = false) {
         if self.token == token { return }

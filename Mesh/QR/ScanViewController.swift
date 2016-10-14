@@ -157,7 +157,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         })
     }
     
-    func add(){
+    func add() {
         cards.append(QRCard(fields: [.name, .title], token: ""))
         pager?.stack.arrangedSubviews.forEach({ ($0 as? QRCardView)?.pageControl.numberOfPages = min(cards.count + 1, 3) })
         

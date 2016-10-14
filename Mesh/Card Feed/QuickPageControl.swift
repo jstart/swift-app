@@ -59,7 +59,7 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
         array.forEach({ $0.addTarget(self, action: #selector(selected), for: .touchUpInside) })
     }
     
-    func selectIndex(_ index: Int){
+    func selectIndex(_ index: Int) {
         for button in (stack?.subviews)! as! [UIButton] {
             if (stack?.subviews.index(of: button))! == index {
                 previousIndex = index
@@ -70,7 +70,7 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
         }
     }
     
-    func selected(_ sender: UIButton){
+    func selected(_ sender: UIButton) {
         for button in (stack?.subviews)! as! [UIButton] {
             button.isSelected = button == sender
         }
@@ -78,6 +78,6 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
         previousIndex = (stack?.subviews.index(of: sender))!
     }
     
-    func selectedIndex(_ index: Int){ selectIndex(index) }
+    func selectedIndex(_ index: Int) { selectIndex(index) }
 
 }

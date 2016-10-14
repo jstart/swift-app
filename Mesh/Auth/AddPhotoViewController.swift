@@ -106,7 +106,7 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
         profile.image = image; self.changeToComplete()
     }
     
-    func changeToComplete(){
+    func changeToComplete() {
         self.addPhoto.isHidden = true
         upload.setTitle("Complete Profile", for: .normal)
         upload.removeTarget(self, action: #selector(photoOptions), for: .touchUpInside)
