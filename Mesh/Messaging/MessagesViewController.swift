@@ -19,13 +19,9 @@ class MessagesViewController: JSQMessagesViewController {
     var senderImage : UIImage?
     var shouldReload = true
     
-    let label = UILabel(translates: false).then {
-        $0.constrain(.height, constant: 44)
-        $0.font = .proxima(ofSize: 18)
-    }
+    let label = UILabel(translates: false).then { $0.font = .proxima(ofSize: 18); $0.constrain(.height, constant: 44) }
     let imageView = UIImageView(translates: false).then {
-        $0.layer.cornerRadius = 5.0
-        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 5.0; $0.clipsToBounds = true
         $0.backgroundColor = .gray
         $0.contentMode = .scaleAspectFit
         $0.constrain(.width, .height, constant: 30)
@@ -116,9 +112,7 @@ class MessagesViewController: JSQMessagesViewController {
     func receivedMessage(notification: Notification) { self.reload() }
     
     func refresh() {
-        Client.execute(UpdatesRequest.latest(), complete: { response in
-            UpdatesRequest.append(response) { self.reload() }
-        })
+        Client.execute(UpdatesRequest.latest(), complete: { response in UpdatesRequest.append(response) { self.reload() } })
     }
     
     func reload() {
@@ -262,7 +256,6 @@ class MessagesViewController: JSQMessagesViewController {
     
     override func textViewDidChange(_ textView: UITextView) {
         super.textViewDidBeginEditing(textView)
-        
         if textView == inputToolbar.contentView?.textView {
             SocketHandler.sendTyping(userID: recipient?.user?._id ?? "")
         }
