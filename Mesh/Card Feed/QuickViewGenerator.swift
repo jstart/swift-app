@@ -55,10 +55,8 @@ struct QuickViewGenerator {
         }
         let label = UILabel(translates: false).then {
             $0.backgroundColor = .white
-            $0.text = details.first?.category.title()
-            $0.font = .proxima(ofSize: 14)
+            $0.text = details.first?.category.title(); $0.font = .proxima(ofSize: 14); $0.textColor = .lightGray
             $0.textAlignment = .center
-            $0.textColor = .lightGray
             $0.constrain(.height, constant: 20)
         }
         
@@ -79,10 +77,8 @@ struct QuickViewGenerator {
         let stack = stackOf(views).then { $0.distribution = .fillEqually }
         let label = UILabel().then {
             $0.backgroundColor = .white
-            $0.text = category.title()
-            $0.font = .proxima(ofSize: 14)
+            $0.text = category.title(); $0.font = .proxima(ofSize: 14); $0.textColor = .lightGray
             $0.textAlignment = .center
-            $0.textColor = .lightGray
             $0.constrain(.height, constant: 20)
         }
         let fullStack = stackOf([label, stack]).then {
@@ -108,11 +104,9 @@ struct QuickViewGenerator {
     static func fillSquare(_ image: UIImage, title: String, url: String? = nil) -> UIStackView {
         let label = UILabel().then {
             $0.numberOfLines = 2
-            $0.text = title
+            $0.text = title; $0.font = .proxima(ofSize: 12); $0.textColor = .lightGray
             $0.backgroundColor = .white
-            $0.font = .proxima(ofSize: 12)
             $0.textAlignment = .center
-            $0.textColor = .lightGray
             $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
             $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         }
@@ -141,10 +135,8 @@ struct QuickViewGenerator {
     static func square(_ image: UIImage, title: String, url: String? = nil) -> UIStackView {
         let label = UILabel().then {
             $0.text = title
-            $0.backgroundColor = .white
-            $0.font = .proxima(ofSize: 12)
+            $0.backgroundColor = .white; $0.textColor = .lightGray; $0.font = .proxima(ofSize: 12)
             $0.textAlignment = .center
-            $0.textColor = .lightGray
             $0.constrain(.height, constant: 20)
             $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         }
@@ -166,10 +158,8 @@ struct QuickViewGenerator {
     static func moreCircle(_ count: Int) -> UILabel {
         return UILabel().then {
             $0.text = "+\(count)"
-            $0.backgroundColor = .white
-            $0.font = .proxima(ofSize: 12)
+            $0.backgroundColor = .white; $0.textColor = .lightGray; $0.font = .proxima(ofSize: 12)
             $0.textAlignment = .center
-            $0.textColor = .lightGray
             $0.constrain(.height, .width, constant: 20)
             $0.layer.cornerRadius = 10
             $0.layer.borderColor = UIColor.white.cgColor

@@ -75,8 +75,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
             guard authorized else { return }
             DispatchQueue.main.async {
                 guard let empty = self.emptyView else { return }
-                empty.removeFromSuperview()
-                self.emptyView = nil
+                empty.removeFromSuperview(); self.emptyView = nil
             }
             ContactsManager().allContacts(results: { contactResults in
                 self.contacts = contactResults
@@ -111,7 +110,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     open func updateSearchResults(for searchController: UISearchController) {
         if searchController.searchBar.text == "" {
             filteredContacts = contacts
-        }else {
+        } else {
             filteredContacts = contacts.filter({return $0.searchText.localizedCaseInsensitiveContains(searchController.searchBar.text!)})
         }
         tableView.reloadData()

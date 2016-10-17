@@ -28,8 +28,7 @@ class FeedViewController: UIViewController {
             cardStack.view.constrain((.height, -46), (.centerY, -23), toItem: view)
             
             let completeProfile = UIView(translates: false).then {
-                $0.backgroundColor = Colors.brand
-                $0.constrain((.height, 46))
+                $0.backgroundColor = Colors.brand; $0.constrain((.height, 46))
             }
             view.addSubview(completeProfile)
             completeProfile.constrain(.width, .centerX, .bottom, toItem: view)
