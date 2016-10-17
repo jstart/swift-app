@@ -50,9 +50,7 @@ class EmptyView: UIView {
         for action in actions {
             let button = UIButton(translates: false).then {
                 $0.layer.cornerRadius = 5
-                $0.setTitle(action.title, for: .normal)
-                $0.titleLabel?.font = .boldProxima(ofSize:14)
-                $0.setTitleColor(action.titleColor, for: .normal)
+                $0.title = action.title; $0.titleLabel?.font = .boldProxima(ofSize:14); $0.titleColor = action.titleColor
                 $0.backgroundColor = action.backgroundColor
                 $0.addTarget(self, action: #selector(buttonPress(sender:)), for: .touchUpInside)
             }

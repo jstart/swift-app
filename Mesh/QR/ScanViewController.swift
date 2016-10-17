@@ -133,9 +133,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
 
         let tokenArray = token.components(separatedBy: "::")
-        let request = CardSyncRequest(_id: tokenArray[safe: 0] ?? "",
-                                      my_token: UserResponse.cards.first?.token ?? "",
-                                      scanned_token: tokenArray[safe: 1] ?? "")
+        let request = CardSyncRequest(_id: tokenArray[safe: 0] ?? "", my_token: UserResponse.cards.first?.token ?? "", scanned_token: tokenArray[safe: 1] ?? "")
         Client.execute(request, complete: { response in
             if response.result.value != nil {
                 Snackbar(title: "Connected!", buttonTitle: "VIEW PROFILE", buttonHandler: { return true }).presentIn(self.view)
@@ -167,8 +165,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         qr.pageControl.currentPage = pager!.previousPage
         pager?.insertView(qr, atIndex: pager!.previousPage)
         
-        Client.execute(CardCreateRequest.new(), complete: { response in //let array = (response.result.value as? JSONArray)?.map({ return CardResponse(JSON: $0) }) 
-        })
+        Client.execute(CardCreateRequest.new(), complete: { response in })//let array = (response.result.value as? JSONArray)?.map({ return CardResponse(JSON: $0) })
         
         if cards.count == 3 { pager?.removeView(atIndex: 3) }
             
@@ -245,7 +242,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             Client.execute(CardDeleteRequest(_id: cardResponse.id), complete: { response in })
         }).presentIn(self.view)
         
-        pager?.stack.arrangedSubviews.forEach({ ($0 as? QRCardView )?.pageControl.numberOfPages = min(cards.count + 1, 3) })
+        pager?.stack.arrangedSubviews.forEach({ ($0 as? QRCardView)?.pageControl.numberOfPages = min(cards.count + 1, 3) })
         pager?.selectedIndex(index - 1, animated: true)
        
         for view in pager!.stack.arrangedSubviews { if view is AddCardView { return } }
@@ -255,10 +252,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     func selectedIndex(_ index: Int) { pager?.stack.arrangedSubviews.forEach { ($0 as? QRCardView)?.pageControl.currentPage = index } }
     
     func overflow() {
-        let add = UIAlertAction("Add Card") { _ in self.add() },
-            edit = UIAlertAction("Edit Card") { _ in self.edit() },
-            delete = UIAlertAction("Delete Card") { _ in self.delete() },
-            cancel = UIAlertAction.cancel(),
+        let add = UIAlertAction("Add Card") { _ in self.add() }, edit = UIAlertAction("Edit Card") { _ in self.edit() },
+            delete = UIAlertAction("Delete Card") { _ in self.delete() }, cancel = UIAlertAction.cancel(),
             sheet = UIAlertController.sheet()
         
         let view = pager?.currentView()
@@ -281,10 +276,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     func showOverlayFirstTime() -> Bool {
         if StandardDefaults["DefaultCard"] == nil && cards.count <= 1 {
             pager?.scroll.isScrollEnabled = false
-            overlay = UIView(translates: false).then {
-                $0.backgroundColor = .black
-                $0.alpha = 0.85
-            }
+            overlay = UIView(translates: false).then { $0.backgroundColor = .black; $0.alpha = 0.85 }
             guard let overlay = overlay else { return false }
             
             view.addSubview(overlay)
@@ -292,11 +284,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             view.bringSubview(toFront: pager!.scroll)
             
             let header = UILabel(translates: false).then {
-                $0.font = .boldProxima(ofSize: 20)
-                $0.textColor = .white
-                $0.text = "Auto Created Card"
-                $0.textAlignment = .center
-                $0.constrain((.height, 25))
+                $0.font = .boldProxima(ofSize: 20); $0.textColor = .white; $0.text = "Auto Created Card"
+                $0.textAlignment = .center; $0.constrain((.height, 25))
             }
             
             overlay.addSubview(header)
@@ -304,8 +293,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             header.constrain(.top, constant: 30, toItem: pager?.scroll, toAttribute: .bottom)
             
             let message = UILabel(translates: false).then {
-                $0.font = .proxima(ofSize: 16); $0.textColor = .white
-                $0.numberOfLines = 0
+                $0.font = .proxima(ofSize: 16); $0.textColor = .white; $0.numberOfLines = 0
                 $0.text = "We’ve created your virtual business card to share with others. Everything look OK?"
                 $0.textAlignment = .center
             }
@@ -315,7 +303,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             message.constrain(.top, constant: 5, toItem: header, toAttribute: .bottom)
             
             let edit = UIButton(translates: false).then {
-                $0.setTitle("EDIT", for: .normal)
+                $0.title = "EDIT"
                 $0.layer.borderColor = UIColor.white.cgColor
                 $0.layer.borderWidth = 1.0; $0.layer.cornerRadius = 5.0
                 $0.constrain((.width, 90), (.height, 30))

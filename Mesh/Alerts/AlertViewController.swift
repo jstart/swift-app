@@ -63,8 +63,7 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
 
         for (index, action) in actions.enumerated() {
             let button = UIButton(translates: false).then {
-                $0.setTitle(action.title, for: .normal)
-                $0.setTitleColor(action.titleColor, for: .normal)
+                $0.title = action.title; $0.titleColor = action.titleColor
                 $0.titleLabel?.font = .boldProxima(ofSize: 20)
                 $0.setBackgroundImage(.imageWithColor(action.backgroundColor), for: .normal)
                 $0.addTarget(self, action: #selector(buttonPress(sender:)), for: .touchUpInside)

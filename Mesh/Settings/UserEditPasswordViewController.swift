@@ -24,8 +24,7 @@ class UserEditPasswordViewController: UITableViewController {
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
         $0.isEnabled = true
         $0.titleLabel?.font = .boldProxima(ofSize: 20)
-        $0.setTitle("CONTINUE", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
+        $0.title = "CONTINUE"; $0.titleColor = .white
         $0.layer.cornerRadius = 5
         $0.clipsToBounds = true
         $0.constrain((.height, 70))

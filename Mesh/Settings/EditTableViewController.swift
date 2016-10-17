@@ -12,9 +12,14 @@ import GoogleSignIn
 class EditTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, GIDSignInUIDelegate {
     
     let profile = UIImageView(translates: false).then {
-        $0.contentMode = .scaleAspectFill
-        $0.clipsToBounds = true
+        $0.contentMode = .scaleAspectFill; $0.clipsToBounds = true
         $0.constrain(.height, constant: 325)
+    }
+    let editIcon = UIImageView(image: #imageLiteral(resourceName: "edit").withRenderingMode(.alwaysTemplate)).then {
+        $0.translates = false; $0.tintColor = .white; $0.isHidden = false; $0.constrain(.width, .height, constant: 12)
+    }
+    let editLabel = UILabel(translates: false).then {
+        $0.text = "Edit"; $0.textColor = .white; $0.font = .semiboldProxima(ofSize: 14); $0.isHidden = false
     }
     var items : [UserDetail] = [Experience(company: "Tinder", position: "iOS", startMonth: "January", startYear: "2012", endMonth: "January", endYear: "2016"),
                                 Education(schoolName: "Harvard", degreeType: "Masters", startYear: "2012", endYear: "2016", field: "Engineering", graduated: true),
@@ -74,6 +79,11 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
                 profile.constrain(.leading, .trailing, .top, .bottom, toItem: cell)
                 guard let url = URL(string: UserResponse.current?.photos?.large ?? "") as URL! else { return cell }
                 profile.af_setImage(withURL: url)
+                
+                profile.addSubviews(editIcon, editLabel)
+                editLabel.constrain((.bottom, -5), (.trailing, -10), toItem: profile)
+                editIcon.constrain(.centerY, toItem: editLabel)
+                editIcon.constrain(.trailing, constant: -5, toItem: editLabel, toAttribute: .leading)
                 break
             case 1:
                 cell.selectionStyle = .none
@@ -95,9 +105,6 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
             cell.bottom.text = item.secondText
             cell.year.text = item.thirdText
             
-            switch indexPath.row {
-            case 0: break
-            default: break }
             return cell
         }
     }

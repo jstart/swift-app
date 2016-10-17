@@ -20,16 +20,14 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
     var switchView = UISwitch(translates: false)
     var index : IndexPath?
     let delete = UIButton(type: .system).then {
-        $0.constrain((.height, 80))
-        $0.setTitleColor(.red, for: .normal)
-        $0.translates = false
+        $0.constrain((.height, 80)); $0.titleColor = .red; $0.translates = false
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         if let item = item {
             title = "Edit " + item.category.title()
-            delete.setTitle("Delete " + item.category.title(), for: .normal)
+            delete.title = "Delete " + item.category.title()
             delete.addTarget(self, action: #selector(deleteItem), for: .touchUpInside)
             tableView.addSubview(delete)
             delete.constrain(.leading, .width, toItem: tableView)
@@ -144,11 +142,11 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
     public func numberOfComponents(in pickerView: UIPickerView) -> Int { return type == .month ? 2 : 1 }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if type == .month { return component == 0 ?  months.count : years.count }
+        if type == .month { return component == 0 ? months.count : years.count }
         return years.count
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if type == .month { return component == 0 ?  months[row] : years[row] }
+        if type == .month { return component == 0 ? months[row] : years[row] }
         return years[row]
     }
     
