@@ -32,8 +32,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         self.animation = animation
         stack = UIStackView(arrangedSubviews: views).then {
             $0.translates = false
-            $0.distribution = .fill; $0.alignment = .center
-            $0.spacing = 30
+            $0.distribution = .fill; $0.alignment = .center; $0.spacing = 30
         }
         
         scroll.addSubview(stack)
