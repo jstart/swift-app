@@ -41,7 +41,6 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
         title = "Complete Profile"
         
         view.backgroundColor = .white
-        
         view.addSubviews(placeholder, header, text, upload)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(photoOptions))

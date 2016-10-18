@@ -84,10 +84,7 @@ class SkillCollectionViewCell: UICollectionViewCell {
         case .leftDown: flipY = -1.0; flipX = 1.0; break
         case .down: flipX = -1.0; break
         case .rightDown: flipY = 1.0; flipX = 1.0; break }
-        UIView.animate(withDuration: 0.2, animations: {
-            self.title.alpha = 0.0
-            self.icon.alpha = 0.0
-        })
+        UIView.animate(withDuration: 0.2, animations: { self.title.alpha = 0.0; self.icon.alpha = 0.0 })
         let rotation = CAKeyframeAnimation(keyPath: "transform")
         rotation.beginTime = CACurrentMediaTime() + (0.1 * Double(row))
         rotation.duration = 1
@@ -109,10 +106,7 @@ class SkillCollectionViewCell: UICollectionViewCell {
         scale.autoreverses = true
         layer.add(scale, forKey: scale.keyPath)
 
-        UIView.animate(withDuration: 0.2, delay: 1.2, animations: {
-            self.title.alpha = 1.0
-            self.icon.alpha = 1.0
-        })
+        UIView.animate(withDuration: 0.2, delay: 1.2, animations: { self.title.alpha = 1.0; self.icon.alpha = 1.0 })
     }
     
     override var isSelected: Bool {

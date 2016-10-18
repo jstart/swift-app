@@ -23,7 +23,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         $0.showsHorizontalScrollIndicator = false
     }
     weak var delegate : ViewPagerDelegate?
-    var views : [UIView] = []
+    var views = [UIView]()
     var previousPage = 0
     let stack : UIStackView
     let animation : ViewPagerAnimation

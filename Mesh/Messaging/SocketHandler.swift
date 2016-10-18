@@ -22,14 +22,9 @@ class SocketHandler {
     var typing : Date?
     
     static func startListening() {
-        shared.socket.on("connect") { data, ack in
-            print("socket connected")
-            shared.socket.emit("alive", with: [""])
-        }
+        shared.socket.on("connect") { data, ack in print("socket connected"); shared.socket.emit("alive", with: [""]) }
         
-        shared.socket.on("typing") { data, ack in
-            DefaultNotification.post(name: .typing, object: data.first)
-        }
+        shared.socket.on("typing") { data, ack in DefaultNotification.post(name: .typing, object: data.first) }
         
         shared.socket.on("message") { data, ack in
             guard let message = data.first as? JSONDictionary else { return }
@@ -39,6 +34,7 @@ class SocketHandler {
             UserResponse.messages.append(meshMessage)
             DefaultNotification.post(name: .message, object: message)
         }
+        
         shared.socket.on("connection") { data, ack in
             print(data)
             guard let connection = data.first as? JSONDictionary else { return }
@@ -49,17 +45,9 @@ class SocketHandler {
             DefaultNotification.post(name: .connection, object: meshConnection)
         }
         
-        shared.socket.on("alive") { data, ack in
-            print(data)
-        }
-        
-        shared.socket.on("error") { data, ack in
-            print(data)
-        }
-        
-        shared.socket.on("disconnect") { data, ack in
-            print(data)
-        }
+        shared.socket.on("alive") { data, ack in }
+        shared.socket.on("error") { data, ack in print(data) }
+        shared.socket.on("disconnect") { data, ack in print(data) }
         
         shared.socket.connect()
     }

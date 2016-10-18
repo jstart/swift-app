@@ -17,8 +17,7 @@ protocol CardDelegate {
 class CardStack : UIViewController, CardDelegate {
     
     var cards : [RecommendationResponse]? = nil
-    var bottomCard : BaseCardViewController?
-    var currentCard : BaseCardViewController?
+    var bottomCard, currentCard : BaseCardViewController?
     var cardIndex = 0
     
     func stopAnimation() {
@@ -26,7 +25,7 @@ class CardStack : UIViewController, CardDelegate {
     }
     
     func animate() {
-        let circleSpacing: CGFloat = 2
+        let circleSpacing: CGFloat = 5
         let size = CGSize(width: 40, height: 40)
         let circleSize = (size.width - circleSpacing * 2) / 3
         let x = (view.frame.size.width - size.width) / 2
@@ -53,7 +52,7 @@ class CardStack : UIViewController, CardDelegate {
         
         for i in 0 ..< 3 {
             for j in 0 ..< 3 {
-                let circle = NVActivityIndicatorShape.circle.layerWith(size: CGSize(width: circleSize, height: circleSize), color: .lightGray)
+                let circle = NVActivityIndicatorShape.rectangle.layerWith(size: CGSize(width: circleSize, height: circleSize), color: .lightGray)
                 let frame = CGRect(x: x + circleSize * CGFloat(j) + circleSpacing * CGFloat(j),
                                    y: y + circleSize * CGFloat(i) + circleSpacing * CGFloat(i),
                                    width: circleSize, height: circleSize)
