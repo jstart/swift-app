@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
-        window = UIWindow(); window?.tintColor = #colorLiteral(red: 0.2, green: 0.7843137255, blue: 0.9960784314, alpha: 1); appearance()
+        window = UIWindow(); window?.tintColor = Colors.brand; appearance()
 
         if let path = MainBundle.path(forResource: "GoogleService-Info", ofType: "plist") {
             let info = NSDictionary(contentsOfFile: path)!; GIDSignIn.sharedInstance().clientID = info["CLIENT_ID"] as! String

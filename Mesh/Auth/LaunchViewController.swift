@@ -44,8 +44,7 @@ class LaunchViewController: UIViewController, CardDelegate {
         getStarted.addTarget(self, action: #selector(skills), for: .touchUpInside)
         signIn.addTarget(self, action: #selector(phone), for: .touchUpInside)
         view.addSubviews(logo, getStarted, signIn, legal)
-        logo.constrain(.top, relatedBy: .greaterThanOrEqual, constant: 20, toItem: view)
-        logo.constrain(.top, relatedBy: .lessThanOrEqual, constant: 35, toItem: view)
+        logo.constrain(.top, constant: 35, toItem: view)
         logo.constrain((.leading, 100), (.trailing, -100), toItem: view)
         //logo.constrain(.bottom, relatedBy: .lessThanOrEqual, constant: -20, toItem: subtitle, toAttribute: .top)
         
@@ -54,6 +53,8 @@ class LaunchViewController: UIViewController, CardDelegate {
         
         addChildViewController(cardStack)
         view.addSubview(cardStack.view)
+        logo.constrain(.bottom, constant: 0, toItem: cardStack.view, toAttribute: .top)
+
         cardStack.view.translates = false
         cardStack.view.constrain((.height, 305))
         cardStack.view.constrain((.centerY, -40), toItem: view)

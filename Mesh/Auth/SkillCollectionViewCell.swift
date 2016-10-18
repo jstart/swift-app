@@ -30,7 +30,7 @@ class SkillCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         layer.cornerRadius = 5
         layer.shadowRadius = 5
-        layer.shadowOpacity = 0.2
+        layer.shadowOpacity = 0.3
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = .zero
         backgroundColor = .white
@@ -84,10 +84,10 @@ class SkillCollectionViewCell: UICollectionViewCell {
         case .leftDown: flipY = -1.0; flipX = 1.0; break
         case .down: flipX = -1.0; break
         case .rightDown: flipY = 1.0; flipX = 1.0; break }
-        UIView.animate(withDuration: 0.2, animations: { self.title.alpha = 0.0; self.icon.alpha = 0.0 })
+        UIView.animate(withDuration: 0.1, animations: { self.title.alpha = 0.0; self.icon.alpha = 0.0 })
         let rotation = CAKeyframeAnimation(keyPath: "transform")
         rotation.beginTime = CACurrentMediaTime() + (0.1 * Double(row))
-        rotation.duration = 1
+        rotation.duration = 0.6
         if reverse {
             rotation.values = [NSValue(caTransform3D: self.layer.transform),
                                NSValue(caTransform3D: CATransform3DRotate(self.layer.transform, CGFloat(M_PI), -flipX, -flipY, 0)),
@@ -100,13 +100,14 @@ class SkillCollectionViewCell: UICollectionViewCell {
         layer.add(rotation, forKey: "r1")
         
         let scale = CABasicAnimation(keyPath:"transform.scale")
-        scale.duration = 0.4
+        scale.beginTime = CACurrentMediaTime() + (0.1 * Double(row))
+        scale.duration = 0.3
         scale.fromValue = 1.0
-        scale.toValue = 1.08
+        scale.toValue = 1.1
         scale.autoreverses = true
         layer.add(scale, forKey: scale.keyPath)
 
-        UIView.animate(withDuration: 0.2, delay: 1.2, animations: { self.title.alpha = 1.0; self.icon.alpha = 1.0 })
+        UIView.animate(withDuration: 0.1, delay: 0.65 + (0.1 * Double(row)), animations: { self.title.alpha = 1.0; self.icon.alpha = 1.0 })
     }
     
     override var isSelected: Bool {

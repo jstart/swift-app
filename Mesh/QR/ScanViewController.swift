@@ -106,6 +106,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = .lightContent
+        navigationController?.navigationBar.tintColor = .white
         if showOverlayFirstTime() { return }
         
         timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(refresh), userInfo: nil, repeats: true)

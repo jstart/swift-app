@@ -9,7 +9,7 @@
 import UIKit
 
 struct AlertAction {
-    static let defaultBackground = #colorLiteral(red: 0.4196078431, green: 0.768627451, blue: 0.9647058824, alpha: 1)
+    static let defaultBackground = Colors.brand
     let title : String, backgroundColor, titleColor : UIColor
     var handler : (() -> Void)
 }
