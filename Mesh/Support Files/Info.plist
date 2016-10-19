@@ -29,7 +29,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>118</string>
+	<string>119</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -118,10 +118,10 @@
 	<string>Upload photos from your library</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>proximanovasoft-bold.otf</string>
-		<string>proximanovasoft-medium.otf</string>
-		<string>proximanovasoft-semibold.otf</string>
-		<string>proximanovasoft-regular.otf</string>
+		<string>Gotham-Bold.ttf</string>
+		<string>Gotham-Book.ttf</string>
+		<string>Gotham-Light.ttf</string>
+		<string>Gotham-XLight.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

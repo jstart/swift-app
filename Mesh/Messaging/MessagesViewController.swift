@@ -209,7 +209,9 @@ class MessagesViewController: JSQMessagesViewController {
         return kJSQMessagesCollectionViewCellLabelHeightDefault
     }
     
-    override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? { return isOutgoingMessage(messages[indexPath.row]) ? nil : JSQMessagesAvatarImage(placeholder: .imageWithColor(.gray, width: 10, height: 10)) }
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? {
+        return isOutgoingMessage(messages[indexPath.row]) ? nil : JSQMessagesAvatarImage(avatarImage: imageView.image, highlightedImage: nil, placeholderImage: .imageWithColor(.gray, width: 10, height: 10))
+    }
     
     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         if action == #selector(editMessage(_:)) || action == #selector(deleteMessage(_:)) { return true }

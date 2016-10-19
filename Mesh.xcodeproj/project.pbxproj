@@ -42,10 +42,6 @@
 		2385F0451D8CC8DB00BFB2F3 /* EditProfileDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2385F0441D8CC8DB00BFB2F3 /* EditProfileDetailTableViewController.swift */; };
 		239881481D95129E009466D8 /* MediumSDKManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239881471D95129E009466D8 /* MediumSDKManager.swift */; };
 		23AB1C901D9C891E00627371 /* RealmUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AB1C8F1D9C891E00627371 /* RealmUtilities.swift */; };
-		23C51AD91D88C32800C926F1 /* proximanovasoft-bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 23C51AD51D88C32800C926F1 /* proximanovasoft-bold.otf */; };
-		23C51ADA1D88C32800C926F1 /* proximanovasoft-medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 23C51AD61D88C32800C926F1 /* proximanovasoft-medium.otf */; };
-		23C51ADB1D88C32800C926F1 /* proximanovasoft-regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 23C51AD71D88C32800C926F1 /* proximanovasoft-regular.otf */; };
-		23C51ADC1D88C32800C926F1 /* proximanovasoft-semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 23C51AD81D88C32800C926F1 /* proximanovasoft-semibold.otf */; };
 		23C51ADE1D88E61C00C926F1 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51ADD1D88E61C00C926F1 /* LaunchViewController.swift */; };
 		23C51AE01D88E6D400C926F1 /* SMSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51ADF1D88E6D400C926F1 /* SMSViewController.swift */; };
 		23C51AE21D88E6E000C926F1 /* SMSVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51AE11D88E6E000C926F1 /* SMSVerifyViewController.swift */; };
@@ -115,6 +111,10 @@
 		23D6DBCA1DA5882D00B77700 /* PersonCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23D6DBC61DA5882D00B77700 /* PersonCardViewController.xib */; };
 		23D6DBCB1DA5882D00B77700 /* TweetCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D6DBC71DA5882D00B77700 /* TweetCardViewController.swift */; };
 		23D6DBCF1DA5971300B77700 /* NVActivityIndicatorShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D6DBCE1DA5971300B77700 /* NVActivityIndicatorShape.swift */; };
+		23DCE7471DB6F16700B461F1 /* Gotham-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23DCE7431DB6F16700B461F1 /* Gotham-Bold.ttf */; };
+		23DCE7481DB6F16700B461F1 /* Gotham-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23DCE7441DB6F16700B461F1 /* Gotham-Book.ttf */; };
+		23DCE7491DB6F16700B461F1 /* Gotham-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23DCE7451DB6F16700B461F1 /* Gotham-Light.ttf */; };
+		23DCE74A1DB6F16700B461F1 /* Gotham-XLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23DCE7461DB6F16700B461F1 /* Gotham-XLight.ttf */; };
 		23DFB67A1D653E1E00D871A9 /* PositionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DFB6791D653E1E00D871A9 /* PositionRequest.swift */; };
 		23DFB67C1D654B3C00D871A9 /* ProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DFB67B1D654B3C00D871A9 /* ProfileRequest.swift */; };
 		23E3050B1DA319B0006AB7F3 /* LiveEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E3050A1DA319B0006AB7F3 /* LiveEventViewController.swift */; };
@@ -174,10 +174,6 @@
 		2385F0441D8CC8DB00BFB2F3 /* EditProfileDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileDetailTableViewController.swift; sourceTree = "<group>"; };
 		239881471D95129E009466D8 /* MediumSDKManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediumSDKManager.swift; sourceTree = "<group>"; };
 		23AB1C8F1D9C891E00627371 /* RealmUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmUtilities.swift; sourceTree = "<group>"; };
-		23C51AD51D88C32800C926F1 /* proximanovasoft-bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanovasoft-bold.otf"; sourceTree = "<group>"; };
-		23C51AD61D88C32800C926F1 /* proximanovasoft-medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanovasoft-medium.otf"; sourceTree = "<group>"; };
-		23C51AD71D88C32800C926F1 /* proximanovasoft-regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanovasoft-regular.otf"; sourceTree = "<group>"; };
-		23C51AD81D88C32800C926F1 /* proximanovasoft-semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanovasoft-semibold.otf"; sourceTree = "<group>"; };
 		23C51ADD1D88E61C00C926F1 /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		23C51ADF1D88E6D400C926F1 /* SMSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSViewController.swift; sourceTree = "<group>"; };
 		23C51AE11D88E6E000C926F1 /* SMSVerifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSVerifyViewController.swift; sourceTree = "<group>"; };
@@ -249,6 +245,10 @@
 		23D6DBC61DA5882D00B77700 /* PersonCardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonCardViewController.xib; sourceTree = "<group>"; };
 		23D6DBC71DA5882D00B77700 /* TweetCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetCardViewController.swift; sourceTree = "<group>"; };
 		23D6DBCE1DA5971300B77700 /* NVActivityIndicatorShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorShape.swift; sourceTree = "<group>"; };
+		23DCE7431DB6F16700B461F1 /* Gotham-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Bold.ttf"; sourceTree = "<group>"; };
+		23DCE7441DB6F16700B461F1 /* Gotham-Book.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Book.ttf"; sourceTree = "<group>"; };
+		23DCE7451DB6F16700B461F1 /* Gotham-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Light.ttf"; sourceTree = "<group>"; };
+		23DCE7461DB6F16700B461F1 /* Gotham-XLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-XLight.ttf"; sourceTree = "<group>"; };
 		23DFB6791D653E1E00D871A9 /* PositionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionRequest.swift; sourceTree = "<group>"; };
 		23DFB67B1D654B3C00D871A9 /* ProfileRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileRequest.swift; sourceTree = "<group>"; };
 		23E3050A1DA319B0006AB7F3 /* LiveEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveEventViewController.swift; sourceTree = "<group>"; };
@@ -318,10 +318,10 @@
 		23C51AD41D88C32800C926F1 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				23C51AD51D88C32800C926F1 /* proximanovasoft-bold.otf */,
-				23C51AD61D88C32800C926F1 /* proximanovasoft-medium.otf */,
-				23C51AD71D88C32800C926F1 /* proximanovasoft-regular.otf */,
-				23C51AD81D88C32800C926F1 /* proximanovasoft-semibold.otf */,
+				23DCE7431DB6F16700B461F1 /* Gotham-Bold.ttf */,
+				23DCE7441DB6F16700B461F1 /* Gotham-Book.ttf */,
+				23DCE7451DB6F16700B461F1 /* Gotham-Light.ttf */,
+				23DCE7461DB6F16700B461F1 /* Gotham-XLight.ttf */,
 			);
 			name = Fonts;
 			path = "Support Files/Fonts";
@@ -696,18 +696,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23DCE7481DB6F16700B461F1 /* Gotham-Book.ttf in Resources */,
 				ADECA8F21D51540900726AEF /* LaunchScreen.storyboard in Resources */,
 				230FA4AF1D8A32AE00E2721C /* GoogleService-Info.plist in Resources */,
-				23C51ADC1D88C32800C926F1 /* proximanovasoft-semibold.otf in Resources */,
+				23DCE7491DB6F16700B461F1 /* Gotham-Light.ttf in Resources */,
 				23C51AE61D88FCCA00C926F1 /* Localizable.strings in Resources */,
 				2338C1D81D9DBBD70044E751 /* Assets.xcassets in Resources */,
-				23C51ADB1D88C32800C926F1 /* proximanovasoft-regular.otf in Resources */,
-				23C51AD91D88C32800C926F1 /* proximanovasoft-bold.otf in Resources */,
-				23C51ADA1D88C32800C926F1 /* proximanovasoft-medium.otf in Resources */,
 				23C8724C1D83760300B21AB6 /* MessageTableViewCell.xib in Resources */,
+				23DCE7471DB6F16700B461F1 /* Gotham-Bold.ttf in Resources */,
 				23C872491D83760300B21AB6 /* MessagePreviewTableViewCell.xib in Resources */,
 				23C8726A1D83762900B21AB6 /* UserDetailTableViewCell.xib in Resources */,
 				23C872451D83760300B21AB6 /* ConnectionTableViewCell.xib in Resources */,
+				23DCE74A1DB6F16700B461F1 /* Gotham-XLight.ttf in Resources */,
 				23D6DBCA1DA5882D00B77700 /* PersonCardViewController.xib in Resources */,
 				23C9D0FA1D8386B4004B274F /* Settings.bundle in Resources */,
 				ADECA8ED1D51540900726AEF /* Main.storyboard in Resources */,
@@ -1022,7 +1022,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
-				CURRENT_PROJECT_VERSION = 118;
+				CURRENT_PROJECT_VERSION = 119;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1047,7 +1047,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
-				CURRENT_PROJECT_VERSION = 118;
+				CURRENT_PROJECT_VERSION = 119;
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Mesh/Support Files/Info.plist";

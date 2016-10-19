@@ -15,15 +15,10 @@ enum SkillAnimationDirection {
 class SkillCollectionViewCell: UICollectionViewCell {
     
     let title = UILabel(translates: false).then {
-        $0.font = .boldProxima(ofSize: 14); $0.textColor = .gray
-        $0.numberOfLines = 0
-        $0.textAlignment = .center
+        $0.font = .boldProxima(ofSize: 14); $0.textColor = .gray; $0.numberOfLines = 0; $0.textAlignment = .center
     }
     let popular = UILabel(translates: false).then { $0.isHidden = true }
-    let icon = UIImageView(translates: false).then {
-        $0.contentMode = .scaleAspectFit
-        $0.tintColor = .white
-    }
+    let icon = UIImageView(translates: false).then { $0.contentMode = .scaleAspectFit; $0.tintColor = .white }
     let gradient = Colors.gradient
     
     required override init(frame: CGRect) {
