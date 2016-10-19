@@ -8,7 +8,7 @@ pod 'AlamofireImage'
 #pod 'SwiftyJSON'
 pod 'RealmSwift'
 
-pod 'JSQMessagesViewController', :git => 'https://github.com/jessesquires/JSQMessagesViewController.git', :commit => 'bbc6d27a483388a4c6413fc63bbf9c367054be21'
+pod 'JSQMessagesViewController', :git => 'https://github.com/jessesquires/JSQMessagesViewController.git', :commit => '7cd699828efe12a5a1e26eaa51da9ff8736efefa'
 #pod 'SkyFloatingLabelTextField'
 #pod 'MGSwipeTableCell'
 
