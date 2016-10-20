@@ -63,8 +63,6 @@ class SkillCollectionViewCell: UICollectionViewCell {
         icon.image = image
         popular.isHidden = isPopular
         isSelected = isSelected ? true : false
-        
-        if searching { return }
     }
     
     func animate(direction: SkillAnimationDirection = .left, row: Int = 0, reverse: Bool = false) {
@@ -84,21 +82,20 @@ class SkillCollectionViewCell: UICollectionViewCell {
         rotation.beginTime = CACurrentMediaTime() + (0.1 * Double(row))
         rotation.duration = 0.6
         if reverse {
-            rotation.values = [NSValue(caTransform3D: self.layer.transform),
-                               NSValue(caTransform3D: CATransform3DRotate(self.layer.transform, CGFloat(M_PI), -flipX, -flipY, 0)),
-                               NSValue(caTransform3D: CATransform3DRotate(self.layer.transform, CGFloat(M_PI), flipX, flipY, 0))]
+            rotation.values = [NSValue(caTransform3D: layer.transform),
+                               NSValue(caTransform3D: CATransform3DRotate(layer.transform, CGFloat(M_PI), -flipX, -flipY, 0)),
+                               NSValue(caTransform3D: CATransform3DRotate(layer.transform, CGFloat(M_PI), flipX, flipY, 0))]
         } else {
-            rotation.values = [NSValue(caTransform3D: self.layer.transform),
-                               NSValue(caTransform3D: CATransform3DRotate(self.layer.transform, CGFloat(M_PI), flipX, flipY, 0)),
-                               NSValue(caTransform3D: CATransform3DRotate(self.layer.transform, CGFloat(M_PI), -flipX, -flipY, 0))]
+            rotation.values = [NSValue(caTransform3D: layer.transform),
+                               NSValue(caTransform3D: CATransform3DRotate(layer.transform, CGFloat(M_PI), flipX, flipY, 0)),
+                               NSValue(caTransform3D: CATransform3DRotate(layer.transform, CGFloat(M_PI), -flipX, -flipY, 0))]
         }
         layer.add(rotation, forKey: "r1")
         
         let scale = CABasicAnimation(keyPath:"transform.scale")
         scale.beginTime = CACurrentMediaTime() + (0.1 * Double(row))
-        scale.duration = 0.3
-        scale.fromValue = 1.0
-        scale.toValue = 1.1
+        scale.duration = 0.25
+        scale.fromValue = 1.0; scale.toValue = 1.1
         scale.autoreverses = true
         layer.add(scale, forKey: scale.keyPath)
 
