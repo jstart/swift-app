@@ -178,14 +178,14 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
             
             if cellRow > row {
                 if indexPath.row % 3 == path.row % 3 { cell.animate(direction: .down, row: cellRow - row, reverse: reverse)}
-                else if indexPath.row % 3 < path.row % 3 { cell.animate(direction: .leftDown, row: cellRow - row, reverse: reverse) }
-                else if indexPath.row % 3 > path.row % 3 { cell.animate(direction: .rightDown, row: cellRow - row, reverse: reverse) }
+                else if indexPath.row % 3 < path.row % 3 { cell.animate(direction: .leftDown, row: cellRow - row, distance: (path.row % 3) - (indexPath.row % 3), reverse: reverse) }
+                else if indexPath.row % 3 > path.row % 3 { cell.animate(direction: .rightDown, row: cellRow - row, distance: (path.row % 3) - (indexPath.row % 3), reverse: reverse) }
             } else if cellRow < row {
                 if indexPath.row % 3 == path.row % 3 { cell.animate(direction: .up, row: row - cellRow, reverse: reverse) }
-                else if indexPath.row % 3 < path.row % 3 { cell.animate(direction: .leftUp, row: row - cellRow, reverse: reverse) }
-                else if indexPath.row % 3 > path.row % 3 { cell.animate(direction: .rightUp, row: row - cellRow, reverse: reverse) }
+                else if indexPath.row % 3 < path.row % 3 { cell.animate(direction: .leftUp, row: row - cellRow, distance: (indexPath.row % 3) - (path.row % 3), reverse: reverse) }
+                else if indexPath.row % 3 > path.row % 3 { cell.animate(direction: .rightUp, row: row - cellRow, distance: (indexPath.row % 3) - (path.row % 3), reverse: reverse) }
             } else if cellRow == row && path != indexPath {
-                cell.animate(direction: indexPath.row < path.row ? .left : .right, reverse: reverse)
+                cell.animate(direction: indexPath.row < path.row ? .left : .right, distance: abs((indexPath.row % 3) - (path.row % 3)), reverse: reverse)
             }
         }
     }

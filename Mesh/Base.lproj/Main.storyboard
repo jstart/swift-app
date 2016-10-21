@@ -17,7 +17,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="Pzk-9e-6zr" kind="relationship" relationship="viewControllers" id="2Ma-p4-VWS"/>
-                        <segue destination="wHV-AA-XdE" kind="relationship" relationship="viewControllers" id="yl4-z4-zLM"/>
+                        <segue destination="oOb-io-LYz" kind="relationship" relationship="viewControllers" id="K64-EO-3F4"/>
                         <segue destination="bF0-4x-jeX" kind="relationship" relationship="viewControllers" id="Hjb-4z-RC6"/>
                         <segue destination="8Ua-EN-TRc" kind="relationship" relationship="viewControllers" id="7sc-ER-PiB"/>
                     </connections>
@@ -25,6 +25,23 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hSK-dR-PsB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1564" y="123"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="uKL-9S-O6i">
+            <objects>
+                <navigationController id="oOb-io-LYz" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="mainNavConnections" selectedImage="mainNavConnections" id="njX-HM-dK8"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Jcb-RP-p4Y">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="lib-iq-uo8" kind="relationship" relationship="rootViewController" id="rR4-IR-NSZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0wi-zP-uzD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-796" y="840"/>
         </scene>
         <!--Inbox-->
         <scene sceneID="eBV-EW-KqP">
@@ -46,32 +63,13 @@
             <point key="canvasLocation" x="201" y="840"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="VA8-kg-Xko">
-            <objects>
-                <navigationController id="wHV-AA-XdE" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="mainNavConnections" id="0bx-48-Cn4">
-                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
-                    </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ilr-m0-LNS">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="lib-iq-uo8" kind="relationship" relationship="rootViewController" id="tNC-FQ-Xiy"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="R0K-mb-fLz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-763" y="840"/>
-        </scene>
-        <!--Navigation Controller-->
         <scene sceneID="49a-4T-NSt">
             <objects>
                 <navigationController id="Pzk-9e-6zr" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="mainNavHome" id="c0o-lh-VtJ">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="wS2-kb-40b">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="wS2-kb-40b">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -109,7 +107,7 @@
                     <tabBarItem key="tabBarItem" title="" image="mainNavSettings" id="LAH-7C-gML">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="rF6-dd-dIo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="rF6-dd-dIo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -166,7 +164,7 @@
                     <tabBarItem key="tabBarItem" title="" image="mainNavEvents" id="1xk-uF-8FV">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="E4o-ds-Dka">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="E4o-ds-Dka">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
