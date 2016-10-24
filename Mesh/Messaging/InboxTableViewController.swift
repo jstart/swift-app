@@ -29,8 +29,12 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         searchController.searchBar.placeholder = "Search for people"
         searchController.searchBar.delegate = self
         
-        (searchController.searchBar.value(forKey: "_searchField") as? UITextField)?.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.8941176471, blue: 0.8941176471, alpha: 1)
-        
+        let searchField = searchController.searchBar.value(forKey: "_searchField") as? UITextField
+        searchField?.backgroundColor = .white
+        searchField?.layer.borderColor = #colorLiteral(red: 0.8, green: 0.8, blue: 0.8, alpha: 1).cgColor
+        searchField?.layer.borderWidth = 1
+        searchField?.layer.cornerRadius = 2.5
+
         searchController.hidesNavigationBarDuringPresentation = false
         definesPresentationContext = true
         navigationItem.titleView = searchController.searchBar

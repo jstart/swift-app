@@ -74,11 +74,12 @@ class UserResponse : Object {
     static var cards = [CardResponse]()
     
     dynamic var _id = "",
-        phone_number, email, first_name, last_name, profession, title, token : String?
+        phone_number, email, first_name, last_name, profession, title, token, promoted_category : String?
 //        companies : [CompanyModel]?,
     let companies = List<CompanyResponse>(),
         schools = List<SchoolResponse>(),
-        interests = List<InterestResponse>()
+        interests = List<InterestResponse>(),
+        common_connections = List<UserResponse>()
     
     dynamic var photos : PhotoResponse?, position : PositionResponse?
     
@@ -90,8 +91,10 @@ class UserResponse : Object {
                 $0._id = (JSON["user_id"] as? String?)! ?? $0._id
                 $0.phone_number = (JSON["phone_number"] as? String?)!
                 $0.email = (JSON["email"] as? String?)!
-                $0.first_name = (JSON["first_name"] as? String) ?? ""
-                $0.last_name = (JSON["last_name"] as? String) ?? ""
+                $0.first_name = (JSON["first_name"] as? String)
+                $0.last_name = (JSON["last_name"] as? String)
+                $0.promoted_category = (JSON["promoted_category"] as? String)
+
                 $0.title = (JSON["title"] as? String?) ?? ""
                 if let companiesJSON = JSON["companies"] as? JSONArray { $0.companies.append(objectsIn: companiesJSON.map({return CompanyResponse.create( $0)})) }
                 if let interestsJSON = JSON["interests"] as? JSONArray { $0.interests.append(objectsIn: interestsJSON.map({return InterestResponse.create( $0)})) }
@@ -101,6 +104,7 @@ class UserResponse : Object {
                 if JSON["profile_photo"] != nil { $0.photos = PhotoResponse.create((JSON["profile_photo"] as! JSONDictionary)) }
                 if JSON["photos"] != nil { $0.photos = PhotoResponse.create((JSON["photos"] as! JSONDictionary)) }
                 if JSON["position"] != nil { $0.position = PositionResponse.create((JSON["position"] as! JSONDictionary)) }
+                if let commonConnectionsJSON = JSON["common_connections"] as? JSONArray { $0.common_connections.append(objectsIn: commonConnectionsJSON.map({return UserResponse.create( $0)})) }
         }
     }
     

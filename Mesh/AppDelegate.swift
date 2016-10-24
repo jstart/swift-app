@@ -71,7 +71,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func appearance() {
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: UIFont.gothamBook(ofSize: 17), NSForegroundColorAttributeName: #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)]
-        //UITextField.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.8941176471, blue: 0.8941176471, alpha: 1)
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).font = .gothamBook(ofSize: 20)
         UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont.gothamBook(ofSize: 17)], for: .normal)
         UILabel.appearance(whenContainedInInstancesOf: [UITableViewCell.self]).font = .gothamLight(ofSize: 17)

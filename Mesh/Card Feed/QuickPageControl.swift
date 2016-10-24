@@ -35,6 +35,16 @@ enum QuickViewCategory : String  {
         case .skills: return Skill.fields
         case .events: return Event.fields }
     }
+    
+    static func index(_ category: String) -> Int {
+        switch category {
+        case "connections" : return 0
+        case "experience" : return 1
+        case "schools" : return 2
+        case "interests" : return 3
+        case "events" : return 4
+        default: return 0 }
+    }
 
 }
 

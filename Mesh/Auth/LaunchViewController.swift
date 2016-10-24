@@ -13,9 +13,8 @@ class LaunchViewController: UIViewController, CardDelegate {
     var topCard = LaunchCardViewController()
     let cardStack = CardStack()
 
-    let logo = UIImageView(image: #imageLiteral(resourceName: "launchOval")).then {
-        $0.translates = false
-        $0.contentMode = .scaleAspectFit
+    let background = UIImageView(image: #imageLiteral(resourceName: "launchOval")).then {
+        $0.translates = false; $0.contentMode = .scaleAspectFill
         $0.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
     }
     let titleLabel = UILabel(translates: false).then {
@@ -50,9 +49,10 @@ class LaunchViewController: UIViewController, CardDelegate {
         view.backgroundColor = .white
         getStarted.addTarget(self, action: #selector(skills), for: .touchUpInside)
         signIn.addTarget(self, action: #selector(phone), for: .touchUpInside)
-        view.addSubviews(logo, titleLabel, subtitle, getStarted, signIn, legal)
-        logo.constrain(.top, constant: -40, toItem: view)
-        logo.constrain(.centerX, toItem: view)
+        view.addSubviews(background, titleLabel, subtitle, getStarted, signIn, legal)
+        background.constrain(.width, toItem: view)
+        background.constrain(.top, constant: -40, toItem: view)
+        background.constrain(.centerX, toItem: view)
         titleLabel.constrain(.top, constant: 50, toItem: view)
         titleLabel.constrain(.centerX, toItem: view)
         subtitle.constrain(.centerX, toItem: view)
@@ -70,9 +70,10 @@ class LaunchViewController: UIViewController, CardDelegate {
         getStarted.constrain(.centerX, toItem: view)
         getStarted.constrain(.leading, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .leadingMargin)
         getStarted.constrain(.trailing, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .trailingMargin)
+        view.bringSubview(toFront: getStarted)
         
         signIn.constrain(.centerX, toItem: view)
-        signIn.constrain(.top, constant: 5, toItem: getStarted, toAttribute: .bottom)
+        signIn.constrain(.top, constant: 30, toItem: getStarted, toAttribute: .bottom)
         
         legal.constrain(.centerX, toItem: view)
         legal.constrain(.leading, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .leadingMargin)
@@ -80,18 +81,21 @@ class LaunchViewController: UIViewController, CardDelegate {
         
         legal.constrain(.top, constant: 5, toItem: signIn, toAttribute: .bottom)
         legal.constrain(.bottom, toItem: view)
+        addCard(controller: topCard)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: true)        
+        UIApplication.shared.isStatusBarHidden = true
+
+        navigationController?.setNavigationBarHidden(true, animated: true)
         
-        addCard(controller: topCard)
         topTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(swipe), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        UIApplication.shared.isStatusBarHidden = false
         topTimer?.invalidate()
     }
     
@@ -120,6 +124,6 @@ class LaunchViewController: UIViewController, CardDelegate {
     func swipe() { if direction == .left { cardStack.passCard(.right) } else { cardStack.passCard(.left) } }
     
     func skills() { navigationController?.push(SkillsViewController()) }
-    func phone() { navigationController?.push(JoinTableViewController(style: .grouped)) }
+    func phone() { navigationController?.push(LoginTableViewController(style: .grouped)) }
 
 }

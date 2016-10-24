@@ -20,12 +20,12 @@ class LaunchCardViewController: BaseCardViewController {
     }
     let header = UILabel().then {
         $0.text = "Network"
-        $0.font = .gothamBold(ofSize: 20)
+        $0.font = .gothamBook(ofSize: 20)
         $0.textColor = .darkGray
     }
     let text = UILabel().then {
         $0.text = "Connect and chat with people in your industry"
-        $0.font = .gothamBook(ofSize: 16); $0.textColor = .lightGray
+        $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray
         $0.textAlignment = .center
         $0.numberOfLines = 0
         $0.adjustsFontSizeToFitWidth = true
@@ -51,7 +51,7 @@ class LaunchCardViewController: BaseCardViewController {
         stack.alignment = .center
         bottom.addSubview(stack)
         stack.constrain(.centerX, .centerY, .leadingMargin, .trailingMargin, toItem: bottom)
-        stack.constrain((.bottom, -5), toItem: bottom)
+        stack.constrain((.bottom, -10), toItem: bottom)
     }
     
     override func viewWillAppear(_ animated: Bool) {

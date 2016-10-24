@@ -52,7 +52,19 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         viewPager?.scroll.backgroundColor = .white
         control.delegate = viewPager!
         viewPager?.delegate = control
-        control.selectIndex(0)
+        if let user = rec?.user {
+            let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: [], experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: []))
+            viewPager?.insertViews(quickViews)
+            
+            if let category = user.promoted_category {
+                let categoryIndex = QuickViewCategory.index(category)
+                control.selectIndex(categoryIndex)
+                viewPager?.selectedIndex(categoryIndex, animated: true)
+            }
+        } else {
+            control.selectIndex(0)
+            viewPager?.selectedIndex(0, animated: false)
+        }
 
         let namePositionContainer = UIView().then { $0.backgroundColor = .white }
         
@@ -126,13 +138,6 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         overlayView.isHidden = true
         
         viewPager?.removeAllViews()
-        if let user = rec?.user {
-            let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: [], experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: []))
-            viewPager?.insertViews(quickViews)
-        }
-        
-        control.selectIndex(0)
-        viewPager?.selectedIndex(0, animated: false)
         
         name.text = rec?.user?.fullName() ?? ""
         position.text = rec?.user?.fullTitle() ?? ""

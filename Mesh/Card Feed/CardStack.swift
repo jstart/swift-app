@@ -70,10 +70,11 @@ class CardStack : UIViewController, CardDelegate {
         let next = cards![safe: cardIndex + 1]
         if bottomCard == nil {
             currentCard = card.cardType().viewController()
+            currentCard?.rec = card
             currentCard?.delegate = self
             addChildViewController(currentCard!)
-            currentCard?.rec = card
             bottomCard?.viewDidLayoutSubviews()
+            currentCard?.viewWillAppear(true)
             currentCard?.view.alpha = 0
             let scale = CardFeedViewConfig().behindScale
             let transform = CGAffineTransform(scaleX: scale, y: scale)
@@ -83,18 +84,19 @@ class CardStack : UIViewController, CardDelegate {
         }
         guard let cardType = next?.cardType() else { addCard(currentCard!); bottomCard = nil; return }
         bottomCard = cardType.viewController()
-        bottomCard?.delegate = self
-        addChildViewController(bottomCard!)
         bottomCard?.rec = next
+        bottomCard?.delegate = self
+        bottomCard?.viewWillAppear(true)
+        addChildViewController(bottomCard!)
         bottomCard?.viewDidLayoutSubviews()
         bottomCard?.view.alpha = 0
         addCard(currentCard!)
     }
 
     func addCard(_ card: UIViewController, animated: Bool = true, width: CGFloat = -13) {
-        card.viewWillAppear(animated)
         view.addSubview(card.view)
         addChildViewController(card)
+        card.viewWillAppear(animated)
         card.view.constrain((.width, width), toItem: view)
         card.view.constrain(.height, relatedBy: .lessThanOrEqual, constant: -40, toItem: view)
         card.view.constrain(.centerX, .centerY, toItem: view)
@@ -116,11 +118,11 @@ class CardStack : UIViewController, CardDelegate {
         UIView.animate(withDuration: 0.5, animations: {
             switch direction {
             case UISwipeGestureRecognizerDirection.left:
-                card.view.transform = card.view.transform.rotated(by: (-45 * CGFloat(M_PI)) / 180).translatedBy(x: -(card.view.frame.size.width + 300), y: 100)
+                card.view.transform = card.view.transform.rotated(by: (-45 * CGFloat(M_PI)) / 180).translatedBy(x: -(card.view.frame.size.width + 300), y: -350)
             case UISwipeGestureRecognizerDirection.right:
-                card.view.transform = card.view.transform.rotated(by: (45 * CGFloat(M_PI)) / 180).translatedBy(x: (card.view.frame.size.width + 300), y: 100)
+                card.view.transform = card.view.transform.rotated(by: (45 * CGFloat(M_PI)) / 180).translatedBy(x: (card.view.frame.size.width + 300), y: -350)
             default: return }
-        }, completion: { _ in self.currentCard!.view.removeFromSuperview(); self.swiped(direction); self.currentCard!.delegate?.swiped(.left) })
+        }, completion: { _ in self.currentCard!.view.removeFromSuperview(); self.swiped(direction); self.currentCard!.delegate?.swiped(direction) })
     }
     
     func swiped(_ direction: UISwipeGestureRecognizerDirection) {
