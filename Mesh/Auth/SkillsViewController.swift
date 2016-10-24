@@ -25,7 +25,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
         $0.isEnabled = true
-        $0.titleLabel?.font = .boldProxima(ofSize: 20); $0.titleColor = .white
+        $0.titleLabel?.font = .gothamBold(ofSize: 20); $0.titleColor = .white
         $0.titleLabel?.adjustsFontSizeToFitWidth = true
         $0.title = "COMPLETE"
         $0.layer.cornerRadius = 5
@@ -35,7 +35,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     let addSkills = UIButton(translates: false).then {
         $0.isEnabled = false
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .normal)
-        $0.titleLabel?.font = .boldProxima(ofSize: 20); $0.titleColor = .white
+        $0.titleLabel?.font = .gothamBold(ofSize: 20); $0.titleColor = .white
         $0.setTitle("ADD MORE SKILLS", for: .normal)
         $0.titleLabel?.adjustsFontSizeToFitWidth = true
         $0.layer.cornerRadius = 5

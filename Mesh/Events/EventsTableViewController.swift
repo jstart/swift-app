@@ -34,7 +34,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
         navigationItem.titleView = searchController.searchBar
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "add"), target: self, action: #selector(add))
-        navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSFontAttributeName: UIFont.proxima(ofSize: 30)], for: .normal)
+        navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSFontAttributeName: UIFont.gothamBook(ofSize: 30)], for: .normal)
         tableView.registerNib(ConnectionTableViewCell.self)
         
         tableView.estimatedRowHeight = 100
@@ -88,7 +88,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
             $0.text = sectionTitles[section]
             $0.contentMode = .bottomLeft
             $0.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
-            $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1); $0.font = .proxima(ofSize: 12)
+            $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1); $0.font = .gothamBook(ofSize: 12)
         }
         view.addSubview(label)
         label.constrain((.leading, 0), (.trailing, 0), (.bottom, -8), toItem: view)

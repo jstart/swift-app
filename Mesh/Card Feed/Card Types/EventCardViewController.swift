@@ -11,8 +11,8 @@ import SafariServices
 
 class EventCardViewController : BaseCardViewController {
 
-    let name = UILabel().then { $0.textColor = .darkGray; $0.font = .boldProxima(ofSize: 20) }
-    let subtitle = UILabel().then { $0.textColor = .lightGray; $0.font = .proxima(ofSize: 12); $0.text = "Related to Tech and Java" }
+    let name = UILabel().then { $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 20) }
+    let subtitle = UILabel().then { $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 12); $0.text = "Related to Tech and Java" }
     let media = UIImageView(translates: false).then {
         $0.image = #imageLiteral(resourceName: "eventHeader")
         $0.contentMode = .scaleAspectFill
@@ -29,11 +29,11 @@ class EventCardViewController : BaseCardViewController {
         $0.backgroundColor = .white
         $0.constrain((.height, 50), (.width, 50))
     }
-    let text = UILabel(translates: false).then { $0.textColor = #colorLiteral(red: 0.6, green: 0.6, blue: 0.6, alpha: 1); $0.font = .proxima(ofSize: 14); $0.numberOfLines = 0 }
-    let date = UILabel(translates: false).then { $0.textColor = .lightGray; $0.font = .proxima(ofSize: 14); $0.text = "Tomorrow at 8 AM" }
-    let location = UILabel(translates: false).then { $0.textColor = .lightGray; $0.font = .proxima(ofSize: 14); $0.text = "The Venetian" }
-    let address = UILabel(translates: false).then { $0.textColor = .lightGray; $0.font = .proxima(ofSize: 12); $0.text = "3355 S Las Vegas Blvd, Las Vegas, NV 89109" }
-    let url = UILabel(translates: false).then { $0.textColor = .lightGray; $0.font = .proxima(ofSize: 14); $0.text = "www.googleio2016.com" }
+    let text = UILabel(translates: false).then { $0.textColor = #colorLiteral(red: 0.6, green: 0.6, blue: 0.6, alpha: 1); $0.font = .gothamBook(ofSize: 14); $0.numberOfLines = 0 }
+    let date = UILabel(translates: false).then { $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 14); $0.text = "Tomorrow at 8 AM" }
+    let location = UILabel(translates: false).then { $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 14); $0.text = "The Venetian" }
+    let address = UILabel(translates: false).then { $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 12); $0.text = "3355 S Las Vegas Blvd, Las Vegas, NV 89109" }
+    let url = UILabel(translates: false).then { $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 14); $0.text = "www.googleio2016.com" }
     
     var descriptionStack : UIStackView?
     
@@ -106,7 +106,9 @@ class EventCardViewController : BaseCardViewController {
         guard let event = rec?.event else { return }
         name.text = event.name
         text.text = event.descriptionText
-        media.af_setImage(withURL: URL(string: event.logo)!)
+        guard let logo = event.logo else { return }
+
+        media.af_setImage(withURL: URL(string: logo)!)
     }
     
     override func viewDidLayoutSubviews() {

@@ -101,7 +101,7 @@ class TweetResponse : Object {
 }
 
 class EventResponse : Object, UserDetail {
-    dynamic var _id = "", name = "", logo = "", descriptionText = "", start_time = "", end_time = ""//, interests = RLMArray<Int>?
+    dynamic var _id = "", name = "", logo : String? = "", descriptionText = "", start_time = "", end_time = ""//, interests = RLMArray<Int>?
     override class func primaryKey() -> String? { return "_id" }
     override class func indexedProperties() -> [String] { return ["name", "start_time"] }
 
@@ -109,7 +109,7 @@ class EventResponse : Object, UserDetail {
 
     var firstText : String { return name }
     var secondText : String { return descriptionText }
-    
+
     static func create(_ JSON: JSONDictionary) -> EventResponse {
         return EventResponse().then {
             $0._id = (JSON["_id"] as? String)!

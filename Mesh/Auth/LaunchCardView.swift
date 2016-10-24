@@ -20,12 +20,12 @@ class LaunchCardViewController: BaseCardViewController {
     }
     let header = UILabel().then {
         $0.text = "Network"
-        $0.font = .boldProxima(ofSize: 20)
+        $0.font = .gothamBold(ofSize: 20)
         $0.textColor = .darkGray
     }
     let text = UILabel().then {
         $0.text = "Connect and chat with people in your industry"
-        $0.font = .proxima(ofSize: 16); $0.textColor = .lightGray
+        $0.font = .gothamBook(ofSize: 16); $0.textColor = .lightGray
         $0.textAlignment = .center
         $0.numberOfLines = 0
         $0.adjustsFontSizeToFitWidth = true

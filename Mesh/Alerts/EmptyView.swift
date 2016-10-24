@@ -15,13 +15,13 @@ class EmptyView: UIView {
     }
     var titleLabel = UILabel(translates: false).then {
         $0.textAlignment = .center
-        $0.font = .boldProxima(ofSize: 20); $0.textColor = .black
+        $0.font = .gothamBold(ofSize: 20); $0.textColor = .black
     }
     var textLabel = UILabel(translates: false).then {
         $0.contentMode = .top
         $0.numberOfLines = 0
         $0.textAlignment = .center
-        $0.font = .proxima(ofSize: 16); $0.textColor = .lightGray
+        $0.font = .gothamBook(ofSize: 16); $0.textColor = .lightGray
     }
     var actions = [AlertAction]()
     var buttons : [UIButton] = []
@@ -50,7 +50,7 @@ class EmptyView: UIView {
         for action in actions {
             let button = UIButton(translates: false).then {
                 $0.layer.cornerRadius = 5
-                $0.title = action.title; $0.titleLabel?.font = .boldProxima(ofSize:14); $0.titleColor = action.titleColor
+                $0.title = action.title; $0.titleLabel?.font = .gothamBold(ofSize:14); $0.titleColor = action.titleColor
                 $0.backgroundColor = action.backgroundColor
                 $0.addTarget(self, action: #selector(buttonPress(sender:)), for: .touchUpInside)
             }

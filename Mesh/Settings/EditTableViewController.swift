@@ -19,7 +19,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         $0.translates = false; $0.tintColor = .white; $0.isHidden = false; $0.constrain(.width, .height, constant: 12)
     }
     let editLabel = UILabel(translates: false).then {
-        $0.text = "Edit"; $0.textColor = .white; $0.font = .semiboldProxima(ofSize: 14); $0.isHidden = false
+        $0.text = "Edit"; $0.textColor = .white; $0.font = .gothamLight(ofSize: 14); $0.isHidden = false
     }
     var items : [UserDetail] = [Experience(company: "Tinder", position: "iOS", startMonth: "January", startYear: "2012", endMonth: "January", endYear: "2016"),
                                 Education(schoolName: "Harvard", degreeType: "Masters", startYear: "2012", endYear: "2016", field: "Engineering", graduated: true),
@@ -33,7 +33,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         tableView.contentInset = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
         tableView.registerClass(UITableViewCell.self); tableView.registerNib(UserDetailTableViewCell.self)
         tableView.estimatedRowHeight = 100
-        navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "mainNavSettings").withRenderingMode(.alwaysOriginal), style: .done, target: self, action: #selector(settings))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "settings").withRenderingMode(.alwaysTemplate), style: .done, target: self, action: #selector(settings))
     }
     
     func settings() { navigationController?.push(SettingsTableViewController(style: .grouped)) }
@@ -45,7 +45,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         guard section != 0 else { return nil }
         let header = UIButton().then { $0.backgroundColor = .white }
         let icon = UIImageView(translates: false).then { $0.contentMode = .scaleAspectFit }
-        let title = UILabel(translates: false).then { $0.font = .proxima(ofSize: 14); $0.textColor = .lightGray }
+        let title = UILabel(translates: false).then { $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray }
         let edit = UIImageView(translates: false).then { $0.image = #imageLiteral(resourceName: "edit") }
         header.addSubviews(icon, title, edit)
 
@@ -87,7 +87,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
                 break
             case 1:
                 cell.selectionStyle = .none
-                cell.textLabel?.font = .boldProxima(ofSize: 20)
+                cell.textLabel?.font = .gothamBold(ofSize: 20)
                 cell.textLabel?.text = UserResponse.current?.fullName(); break
             default: break }
             return cell

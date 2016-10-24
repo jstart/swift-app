@@ -22,7 +22,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
     }
     let leftLabel = UILabel(translates: false).then {
         $0.text = "PASS"
-        $0.font = .boldProxima(ofSize: 25); $0.textColor = .white
+        $0.font = .gothamBold(ofSize: 25); $0.textColor = .white
         $0.textAlignment = .center
         $0.constrain((.height, 25))
     }
@@ -40,7 +40,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
     }
     let rightLabel = UILabel(translates: false).then {
         $0.text = "LIKE"
-        $0.font = .boldProxima(ofSize: 25); $0.textColor = .white
+        $0.font = .gothamBold(ofSize: 25); $0.textColor = .white
         $0.textAlignment = .center
         $0.constrain((.height, 25))
     }

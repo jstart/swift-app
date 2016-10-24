@@ -12,19 +12,19 @@ class UserEditPhoneViewController: UITableViewController {
     
     var formatter = PhoneNumberFormatter()
     let header = UILabel(translates: false).then {
-        $0.text = "Change Your Phone Number"; $0.font = .boldProxima(ofSize: 20)
+        $0.text = "Change Your Phone Number"; $0.font = .gothamBold(ofSize: 20)
     }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
         $0.text = "This new phone number will replace the number that you're currently using in the app."
-        $0.font = .proxima(ofSize: 16); $0.textColor = .gray
+        $0.font = .gothamBook(ofSize: 16); $0.textColor = .gray
         $0.textAlignment = .center
     }
     let nextButton = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
         $0.isEnabled = true
-        $0.titleLabel?.font = .boldProxima(ofSize: 20); $0.title = "CONTINUE"; $0.titleColor = .white
+        $0.titleLabel?.font = .gothamBold(ofSize: 20); $0.title = "CONTINUE"; $0.titleColor = .white
         $0.layer.cornerRadius = 5; $0.clipsToBounds = true
         $0.constrain((.height, 70))
     }

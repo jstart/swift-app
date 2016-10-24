@@ -22,13 +22,13 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
     }
     let titleLabel = UILabel(translates: false).then {
         $0.textAlignment = .center
-        $0.font = .boldProxima(ofSize: 20); $0.textColor = .black
+        $0.font = .gothamBold(ofSize: 20); $0.textColor = .black
     }
     let textLabel = UILabel(translates: false).then {
         $0.contentMode = .top
         $0.numberOfLines = 0
         $0.textAlignment = .center
-        $0.font = .proxima(ofSize: 16); $0.textColor = .lightGray
+        $0.font = .gothamBook(ofSize: 16); $0.textColor = .lightGray
     }
     var actions = [AlertAction]()
     var buttons = [UIButton]()
@@ -64,7 +64,7 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
         for (index, action) in actions.enumerated() {
             let button = UIButton(translates: false).then {
                 $0.title = action.title; $0.titleColor = action.titleColor
-                $0.titleLabel?.font = .boldProxima(ofSize: 20)
+                $0.titleLabel?.font = .gothamBold(ofSize: 20)
                 $0.setBackgroundImage(.imageWithColor(action.backgroundColor), for: .normal)
                 $0.addTarget(self, action: #selector(buttonPress(sender:)), for: .touchUpInside)
                 $0.constrain(.height, constant: 50)

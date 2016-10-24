@@ -70,14 +70,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func appearance() {
         UINavigationBar.appearance().isTranslucent = false
-        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: UIFont.proxima(ofSize: 17), NSForegroundColorAttributeName: #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)]
+        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: UIFont.gothamBook(ofSize: 17), NSForegroundColorAttributeName: #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)]
         //UITextField.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.8941176471, blue: 0.8941176471, alpha: 1)
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).font = .proxima(ofSize: 20)
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont.proxima(ofSize: 17)], for: .normal)
-        UILabel.appearance(whenContainedInInstancesOf: [UITableViewCell.self]).font = .regularProxima(ofSize: 17)
-        UITextField.appearance(whenContainedInInstancesOf: [UITableViewCell.self]).font = .proxima(ofSize: 17)
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).font = .gothamBook(ofSize: 20)
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont.gothamBook(ofSize: 17)], for: .normal)
+        UILabel.appearance(whenContainedInInstancesOf: [UITableViewCell.self]).font = .gothamLight(ofSize: 17)
+        UITextField.appearance(whenContainedInInstancesOf: [UITableViewCell.self]).font = .gothamBook(ofSize: 17)
         UISwitch.appearance().onTintColor = Colors.brand
-        UITabBar.appearance().tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         //UITableView.appearance().backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
     }
 

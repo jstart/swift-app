@@ -36,8 +36,8 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         initials.text = nil
         profile.backgroundColor = .clear
         
-        name.font = .proxima(ofSize: name.font.pointSize)
-        title.font = .proxima(ofSize: title.font.pointSize)
+        name.font = .gothamBook(ofSize: name.font.pointSize)
+        title.font = .gothamBook(ofSize: title.font.pointSize)
     }
     
     override func awakeFromNib() {
@@ -80,19 +80,20 @@ class ConnectionTableViewCell: MGSwipeTableCell {
     func configure(_ detail: UserDetail) {
         name.text = detail.firstText
         title.text = detail.secondText
-        profile.backgroundColor = .gray
         company.image = nil
+        guard let imageURL = detail.logo else { profile.backgroundColor = .gray; return }
+        profile.af_setImage(withURL: URL(string: imageURL)!)
     }
     
     func add(message: MessageResponse? = nil, read: Bool) {
         self.read.title = read ? "Mark Unread" : "Mark Read"
         
         if !read {
-            name.font = .boldProxima(ofSize: name.font.pointSize)
-            title.font = .boldProxima(ofSize: title.font.pointSize)
+            name.font = .gothamBold(ofSize: name.font.pointSize)
+            title.font = .gothamBold(ofSize: title.font.pointSize)
         } else {
-            name.font = .proxima(ofSize: name.font.pointSize)
-            title.font = .proxima(ofSize: title.font.pointSize)
+            name.font = .gothamBook(ofSize: name.font.pointSize)
+            title.font = .gothamBook(ofSize: title.font.pointSize)
         }
         if message?.text != nil { title.text = message?.text }
     }

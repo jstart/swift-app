@@ -39,8 +39,8 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
         name.text = nil
         message.text = nil
         
-        name.font = .proxima(ofSize: name.font.pointSize)
-        message.font = .proxima(ofSize: message.font.pointSize)
+        name.font = .gothamBook(ofSize: name.font.pointSize)
+        message.font = .gothamBook(ofSize: message.font.pointSize)
     }
     
     func configure(_ aMessage: MessageResponse, user: UserResponse, read: Bool) {
@@ -48,8 +48,8 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
         company.image = #imageLiteral(resourceName: "tesla")
         message.text = aMessage.text ?? ""
         if !read {
-            name.font = .boldProxima(ofSize: name.font.pointSize)
-            message.font = .boldProxima(ofSize: message.font.pointSize)
+            name.font = .gothamBold(ofSize: name.font.pointSize)
+            message.font = .gothamBold(ofSize: message.font.pointSize)
         }
         activity.startAnimating()
         preview(url: message.text!)

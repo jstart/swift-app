@@ -13,12 +13,12 @@ class SkillCardViewController : BaseCardViewController {
 
     let name = UILabel().then {
         $0.textColor = .darkGray
-        $0.font = .boldProxima(ofSize: 18)
+        $0.font = .gothamBold(ofSize: 18)
         $0.text = "John Doe"
     }
     let subtitle = UILabel().then {
         $0.textColor = .lightGray
-        $0.font = .proxima(ofSize: 15)
+        $0.font = .gothamBook(ofSize: 15)
         $0.text = "Popular in your industry"
     }
     let media = UIImageView(translates: false).then {

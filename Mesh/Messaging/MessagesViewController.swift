@@ -19,7 +19,7 @@ class MessagesViewController: JSQMessagesViewController {
     var senderImage : UIImage?
     var shouldReload = true
     
-    let label = UILabel(translates: false).then { $0.font = .proxima(ofSize: 18); $0.constrain(.height, constant: 44) }
+    let label = UILabel(translates: false).then { $0.font = .gothamBook(ofSize: 18); $0.constrain(.height, constant: 44) }
     let imageView = UIImageView(translates: false).then {
         $0.layer.cornerRadius = 5.0; $0.clipsToBounds = true
         $0.backgroundColor = .gray
@@ -46,7 +46,7 @@ class MessagesViewController: JSQMessagesViewController {
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(deleteMessage(_:)))
         inputToolbar.preferredDefaultHeight = 200
         
-        collectionView?.collectionViewLayout.messageBubbleFont = .proxima(ofSize: 17)
+        collectionView?.collectionViewLayout.messageBubbleFont = .gothamBook(ofSize: 17)
         
         DefaultNotification.addObserver(self, selector: #selector(userIsTyping(notification:)), name: .typing, object: nil)
         DefaultNotification.addObserver(self, selector: #selector(receivedMessage(notification:)), name: .message, object: nil)
@@ -181,7 +181,7 @@ class MessagesViewController: JSQMessagesViewController {
         cell.messageBubbleContainerView?.layer.cornerRadius = 5.0
         cell.messageBubbleContainerView?.clipsToBounds = true
         cell.textView?.textColor = isOutgoingMessage(messages[indexPath.row]) ? .white : .black
-        cell.cellBottomLabel?.font = .proxima(ofSize: 10)
+        cell.cellBottomLabel?.font = .gothamBook(ofSize: 10)
         cell.avatarImageView?.layer.cornerRadius = 5
         cell.avatarImageView?.clipsToBounds = true
         

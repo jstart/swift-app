@@ -21,14 +21,14 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
     }
     let cancel = UIButton(translates: false).then {
         $0.setTitle("CANCEL", for: .normal)
-        $0.titleLabel?.font = .boldProxima(ofSize: 18)
+        $0.titleLabel?.font = .gothamBold(ofSize: 18)
         $0.backgroundColor = .lightGray
         $0.setTitleColor(.white, for: .normal)
         $0.constrain(.height, constant: 50)
     }
     let done = UIButton(translates: false).then {
         $0.setTitle("DONE", for: .normal)
-        $0.titleLabel?.font = .boldProxima(ofSize: 18)
+        $0.titleLabel?.font = .gothamBold(ofSize: 18)
         $0.backgroundColor = Colors.brand
         $0.setTitleColor(.white, for: .normal)
         $0.constrain(.height, constant: 50)

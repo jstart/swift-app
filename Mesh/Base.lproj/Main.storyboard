@@ -30,7 +30,9 @@
         <scene sceneID="uKL-9S-O6i">
             <objects>
                 <navigationController id="oOb-io-LYz" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="mainNavConnections" selectedImage="mainNavConnections" id="njX-HM-dK8"/>
+                    <tabBarItem key="tabBarItem" title="" image="mainNavConnections" selectedImage="mainNavConnectionsActive" id="njX-HM-dK8">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Jcb-RP-p4Y">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -66,7 +68,7 @@
         <scene sceneID="49a-4T-NSt">
             <objects>
                 <navigationController id="Pzk-9e-6zr" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="mainNavHome" id="c0o-lh-VtJ">
+                    <tabBarItem key="tabBarItem" title="" image="mainNavHome" selectedImage="mainNavHomeActive" id="c0o-lh-VtJ">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="wS2-kb-40b">
@@ -104,7 +106,7 @@
         <scene sceneID="gt2-tb-fgx">
             <objects>
                 <navigationController id="8Ua-EN-TRc" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="mainNavSettings" id="LAH-7C-gML">
+                    <tabBarItem key="tabBarItem" title="" image="mainNavSettingsActive" id="LAH-7C-gML">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="rF6-dd-dIo">
@@ -161,7 +163,7 @@
         <scene sceneID="zXw-9x-iKP">
             <objects>
                 <navigationController id="bF0-4x-jeX" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="mainNavEvents" id="1xk-uF-8FV">
+                    <tabBarItem key="tabBarItem" title="" image="mainNavEvents" selectedImage="mainNavEventsActive" id="1xk-uF-8FV">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="E4o-ds-Dka">
@@ -178,9 +180,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="mainNavConnections" width="27" height="22"/>
-        <image name="mainNavEvents" width="32" height="21"/>
-        <image name="mainNavHome" width="26" height="22"/>
-        <image name="mainNavSettings" width="24" height="22"/>
+        <image name="mainNavConnections" width="28" height="24"/>
+        <image name="mainNavConnectionsActive" width="26" height="22"/>
+        <image name="mainNavEvents" width="22" height="22"/>
+        <image name="mainNavEventsActive" width="22" height="22"/>
+        <image name="mainNavHome" width="25" height="26"/>
+        <image name="mainNavHomeActive" width="22" height="23"/>
+        <image name="mainNavSettingsActive" width="18" height="22"/>
     </resources>
 </document>

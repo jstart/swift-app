@@ -15,7 +15,7 @@ class QuickReplyViewController: UIViewController, UIViewControllerTransitioningD
     var cell : MessageTableViewCell?
     let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark)).then { $0.translates = false }
     let field = UITextField(translates: false).then {
-        $0.font = .proxima(ofSize: 15)
+        $0.font = .gothamBook(ofSize: 15)
         $0.rightViewMode = .always
         $0.leftViewMode = .always
         $0.layer.borderColor = UIColor.lightGray.cgColor
@@ -26,7 +26,7 @@ class QuickReplyViewController: UIViewController, UIViewControllerTransitioningD
     let sendButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 15)).then {
         $0.titleColor = Colors.brand
         $0.setTitleColor(.lightGray, for: .disabled)
-        $0.titleLabel?.font = .semiboldProxima(ofSize: 17)
+        $0.titleLabel?.font = .gothamLight(ofSize: 17)
         $0.title = "Send"
         $0.isEnabled = false
     }

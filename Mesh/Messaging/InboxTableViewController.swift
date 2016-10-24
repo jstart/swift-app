@@ -142,7 +142,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             if UserResponse.connections.count > 1 || UserResponse.connections.count == 0 { $0.text = $0.text! + "S" }
             $0.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
             $0.contentMode = .bottomLeft
-            $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1); $0.font = .proxima(ofSize: 12)
+            $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1); $0.font = .gothamBook(ofSize: 12)
         }
         view.addSubview(label)
         label.constrain((.leading, 0), (.trailing, 0), (.bottom, -8), toItem: view)

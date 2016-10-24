@@ -13,22 +13,29 @@ class LaunchViewController: UIViewController, CardDelegate {
     var topCard = LaunchCardViewController()
     let cardStack = CardStack()
 
-    let logo = UIImageView(image: #imageLiteral(resourceName: "logo_large")).then {
+    let logo = UIImageView(image: #imageLiteral(resourceName: "launchOval")).then {
         $0.translates = false
         $0.contentMode = .scaleAspectFit
         $0.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
     }
+    let titleLabel = UILabel(translates: false).then {
+        $0.textColor = .white; $0.font = .gothamBook(ofSize: 19)
+        let attributedString = NSMutableAttributedString(string: "RIPPLE")
+        attributedString.addAttribute(NSKernAttributeName, value: CGFloat(8), range: NSRange(location: 0, length: attributedString.length))
+        $0.attributedText = attributedString
+        $0.constrain((.height, 22))
+    }
     let subtitle = UILabel(translates: false).then {
-        $0.text = "Tinder for Business"; $0.textColor = .black; $0.font = .boldProxima(ofSize: 20)
-        $0.constrain((.height, 24))
+        $0.text = "Discover what you’re looking for."; $0.textColor = .white; $0.font = .gothamLight(ofSize: 13)
+        $0.constrain((.height, 15))
     }
     let getStarted = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
-        $0.title = "GET STARTED"; $0.titleLabel?.font = .boldProxima(ofSize: 20)
+        $0.title = "GET STARTED"; $0.titleLabel?.font = .gothamLight(ofSize: 20)
         $0.layer.cornerRadius = 5; $0.clipsToBounds = true
         $0.constrain((.height, 70))
     }
-    let signIn = UIButton(translates: false).then { $0.title = "SIGN IN"; $0.titleColor = Colors.brand; $0.titleLabel?.font = .boldProxima(ofSize: 20) }
+    let signIn = UIButton(translates: false).then { $0.title = "SIGN IN"; $0.titleColor = Colors.brand; $0.titleLabel?.font = .gothamLight(ofSize: 20) }
     let legal = UITextView(translates: false).then {
         $0.textColor = .gray; $0.textAlignment = .center
         $0.attributedText = NSAttributedString(string: "By using Mesh you agree to the Privacy Policy and the Terms of Service", attributes: [:])
@@ -43,17 +50,17 @@ class LaunchViewController: UIViewController, CardDelegate {
         view.backgroundColor = .white
         getStarted.addTarget(self, action: #selector(skills), for: .touchUpInside)
         signIn.addTarget(self, action: #selector(phone), for: .touchUpInside)
-        view.addSubviews(logo, getStarted, signIn, legal)
-        logo.constrain(.top, constant: 35, toItem: view)
-        logo.constrain((.leading, 100), (.trailing, -100), toItem: view)
-        //logo.constrain(.bottom, relatedBy: .lessThanOrEqual, constant: -20, toItem: subtitle, toAttribute: .top)
-        
-        //subtitle.constrain(.centerX, toItem: view)
-        //subtitle.constrain(.bottom, relatedBy: .lessThanOrEqual, constant: -20, toItem: topCard.view, toAttribute: .top)
+        view.addSubviews(logo, titleLabel, subtitle, getStarted, signIn, legal)
+        logo.constrain(.top, constant: -40, toItem: view)
+        logo.constrain(.centerX, toItem: view)
+        titleLabel.constrain(.top, constant: 50, toItem: view)
+        titleLabel.constrain(.centerX, toItem: view)
+        subtitle.constrain(.centerX, toItem: view)
         
         addChildViewController(cardStack)
         view.addSubview(cardStack.view)
-        logo.constrain(.bottom, constant: 0, toItem: cardStack.view, toAttribute: .top)
+        titleLabel.constrain(.bottom, constant: 0, toItem: cardStack.view, toAttribute: .top)
+        subtitle.constrain(.bottom, constant: 30, toItem: cardStack.view, toAttribute: .top)
 
         cardStack.view.translates = false
         cardStack.view.constrain((.height, 305))

@@ -285,7 +285,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             view.bringSubview(toFront: pager!.scroll)
             
             let header = UILabel(translates: false).then {
-                $0.font = .boldProxima(ofSize: 20); $0.textColor = .white; $0.text = "Auto Created Card"
+                $0.font = .gothamBold(ofSize: 20); $0.textColor = .white; $0.text = "Auto Created Card"
                 $0.textAlignment = .center; $0.constrain((.height, 25))
             }
             
@@ -294,7 +294,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             header.constrain(.top, constant: 30, toItem: pager?.scroll, toAttribute: .bottom)
             
             let message = UILabel(translates: false).then {
-                $0.font = .proxima(ofSize: 16); $0.textColor = .white; $0.numberOfLines = 0
+                $0.font = .gothamBook(ofSize: 16); $0.textColor = .white; $0.numberOfLines = 0
                 $0.text = "We’ve created your virtual business card to share with others. Everything look OK?"
                 $0.textAlignment = .center
             }

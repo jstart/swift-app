@@ -19,9 +19,9 @@ class TweetCardViewController : BaseCardViewController {
         $0.layer.cornerRadius = 5.0
         $0.clipsToBounds = true
     }
-    let name = UILabel().then { $0.textColor = .darkGray; $0.font = .boldProxima(ofSize: 18) }
+    let name = UILabel().then { $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 18) }
     let subtitle = UILabel().then {
-        $0.textColor = .lightGray; $0.font = .proxima(ofSize: 15); $0.text = "Popular in your industry"
+        $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 15); $0.text = "Popular in your industry"
     }
     let sourceIcon = UIImageView(translates: false).then {
         $0.constrain((.width, 25), (.height, 20)); $0.contentMode = .scaleAspectFit
@@ -34,19 +34,19 @@ class TweetCardViewController : BaseCardViewController {
         $0.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
     }
     let text = UILabel(translates: false).then {
-        $0.numberOfLines = 0; $0.textColor = .black; $0.font = .proxima(ofSize: 16)
+        $0.numberOfLines = 0; $0.textColor = .black; $0.font = .gothamBook(ofSize: 16)
         $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
     }
     let articleTitle = UILabel().then {
-        $0.textColor = .darkGray; $0.font = .boldProxima(ofSize: 18); $0.text = "Now on Slack - Click, done."
+        $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 18); $0.text = "Now on Slack - Click, done."
     }
     let articleURL = UILabel().then {
-        $0.textColor = .lightGray; $0.font = .proxima(ofSize: 15); $0.text = "slackhq.com/get-more-done-with-message-buttons"
+        $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 15); $0.text = "slackhq.com/get-more-done-with-message-buttons"
     }
     let retweet = UIButton(translates: false).then {
         $0.setImage(#imageLiteral(resourceName: "Retweet"), for: .normal)
         $0.title = "34"; $0.titleColor = .lightGray
-        $0.titleLabel?.font = .proxima(ofSize: 18)
+        $0.titleLabel?.font = .gothamBook(ofSize: 18)
         $0.constrain((.height, 40))
         $0.contentEdgeInsets = UIEdgeInsetsMake(10, 0, 10, 0)
         $0.imageView?.contentMode = .scaleAspectFit
@@ -54,7 +54,7 @@ class TweetCardViewController : BaseCardViewController {
     let like = UIButton(translates: false).then {
         $0.setImage(#imageLiteral(resourceName: "Heart"), for: .normal)
         $0.title = "34"; $0.titleColor = .lightGray
-        $0.titleLabel?.font = .proxima(ofSize: 18)
+        $0.titleLabel?.font = .gothamBook(ofSize: 18)
         $0.titleEdgeInsets = UIEdgeInsetsMake(-10, 10, -10, 0)
         $0.contentEdgeInsets = UIEdgeInsetsMake(10, 0, 10, 0)
         $0.constrain((.height, 40), (.width, 63))

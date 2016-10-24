@@ -11,19 +11,19 @@ import UIKit
 class UserEditNameViewController: UITableViewController {
     
     let header = UILabel(translates: false).then {
-        $0.text = "Change Your Name"; $0.font = .boldProxima(ofSize: 20)
+        $0.text = "Change Your Name"; $0.font = .gothamBold(ofSize: 20)
     }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
         $0.text = "Change the name that appears on your profile."
-        $0.font = .proxima(ofSize: 16); $0.textColor = .gray
+        $0.font = .gothamBook(ofSize: 16); $0.textColor = .gray
         $0.textAlignment = .center
     }
     let nextButton = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
         $0.isEnabled = true
-        $0.titleLabel?.font = .boldProxima(ofSize: 20)
+        $0.titleLabel?.font = .gothamBold(ofSize: 20)
         $0.title = "CONTINUE"; $0.titleColor = .white
         $0.layer.cornerRadius = 5
         $0.clipsToBounds = true

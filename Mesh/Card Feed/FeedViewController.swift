@@ -34,7 +34,7 @@ class FeedViewController: UIViewController {
             completeProfile.constrain(.width, .centerX, .bottom, toItem: view)
             
             let label = UILabel(translates: false).then {
-                $0.font = .proxima(ofSize: 17); $0.textColor = .white; $0.text = "Complete Your Profile"
+                $0.font = .gothamBook(ofSize: 17); $0.textColor = .white; $0.text = "Complete Your Profile"
             }
             
             completeProfile.addSubview(label)
@@ -61,7 +61,7 @@ class FeedViewController: UIViewController {
         UIApplication.shared.statusBarStyle = .default
         
         if Keychain.fetchLogin() != nil {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "sorting"), target: self, action: #selector(sort))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "filtering"), target: self, action: #selector(sort))
             navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "qrCode"), target: self, action: #selector(qr))
         } else {
             navigationController?.navigationBar.isTranslucent = false

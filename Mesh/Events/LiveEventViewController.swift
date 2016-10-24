@@ -25,9 +25,9 @@ class LiveEventViewController: UIViewController {
         logo.constrain((.width, 85), (.height, 85))
         
         let header = UIView(translates: false).then { $0.backgroundColor = .white
-            let name = UILabel().then { $0.textColor = .darkGray; $0.font = .boldProxima(ofSize: 20); $0.text = event?.name }
+            let name = UILabel().then { $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 20); $0.text = event?.name }
             let time = Double(event!.start_time)!
-            let subtitle = UILabel().then { $0.textColor = .lightGray; $0.font = .proxima(ofSize: 12); $0.text = Date(timeIntervalSince1970: time).description }
+            let subtitle = UILabel().then { $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 12); $0.text = Date(timeIntervalSince1970: time).description }
             let titleStack = UIStackView(name, subtitle, axis: .vertical, spacing: 5).then { $0.distribution = .fillProportionally; $0.alignment = UIStackViewAlignment.leading }
             let stack = UIStackView(logo, titleStack, spacing: 10).then { $0.distribution = .fillProportionally }
             $0.addSubview(stack)

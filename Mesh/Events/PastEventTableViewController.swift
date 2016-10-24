@@ -44,11 +44,11 @@ class PastEventTableViewController: UITableViewController, UISearchControllerDel
             $0.backgroundColor = .white
             
             let name = UILabel().then {
-                $0.textColor = .darkGray; $0.font = .boldProxima(ofSize: 20)
+                $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 20)
                 $0.text = event?.name
             }
             let subtitle = UILabel().then {
-                $0.textColor = .lightGray; $0.font = .proxima(ofSize: 12)
+                $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 12)
                 $0.text = event?.secondText
             }
             let titleStack = UIStackView(name, subtitle, axis: .vertical, spacing: 5).then { $0.distribution = .fillProportionally; $0.alignment = UIStackViewAlignment.leading }

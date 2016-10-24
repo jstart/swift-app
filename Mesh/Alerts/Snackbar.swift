@@ -15,12 +15,12 @@ class Snackbar : UIView {
     var handler = { return false }
     var dismissed = {}
     let message = UILabel(translates: false).then {
-        $0.textColor = .white; $0.font = .proxima(ofSize: 14)
+        $0.textColor = .white; $0.font = .gothamBook(ofSize: 14)
         $0.numberOfLines = 3
-        $0.backgroundColor = #colorLiteral(red: 0.1960784314, green: 0.1960784314, blue: 0.1960784314, alpha: 1)
+        $0.backgroundColor = Colors.brand
     }
     let button = UIButton(translates: false).then {
-        $0.titleLabel?.font = .semiboldProxima(ofSize: 13); $0.titleColor = #colorLiteral(red: 0.09803921569, green: 0.7058823529, blue: 1, alpha: 1)
+        $0.titleLabel?.font = .gothamLight(ofSize: 13); $0.titleColor = .white
     }
     
     var timer : Timer?
@@ -29,7 +29,7 @@ class Snackbar : UIView {
         super.init(frame: CGRect.zero)
         translates = false
         constrain((.height, 43))
-        backgroundColor = #colorLiteral(red: 0.1960784314, green: 0.1960784314, blue: 0.1960784314, alpha: 1)
+        backgroundColor = Colors.brand
         
         button.addTarget(self, action: #selector(pressed), for: .touchUpInside)
         message.text = title

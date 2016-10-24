@@ -13,17 +13,17 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
 
     let profile = UIImageView(translates: false).then { $0.layer.cornerRadius = 5; $0.clipsToBounds = true; $0.contentMode = .scaleAspectFill }
     let placeholder = CardView(translates: false).then { $0.backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.8784313725, blue: 0.8784313725, alpha: 1) }
-    let addPhoto = UILabel(translates: false).then { $0.text = "Add Photo"; $0.font = .boldProxima(ofSize: 20) }
-    let header = UILabel(translates: false).then { $0.text = "Add Profile Picture"; $0.font = .boldProxima(ofSize: 20) }
+    let addPhoto = UILabel(translates: false).then { $0.text = "Add Photo"; $0.font = .gothamBold(ofSize: 20) }
+    let header = UILabel(translates: false).then { $0.text = "Add Profile Picture"; $0.font = .gothamBold(ofSize: 20) }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
         $0.text = "We’re almost there! In order to match with people on Mesh, we need you to do this last step to complete your profile."
-        $0.font = .proxima(ofSize: 16); $0.textColor = .gray; $0.textAlignment = .center
+        $0.font = .gothamBook(ofSize: 16); $0.textColor = .gray; $0.textAlignment = .center
     }
     let upload = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
-        $0.titleLabel?.font = .boldProxima(ofSize: 20); $0.titleColor = .white
+        $0.titleLabel?.font = .gothamBold(ofSize: 20); $0.titleColor = .white
         $0.title = "UPLOAD PHOTO"
         $0.layer.cornerRadius = 5; $0.clipsToBounds = true
         $0.constrain((.height, 70))
@@ -32,7 +32,7 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
         $0.translates = false; $0.tintColor = .white; $0.isHidden = false; $0.constrain(.width, .height, constant: 12)
     }
     let editLabel = UILabel(translates: false).then {
-        $0.text = "Edit"; $0.textColor = .white; $0.font = .semiboldProxima(ofSize: 14); $0.isHidden = false
+        $0.text = "Edit"; $0.textColor = .white; $0.font = .gothamLight(ofSize: 14); $0.isHidden = false
     }
     
     override func viewDidLoad() {

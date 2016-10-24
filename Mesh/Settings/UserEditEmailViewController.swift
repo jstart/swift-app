@@ -11,12 +11,12 @@ import UIKit
 class UserEditEmailViewController: UITableViewController {
     
     let header = UILabel(translates: false).then {
-        $0.text = "Add Your Email"; $0.font = .boldProxima(ofSize: 20)
+        $0.text = "Add Your Email"; $0.font = .gothamBold(ofSize: 20)
     }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
         $0.text = "Adding an email will keep your account more secure."
-        $0.font = .proxima(ofSize: 16)
+        $0.font = .gothamBook(ofSize: 16)
         $0.textColor = .gray
         $0.textAlignment = .center
     }
@@ -24,7 +24,7 @@ class UserEditEmailViewController: UITableViewController {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
         $0.isEnabled = true
-        $0.titleLabel?.font = .boldProxima(ofSize: 20)
+        $0.titleLabel?.font = .gothamBold(ofSize: 20)
         $0.setTitle("CONTINUE", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.layer.cornerRadius = 5

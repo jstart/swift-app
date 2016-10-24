@@ -18,8 +18,9 @@ enum QuickViewCategory : String  {
     func button() -> UIButton {
         return UIButton().then {
             $0.setImage(UIImage(named: rawValue), for: .normal)
-            let activeImage = UIImage(named: rawValue + "Active")
+            let activeImage = UIImage(named: rawValue)?.withRenderingMode(.alwaysTemplate)
             $0.setImage(activeImage, for: .selected)
+            $0.tintColor = Colors.brand
             $0.backgroundColor = .white
         }
     }

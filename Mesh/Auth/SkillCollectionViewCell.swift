@@ -15,7 +15,7 @@ enum SkillAnimationDirection {
 class SkillCollectionViewCell: UICollectionViewCell {
     
     let title = UILabel(translates: false).then {
-        $0.font = .boldProxima(ofSize: 14); $0.textColor = .gray; $0.numberOfLines = 0; $0.textAlignment = .center
+        $0.font = .gothamBold(ofSize: 14); $0.textColor = .gray; $0.numberOfLines = 0; $0.textAlignment = .center
     }
     let popular = UILabel(translates: false).then { $0.isHidden = true }
     let icon = UIImageView(translates: false).then { $0.contentMode = .scaleAspectFit; $0.tintColor = .white }
@@ -79,7 +79,7 @@ class SkillCollectionViewCell: UICollectionViewCell {
         case .rightDown: flipY = 1.0; flipX = 1.0; break }
         UIView.animate(withDuration: 0.1, animations: { self.title.alpha = 0.0; self.icon.alpha = 0.0 })
         let rotation = CAKeyframeAnimation(keyPath: "transform")
-        rotation.beginTime = CACurrentMediaTime() + (0.1 * Double(row + distance))
+        rotation.beginTime = CACurrentMediaTime() + (0.1 * Double(row + abs(distance)))
         rotation.duration = 0.6
         if reverse {
             rotation.values = [NSValue(caTransform3D: layer.transform),
@@ -93,13 +93,13 @@ class SkillCollectionViewCell: UICollectionViewCell {
         layer.add(rotation, forKey: "r1")
         
         let scale = CABasicAnimation(keyPath:"transform.scale")
-        scale.beginTime = CACurrentMediaTime() + (0.1 * Double(row + distance))
+        scale.beginTime = CACurrentMediaTime() + (0.1 * Double(row + abs(distance)))
         scale.duration = 0.2
-        scale.fromValue = 1.0; scale.toValue = 1.1
+        scale.fromValue = 1.0; scale.toValue = 1.15
         scale.autoreverses = true
         layer.add(scale, forKey: scale.keyPath)
 
-        UIView.animate(withDuration: 0.1, delay: 0.65 + (0.1 * Double(row + distance)), animations: { self.title.alpha = 1.0; self.icon.alpha = 1.0 })
+        UIView.animate(withDuration: 0.1, delay: 0.65 + (0.1 * Double(row + abs(distance))), animations: { self.title.alpha = 1.0; self.icon.alpha = 1.0 })
     }
     
     override var isSelected: Bool {

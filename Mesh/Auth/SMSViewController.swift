@@ -14,13 +14,13 @@ class SMSViewController: UITableViewController {
     
     let logo = UIImageView(image: #imageLiteral(resourceName: "logo")).then { $0.translates = false }
     let subtitle = UILabel(translates: false).then {
-        $0.text = "Tinder for Business"; $0.textColor = .black; $0.font = .boldProxima(ofSize: 20)
+        $0.text = "Tinder for Business"; $0.textColor = .black; $0.font = .gothamBold(ofSize: 20)
     }
     let nextButton = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
         $0.isEnabled = true
-        $0.titleLabel?.font = .boldProxima(ofSize: 20)
+        $0.titleLabel?.font = .gothamBold(ofSize: 20)
         $0.title = "CONTINUE"; $0.titleColor = .white
         $0.layer.cornerRadius = 5; $0.clipsToBounds = true
         $0.constrain((.height, 70))
