@@ -31,8 +31,9 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
     }
     let logo = UIImageView(image: .imageWithColor(.gray)).then {
         $0.translates = false
+        $0.backgroundColor = .white
         $0.clipsToBounds = true
-        $0.contentMode = .scaleAspectFill
+        $0.contentMode = .scaleAspectFit
         $0.layer.cornerRadius = 5.0
         $0.constrain(.width, .height, constant: 62)
     }
