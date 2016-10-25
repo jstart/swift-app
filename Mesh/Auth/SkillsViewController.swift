@@ -101,7 +101,14 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
 
         if Token.retrieveToken() == nil { Client.execute(TokenRequest()) { _ in
                 Client.execute(PickerRequest()) { response in
-                    print(response.result.value)
+                    if let pickerJSON = response.result.value as? JSONArray {
+                        let interests = pickerJSON.map({ return PickerResponse.create($0) })
+                        let dataSource = IndustriesCollectionViewDataSource(self.collectionView)
+                        dataSource.pickerItems = interests
+                        self.dataSource = dataSource
+                        self.collectionView.dataSource = dataSource
+                        self.collectionView.reloadData()
+                    }
                 }
             }
         }

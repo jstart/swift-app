@@ -40,15 +40,15 @@ class SkillsCollectionViewDataSource: NSObject, UICollectionViewDataSource, Skil
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeue(SkillCollectionViewCell.self, indexPath: indexPath).then {
-            if filteredData != nil {
-                if filteredData!.count == 0 {
-                    $0.configure("Add", image: #imageLiteral(resourceName: "addCard"), searching: searching); return
-                }
-            }
-            let even : Bool = (indexPath.row % 2) == 0
-            $0.configure(data[indexPath.row], image: even ? #imageLiteral(resourceName: "tech") : #imageLiteral(resourceName: "business"), searching: searching)
-        }
+        return collectionView.dequeue(SkillCollectionViewCell.self, indexPath: indexPath)//.then {
+            //if filteredData != nil {
+                //if filteredData!.count == 0 {
+                    //$0.configure("Add", image: #imageLiteral(resourceName: "addCard"), searching: searching); return
+           //     }
+          //  }
+            //let even : Bool = (indexPath.row % 2) == 0
+           // $0.configure(data[indexPath.row], image: even ? #imageLiteral(resourceName: "tech") : #imageLiteral(resourceName: "business"), searching: searching)
+       // }
     }
     
 }

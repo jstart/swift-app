@@ -65,6 +65,16 @@ class SkillCollectionViewCell: UICollectionViewCell {
         isSelected = isSelected ? true : false
     }
     
+    func configure(_ pickerItem: PickerResponse, isPopular: Bool = false, searching: Bool = false) {
+        self.title.text = pickerItem.name
+        popular.isHidden = isPopular
+        isSelected = isSelected ? true : false
+        
+        guard let url = pickerItem.logo else { return }
+        guard let logoURL = URL(string: url) else { return }
+        icon.af_setImage(withURL: logoURL)
+    }
+    
     func animate(direction: SkillAnimationDirection = .left, row: Int = 0, distance: Int = 0, reverse: Bool = false) {
         var flipX : CGFloat = 0.0
         var flipY : CGFloat = 0.0

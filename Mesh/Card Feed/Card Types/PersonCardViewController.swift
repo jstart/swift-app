@@ -53,7 +53,10 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         control.delegate = viewPager!
         viewPager?.delegate = control
         if let user = rec?.user {
+            let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: [], experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: []))
+            viewPager?.insertViews(quickViews)
             if let category = user.promoted_category {
+                
                 let categoryIndex = QuickViewCategory.index(category)
                 control.selectIndex(categoryIndex)
                 viewPager?.selectedIndex(categoryIndex, animated: true)
@@ -134,11 +137,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         overlayView.alpha = 0.0
         overlayView.isHidden = true
         
-        viewPager?.removeAllViews()
-        
         if let user = rec?.user {
-            let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: [], experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: []))
-            viewPager?.insertViews(quickViews)
             if let category = user.promoted_category {
                 let categoryIndex = QuickViewCategory.index(category)
                 control.selectIndex(categoryIndex)
@@ -157,6 +156,22 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         
         guard let companyURL = rec?.user?.companies.first?.logo else { return }
         logo.af_setImage(withURL: URL(string: companyURL)!)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if let user = rec?.user {
+            if let category = user.promoted_category {
+                let categoryIndex = QuickViewCategory.index(category)
+                control.selectIndex(categoryIndex)
+                viewPager?.selectedIndex(categoryIndex, animated: true)
+            }
+        } else {
+            control.selectIndex(0)
+            viewPager?.selectedIndex(0, animated: false)
+        }
+        
     }
     
     func bar() -> UIView {

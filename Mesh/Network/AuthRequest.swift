@@ -96,9 +96,9 @@ class UserResponse : Object {
                 $0.promoted_category = (JSON["promoted_category"] as? String)
 
                 $0.title = (JSON["title"] as? String?) ?? ""
-                if let companiesJSON = JSON["companies"] as? JSONArray { $0.companies.append(objectsIn: companiesJSON.map({return CompanyResponse.create( $0)})) }
-                if let interestsJSON = JSON["interests"] as? JSONArray { $0.interests.append(objectsIn: interestsJSON.map({return InterestResponse.create( $0)})) }
-                if let schoolsJSON = JSON["schools"] as? JSONArray { $0.schools.append(objectsIn: schoolsJSON.map({return SchoolResponse.create( $0)})) }
+                if let companiesJSON = JSON["companies"] as? JSONArray { $0.companies.append(objectsIn: companiesJSON.map({return CompanyResponse.create($0)})) }
+                if let interestsJSON = JSON["interests"] as? JSONArray { $0.interests.append(objectsIn: interestsJSON.map({return InterestResponse.create($0)})) }
+                if let schoolsJSON = JSON["schools"] as? JSONArray { $0.schools.append(objectsIn: schoolsJSON.map({return SchoolResponse.create($0)})) }
                 $0.profession = (JSON["profession"] as? String?) ?? ""
                 $0.token = (JSON["token"] as? String?) ?? ""
                 if JSON["profile_photo"] != nil { $0.photos = PhotoResponse.create((JSON["profile_photo"] as! JSONDictionary)) }
