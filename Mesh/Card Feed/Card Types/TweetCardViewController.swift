@@ -86,7 +86,11 @@ class TweetCardViewController : BaseCardViewController {
         
         if rec!.cardType() == .tweet {
             name.text = rec?.tweet?.name
-            text.text = rec?.tweet?.text
+            let attributedString = NSMutableAttributedString(string: rec!.tweet!.text)
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 5
+            attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range: NSMakeRange(0, attributedString.length))
+            text.attributedText = attributedString;
             text.constrain(.top, constant: 10, toItem: profile, toAttribute: .bottom)
             text.constrain((.leading, 15), (.trailing, -15), toItem: view)
             media.constrain(.top, constant: 12, toItem: text, toAttribute: .bottom)

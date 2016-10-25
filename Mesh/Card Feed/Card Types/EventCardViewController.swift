@@ -105,7 +105,11 @@ class EventCardViewController : BaseCardViewController {
     func configure() {
         guard let event = rec?.event else { return }
         name.text = event.name
-        text.text = event.descriptionText
+        let attributedString = NSMutableAttributedString(string: event.descriptionText)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 5
+        attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        text.attributedText = attributedString;
         guard let logo = event.logo else { return }
 
         media.af_setImage(withURL: URL(string: logo)!)
