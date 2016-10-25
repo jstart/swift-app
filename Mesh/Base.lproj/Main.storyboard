@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="qFx-6y-pOn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="qFx-6y-pOn">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -33,7 +33,7 @@
                     <tabBarItem key="tabBarItem" title="" image="mainNavConnections" selectedImage="mainNavConnectionsActive" id="njX-HM-dK8">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Jcb-RP-p4Y">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Jcb-RP-p4Y">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -45,10 +45,10 @@
             </objects>
             <point key="canvasLocation" x="-796" y="840"/>
         </scene>
-        <!--Inbox-->
+        <!--Connections-->
         <scene sceneID="eBV-EW-KqP">
             <objects>
-                <tableViewController title="Inbox" id="lib-iq-uo8" customClass="InboxTableViewController" customModule="Mesh" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Inbox" id="lib-iq-uo8" userLabel="Connections" customClass="InboxTableViewController" customModule="Ripple" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="zxi-bF-kha">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -71,7 +71,7 @@
                     <tabBarItem key="tabBarItem" title="" image="mainNavHome" selectedImage="mainNavHomeActive" id="c0o-lh-VtJ">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="wS2-kb-40b">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="wS2-kb-40b">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -86,7 +86,7 @@
         <!--Edit Profile-->
         <scene sceneID="dXp-1z-pjg">
             <objects>
-                <tableViewController title="Profile" id="GdB-cE-Jc2" userLabel="Edit Profile" customClass="EditTableViewController" customModule="Mesh" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Profile" id="GdB-cE-Jc2" userLabel="Edit Profile" customClass="EditTableViewController" customModule="Ripple" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="B2K-Ne-jDt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -109,7 +109,7 @@
                     <tabBarItem key="tabBarItem" title="" image="mainNavSettingsActive" id="LAH-7C-gML">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="rF6-dd-dIo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="rF6-dd-dIo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -124,7 +124,7 @@
         <!--Feed View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="FeedViewController" customModule="Mesh" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="FeedViewController" customModule="Ripple" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -143,7 +143,7 @@
         <!--Events-->
         <scene sceneID="0Wk-i4-aQv">
             <objects>
-                <tableViewController title="Events" id="Mi5-kB-osI" customClass="EventsTableViewController" customModule="Mesh" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Events" id="Mi5-kB-osI" customClass="EventsTableViewController" customModule="Ripple" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="6Rr-j4-kwD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -166,7 +166,7 @@
                     <tabBarItem key="tabBarItem" title="" image="mainNavEvents" selectedImage="mainNavEventsActive" id="1xk-uF-8FV">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="E4o-ds-Dka">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="E4o-ds-Dka">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

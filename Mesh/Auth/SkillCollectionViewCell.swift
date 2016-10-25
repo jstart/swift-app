@@ -119,12 +119,10 @@ class SkillCollectionViewCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             if self.isSelected {
-                icon.image = icon.image?.withRenderingMode(.alwaysTemplate)
                 self.title.textColor = .white
                 self.gradient.frame = self.contentView.frame
                 self.contentView.layer.addSublayer(self.gradient)
             } else {
-                icon.image = icon.image?.withRenderingMode(.alwaysOriginal)
                 self.title.textColor = .gray
                 gradient.removeFromSuperlayer()
             }
@@ -134,7 +132,6 @@ class SkillCollectionViewCell: UICollectionViewCell {
     override var isHighlighted: Bool {
         didSet {
             if self.isHighlighted && !self.isSelected {
-                icon.image = icon.image?.withRenderingMode(.alwaysTemplate)
                 self.title.textColor = .white
                 gradient.frame = contentView.frame
                 contentView.layer.addSublayer(gradient)
@@ -144,7 +141,6 @@ class SkillCollectionViewCell: UICollectionViewCell {
                 gradient.add(alpha, forKey: "opacity")
             } else {
                 gradient.removeFromSuperlayer()
-                icon.image = icon.image?.withRenderingMode(.alwaysOriginal)
                 self.title.textColor = .gray
             }
         }

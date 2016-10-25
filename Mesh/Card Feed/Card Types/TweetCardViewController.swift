@@ -169,7 +169,9 @@ class TweetCardViewController : BaseCardViewController {
         let client = TWTRAPIClient.withCurrentUser()
         let request = client.urlRequest(withMethod: "POST", url: "https://api.twitter.com/1.1/favorites/create.json", parameters: ["id": rec!.tweet!._id], error: nil)
         client.sendTwitterRequest(request, completion: { [weak self] response, data, error in
-            self?.delegate?.passCard(.left)
+            if error != nil {
+                self?.delegate?.passCard(.left)
+            }
         })
     }
     

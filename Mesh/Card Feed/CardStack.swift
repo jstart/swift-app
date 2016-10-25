@@ -122,7 +122,7 @@ class CardStack : UIViewController, CardDelegate {
             case UISwipeGestureRecognizerDirection.right:
                 card.view.transform = card.view.transform.rotated(by: (45 * CGFloat(M_PI)) / 180).translatedBy(x: (card.view.frame.size.width + 300), y: -350)
             default: return }
-        }, completion: { _ in self.currentCard!.view.removeFromSuperview(); self.swiped(direction); self.currentCard!.delegate?.swiped(direction) })
+        }, completion: { _ in self.currentCard!.view.removeFromSuperview(); self.currentCard!.delegate?.swiped(direction) })
     }
     
     func swiped(_ direction: UISwipeGestureRecognizerDirection) {
