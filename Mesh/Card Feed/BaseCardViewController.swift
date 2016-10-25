@@ -96,7 +96,8 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
                 !state.meetsPositionRequirements(swipeDirection)) {
                 // Back to center
                 UIView.animate(withDuration: 0.2, animations: {
-                    sender.view?.center = (self.view?.superview?.center)!
+                    guard let superview = self.view?.superview else { return }
+                    sender.view?.center = superview.center
                     sender.view?.transform = CGAffineTransform.identity
                     self.overlayView.alpha = 0.0
                     self.delegate?.swiping(percent: 0)
