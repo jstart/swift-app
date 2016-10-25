@@ -57,29 +57,32 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let valid = UserResponse.messages.filter({$0.sender != UserResponse.current?._id && $0.text != ""})
+        processToDo()
+        self.tableView.reloadData()
+        
+        refresh()
+    }
+    
+    func processToDo() {
+        let valid = UserResponse.messages.filter({ message in
+            let connection = UserResponse.connections.filter({ connection in return connection.user!._id == message.sender }).first
+            return !(connection?.read ?? true) &&
+                message.sender != UserResponse.current?._id &&
+                message.text != ""
+        })
         if let first = valid.first {
             self.todoMessages = [first]
             if let second = valid.filter({$0.sender != first.sender && $0.text != ""}).first {
                 self.todoMessages.append(second)
             }
         } else { self.todoMessages = [] }
-        self.tableView.reloadData()
-        
-        refresh()
     }
     
     func refresh() {
         Client.execute(UpdatesRequest.latest(), complete: { response in
             //TODO: updates won't reflect read/unread state unless we fetch a fresh copy of everything
             UpdatesRequest.append(response) {
-                let valid = UserResponse.messages.filter({$0.sender != UserResponse.current?._id && $0.text != ""})
-                if let first = valid.first {
-                    self.todoMessages = [first]
-                    if let second = valid.filter({$0.sender != first.sender && $0.text != ""}).first {
-                        self.todoMessages.append(second)
-                    }
-                } else { self.todoMessages = [] }
+                self.processToDo()
                 self.tableView.reloadData()
             }
         })
@@ -198,7 +201,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             cell.read.callback = { _ in
                 cell.add(read: !connection.read)
                 Client.execute(MarkReadRequest(read: !connection.read, id: connection.user!._id), complete: { _ in
-                    connection.write { $0.read = !$0.read }; self.tableView.reloadData()
+                    connection.write { $0.read = !$0.read }; self.refresh()
                 })
                 return true
             }
@@ -225,7 +228,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             cell.read.callback = { _ in
                 cell.add(read: !connection.read)
                 Client.execute(MarkReadRequest(read: !connection.read, id: connection.user!._id), complete: { _ in
-                    connection.write { $0.read = !$0.read }; self.tableView.reloadData()
+                    connection.write { $0.read = !$0.read }; self.refresh()
                 })
                 return true
             }
@@ -255,7 +258,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 UIView.animate(withDuration: 0.2, animations: {
                         cell?.alpha = 0
                     }, completion: { _ in
-                        cell?.removeFromSuperview(); self.tableView.reloadData()
+                        cell?.removeFromSuperview(); self.refresh()
                 })
         })
         
@@ -263,10 +266,10 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         quickReply.modalPresentationStyle = .overFullScreen
         quickReply.action = { text in Client.execute(MessagesSendRequest(recipient: message.sender, text: text!), complete: { response in
             Client.execute(MarkReadRequest(read: !connection.read, id: connection.user!._id), complete: { _ in
-                connection.write { $0.read = !$0.read }; self.tableView.reloadData()
+                connection.write { $0.read = !$0.read }; self.refresh()
             })
             self.todoMessages.remove(at: index.row);
-            if self.todoMessages.count > 0 { self.tableView.deleteRows(at: [index], with: .automatic); self.tableView.reloadData() } else { self.tableView.reloadData() }
+            if self.todoMessages.count > 0 { self.tableView.deleteRows(at: [index], with: .automatic); self.refresh() } else { self.refresh() }
         }) }
         present(quickReply)
     }
