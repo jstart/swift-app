@@ -1,7 +1,7 @@
 platform :ios, '9.3'
 use_frameworks!
 
-target 'Mesh'
+target 'Ripple'
 
 pod 'Alamofire'
 pod 'AlamofireImage'

@@ -124,6 +124,7 @@
 		23EA228F1D8A1F4F00CAB4A9 /* UITextField+fixCaretPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EA228C1D8A1F4F00CAB4A9 /* UITextField+fixCaretPosition.swift */; };
 		23F6EAFC1DA0A3D200D5132F /* EventsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F6EAFB1DA0A3D200D5132F /* EventsRequest.swift */; };
 		23F9A6771D91C28100719C7D /* BaseCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F9A6761D91C28100719C7D /* BaseCardViewController.swift */; };
+		9C0A84561A2F354F5FF98E87 /* Pods_Ripple.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F85EE12972F1626F9F51DE20 /* Pods_Ripple.framework */; };
 		AD4E2E1E1D5A75ED00130811 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4E2E1D1D5A75ED00130811 /* Client.swift */; };
 		AD4E2E201D5A760800130811 /* AuthRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4E2E1F1D5A760800130811 /* AuthRequest.swift */; };
 		AD4E2E221D5AAD5700130811 /* UpdatesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4E2E211D5AAD5700130811 /* UpdatesRequest.swift */; };
@@ -132,10 +133,10 @@
 		ADECA8E81D51540900726AEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADECA8E71D51540900726AEF /* AppDelegate.swift */; };
 		ADECA8ED1D51540900726AEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADECA8EB1D51540900726AEF /* Main.storyboard */; };
 		ADECA8F21D51540900726AEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADECA8F01D51540900726AEF /* LaunchScreen.storyboard */; };
-		BBA9CA694C61894F6DEA6554 /* Pods_Mesh.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EF9D3831062B1B259E8EE70 /* Pods_Mesh.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		193C52F37021DE583C89D328 /* Pods-Ripple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ripple.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ripple/Pods-Ripple.debug.xcconfig"; sourceTree = "<group>"; };
 		230320C81D9B04AD0089F339 /* SkillCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillCardViewController.swift; sourceTree = "<group>"; };
 		230FA4AC1D8A256D00E2721C /* ImportProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportProfile.swift; sourceTree = "<group>"; };
 		230FA4AE1D8A32AE00E2721C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -266,10 +267,12 @@
 		AD4E2E211D5AAD5700130811 /* UpdatesRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatesRequest.swift; sourceTree = "<group>"; };
 		AD4E2E231D5AAE4300130811 /* MessagesRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesRequest.swift; sourceTree = "<group>"; };
 		AD4E2E251D5AAF0B00130811 /* ConnectionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionRequest.swift; sourceTree = "<group>"; };
-		ADECA8E41D51540900726AEF /* Mesh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mesh.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADECA8E41D51540900726AEF /* Ripple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ripple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADECA8E71D51540900726AEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADECA8EC1D51540900726AEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ADECA8F11D51540900726AEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C4FE1E5ADE7D705F3A53F5A3 /* Pods-Ripple.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ripple.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ripple/Pods-Ripple.release.xcconfig"; sourceTree = "<group>"; };
+		F85EE12972F1626F9F51DE20 /* Pods_Ripple.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ripple.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -277,7 +280,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BBA9CA694C61894F6DEA6554 /* Pods_Mesh.framework in Frameworks */,
+				9C0A84561A2F354F5FF98E87 /* Pods_Ripple.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -539,6 +542,8 @@
 			children = (
 				2AD5F965FA9260BA550C3919 /* Pods-Mesh.debug.xcconfig */,
 				5300FC2C816EC2D0EF40E204 /* Pods-Mesh.release.xcconfig */,
+				193C52F37021DE583C89D328 /* Pods-Ripple.debug.xcconfig */,
+				C4FE1E5ADE7D705F3A53F5A3 /* Pods-Ripple.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -566,7 +571,7 @@
 		ADECA8DB1D51540800726AEF = {
 			isa = PBXGroup;
 			children = (
-				ADECA8E61D51540900726AEF /* Mesh */,
+				ADECA8E61D51540900726AEF /* Ripple */,
 				ADECA8E51D51540900726AEF /* Products */,
 				59C18668E9263DB0471954F9 /* Pods */,
 				D163224E52E4F2D2F80461D0 /* Frameworks */,
@@ -576,12 +581,12 @@
 		ADECA8E51D51540900726AEF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ADECA8E41D51540900726AEF /* Mesh.app */,
+				ADECA8E41D51540900726AEF /* Ripple.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		ADECA8E61D51540900726AEF /* Mesh */ = {
+		ADECA8E61D51540900726AEF /* Ripple */ = {
 			isa = PBXGroup;
 			children = (
 				ADECA8E71D51540900726AEF /* AppDelegate.swift */,
@@ -606,6 +611,7 @@
 				2338C1D71D9DBBD70044E751 /* Assets.xcassets */,
 				23383F321D99E2E40065C468 /* Mesh-Bridging-Header.h */,
 			);
+			name = Ripple;
 			path = Mesh;
 			sourceTree = "<group>";
 		};
@@ -613,6 +619,7 @@
 			isa = PBXGroup;
 			children = (
 				5EF9D3831062B1B259E8EE70 /* Pods_Mesh.framework */,
+				F85EE12972F1626F9F51DE20 /* Pods_Ripple.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -620,9 +627,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		ADECA8E31D51540800726AEF /* Mesh */ = {
+		ADECA8E31D51540800726AEF /* Ripple */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ADECA9011D51540900726AEF /* Build configuration list for PBXNativeTarget "Mesh" */;
+			buildConfigurationList = ADECA9011D51540900726AEF /* Build configuration list for PBXNativeTarget "Ripple" */;
 			buildPhases = (
 				1989327558156139A57FC202 /* [CP] Check Pods Manifest.lock */,
 				ADECA8E01D51540800726AEF /* Sources */,
@@ -636,9 +643,9 @@
 			);
 			dependencies = (
 			);
-			name = Mesh;
+			name = Ripple;
 			productName = Mesh;
-			productReference = ADECA8E41D51540900726AEF /* Mesh.app */;
+			productReference = ADECA8E41D51540900726AEF /* Ripple.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -673,7 +680,7 @@
 					};
 				};
 			};
-			buildConfigurationList = ADECA8DF1D51540800726AEF /* Build configuration list for PBXProject "Mesh" */;
+			buildConfigurationList = ADECA8DF1D51540800726AEF /* Build configuration list for PBXProject "Ripple" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -686,7 +693,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				ADECA8E31D51540800726AEF /* Mesh */,
+				ADECA8E31D51540800726AEF /* Ripple */,
 			);
 		};
 /* End PBXProject section */
@@ -757,7 +764,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mesh/Pods-Mesh-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Ripple/Pods-Ripple-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C4D22B16B3561AA5C86D6E52 /* [CP] Embed Pods Frameworks */ = {
@@ -772,7 +779,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mesh/Pods-Mesh-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Ripple/Pods-Ripple-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1014,13 +1021,13 @@
 		};
 		ADECA9021D51540900726AEF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2AD5F965FA9260BA550C3919 /* Pods-Mesh.debug.xcconfig */;
+			baseConfigurationReference = 193C52F37021DE583C89D328 /* Pods-Ripple.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
-				CURRENT_PROJECT_VERSION = 138;
+				CURRENT_PROJECT_VERSION = 140;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1039,13 +1046,13 @@
 		};
 		ADECA9031D51540900726AEF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5300FC2C816EC2D0EF40E204 /* Pods-Mesh.release.xcconfig */;
+			baseConfigurationReference = C4FE1E5ADE7D705F3A53F5A3 /* Pods-Ripple.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
-				CURRENT_PROJECT_VERSION = 138;
+				CURRENT_PROJECT_VERSION = 140;
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Mesh/Support Files/Info.plist";
@@ -1063,7 +1070,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		ADECA8DF1D51540800726AEF /* Build configuration list for PBXProject "Mesh" */ = {
+		ADECA8DF1D51540800726AEF /* Build configuration list for PBXProject "Ripple" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ADECA8FF1D51540900726AEF /* Debug */,
@@ -1072,7 +1079,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ADECA9011D51540900726AEF /* Build configuration list for PBXNativeTarget "Mesh" */ = {
+		ADECA9011D51540900726AEF /* Build configuration list for PBXNativeTarget "Ripple" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ADECA9021D51540900726AEF /* Debug */,
