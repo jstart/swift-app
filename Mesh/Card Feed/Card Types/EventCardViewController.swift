@@ -75,7 +75,7 @@ class EventCardViewController : BaseCardViewController {
         location.contentMode = .scaleAspectFit
 
         descriptionStack = UIStackView(UIStackView(clock, date, spacing: 10),
-                                       UIStackView(location, UIStackView(self.location, address, axis: .vertical), spacing: 10),
+                                       UIStackView(location, UIStackView(self.location, address, axis: .vertical, spacing: 5), spacing: 10),
                                        UIStackView(url, self.url, spacing: 10), axis: .vertical, spacing: 10)
         descriptionStack?.distribution = .fillProportionally
         descriptionStack?.alignment = .leading

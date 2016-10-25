@@ -81,6 +81,9 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         name.text = detail.firstText
         title.text = detail.secondText
         company.image = nil
+        if detail is EventResponse {
+            profile.contentMode = .scaleAspectFit
+        }
         guard let imageURL = detail.logo else { profile.backgroundColor = .gray; return }
         profile.af_setImage(withURL: URL(string: imageURL)!)
     }

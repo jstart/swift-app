@@ -14,20 +14,23 @@ class LiveEventViewController: UIViewController {
     var pager : ViewPager?
     var event: EventResponse?
     let messageView = MessagesViewController()
-
+    let formatter = DateFormatter().then {
+        $0.dateFormat = "MMMM dd, yyyy - h a"
+        $0.locale = Locale.autoupdatingCurrent
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = event?.name
         view.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
         
-        let logo = UIImageView(image: .imageWithColor(.gray, width: 85, height: 85)).then { $0.layer.cornerRadius = 5; $0.clipsToBounds = true }
+        let logo = UIImageView(image: .imageWithColor(.gray, width: 85, height: 85)).then { $0.layer.cornerRadius = 5; $0.clipsToBounds = true; $0.contentMode = .scaleAspectFill }
         logo.constrain((.width, 85), (.height, 85))
         
         let header = UIView(translates: false).then { $0.backgroundColor = .white
             let name = UILabel().then { $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 20); $0.text = event?.name }
             let time = Double(event!.start_time)!
-            let subtitle = UILabel().then { $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 12); $0.text = Date(timeIntervalSince1970: time).description }
+            let subtitle = UILabel().then { $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 12); $0.text = formatter.string(from: Date(timeIntervalSince1970: time)) }
             let titleStack = UIStackView(name, subtitle, axis: .vertical, spacing: 5).then { $0.distribution = .fillProportionally; $0.alignment = UIStackViewAlignment.leading }
             let stack = UIStackView(logo, titleStack, spacing: 10).then { $0.distribution = .fillProportionally }
             $0.addSubview(stack)

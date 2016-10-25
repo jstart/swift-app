@@ -13,13 +13,10 @@ class QRCardView: CardView {
     var stackView : UIStackView?
     
     let qrImage = UIImageView(translates: false).then {
-        $0.constrain(.width, .height, constant: 100)
-        $0.backgroundColor = .white
+        $0.constrain(.width, .height, constant: 100); $0.backgroundColor = .white
     }
     let name = UILabel(translates: false).then {
-        $0.textColor = .black
-        $0.font = .gothamBold(ofSize: 22)
-        $0.backgroundColor = .white
+        $0.textColor = .black; $0.font = .gothamBold(ofSize: 22); $0.backgroundColor = .white
     }
     let pageControl = UIPageControl(translates: false).then {
         $0.currentPageIndicatorTintColor = Colors.brand
@@ -27,6 +24,7 @@ class QRCardView: CardView {
         $0.backgroundColor = .white
         $0.constrain((.height, 5), (.width, 100))
     }
+    var formatter = PhoneNumberFormatter()
     var token: String = ""
     var tapAction = {}
     
@@ -43,7 +41,10 @@ class QRCardView: CardView {
         name.text = user.fullName()
         title.text = user.fullTitle()
         email.text = user.email
-        phone.text = user.phone_number
+        
+        if let number = UserResponse.current?.phone_number {
+            phone.text = formatter.format(number)
+        }
         
         viewsForFields(fields).forEach({ $0.isHidden = false })
 
@@ -63,6 +64,7 @@ class QRCardView: CardView {
         pageControl.constrain((.centerX, 0), (.bottom, -10), toItem: self)
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped)))
+
     }
     
     func tapped() { tapAction() }
@@ -104,8 +106,7 @@ class QRCardView: CardView {
     
     static func detailLabel(_ text: String) -> UILabel {
         return UILabel().then {
-            $0.textColor = .lightGray
-            $0.font = .gothamBook(ofSize: 16)
+            $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 16)
             $0.text = text
             $0.isHidden = true
             $0.backgroundColor = .white

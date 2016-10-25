@@ -36,7 +36,7 @@ class LaunchViewController: UIViewController, CardDelegate {
     }
     let signIn = UIButton(translates: false).then { $0.title = "SIGN IN"; $0.titleColor = Colors.brand; $0.titleLabel?.font = .gothamLight(ofSize: 20) }
     let legal = UITextView(translates: false).then {
-        $0.textColor = .gray; $0.textAlignment = .center
+        $0.textColor = .gray; $0.textAlignment = .center; $0.isHidden = true
         $0.attributedText = NSAttributedString(string: "By using Mesh you agree to the Privacy Policy and the Terms of Service", attributes: [:])
         $0.constrain((.height, 44))
     }

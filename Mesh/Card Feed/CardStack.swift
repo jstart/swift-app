@@ -118,9 +118,9 @@ class CardStack : UIViewController, CardDelegate {
         UIView.animate(withDuration: 0.5, animations: {
             switch direction {
             case UISwipeGestureRecognizerDirection.left:
-                card.view.transform = card.view.transform.rotated(by: (-45 * CGFloat(M_PI)) / 180).translatedBy(x: -(card.view.frame.size.width + 300), y: -350)
+                card.view.transform = card.view.transform.rotated(by: (-45 * CGFloat(M_PI)) / 180).translatedBy(x: -(card.view.frame.size.width + 300), y: -450)
             case UISwipeGestureRecognizerDirection.right:
-                card.view.transform = card.view.transform.rotated(by: (45 * CGFloat(M_PI)) / 180).translatedBy(x: (card.view.frame.size.width + 300), y: -350)
+                card.view.transform = card.view.transform.rotated(by: (45 * CGFloat(M_PI)) / 180).translatedBy(x: (card.view.frame.size.width + 300), y: -450)
             default: return }
         }, completion: { _ in self.currentCard!.view.removeFromSuperview(); self.currentCard!.delegate?.swiped(direction) })
     }

@@ -33,7 +33,7 @@
                     <tabBarItem key="tabBarItem" title="" image="mainNavConnections" selectedImage="mainNavConnectionsActive" id="njX-HM-dK8">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Jcb-RP-p4Y">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Jcb-RP-p4Y">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -58,7 +58,7 @@
                             <outlet property="delegate" destination="lib-iq-uo8" id="Hjt-ip-9bw"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Inbox" id="vUG-3L-4rv"/>
+                    <navigationItem key="navigationItem" id="vUG-3L-4rv"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bfh-HA-CGg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -71,7 +71,7 @@
                     <tabBarItem key="tabBarItem" title="" image="mainNavHome" selectedImage="mainNavHomeActive" id="c0o-lh-VtJ">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="wS2-kb-40b">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="wS2-kb-40b">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -109,7 +109,7 @@
                     <tabBarItem key="tabBarItem" title="" image="mainNavSettingsActive" id="LAH-7C-gML">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="rF6-dd-dIo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="rF6-dd-dIo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -166,7 +166,7 @@
                     <tabBarItem key="tabBarItem" title="" image="mainNavEvents" selectedImage="mainNavEventsActive" id="1xk-uF-8FV">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="E4o-ds-Dka">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="E4o-ds-Dka">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

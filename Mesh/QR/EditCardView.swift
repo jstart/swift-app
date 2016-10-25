@@ -33,6 +33,8 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
         $0.setTitleColor(.white, for: .normal)
         $0.constrain(.height, constant: 50)
     }
+    var phoneNumber: String?
+    var formatter = PhoneNumberFormatter()
     
     convenience init(_ user: UserResponse) {
         self.init()
@@ -44,6 +46,10 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
         
         cancel.addTarget(self, action: #selector(cancelPressed(sender:)), for: .touchUpInside)
         done.addTarget(self, action: #selector(donePressed(sender:)), for: .touchUpInside)
+        
+        if let phone = UserResponse.current?.phone_number {
+            phoneNumber = formatter.format(phone)
+        }
     }
     
     override func layoutSubviews() {
@@ -84,7 +90,7 @@ class EditCardView : CardView, UITableViewDelegate, UITableViewDataSource {
             break
         case 3:
             cell.icon.image = ProfileFields.phone.image
-            cell.contactField.text = UserResponse.current?.phone_number
+            cell.contactField.text = phoneNumber
             cell.setChecked(fields?.contains(.phone) ?? false)
             break
         default: break }

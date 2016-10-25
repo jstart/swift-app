@@ -27,7 +27,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         $0.isEnabled = true
         $0.titleLabel?.font = .gothamBold(ofSize: 20); $0.titleColor = .white
         $0.titleLabel?.adjustsFontSizeToFitWidth = true
-        $0.title = "COMPLETE"
+        $0.title = "NEXT"
         $0.layer.cornerRadius = 5
         $0.clipsToBounds = true
         $0.constrain((.height, 50))
@@ -36,7 +36,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         $0.isEnabled = false
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .normal)
         $0.titleLabel?.font = .gothamBold(ofSize: 20); $0.titleColor = .white
-        $0.setTitle("ADD MORE SKILLS", for: .normal)
+        $0.setTitle("ADD MORE", for: .normal)
         $0.titleLabel?.adjustsFontSizeToFitWidth = true
         $0.layer.cornerRadius = 5
         $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
