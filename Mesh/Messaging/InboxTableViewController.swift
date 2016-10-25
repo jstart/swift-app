@@ -194,6 +194,9 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 }else {
                     tableView.deleteRows(at: [currentIndex], with: .automatic)
                 }
+                Client.execute(MarkReadRequest(read: !connection.read, id: connection.user!._id), complete: { _ in
+                    connection.write { $0.read = !$0.read }; self.refresh()
+                })
                 return false
             }
             cell.leftButtons = [cell.skip]
