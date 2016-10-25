@@ -15,9 +15,7 @@ class TweetCardViewController : BaseCardViewController {
         
     let profile = UIImageView(translates: false).then {
         $0.constrain(.width, .height, constant: 40)
-        $0.image = .imageWithColor(.gray)
-        $0.layer.cornerRadius = 5.0
-        $0.clipsToBounds = true
+        $0.image = .imageWithColor(.gray); $0.clipsToBounds = true
     }
     let name = UILabel().then { $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 18) }
     let subtitle = UILabel().then {
@@ -27,8 +25,7 @@ class TweetCardViewController : BaseCardViewController {
         $0.constrain((.width, 25), (.height, 20)); $0.contentMode = .scaleAspectFit
     }
     let media = UIImageView(translates: false).then {
-        $0.contentMode = .scaleAspectFill
-        $0.clipsToBounds = true
+        $0.contentMode = .scaleAspectFill; $0.clipsToBounds = true
         $0.backgroundColor = .white
         $0.layer.borderWidth = 1; $0.layer.borderColor = UIColor.clear.cgColor
         $0.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
@@ -95,7 +92,7 @@ class TweetCardViewController : BaseCardViewController {
             text.constrain(.top, constant: 10, toItem: profile, toAttribute: .bottom)
             text.constrain((.leading, 15), (.trailing, -15), toItem: view)
             media.constrain(.top, constant: 12, toItem: text, toAttribute: .bottom)
-        }else {
+        } else {
             text.removeFromSuperview()
             media.constrain(.top, constant: 12, toItem: titleStack, toAttribute: .bottom)
         }
@@ -156,8 +153,10 @@ class TweetCardViewController : BaseCardViewController {
                 let client = TWTRAPIClient.withCurrentUser()
                 let request = client.urlRequest(withMethod: "POST", url: "https://api.twitter.com/1.1/statuses/retweet/" + self!.rec!.tweet!._id + ".json", parameters: [:], error: nil)
                 client.sendTwitterRequest(request, completion: { [weak self] response, data, error in
-                    self?.delegate?.passCard(.left)
-                    Snackbar(title: "Retweeted").presentIn(self?.view.superview)
+                    if error != nil {
+                        self?.delegate?.passCard(.left)
+                        Snackbar(title: "Retweeted").presentIn(self?.view.superview)
+                    }
                 })
         }).presentIn(view.superview)
     }
@@ -186,9 +185,11 @@ class TweetCardViewController : BaseCardViewController {
                     // https://dev.twitter.com/rest/reference/post/statuses/update
                     let request = client.urlRequest(withMethod: "POST", url: "https://api.twitter.com/1.1/statuses/update.json", parameters: ["status": "@" + (self?.rec?.tweet?.screen_name ?? "") + " " + string!, "in_reply_to_status_id": self!.rec!.tweet!._id], error: nil)
                     client.sendTwitterRequest(request, completion: { [weak self] response, data, error in
-                        self?.delegate?.passCard(.left) })
-                    self?.delegate?.passCard(.left)
-                    Snackbar(title: "Replied To Tweet").presentIn(self?.view.superview)
+                        if error != nil {
+                            self?.delegate?.passCard(.left)
+                            Snackbar(title: "Replied To Tweet").presentIn(self?.view.superview)
+                        }
+                    })
             }).presentIn(self?.view.superview)
         }
         present(quick)

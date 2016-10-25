@@ -1023,7 +1023,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 193C52F37021DE583C89D328 /* Pods-Ripple.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
@@ -1048,7 +1047,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C4FE1E5ADE7D705F3A53F5A3 /* Pods-Ripple.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
