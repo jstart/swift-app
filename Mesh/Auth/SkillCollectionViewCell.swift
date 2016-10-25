@@ -82,12 +82,16 @@ class SkillCollectionViewCell: UICollectionViewCell {
         rotation.beginTime = CACurrentMediaTime() + (0.1 * Double(row + abs(distance)))
         rotation.duration = 0.6
         if reverse {
+            var transform = CATransform3DRotate(layer.transform, CGFloat(M_PI), -flipX, -flipY, 0)
+            transform.m34 = 1.0 / -150;
             rotation.values = [NSValue(caTransform3D: layer.transform),
-                               NSValue(caTransform3D: CATransform3DRotate(layer.transform, CGFloat(M_PI), -flipX, -flipY, 0)),
+                               NSValue(caTransform3D: transform),
                                NSValue(caTransform3D: CATransform3DRotate(layer.transform, CGFloat(M_PI), flipX, flipY, 0))]
         } else {
+            var transform = CATransform3DRotate(layer.transform, CGFloat(M_PI), flipX, flipY, 0)
+            transform.m34 = 1.0 / -150;
             rotation.values = [NSValue(caTransform3D: layer.transform),
-                               NSValue(caTransform3D: CATransform3DRotate(layer.transform, CGFloat(M_PI), flipX, flipY, 0)),
+                               NSValue(caTransform3D: transform),
                                NSValue(caTransform3D: CATransform3DRotate(layer.transform, CGFloat(M_PI), -flipX, -flipY, 0))]
         }
         layer.add(rotation, forKey: "r1")
@@ -95,7 +99,7 @@ class SkillCollectionViewCell: UICollectionViewCell {
         let scale = CABasicAnimation(keyPath:"transform.scale")
         scale.beginTime = CACurrentMediaTime() + (0.1 * Double(row + abs(distance)))
         scale.duration = 0.2
-        scale.fromValue = 1.0; scale.toValue = 1.15
+        scale.fromValue = 1.0; scale.toValue = 1.1
         scale.autoreverses = true
         layer.add(scale, forKey: scale.keyPath)
 

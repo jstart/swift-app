@@ -50,7 +50,7 @@ class LaunchViewController: UIViewController, CardDelegate {
         getStarted.addTarget(self, action: #selector(skills), for: .touchUpInside)
         signIn.addTarget(self, action: #selector(phone), for: .touchUpInside)
         view.addSubviews(background, titleLabel, subtitle, getStarted, signIn, legal)
-        background.constrain(.width, toItem: view)
+        background.constrain(.width, constant: 5, toItem: view)
         background.constrain(.top, constant: -40, toItem: view)
         background.constrain(.centerX, toItem: view)
         titleLabel.constrain(.top, constant: 50, toItem: view)
