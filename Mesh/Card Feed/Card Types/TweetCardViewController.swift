@@ -42,16 +42,14 @@ class TweetCardViewController : BaseCardViewController {
     }
     let retweet = UIButton(translates: false).then {
         $0.setImage(#imageLiteral(resourceName: "Retweet"), for: .normal)
-        $0.title = "3"; $0.titleColor = .lightGray
-        $0.titleLabel?.font = .gothamBook(ofSize: 18)
+        $0.title = "3"; $0.titleColor = .lightGray; $0.titleLabel?.font = .gothamBook(ofSize: 18)
         $0.constrain((.height, 40))
         $0.contentEdgeInsets = UIEdgeInsetsMake(10, 0, 10, 0)
         $0.imageView?.contentMode = .scaleAspectFit
     }
     let like = UIButton(translates: false).then {
         $0.setImage(#imageLiteral(resourceName: "Heart"), for: .normal)
-        $0.title = "4"; $0.titleColor = .lightGray
-        $0.titleLabel?.font = .gothamBook(ofSize: 18)
+        $0.title = "4"; $0.titleColor = .lightGray; $0.titleLabel?.font = .gothamBook(ofSize: 18)
         $0.titleEdgeInsets = UIEdgeInsetsMake(-10, 10, -10, 0)
         $0.contentEdgeInsets = UIEdgeInsetsMake(10, 0, 10, 0)
         $0.constrain((.height, 40), (.width, 63))

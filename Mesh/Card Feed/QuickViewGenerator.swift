@@ -71,9 +71,7 @@ struct QuickViewGenerator {
     static func tempQuickView(_ category: QuickViewCategory) -> UIStackView {
         var views : [UIView] = []
         
-        for _ in 1...3 {
-            views.append(fillSquare(.imageWithColor(.darkGray), title: category.title()))
-        }
+        views.append(fillSquare(nil, title: ""))
         let stack = stackOf(views).then { $0.distribution = .fillEqually }
         let label = UILabel().then {
             $0.backgroundColor = .white
@@ -101,7 +99,7 @@ struct QuickViewGenerator {
         }
     }
     
-    static func fillSquare(_ image: UIImage, title: String, url: String? = nil) -> UIStackView {
+    static func fillSquare(_ image: UIImage?, title: String, url: String? = nil) -> UIStackView {
         let label = UILabel().then {
             $0.numberOfLines = 2
             $0.text = title; $0.font = .gothamBook(ofSize: 12); $0.textColor = .lightGray
@@ -114,7 +112,7 @@ struct QuickViewGenerator {
             $0.translates = false
             $0.layer.borderWidth = 1
             $0.backgroundColor = .white
-            $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+            $0.layer.borderColor = image != nil ? UIColor.lightGray.withAlphaComponent(0.5).cgColor : UIColor.clear.cgColor
             $0.layer.cornerRadius = 5
             $0.clipsToBounds = true
             $0.contentMode = .scaleAspectFill

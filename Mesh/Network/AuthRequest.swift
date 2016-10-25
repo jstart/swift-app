@@ -48,7 +48,7 @@ class ConnectionResponse : Object, UserDetail {
     dynamic var read = false, muted = false,
         update_date: Date?
     
-    var firstText: String { return (user?.fullName()) ?? "" }
+    var firstText: String { return (user?.initialName()) ?? "" }
     var secondText: String { return (user?.fullTitle()) ?? "" }
     var logo: String? { return user?.photos?.large }
     
@@ -109,7 +109,8 @@ class UserResponse : Object {
     }
     
     func fullName() -> String { return (first_name ?? "") + " " + (last_name ?? "") }
-    
+    func initialName() -> String { return (first_name ?? "") + " " + (last_name?.stringFrom(0, to: 1) ?? "") }
+
     func fullTitle() -> String {
         guard let company = companies.first else { return title ?? "" }
         return (title ?? "") + " at " + (company.name ?? "")
