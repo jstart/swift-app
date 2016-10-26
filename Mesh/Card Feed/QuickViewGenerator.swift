@@ -24,7 +24,8 @@ struct QuickViewGenerator {
         if userDetails?.educationItems.count == 0 {
             views.append(tempQuickView(.education))
         } else {
-            views.append(quickView(Array(userDetails!.educationItems)))
+            views.append(userDetailCell(userDetails!.educationItems))
+            //views.append(quickView(Array(userDetails!.educationItems)))
         }
         if userDetails?.skills.count == 0 {
             views.append(tempQuickView(.skills))
@@ -35,6 +36,14 @@ struct QuickViewGenerator {
             views.append(tempQuickView(.events))
         }
         return views
+    }
+    
+    static func userDetailCell(_ details: [UserDetail]) -> UIView {
+        let cell = (MainBundle.loadNibNamed("UserDetailTableViewCell", owner: nil, options: [:])!.first as! UserDetailTableViewCell).then {
+            $0.contentView.translates = false
+            $0.configure(details.first!)
+        }
+        return cell.contentView
     }
     
     static func quickView(_ details: [UserDetail]) -> UIStackView {
