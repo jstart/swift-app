@@ -22,7 +22,7 @@ struct MessagesEditRequest : AuthenticatedRequest {
 }
 
 struct MessagesDeleteRequest : AuthenticatedRequest {
-    var path : String { return "message" + "/" + _id }
+    var path : String { return "message" }
     let method = HTTPMethod.delete
     
     let _id : String

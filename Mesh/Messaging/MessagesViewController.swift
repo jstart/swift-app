@@ -245,6 +245,7 @@ class MessagesViewController: JSQMessagesViewController {
             meshMessage.delete()
             self.meshMessages?.remove(at: indexPath.row)
             self.messages.remove(at: indexPath.row)
+            self.refresh()
             self.collectionView?.reloadData()
         })
     }
