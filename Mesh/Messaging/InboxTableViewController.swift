@@ -46,7 +46,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.tableFooterView = UIView()
-        tableView.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
+        tableView.backgroundColor = #colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)
         
         searchResults.recentSearches = recentSearches
         searchResults.inbox = self
@@ -143,11 +143,11 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView().then { $0.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1) }
+        let view = UIView().then { $0.backgroundColor = #colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1) }
         let label =  UILabel(translates: false).then {
             $0.text = section == 0 && todoMessages.count > 0 ? "    TO DO" : "    " + String(UserResponse.connections.count ) + " CONNECTION"
             if UserResponse.connections.count > 1 || UserResponse.connections.count == 0 { $0.text = $0.text! + "S" }
-            $0.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
+            $0.backgroundColor = #colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)
             $0.contentMode = .bottomLeft
             $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1); $0.font = .gothamBook(ofSize: 12)
         }
@@ -265,7 +265,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 })
         })
         
-        let quickReply = QuickReplyViewController(connection.user, text: message.text!)
+        let quickReply = QuickReplyViewController(connection.user, text: message.text!, date: message.ts)
         quickReply.modalPresentationStyle = .overFullScreen
         quickReply.action = { text in Client.execute(MessagesSendRequest(recipient: message.sender, text: text!), complete: { response in
             Client.execute(MarkReadRequest(read: !connection.read, id: connection.user!._id), complete: { _ in

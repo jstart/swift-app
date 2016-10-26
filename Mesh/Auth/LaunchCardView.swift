@@ -34,7 +34,7 @@ class LaunchCardViewController: BaseCardViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0.7254901961, green: 0.9019607843, blue: 1, alpha: 1)
-        view.layer.shadowOpacity = 0.20
+        view.layer.shadowOpacity = 0.40
         view.layer.shadowRadius = 5
         view.translates = false
         view.constrain((.height, 305))

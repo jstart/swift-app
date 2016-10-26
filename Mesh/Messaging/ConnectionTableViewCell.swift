@@ -57,7 +57,7 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         rightSwipeSettings.transition = .drag
         
         profile.backgroundColor = .gray
-        company.image = #imageLiteral(resourceName: "tesla")
+        company.backgroundColor = .gray
         
         separatorInset = .zero
     }
@@ -73,6 +73,9 @@ class ConnectionTableViewCell: MGSwipeTableCell {
     func configure(_ user: UserResponse?) {
         name.text = user?.fullName()
         title.text = user?.fullTitle()
+        if let url = user?.companies.first?.logo {
+            company.af_setImage(withURL: URL(string: url)!)
+        }
         guard let url = user?.photos?.large else { showInitials(firstName: (user?.first_name) ?? "", lastName: (user?.last_name) ?? ""); return }
         profile.af_setImage(withURL: URL(string: url)!)
     }

@@ -89,7 +89,7 @@ class UserResponse : Object {
         return UserResponse().then {
                 $0._id = JSON["_id"] as! String
                 $0._id = (JSON["user_id"] as? String?)! ?? $0._id
-                $0.phone_number = (JSON["phone_number"] as? String?)!
+                $0.phone_number = (JSON["phone_number"] as? String?)!?.replace("+1", with: "")
                 $0.email = (JSON["email"] as? String?)!
                 $0.first_name = (JSON["first_name"] as? String)
                 $0.last_name = (JSON["last_name"] as? String)

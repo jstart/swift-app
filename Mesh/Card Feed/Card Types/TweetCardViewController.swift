@@ -177,7 +177,7 @@ class TweetCardViewController : BaseCardViewController {
     }
     
     func replyAction() {
-        let quick = QuickReplyViewController(rec!.user!, text: rec!.tweet!.text, type: .tweet)
+        let quick = QuickReplyViewController(rec!.user!, text: rec!.tweet!.text, date: 0, type: .tweet)
         quick.modalPresentationStyle = .overFullScreen
         quick.action = { [weak self] string in
             Snackbar(title: "Replying To Tweet...", buttonTitle: "UNDO", buttonHandler: {

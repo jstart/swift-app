@@ -16,7 +16,7 @@ struct MessagesSendRequest : AuthenticatedRequest {
 
 // TODO: edit
 struct MessagesEditRequest : AuthenticatedRequest {
-    let path = "message", method = HTTPMethod.put
+    let path = "message", method = HTTPMethod.post
     
     let _id, message : String
 }

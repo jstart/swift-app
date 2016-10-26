@@ -36,9 +36,8 @@ class SocketHandler {
         }
         
         shared.socket.on("connection") { data, ack in
-            print(data)
             guard let connection = data.first as? JSONDictionary else { return }
-            let meshConnection = ConnectionResponse.create(connection)
+            let meshConnection = ConnectionResponse.create((connection["connections"] as! JSONArray).first!)
             let realm = RealmUtilities.realm()
             try! realm.write { realm.add(meshConnection, update: true) }
             UserResponse.connections.append(meshConnection)

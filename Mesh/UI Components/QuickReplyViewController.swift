@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JSQMessagesViewController
 
 enum QuickReplyType { case tweet, message }
 
@@ -30,12 +31,19 @@ class QuickReplyViewController: UIViewController, UIViewControllerTransitioningD
         $0.title = "Send"
         $0.isEnabled = false
     }
+    let formatter = DateFormatter().then {
+        //$0.dateFormat = "h:mm a"
+        $0.locale = Locale.autoupdatingCurrent
+        $0.dateStyle = .short
+        $0.timeStyle = .short
+        $0.doesRelativeDateFormatting = true
+    }
     
-    var user: UserResponse?, text: String?, type: QuickReplyType?
+    var user: UserResponse?, text: String?, date: Int?, type: QuickReplyType?
     var action : ((String?) -> Void)?
     
-    convenience init(_ user: UserResponse?, text: String, type: QuickReplyType = .message) {
-        self.init(); self.user = user; self.text = text; self.type = type
+    convenience init(_ user: UserResponse?, text: String, date: Int, type: QuickReplyType = .message) {
+        self.init(); self.user = user; self.text = text; self.date = date; self.type = type
     }
     
     override func viewDidLoad() {
@@ -48,6 +56,9 @@ class QuickReplyViewController: UIViewController, UIViewControllerTransitioningD
             $0.message.numberOfLines = 2
             $0.company.image = type! == .tweet ? #imageLiteral(resourceName: "twtr-icn-logo") : nil
             $0.configure(text, user: user!, read: false)
+            if date != 0 {
+                $0.date.text = JSQMessagesTimestampFormatter.shared().timestamp(for: Date(timeIntervalSince1970: Double(date!/1000)))
+            }
         }
 
         blurView.addSubview(cell!.contentView)

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JSQMessagesViewController
 
 class MessageTableViewCell: MGSwipeTableCell {
 
@@ -16,12 +17,19 @@ class MessageTableViewCell: MGSwipeTableCell {
     @IBOutlet weak var message: UILabel!
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var reply: UIButton!
+    @IBOutlet weak var roundedView: UIView!
     
-    let skip = MGSwipeButton(title: "  Skip  ", backgroundColor: .green, callback: nil)!,
+    let skip = MGSwipeButton(title: "  Skip  ", backgroundColor: .clear, callback: nil)!.then { $0.titleColor = Colors.brand; $0.titleLabel?.font = .gothamBook(ofSize: 13) },
         read = MGSwipeButton(title: "Mark Unread", backgroundColor: Colors.brand, callback: nil)!,
         mute = MGSwipeButton(title: "Mute", backgroundColor: .gray, callback: nil)!,
         block = MGSwipeButton(title: "Block", backgroundColor: .red, callback: nil)!
-    
+    let formatter = DateFormatter().then {
+        //$0.dateFormat = "h:mm a"
+        $0.locale = Locale.autoupdatingCurrent
+        $0.dateStyle = .short
+        $0.timeStyle = .short
+        $0.doesRelativeDateFormatting = true
+    }
     var pressedAction = {}
     
     override func prepareForReuse() {
@@ -31,7 +39,8 @@ class MessageTableViewCell: MGSwipeTableCell {
         
         name.font = .gothamBook(ofSize: name.font.pointSize)
         message.font = .gothamBook(ofSize: message.font.pointSize)
-        
+        date.font = .gothamBook(ofSize: 11)
+
         profile.image = nil
         company.image = nil
     }
@@ -43,16 +52,18 @@ class MessageTableViewCell: MGSwipeTableCell {
         company.clipsToBounds = true
         company.layer.cornerRadius = 5.0
 
+        roundedView.layer.cornerRadius = 5.0
+        roundedView.layer.shadowOffset = .zero
+        roundedView.layer.shadowOpacity = 0.4
+        roundedView.layer.shadowRadius = 2.5
+        roundedView.layer.shadowColor = UIColor.black.cgColor
         reply.layer.borderColor = Colors.brand.cgColor
         reply.layer.borderWidth = 1.5
-        reply.layer.cornerRadius = 5.0
-
-        name.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
+        reply.layer.cornerRadius = 2.5
         
         profile.backgroundColor = .gray
         //company.image = #imageLiteral(resourceName: "tesla")
         
-        leftExpansion.threshold = 0
         leftExpansion.fillOnTrigger = true
         leftExpansion.buttonIndex = 0
 
@@ -71,6 +82,7 @@ class MessageTableViewCell: MGSwipeTableCell {
         message.text = messageText
         guard let large = user.photos?.large else { return }
         profile.af_setImage(withURL: URL(string: large)!)
+        date.font = .gothamBook(ofSize: 11)
     }
     
     func add(message: MessageResponse? = nil, read: Bool) {
@@ -84,6 +96,7 @@ class MessageTableViewCell: MGSwipeTableCell {
             self.message.font = .gothamBook(ofSize: self.message.font.pointSize)
         }
         if message?.text != nil { self.message.text = message?.text }
+        date.text = JSQMessagesTimestampFormatter.shared().timestamp(for: Date(timeIntervalSince1970: Double(message!.ts/1000)))
     }
     
     @IBAction func pressed(_ sender: AnyObject) { pressedAction() }

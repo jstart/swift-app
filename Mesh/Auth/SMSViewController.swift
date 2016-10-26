@@ -102,7 +102,8 @@ class SMSViewController: UITableViewController {
     func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 90; nextButton.isEnabled = (phone.text != "" && password.text != "" && confirmPassword.text != "") }
     
     func complete() {
-        Client.execute(AuthRequest(phone_number: phone.text!.onlyNumbers(), password: password.text!, password_verify: confirmPassword.text!), complete: { response in
+        Client.execute(AuthRequest(phone_number: "+1" + phone.text!.onlyNumbers(), password: password.text!, password_verify: confirmPassword.text!), complete: { response in
+            LaunchData.fetchLaunchData()
             if response.result.value == nil {
                 let alert = UIAlertController.alert(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error")
                 alert.addAction(UIAlertAction.ok())

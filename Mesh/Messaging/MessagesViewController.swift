@@ -37,16 +37,17 @@ class MessagesViewController: JSQMessagesViewController {
         navigationItem.rightBarButtonItems = [UIBarButtonItem(#imageLiteral(resourceName: "overflow"), target: self, action: #selector(overflow)),
                                               UIBarButtonItem(#imageLiteral(resourceName: "chatMarkAsUnread"), target: self, action: #selector(toggleReadState))]
         
-        let imageButton = UIButton(translates: false)
+        /*let imageButton = UIButton(translates: false)
         imageButton.addTarget(self, action: #selector(image), for: .touchUpInside)
         imageButton.setImage(#imageLiteral(resourceName: "chatUploadPhoto"), for: .normal)
-        inputToolbar.contentView?.leftBarButtonItem = imageButton
+        inputToolbar.contentView?.leftBarButtonItem = imageButton*/
         inputToolbar.contentView?.textView?.placeHolder = "Send a message..."
 //        JSQMessagesCollectionViewCell.registerMenuAction(#selector(editMessage(_:)))
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(deleteMessage(_:)))
         inputToolbar.preferredDefaultHeight = 200
         
-        collectionView?.collectionViewLayout.messageBubbleFont = .gothamBook(ofSize: 17)
+        collectionView?.collectionViewLayout.messageBubbleFont = .gothamBook(ofSize: 15)
+        collectionView?.collectionViewLayout.messageBubbleTextViewTextContainerInsets = UIEdgeInsetsMake(10, 7, 7, 0)
         
         DefaultNotification.addObserver(self, selector: #selector(userIsTyping(notification:)), name: .typing, object: nil)
         DefaultNotification.addObserver(self, selector: #selector(receivedMessage(notification:)), name: .message, object: nil)
@@ -64,7 +65,7 @@ class MessagesViewController: JSQMessagesViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //title = recipient?.user?.fullName()
+
         if shouldReload {
             self.refresh()
             Client.execute(MarkReadRequest(read: true, id: recipient?.user?._id ?? "")) { _ in
