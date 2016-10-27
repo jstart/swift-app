@@ -36,7 +36,7 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
         
         detail.translates = false
         detail.constrain(.width, .centerX, toItem: cardVC!.view)
-        detail.constrain((.height, -80), (.top, 425), toItem: cardVC!.view)
+        detail.constrain((.height, -80), (.top, 380), toItem: cardVC!.view)
         detail.alpha = 0.0
         
         detail.addSubview(blurView)
@@ -68,7 +68,11 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
             detail.frame.origin.y = 550
             detail.alpha = 0.0
             self?.blurView.alpha = 0.0
-            }, completion:{_ in context.completeTransition(true) })
+            }, completion:{_ in
+                self.blurView.removeFromSuperview()
+                detail.layoutIfNeeded();
+                context.completeTransition(true)
+        })
     }
 
     func tap(_ sender:UITapGestureRecognizer) { cardVC?.dismiss() }

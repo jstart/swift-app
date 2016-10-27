@@ -27,6 +27,11 @@ class UserDetailTableViewCell: UITableViewCell {
         button.layer.borderColor = #colorLiteral(red: 0.1647058824, green: 0.7098039216, blue: 0.9960784314, alpha: 1).cgColor
         button.layer.borderWidth = 1.5
         button.layer.cornerRadius = 5.0
+        icon.constrain(.width, toItem: icon, toAttribute: .height)
+        
+        icon.layer.borderWidth = 1
+        icon.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+        icon.layer.cornerRadius = 5
     }
     
     override func prepareForReuse() {

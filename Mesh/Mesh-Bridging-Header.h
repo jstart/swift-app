@@ -5,3 +5,4 @@
 //#import <Foundation/Foundation.h>
 
 #import "MGSwipeTableCell.h"
+#import "ObjC.h"
