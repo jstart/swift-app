@@ -16,8 +16,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     }
     lazy var collectionView : UICollectionView = {
         return UICollectionView(frame: CGRect.zero, collectionViewLayout: self.layout).then {
-            $0.translates = false
-            $0.backgroundColor = .white
+            $0.translates = false; $0.backgroundColor = .white
             $0.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         }
     }()
@@ -28,8 +27,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         $0.titleLabel?.font = .gothamBold(ofSize: 20); $0.titleColor = .white
         $0.titleLabel?.adjustsFontSizeToFitWidth = true
         $0.title = "NEXT"
-        $0.layer.cornerRadius = 5
-        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 5; $0.clipsToBounds = true
         $0.constrain((.height, 50))
     }
     let addSkills = UIButton(translates: false).then {
@@ -38,20 +36,21 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         $0.titleLabel?.font = .gothamBold(ofSize: 20); $0.titleColor = .white
         $0.setTitle("ADD MORE", for: .normal)
         $0.titleLabel?.adjustsFontSizeToFitWidth = true
-        $0.layer.cornerRadius = 5
+        $0.layer.cornerRadius = 5; $0.clipsToBounds = true
         $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
-        $0.clipsToBounds = true
         $0.constrain((.height, 50))
     }
     let completeView = UIView(translates: false).then {
         $0.backgroundColor = .white
         $0.layer.shadowColor = UIColor.lightGray.cgColor
-        $0.layer.shadowOpacity = 1.0
-        $0.layer.shadowRadius = 5
+        $0.layer.shadowOpacity = 1.0; $0.layer.shadowRadius = 5
     }
     var indexPath : IndexPath?
     
-    lazy var dataSource : SkillsData = { return IndustriesCollectionViewDataSource(self.collectionView) }()
+    lazy var dataSource : IndustriesCollectionViewDataSource = { return IndustriesCollectionViewDataSource(self.collectionView) }()
+    var pickerItems : [PickerResponse]?
+    
+    var selectedPickerItems = [PickerResponse]()
     let search = UISearchBar()
 
     override func viewDidLoad() {
@@ -104,6 +103,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
                     if let pickerJSON = response.result.value as? JSONArray {
                         let interests = pickerJSON.map({ return PickerResponse.create($0) })
                         let dataSource = IndustriesCollectionViewDataSource(self.collectionView)
+                        self.pickerItems = interests
                         dataSource.pickerItems = interests
                         self.dataSource = dataSource
                         self.collectionView.dataSource = dataSource
@@ -140,13 +140,32 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     
     //func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) { cell.scaleIn(delay: 0.5) }
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) { collectionView.cellForItem(at: indexPath)!.squeezeIn() }
-    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) { collectionView.cellForItem(at: indexPath)!.squeezeOut() }
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        collectionView.cellForItem(at: indexPath)!.squeezeOut()
+        if self.title != "Select Industry" {
+            let pickerItem = dataSource.itemFor(indexPath: indexPath)
+            for (index, item) in selectedPickerItems.enumerated() {
+                if item == pickerItem {
+                    selectedPickerItems.remove(at: index)
+                }
+            }
+            dataSource.selectedPickerItems = selectedPickerItems
+        }
+    }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if self.title == "Select Industry" { self.switchToSkills(indexPath) }
+        if self.title == "Select Industry" {
+            self.switchToSkills(indexPath)
+        } else {
+            let pickerItem = dataSource.itemFor(indexPath: indexPath)
+            selectedPickerItems.append(pickerItem!)
+            dataSource.selectedPickerItems = selectedPickerItems
+        }
     }
     
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) { collectionView.cellForItem(at: indexPath)?.squeezeInOut() }
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        collectionView.cellForItem(at: indexPath)?.squeezeInOut()
+    }
     
     func switchToIndustries() {
         search.resignFirstResponder()
@@ -155,7 +174,11 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         collectionView.allowsSelection = false
         navigationItem.backBarButtonItem = nil
         animateCells(self.indexPath!, reverse: true)
-        //dataSource = IndustriesCollectionViewDataSource(self.collectionView)
+        
+        dataSource.pickerItems = pickerItems!
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+            self.collectionView.reloadSections(IndexSet(integer: 0))
+        })
         title = "Select Industry"; swap()
         navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: navigationController!, action: #selector(UINavigationController.popViewController(animated:)))
         collectionView.allowsSelection = true
@@ -169,7 +192,28 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         animateCells(indexPath)
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: self, action: #selector(self.switchToIndustries))
-        //dataSource = SkillsCollectionViewDataSource(collectionView)
+        let pickerItem = dataSource.itemFor(indexPath: indexPath)
+        if pickerItem?.children != nil {
+            dataSource.pickerItems = Array(pickerItem!.children)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+                if self.dataSource.filteredData.count != self.pickerItems!.count {
+                    self.enterSearch(false); return
+                }
+                var delete = [IndexPath]()
+                for index in pickerItem!.children.count ..< self.pickerItems!.count {
+                    delete.append(IndexPath(row: index, section: 0))
+                }
+                self.collectionView.deleteItems(at: delete)
+                var reload = [IndexPath]()
+                for index in 0 ..< pickerItem!.children.count {
+                    reload.append(IndexPath(row: index, section: 0))
+                }
+                self.collectionView.reloadItems(at: reload)
+            })
+        } else {
+            collectionView.reloadSections(IndexSet(integer: 0))
+        }
+        
         title = "Select Skills"; swap()
         collectionView.allowsMultipleSelection = true
         collectionView.allowsSelection = true
@@ -181,7 +225,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         
         for path in visible {
             let cell = collectionView.cellForItem(at: path) as! SkillCollectionViewCell
-            let cellRow = path.row/3
+            let cellRow = path.row / 3
             
             if cellRow > row {
                 if indexPath.row % 3 == path.row % 3 { cell.animate(direction: .down, row: cellRow - row, reverse: reverse)}
@@ -199,8 +243,6 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     
     func swap() {
         //enterSearch(false)
-        //collectionView.dataSource = dataSource
-        //collectionView.reloadData()
     }
     
     func toFeed() { collectionView.allowsSelection = false; navigationController?.push(FeedViewController()) }

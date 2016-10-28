@@ -49,7 +49,6 @@
 		23C51AE61D88FCCA00C926F1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 23C51AE51D88FCCA00C926F1 /* Localizable.strings */; };
 		23C51AE81D88FF5100C926F1 /* SkillCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51AE71D88FF5100C926F1 /* SkillCollectionViewCell.swift */; };
 		23C51AEA1D89019500C926F1 /* IndustriesCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51AE91D89019500C926F1 /* IndustriesCollectionViewDataSource.swift */; };
-		23C51AEC1D89019E00C926F1 /* SkillsCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51AEB1D89019E00C926F1 /* SkillsCollectionViewDataSource.swift */; };
 		23C51AEE1D89D92D00C926F1 /* SkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51AED1D89D92D00C926F1 /* SkillsViewController.swift */; };
 		23C872201D83753200B21AB6 /* PreviewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721B1D83753200B21AB6 /* PreviewError.swift */; };
 		23C872211D83753200B21AB6 /* PreviewErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721C1D83753200B21AB6 /* PreviewErrorTypes.swift */; };
@@ -184,7 +183,6 @@
 		23C51AE51D88FCCA00C926F1 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = "Support Files/Localizable.strings"; sourceTree = "<group>"; };
 		23C51AE71D88FF5100C926F1 /* SkillCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillCollectionViewCell.swift; sourceTree = "<group>"; };
 		23C51AE91D89019500C926F1 /* IndustriesCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndustriesCollectionViewDataSource.swift; sourceTree = "<group>"; };
-		23C51AEB1D89019E00C926F1 /* SkillsCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillsCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		23C51AED1D89D92D00C926F1 /* SkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillsViewController.swift; sourceTree = "<group>"; };
 		23C872171D83751100B21AB6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Support Files/Info.plist"; sourceTree = "<group>"; };
 		23C872181D83751100B21AB6 /* Mesh.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = Mesh.entitlements; path = "Support Files/Mesh.entitlements"; sourceTree = "<group>"; };
@@ -456,7 +454,6 @@
 				23C51ADF1D88E6D400C926F1 /* SMSViewController.swift */,
 				23C51AE11D88E6E000C926F1 /* SMSVerifyViewController.swift */,
 				23C51AED1D89D92D00C926F1 /* SkillsViewController.swift */,
-				23C51AEB1D89019E00C926F1 /* SkillsCollectionViewDataSource.swift */,
 				23C51AE91D89019500C926F1 /* IndustriesCollectionViewDataSource.swift */,
 				23C51AE71D88FF5100C926F1 /* SkillCollectionViewCell.swift */,
 			);
@@ -862,7 +859,6 @@
 				23C872481D83760300B21AB6 /* MessagePreviewTableViewCell.swift in Sources */,
 				23C51AEA1D89019500C926F1 /* IndustriesCollectionViewDataSource.swift in Sources */,
 				23C872311D83759A00B21AB6 /* OutlineView.swift in Sources */,
-				23C51AEC1D89019E00C926F1 /* SkillsCollectionViewDataSource.swift in Sources */,
 				23C51ADE1D88E61C00C926F1 /* LaunchViewController.swift in Sources */,
 				23C8725E1D83762900B21AB6 /* Card.swift in Sources */,
 				236878F61DC2897A006848C4 /* ObjC.m in Sources */,
@@ -1029,10 +1025,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 193C52F37021DE583C89D328 /* Pods-Ripple.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
-				CURRENT_PROJECT_VERSION = 143;
+				CURRENT_PROJECT_VERSION = 144;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1053,10 +1050,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C4FE1E5ADE7D705F3A53F5A3 /* Pods-Ripple.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
-				CURRENT_PROJECT_VERSION = 143;
+				CURRENT_PROJECT_VERSION = 144;
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Mesh/Support Files/Info.plist";

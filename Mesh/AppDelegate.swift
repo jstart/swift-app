@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let annotation = options[UIApplicationOpenURLOptionsKey.annotation]
         if url.absoluteString.contains("medium") { NotificationCenter.default.post(name: .medium, object: url); return true }
         if Twitter.sharedInstance().application(app, open: url, options: options) { return true }
-        if LinkedInSwiftHelper.shouldHandle(url) { return LinkedInSwiftHelper.application(app, openURL: url as NSURL, sourceApplication: source!, annotation: annotation) }
+        if LinkedInSwiftHelper.shouldHandle(url) { return LinkedInSwiftHelper.application(app, openURL: url as NSURL, sourceApplication: source!, annotation: annotation!) }
         return GIDSignIn.sharedInstance().handle(url as URL!, sourceApplication: source, annotation: annotation)
     }
     

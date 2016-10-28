@@ -56,6 +56,7 @@ class SkillCollectionViewCell: UICollectionViewCell {
         self.icon.image = nil
         self.popular.isHidden = true
         gradient.removeFromSuperlayer()
+        self.title.alpha = 1.0; self.icon.alpha = 1.0
     }
     
     func configure(_ title: String?, image: UIImage?, isPopular: Bool = false, searching: Bool = false) {
@@ -113,7 +114,7 @@ class SkillCollectionViewCell: UICollectionViewCell {
         scale.autoreverses = true
         layer.add(scale, forKey: scale.keyPath)
 
-        UIView.animate(withDuration: 0.1, delay: 0.65 + (0.1 * Double(row + abs(distance))), animations: { self.title.alpha = 1.0; self.icon.alpha = 1.0 })
+        //UIView.animate(withDuration: 0.1, delay: 0.65 + (0.1 * Double(row + abs(distance))), animations: { self.title.alpha = 1.0; self.icon.alpha = 1.0 })
     }
     
     override var isSelected: Bool {
