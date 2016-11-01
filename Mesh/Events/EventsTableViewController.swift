@@ -16,22 +16,22 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
 
     let sectionTitles = ["    YOUR EVENTS", "    RECOMMENDED EVENTS", "    PREVIOUS EVENTS"]
 
-    var searchController : UISearchController!
+    var searchController : UISearchController?
     var quickCell : UIView?
     let searchResults = InboxSearchTableViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         searchController = UISearchController(searchResultsController: searchResults)
-        searchController.searchResultsUpdater = self
-        searchController.delegate = self
-        searchController.searchBar.placeholder = "Search for events"
-        searchController.searchBar.delegate = self
+        searchController?.searchResultsUpdater = self
+        searchController?.delegate = self
+        searchController?.searchBar.placeholder = "Search for events"
+        searchController?.searchBar.delegate = self
         
-        searchController.hidesNavigationBarDuringPresentation = false
+        searchController?.hidesNavigationBarDuringPresentation = false
         definesPresentationContext = true
         
-        navigationItem.titleView = searchController.searchBar
+        navigationItem.titleView = searchController?.searchBar
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "add"), target: self, action: #selector(add))
         navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSFontAttributeName: UIFont.gothamBook(ofSize: 30)], for: .normal)
@@ -42,7 +42,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
 
-        let searchField = searchController.searchBar.value(forKey: "_searchField") as? UITextField
+        let searchField = searchController?.searchBar.value(forKey: "_searchField") as? UITextField
         searchField?.backgroundColor = .white
         searchField?.layer.borderColor = #colorLiteral(red: 0.8, green: 0.8, blue: 0.8, alpha: 1).cgColor
         searchField?.layer.borderWidth = 1
@@ -56,8 +56,8 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        searchController.searchBar.resignFirstResponder()
-        searchController.isActive = false
+        searchController?.searchBar.resignFirstResponder()
+        searchController?.isActive = false
     }
     
     func refresh() {

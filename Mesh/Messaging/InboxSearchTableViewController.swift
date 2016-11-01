@@ -64,7 +64,7 @@ class InboxSearchTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard !showRecents else { guard let inbox = inbox else { return }
-            inbox.searchController.searchBar.text = recentSearches[indexPath.row]; return
+            inbox.searchController?.searchBar.text = recentSearches[indexPath.row]; return
         }
 
         let messageView = MessagesViewController()

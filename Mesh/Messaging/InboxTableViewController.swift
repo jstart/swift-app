@@ -10,7 +10,7 @@ import UIKit
 
 class InboxTableViewController: UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate, UIPopoverPresentationControllerDelegate, UITextFieldDelegate {
 
-    var searchController : UISearchController!
+    var searchController : UISearchController?
     let searchResults = InboxSearchTableViewController()
     var sortItem : UIBarButtonItem?
     var addItem : UIBarButtonItem?
@@ -24,20 +24,20 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         super.viewDidLoad()
                 
         searchController = UISearchController(searchResultsController: searchResults)
-        searchController.searchResultsUpdater = self
-        searchController.delegate = self
-        searchController.searchBar.placeholder = "Search for people"
-        searchController.searchBar.delegate = self
+        searchController?.searchResultsUpdater = self
+        searchController?.delegate = self
+        searchController?.searchBar.placeholder = "Search for people"
+        searchController?.searchBar.delegate = self
         
-        let searchField = searchController.searchBar.value(forKey: "_searchField") as? UITextField
+        let searchField = searchController?.searchBar.value(forKey: "_searchField") as? UITextField
         searchField?.backgroundColor = .white
         searchField?.layer.borderColor = #colorLiteral(red: 0.8, green: 0.8, blue: 0.8, alpha: 1).cgColor
         searchField?.layer.borderWidth = 1
         searchField?.layer.cornerRadius = 2.5
 
-        searchController.hidesNavigationBarDuringPresentation = false
+        searchController?.hidesNavigationBarDuringPresentation = false
         definesPresentationContext = true
-        navigationItem.titleView = searchController.searchBar
+        navigationItem.titleView = searchController?.searchBar
         sortItem = UIBarButtonItem(#imageLiteral(resourceName: "sorting"), target: self, action: #selector(sort))
         addItem = UIBarButtonItem(#imageLiteral(resourceName: "addFriends"), target: self, action: #selector(add))
         navigationItem.rightBarButtonItems = [sortItem!, addItem!]
@@ -90,7 +90,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        searchController.searchBar.resignFirstResponder(); searchController.isActive = false
+        searchController?.searchBar.resignFirstResponder(); searchController?.isActive = false
         tableView.reloadData()
     }
     
