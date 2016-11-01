@@ -33,6 +33,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         tableView.contentInset = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
         tableView.registerClass(UITableViewCell.self); tableView.registerNib(UserDetailTableViewCell.self)
         tableView.estimatedRowHeight = 100
+        tableView.separatorStyle = .none
         navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "settings").withRenderingMode(.alwaysTemplate), style: .done, target: self, action: #selector(settings))
     }
     
@@ -68,7 +69,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { if section == 0 { return 1.0 }; return 50 }
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return section == 0 ? 2 : 1 }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return section == 0 ? 4 : 1 }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
@@ -89,6 +90,14 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
                 cell.selectionStyle = .none
                 cell.textLabel?.font = .gothamBold(ofSize: 20)
                 cell.textLabel?.text = UserResponse.current?.fullName(); break
+            case 2:
+                cell.selectionStyle = .none; cell.textLabel?.textColor = #colorLiteral(red: 0.3490196078, green: 0.7490196078, blue: 0.4, alpha: 1)
+                cell.textLabel?.font = .gothamLight(ofSize: 15)
+                cell.textLabel?.text = "+15% Profile Rank"; break
+            case 3:
+                cell.selectionStyle = .none; cell.textLabel?.textColor = #colorLiteral(red: 0.1647058824, green: 0.7098039216, blue: 0.9960784314, alpha: 1)
+                cell.textLabel?.font = .gothamLight(ofSize: 15)
+                cell.textLabel?.text = "+246 Interactions"; break
             default: break }
             return cell
         } else {
@@ -109,9 +118,19 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         }
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 && indexPath.row == 1 {
+            return 35
+        }
+        if indexPath.section == 0 && indexPath.row > 1 {
+            return 20
+        }
+        return UITableViewAutomaticDimension
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 && indexPath.row == 0 { photoOptions(); return }
-        if indexPath.section == 0 && indexPath.row == 1 { return }
+        if indexPath.section == 0 { return }
         let edit = EditProfileListTableViewController()
         
         var type : QuickViewCategory

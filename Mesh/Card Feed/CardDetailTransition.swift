@@ -36,7 +36,7 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
         
         detail.translates = false
         detail.constrain(.width, .centerX, toItem: cardVC!.view)
-        detail.constrain((.height, -80), (.top, 380), toItem: cardVC!.view)
+        detail.constrain((.height, -80), (.top, 375), toItem: cardVC!.view)
         detail.alpha = 0.0
         
         detail.addSubview(blurView)
@@ -60,17 +60,15 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
     
     func dismiss(_ context: UIViewControllerContextTransitioning) {
         let containerView = context.containerView, detail = context.view(forKey: .from)!
-        containerView.frame.size.height = (cardVC?.view.frame.size.height)! + 81
-        detail.frame.origin.y = 81 * 3
         containerView.addSubview(detail)
         
         UIView.animate(withDuration: 0.2, animations: { [weak self] in
-            detail.frame.origin.y = 550
+            detail.topConstraint?.constant = 375
             detail.alpha = 0.0
             self?.blurView.alpha = 0.0
             }, completion:{_ in
                 self.blurView.removeFromSuperview()
-                detail.layoutIfNeeded();
+                containerView.removeFromSuperview()
                 context.completeTransition(true)
         })
     }

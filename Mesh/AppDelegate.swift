@@ -43,6 +43,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         window?.makeKeyAndVisible()
+        
+        let splash = SplashViewController()
+        splash.modalPresentationStyle = .overFullScreen
+        window?.rootViewController?.present(SplashViewController(), animated: false)
+        
         return true
     }
     
