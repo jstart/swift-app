@@ -37,10 +37,6 @@ class EditProfileListTableViewController: UITableViewController {
         
         let cell = tableView.dequeue(UserDetailTableViewCell.self, indexPath: indexPath)
         let item = items[indexPath.row]
-        
-        cell.icon.image = #imageLiteral(resourceName: "tesla")
-        
-        cell.button.isHidden = true
         cell.configure(item)
         
         if item.category == .skills {

@@ -21,7 +21,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
     let editLabel = UILabel(translates: false).then {
         $0.text = "Edit"; $0.textColor = .white; $0.font = .gothamLight(ofSize: 14); $0.isHidden = false
     }
-    var items : [UserDetail] = [Experience(company: "Tinder", position: "iOS", startMonth: "January", startYear: "2012", endMonth: "January", endYear: "2016"),
+    var items : [UserDetail] = [UserResponse.current!.companies.first!,
                                 Education(schoolName: "Harvard", degreeType: "Masters", startYear: "2012", endYear: "2016", field: "Engineering", graduated: true),
                                 Skill(name: "iOS Development", numberOfMembers: "2,000 Members", isAdded: true)]
 
@@ -104,15 +104,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
             let cell = tableView.dequeue(UserDetailTableViewCell.self, indexPath: indexPath)
             
             let item = items[indexPath.section - 1]
-            
-            cell.icon.image = #imageLiteral(resourceName: "tesla")
-            
-            cell.button.isHidden = true
-            cell.year.isHidden = !item.hasDate
-            
-            cell.top.text = item.firstText
-            cell.bottom.text = item.secondText
-            cell.year.text = item.thirdText
+            cell.configure(item)
             
             return cell
         }

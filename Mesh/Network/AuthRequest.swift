@@ -154,7 +154,7 @@ class CompanyResponse : Object, UserDetail {
     }
 
     var firstText: String { return (name ?? "") }
-    
+
     let category = QuickViewCategory.experience
 }
 

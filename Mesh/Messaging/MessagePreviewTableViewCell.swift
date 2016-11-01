@@ -45,7 +45,6 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
     
     func configure(_ aMessage: MessageResponse, user: UserResponse, read: Bool) {
         name.text = user.fullName()
-        company.image = #imageLiteral(resourceName: "tesla")
         message.text = aMessage.text ?? ""
         if !read {
             name.font = .gothamBold(ofSize: name.font.pointSize)

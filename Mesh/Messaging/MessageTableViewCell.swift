@@ -62,7 +62,6 @@ class MessageTableViewCell: MGSwipeTableCell {
         reply.layer.cornerRadius = 2.5
         
         profile.backgroundColor = .gray
-        //company.image = #imageLiteral(resourceName: "tesla")
         
         leftExpansion.fillOnTrigger = true
         leftExpansion.buttonIndex = 0

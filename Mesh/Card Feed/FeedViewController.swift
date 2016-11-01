@@ -63,6 +63,7 @@ class FeedViewController: UIViewController {
         if Keychain.fetchLogin() != nil {
             navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "filtering"), target: self, action: #selector(sort))
             navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "qrCode"), target: self, action: #selector(qr))
+            Client.execute(ProfileRequest(profession: " "))
         } else {
             navigationController?.navigationBar.isTranslucent = false
             navigationItem.setHidesBackButton(true, animated: true)

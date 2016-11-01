@@ -145,7 +145,7 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
     
     func complete() {
         let companies = [CompanyModel(id: "1681681", start_month: "January", start_year: "2014", end_month: "March", end_year: "2016", current: false)]
-        Client.execute(ProfileRequest(first_name: firstName.text, last_name: lastName.text, email: nil, title: titleField.text, profession: nil, companies: companies), complete: { _ in
+        Client.execute(ProfileRequest(first_name: firstName.text, last_name: lastName.text, email: nil, title: titleField.text, profession: " ", companies: companies), complete: { _ in
             self.navigationController?.push(AddPhotoViewController())
         })
     }
