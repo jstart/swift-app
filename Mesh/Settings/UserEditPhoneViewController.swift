@@ -97,7 +97,7 @@ class UserEditPhoneViewController: UITableViewController {
     
     func format() { phone.text = formatter.format(phone.text!) }
     
-    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 90; nextButton.isEnabled = phone.text != ""}
+    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height)?.constant = 90; nextButton.isEnabled = phone.text != ""}
     
     func complete() {
         navigationController?.pop()

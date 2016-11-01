@@ -12,6 +12,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
 
     var phoneField, passwordField : UITextField?,
         formatter = PhoneNumberFormatter()
+    let demoFlag = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +58,11 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         Client.execute(LoginRequest(phone_number: "+1" + phoneField!.text!.onlyNumbers(), password: passwordField!.text!), complete: { response in
             if response.result.value != nil {
                 LaunchData.fetchLaunchData()
-                UIApplication.shared.delegate!.window??.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
+                if self.demoFlag {
+                    UIApplication.shared.delegate!.window??.rootViewController = LaunchViewController().withNav()
+                } else {
+                    UIApplication.shared.delegate!.window??.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
+                }
                 Keychain.deleteLogin()
                 let _ = Keychain.addLogin(phone: self.phoneField!.text!, password: self.passwordField!.text!)
             } else {

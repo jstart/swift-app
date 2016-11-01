@@ -93,7 +93,7 @@ class UserEditEmailViewController: UITableViewController {
         return cell
     }
     
-    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 90; nextButton.isEnabled = (email.text != "") }
+    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height)?.constant = 90; nextButton.isEnabled = (email.text != "") }
     
     func complete() {
         Client.execute(ProfileRequest(email: email.text)) { _ in self.navigationController?.pop() }

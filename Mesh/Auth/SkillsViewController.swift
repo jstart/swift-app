@@ -72,7 +72,9 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         search.delegate = self
         search.showsCancelButton = true
         
-        Token.deleteToken()
+        if Token.retrieveLogin().phone_number == nil {
+            Token.deleteToken()
+        }
         
         view.addSubview(completeView)
         
@@ -99,17 +101,23 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         navigationController?.setNavigationBarHidden(false, animated: true)
 
         if Token.retrieveToken() == nil { Client.execute(TokenRequest()) { _ in
-                Client.execute(PickerRequest()) { response in
-                    if let pickerJSON = response.result.value as? JSONArray {
-                        let interests = pickerJSON.map({ return PickerResponse.create($0) })
-                        let dataSource = IndustriesCollectionViewDataSource(self.collectionView)
-                        self.pickerItems = interests
-                        dataSource.pickerItems = interests
-                        self.dataSource = dataSource
-                        self.collectionView.dataSource = dataSource
-                        self.collectionView.reloadData()
-                    }
-                }
+                self.pickerRequest()
+            }
+        } else {
+            self.pickerRequest()
+        }
+    }
+    
+    func pickerRequest() {
+        Client.execute(PickerRequest()) { response in
+            if let pickerJSON = response.result.value as? JSONArray {
+                let interests = pickerJSON.map({ return PickerResponse.create($0) })
+                let dataSource = IndustriesCollectionViewDataSource(self.collectionView)
+                self.pickerItems = interests
+                dataSource.pickerItems = interests
+                self.dataSource = dataSource
+                self.collectionView.dataSource = dataSource
+                self.collectionView.reloadData()
             }
         }
     }
@@ -150,6 +158,8 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
                 }
             }
             dataSource.selectedPickerItems = selectedPickerItems
+        } else {
+            //self.switchToSkills(indexPath)
         }
     }
 
@@ -245,6 +255,14 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         //enterSearch(false)
     }
     
-    func toFeed() { collectionView.allowsSelection = false; navigationController?.push(FeedViewController()) }
+    func toFeed() {
+        collectionView.allowsSelection = false;
+        if Token.retrieveLogin().phone_number == nil {
+            navigationController?.push(FeedViewController())
+        } else {
+            LaunchData.fetchLaunchData()
+            UIApplication.shared.delegate!.window??.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
+        }
+    }
 
 }

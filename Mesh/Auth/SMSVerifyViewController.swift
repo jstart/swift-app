@@ -48,8 +48,6 @@ class SMSVerifyViewController: UIViewController {
     func done() {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
         UIApplication.shared.delegate?.window??.rootViewController = vc
-        let tab = UIApplication.shared.delegate?.window??.rootViewController as! UITabBarController
-        tab.tabBar.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     }
 
 }

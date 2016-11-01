@@ -45,7 +45,7 @@ class UserDetailTableViewCell: UITableViewCell {
     func configure(_ detail: UserDetail) {        
         button.isHidden = !detail.hasButton
         if !detail.hasButton {
-            button.widthConstraint.constant = 0
+            button.widthConstraint?.constant = 0
         }
         year.isHidden = !detail.hasDate
         

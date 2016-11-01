@@ -94,7 +94,7 @@ class UserEditPasswordViewController: UITableViewController {
         return cell
     }
     
-    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 90; nextButton.isEnabled = (current.text != "" && password.text != "" && confirmPassword.text != "") }
+    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height)?.constant = 90; nextButton.isEnabled = (current.text != "" && password.text != "" && confirmPassword.text != "") }
     
     func complete() { }
 

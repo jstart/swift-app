@@ -29,7 +29,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>144</string>
+	<string>145</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -62,6 +62,10 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>MediumCallbackURL</key>
+	<string>http://dev.mesh.tinderventures.com:1337/account/medium</string>
+	<key>MediumClientID</key>
+	<string>4ab8973cb07b</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoadsInWebContent</key>
@@ -123,6 +127,11 @@
 		<string>Gotham-Light.ttf</string>
 		<string>Gotham-XLight.ttf</string>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>location</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UISupportedInterfaceOrientations</key>
@@ -138,9 +147,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>MediumCallbackURL</key>
-	<string>http://dev.mesh.tinderventures.com:1337/account/medium</string>
-	<key>MediumClientID</key>
-	<string>4ab8973cb07b</string>
 </dict>
 </plist>

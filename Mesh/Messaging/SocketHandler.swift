@@ -8,6 +8,7 @@
 
 import Foundation
 import SocketIO
+import UserNotifications
 
 extension Notification.Name {
     static let typing = NSNotification.Name("Typing")
@@ -30,9 +31,28 @@ class SocketHandler {
             guard let message = data.first as? JSONDictionary else { return }
             let meshMessage = MessageResponse.create(message)
             let realm = RealmUtilities.realm()
-            try! realm.write { realm.add(meshMessage, update: true) }
-            UserResponse.messages.append(meshMessage)
+            
+            var messageConnection : ConnectionResponse?
+            for connection in UserResponse.connections {
+                if connection.user?._id == meshMessage.sender {
+                    messageConnection = connection
+                }
+            }
+            
+            try! realm.write { realm.add(meshMessage, update: true); messageConnection?.read = false }
+            UserResponse.messages = Array(realm.objects(MessageResponse.self)).sorted(by: { $0.ts > $1.ts });
             DefaultNotification.post(name: .message, object: message)
+            
+            /*if UIApplication.shared.applicationState == .background {
+                let notification = UILocalNotification()
+                notification.alertBody = (messageConnection?.user?.fullName())! + ": " + meshMessage.text!
+                notification.alertAction = "Open"
+                notification.fireDate = Date()
+                notification.soundName = UILocalNotificationDefaultSoundName
+                //notification.userInfo = ["message": meshMessage]
+                
+                UIApplication.shared.scheduleLocalNotification(notification)
+            }*/
         }
         
         shared.socket.on("connection") { data, ack in

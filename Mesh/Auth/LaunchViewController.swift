@@ -60,10 +60,12 @@ class LaunchViewController: UIViewController, CardDelegate {
         addChildViewController(cardStack)
         view.addSubview(cardStack.view)
         titleLabel.constrain(.bottom, constant: 0, toItem: cardStack.view, toAttribute: .top)
-        subtitle.constrain(.bottom, constant: 30, toItem: cardStack.view, toAttribute: .top)
+        subtitle.constrain(.top, constant: 10, toItem: titleLabel, toAttribute: .bottom)
+
+        cardStack.view.constrain(.bottom, constant: 10, toItem: getStarted, toAttribute: .top)
 
         cardStack.view.translates = false
-        cardStack.view.constrain((.height, 305))
+        cardStack.view.constrain((.height, 205))
         cardStack.view.constrain((.centerY, -40), toItem: view)
         cardStack.view.constrain(.width, .centerX, toItem: view)
 
@@ -87,9 +89,7 @@ class LaunchViewController: UIViewController, CardDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.isStatusBarHidden = true
-
         navigationController?.setNavigationBarHidden(true, animated: true)
-        
         topTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(swipe), userInfo: nil, repeats: true)
     }
     

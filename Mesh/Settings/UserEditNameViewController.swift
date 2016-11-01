@@ -95,7 +95,7 @@ class UserEditNameViewController: UITableViewController {
         return cell
     }
     
-    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 90; nextButton.isEnabled = (firstName.text != "" && lastName.text != "") }
+    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height)?.constant = 90; nextButton.isEnabled = (firstName.text != "" && lastName.text != "") }
     
     func complete() {
         let request = ProfileRequest(first_name: firstName.text, last_name: lastName.text)

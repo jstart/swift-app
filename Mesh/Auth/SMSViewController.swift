@@ -99,7 +99,7 @@ class SMSViewController: UITableViewController {
     
     func format() { phone.text = formatter.format(phone.text!) }
     
-    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 90; nextButton.isEnabled = (phone.text != "" && password.text != "" && confirmPassword.text != "") }
+    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height)?.constant = 90; nextButton.isEnabled = (phone.text != "" && password.text != "" && confirmPassword.text != "") }
     
     func complete() {
         Client.execute(AuthRequest(phone_number: "+1" + phone.text!.onlyNumbers(), password: password.text!, password_verify: confirmPassword.text!), complete: { response in

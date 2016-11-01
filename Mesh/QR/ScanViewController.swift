@@ -137,7 +137,12 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         let request = CardSyncRequest(_id: tokenArray[safe: 0] ?? "", my_token: UserResponse.cards.first?.token ?? "", scanned_token: tokenArray[safe: 1] ?? "")
         Client.execute(request, complete: { response in
             if response.result.value != nil {
-                Snackbar(title: "Connected!", buttonTitle: "VIEW PROFILE", buttonHandler: { return true }).presentIn(self.view)
+                Snackbar(title: "Connected!", buttonTitle: "VIEW PROFILE", buttonHandler: {
+                    self.presentingViewController?.dismiss()
+                    UIApplication.shared.statusBarStyle = .default
+                    let tab = UIApplication.shared.delegate?.window??.rootViewController as! UITabBarController
+                    tab.selectedIndex = 1
+                    return true }).presentIn(self.view)
                 StandardDefaults.set(true, forKey: "FirstScan")
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: { self.captureSession.startRunning() })
@@ -184,8 +189,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     func edit() {
         if editMode {
             UIView.animate(withDuration: 0.2, animations: {
-                self.editCard.heightConstraint.constant = 180
-                self.view.constraintFor(.centerY, toItem: self.editCard).constant = 0
+                self.editCard.heightConstraint?.constant = 180
+                self.view.constraintFor(.centerY, toItem: self.editCard)?.constant = 0
                 self.view.layoutIfNeeded()
                 }, completion: { _ in self.editCard.fadeOut { self.editCard.removeFromSuperview() } })
             editMode = false
@@ -203,8 +208,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         editCard.fadeIn(completion: {
                 self.editCard.layoutIfNeeded()
                 UIView.animate(withDuration: 0.2, animations: {
-                    self.editCard.heightConstraint.constant = 255
-                    self.view.constraintFor(.centerY, toItem: self.editCard).constant = 17
+                    self.editCard.heightConstraint?.constant = 255
+                    self.view.constraintFor(.centerY, toItem: self.editCard)?.constant = 17
                     self.view.layoutIfNeeded()
                 })
         })

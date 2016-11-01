@@ -25,7 +25,7 @@ class AutoCompleteView : UITableView {
     func keyboard(notification: Notification) {
         let height = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size.height
         UIView.animate(withDuration: 0.2, animations: {
-            self.heightConstraint.constant = height! - 54; self.layoutIfNeeded()
+            self.heightConstraint?.constant = height! - 54; self.layoutIfNeeded()
         })
     }
     

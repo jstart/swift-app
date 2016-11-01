@@ -60,7 +60,7 @@ class Snackbar : UIView {
         constrain(.top, toItem: view, toAttribute: .bottom)
         view.layoutIfNeeded()
         UIView.animate(withDuration: 0.2, animations: {
-            view.constraintFor(.top, toItem: self).constant = -self.frame.size.height
+            view.constraintFor(.top, toItem: self)?.constant = -self.frame.size.height
             view.layoutIfNeeded()
             }, completion: { _ in
                 guard !self.persist else { return }
@@ -74,7 +74,7 @@ class Snackbar : UIView {
         
     func dismiss(_ callDismissHandler: Bool = true) {
         UIView.animate(withDuration: 0.2, animations: {
-            self.superview?.constraintFor(.top, toItem: self).constant = 0
+            self.superview?.constraintFor(.top, toItem: self)?.constant = 0
             self.superview?.layoutIfNeeded()
             }, completion: { _ in if callDismissHandler { self.dismissed() }; self.removeFromSuperview() })
     }

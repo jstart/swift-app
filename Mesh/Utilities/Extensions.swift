@@ -158,13 +158,13 @@ extension UIView {
         return NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : toAttributeChoice, multiplier: multiplier, constant:constant)
     }
     
-    var heightConstraint: NSLayoutConstraint { return constraintFor(.height) }; var widthConstraint: NSLayoutConstraint { return constraintFor(.width) }
-    var topConstraint: NSLayoutConstraint { return constraintFor(.top) }; var bottomConstraint: NSLayoutConstraint { return constraintFor(.bottom) }
-    var leadingConstraint: NSLayoutConstraint { return constraintFor(.leading) }; var trailingConstraint: NSLayoutConstraint { return constraintFor(.trailing) }
+    var heightConstraint: NSLayoutConstraint? { return constraintFor(.height) }; var widthConstraint: NSLayoutConstraint? { return constraintFor(.width) }
+    var topConstraint: NSLayoutConstraint? { return constraintFor(.top) }; var bottomConstraint: NSLayoutConstraint? { return constraintFor(.bottom) }
+    var leadingConstraint: NSLayoutConstraint? { return constraintFor(.leading) }; var trailingConstraint: NSLayoutConstraint? { return constraintFor(.trailing) }
     
-    func constraintFor(_ attribute: NSLayoutAttribute, toItem: UIView? = nil) -> NSLayoutConstraint {
-        guard let item = toItem as UIView! else { return constraints.filter({ return $0.firstAttribute == attribute }).first! }
-        return constraints.filter({ return $0.firstAttribute == attribute && $0.firstItem as! UIView == item }).first!
+    func constraintFor(_ attribute: NSLayoutAttribute, toItem: UIView? = nil) -> NSLayoutConstraint? {
+        guard let item = toItem as UIView! else { return constraints.filter({ return $0.firstAttribute == attribute }).first }
+        return constraints.filter({ return $0.firstAttribute == attribute && $0.firstItem as! UIView == item }).first
     }
     
     func addSubviews(_ views: UIView...) { views.forEach { self.addSubview($0) } }
@@ -189,7 +189,7 @@ extension UIView {
     func round(corners: UIRectCorner, radius: CGFloat = 10) {
         let rect = self.bounds
         let maskPath = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        let maskLayer = CAShapeLayer(); maskLayer.frame = rect; maskLayer.path = maskPath.cgPath
+        let maskLayer = CAShapeLayer(); maskLayer.frame = rect; maskLayer.path = maskPath.cgPath; maskLayer.frame.size.height = 5
         layer.mask = maskLayer
     }
 }

@@ -29,10 +29,10 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
         $0.constrain((.height, 70))
     }
     let editIcon = UIImageView(image: #imageLiteral(resourceName: "edit").withRenderingMode(.alwaysTemplate)).then {
-        $0.translates = false; $0.tintColor = .white; $0.isHidden = false; $0.constrain(.width, .height, constant: 12)
+        $0.translates = false; $0.tintColor = .white; $0.isHidden = true; $0.constrain(.width, .height, constant: 12)
     }
     let editLabel = UILabel(translates: false).then {
-        $0.text = "Edit"; $0.textColor = .white; $0.font = .gothamLight(ofSize: 14); $0.isHidden = false
+        $0.text = "Edit"; $0.textColor = .white; $0.font = .gothamBook(ofSize: 14); $0.isHidden = true
     }
     
     override func viewDidLoad() {
@@ -117,7 +117,7 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
     }
     
     func changeToComplete() {
-        addPhoto.isHidden = true; editLabel.isHidden = true; editIcon.isHidden = true
+        addPhoto.isHidden = true; editLabel.isHidden = false; editIcon.isHidden = false
         
         upload.setTitle("Complete Profile", for: .normal)
         upload.removeTarget(self, action: #selector(photoOptions), for: .touchUpInside)

@@ -23,7 +23,7 @@ class MessagesViewController: JSQMessagesViewController {
     let imageView = UIImageView(translates: false).then {
         $0.layer.cornerRadius = 5.0; $0.clipsToBounds = true
         $0.backgroundColor = .gray
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
         $0.constrain(.width, .height, constant: 30)
     }
     let container = UIView(translates: false).then { $0.constrain(.height, constant: 44) }
@@ -39,8 +39,8 @@ class MessagesViewController: JSQMessagesViewController {
         
         /*let imageButton = UIButton(translates: false)
         imageButton.addTarget(self, action: #selector(image), for: .touchUpInside)
-        imageButton.setImage(#imageLiteral(resourceName: "chatUploadPhoto"), for: .normal)
-        inputToolbar.contentView?.leftBarButtonItem = imageButton*/
+        imageButton.setImage(#imageLiteral(resourceName: "chatUploadPhoto"), for: .normal)*/
+        inputToolbar.contentView?.leftBarButtonItem = nil
         inputToolbar.contentView?.textView?.placeHolder = "Send a message..."
 //        JSQMessagesCollectionViewCell.registerMenuAction(#selector(editMessage(_:)))
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(deleteMessage(_:)))
@@ -279,8 +279,7 @@ class MessagesViewController: JSQMessagesViewController {
     func tappedUser() {
         let cardVC = PersonCardViewController(); cardVC.modalPresentationStyle = .overFullScreen
         let rec = RecommendationResponse(); rec.user = recipient?.user
-        cardVC.rec = rec
-        present(cardVC)
+        cardVC.rec = rec; present(cardVC)
     }
     
     override func didPressAccessoryButton(_ sender: UIButton) { }

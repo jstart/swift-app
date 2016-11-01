@@ -73,6 +73,14 @@ class SkillCollectionViewCell: UICollectionViewCell {
         
         guard let url = pickerItem.logo else { return }
         guard let logoURL = URL(string: url) else { return }
+        if url == "text" {
+            icon.removeFromSuperview()
+            self.title.constrain(.centerY, toItem: self)
+            //self.title.numberOfLines = 0
+            self.constraintFor(.bottom, toItem: self.title)?.isActive = false
+            //self.title.heightConstraint?.isActive = false
+            return
+        }
         icon.af_setImage(withURL: logoURL)
     }
     
