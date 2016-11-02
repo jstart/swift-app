@@ -56,9 +56,6 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         leftSwipeSettings.transition = .drag
         rightSwipeSettings.transition = .drag
         
-        profile.backgroundColor = .gray
-        //company.backgroundColor = .gray
-        
         separatorInset = .zero
     }
     

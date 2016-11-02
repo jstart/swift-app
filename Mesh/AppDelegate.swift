@@ -19,6 +19,7 @@ import Alamofire
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let demoFlag = true
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         window = UIWindow(); window?.tintColor = Colors.brand; appearance()
@@ -31,13 +32,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(logout(_:)), name: .logout, object: nil)
 
-        if (Keychain.fetchLogin() != nil) {
+        if Keychain.fetchLogin() != nil && demoFlag == false {
             guard let JSON = StandardDefaults["CurrentUser"] as? JSONDictionary else { logout(); return true}
             UserResponse.current = UserResponse.create(JSON)
             LaunchData.fetchLaunchData()
             SocketHandler.startListening()
 
             window?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
+        } else if Keychain.fetchLogin() != nil && demoFlag == true {
+            guard let JSON = StandardDefaults["CurrentUser"] as? JSONDictionary else { logout(); return true}
+            UserResponse.current = UserResponse.create(JSON)
+            SocketHandler.startListening()
+            window?.rootViewController = LaunchViewController().withNav()
         } else {
             window?.rootViewController = LaunchViewController().withNav()
         }

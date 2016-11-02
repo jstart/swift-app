@@ -263,6 +263,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
             LaunchData.fetchLaunchData()
             UIApplication.shared.delegate!.window??.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
         }
+        if selectedPickerItems.count == 0 { return }
         let request = ProfileRequest(interests: selectedPickerItems.map({ InterestModel(id: "\($0._id)") }))
         Client.execute(request)
     }

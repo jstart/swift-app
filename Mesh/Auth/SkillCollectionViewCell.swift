@@ -81,7 +81,7 @@ class SkillCollectionViewCell: UICollectionViewCell {
             //self.title.heightConstraint?.isActive = false
             return
         }
-        icon.af_setImage(withURL: logoURL)
+        icon.af_setImage(withURL: logoURL, imageTransition: .crossDissolve(0.2))
     }
     
     func animate(direction: SkillAnimationDirection = .left, row: Int = 0, distance: Int = 0, reverse: Bool = false) {

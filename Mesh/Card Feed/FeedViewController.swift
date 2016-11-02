@@ -80,11 +80,7 @@ class FeedViewController: UIViewController {
                     LocationManager.currentPlacemark = placemark
                 }
             })
-            Client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), complete: { response in
-                guard let JSON = response.result.value as? JSONDictionary else { return }
-                guard JSON["msg"] == nil else { NotificationCenter.default.post(name: .logout, object: nil); return }
-                UserResponse.current = UserResponse.create(JSON)
-            })
+            Client.execute(PositionRequest(lat: 33.978359, lon: -118.368723))
         }
 
         LocationManager.locationUpdate = { loc in

@@ -29,6 +29,7 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="645-uL-DIc">
                         <rect key="frame" x="12" y="12" width="50" height="50.5"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" priority="999" constant="50" id="7SL-0m-LRc"/>
                             <constraint firstAttribute="width" constant="50" id="NU8-PE-VWH"/>
@@ -36,6 +37,7 @@
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hZD-gg-LGe">
                         <rect key="frame" x="282" y="22.5" width="30" height="30"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="0aJ-jm-PVb"/>
                             <constraint firstAttribute="height" constant="30" id="VM6-jI-B3K"/>
