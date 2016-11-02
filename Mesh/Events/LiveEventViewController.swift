@@ -24,7 +24,7 @@ class LiveEventViewController: UIViewController {
         title = event?.name
         view.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
         
-        let logo = UIImageView(image: .imageWithColor(.gray, width: 85, height: 85)).then { $0.layer.cornerRadius = 5; $0.clipsToBounds = true; $0.contentMode = .scaleAspectFill }
+        let logo = UIImageView(image: .imageWithColor(.gray, width: 85, height: 85)).then { $0.layer.cornerRadius = 5; $0.clipsToBounds = true; $0.contentMode = .scaleAspectFit }
         logo.constrain((.width, 85), (.height, 85))
         
         let header = UIView(translates: false).then { $0.backgroundColor = .white

@@ -53,7 +53,7 @@ class PastEventTableViewController: UITableViewController, UISearchControllerDel
             }
             let titleStack = UIStackView(name, subtitle, axis: .vertical, spacing: 5).then { $0.distribution = .fillProportionally; $0.alignment = UIStackViewAlignment.leading }
             
-            let logo = UIImageView(image: .imageWithColor(.gray, width: 85, height: 85)).then { $0.layer.cornerRadius = 5; $0.clipsToBounds = true }
+            let logo = UIImageView(image: .imageWithColor(.gray, width: 85, height: 85)).then { $0.layer.cornerRadius = 5; $0.clipsToBounds = true; $0.contentMode = .scaleAspectFit }
             logo.constrain((.width, 85), (.height, 85))
             if let logoURL = event?.logo { logo.af_setImage(withURL: URL(string: logoURL)!) }
             let stack = UIStackView(logo, titleStack, spacing: 10).then { $0.distribution = .fillProportionally }

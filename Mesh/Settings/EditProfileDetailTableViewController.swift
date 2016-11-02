@@ -61,7 +61,7 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
             switchView.addTarget(self, action: #selector(switchChanged(sender:)), for: .valueChanged)
             cell.addSubview(switchView)
             switchView.constrain((.top, 15), (.bottom, -15), (.trailing, -10), toItem: cell)
-            if field.type == .toggle && item != nil { switchView.setOn(item?.fieldValues()[safe: indexPath.row] as! Bool, animated: false) }
+            if field.type == .toggle && item != nil { switchView.setOn((item?.fieldValues()[safe: indexPath.row] as? Bool) ?? false, animated: false) }
             return cell
         }
         
@@ -74,11 +74,11 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
         if field.type == .month || field.type == .year { cell.second.inputView = picker; cell.first.inputView = picker; type = field.type }
         
         guard let item = item as UserDetail! else { return cell }
-        if field.type == .text { cell.first.text = item.fieldValues()[indexPath.row] as? String }
-        if field.type == .year { cell.first.text = item.fieldValues()[indexPath.row] as? String }
+        if field.type == .text { cell.first.text = item.fieldValues()[safe: indexPath.row] as? String }
+        if field.type == .year { cell.first.text = item.fieldValues()[safe: indexPath.row] as? String }
         if field.type == .month {
-            let monthYear = item.fieldValues()[indexPath.row] as! [String]
-            cell.first.text = monthYear[0]; cell.second.text = monthYear[1]
+            let monthYear = item.fieldValues()[safe: indexPath.row] as? [String]
+            cell.first.text = monthYear?[safe: 0]; cell.second.text = monthYear?[safe: 1]
             fields.append(cell.second)
         }
 
