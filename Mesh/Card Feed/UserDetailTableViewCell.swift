@@ -36,7 +36,10 @@ class UserDetailTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        icon.image = nil
+        top.text = nil
+        bottom.text = nil
+        year.text = nil
         button.isHidden = true
         year.isHidden = true
         delete.isHidden = true

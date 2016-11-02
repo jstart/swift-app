@@ -21,9 +21,9 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
     let editLabel = UILabel(translates: false).then {
         $0.text = "Edit"; $0.textColor = .white; $0.font = .gothamLight(ofSize: 14); $0.isHidden = false
     }
-    var items : [UserDetail] = [UserResponse.current!.companies.first!,
-                                Education(schoolName: "Harvard", degreeType: "Masters", startYear: "2012", endYear: "2016", field: "Engineering", graduated: true),
-                                Skill(name: "iOS Development", numberOfMembers: "2,000 Members", isAdded: true)]
+    var items : [UserDetail?] = [UserResponse.current?.companies.first,
+                                UserResponse.current?.schools.first,
+                                UserResponse.current?.interests.first]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +35,11 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         tableView.estimatedRowHeight = 100
         tableView.separatorStyle = .none
         navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "settings").withRenderingMode(.alwaysTemplate), style: .done, target: self, action: #selector(settings))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     func settings() { navigationController?.push(SettingsTableViewController(style: .grouped)) }
@@ -69,7 +74,14 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { if section == 0 { return 1.0 }; return 50 }
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return section == 0 ? 4 : 1 }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0: return 4
+        case 1: return UserResponse.current?.companies.count ?? 0
+        case 2: return UserResponse.current?.schools.count ?? 0
+        case 3: return UserResponse.current?.interests.count ?? 0
+        default: return 0 }
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
@@ -87,7 +99,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
                 editIcon.constrain(.trailing, constant: -5, toItem: editLabel, toAttribute: .leading)
                 break
             case 1:
-                cell.selectionStyle = .none
+                cell.selectionStyle = .none; cell.textLabel?.textColor = .black
                 cell.textLabel?.font = .gothamBold(ofSize: 20)
                 cell.textLabel?.text = UserResponse.current?.fullName(); break
             case 2:
@@ -102,8 +114,14 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
             return cell
         } else {
             let cell = tableView.dequeue(UserDetailTableViewCell.self, indexPath: indexPath)
+            var items : [UserDetail]? = nil
+            switch indexPath.section - 1 {
+            case 0: if UserResponse.current?.companies != nil { items = Array(UserResponse.current!.companies) }; break
+            case 1: if UserResponse.current?.schools != nil { items = Array(UserResponse.current!.schools) }; break
+            case 2: if UserResponse.current?.interests != nil { items = Array(UserResponse.current!.interests) }; break
+            default: break }
             
-            let item = items[indexPath.section - 1]
+            guard let item = items?[indexPath.row] else { return cell }
             cell.configure(item)
             
             return cell
@@ -126,33 +144,32 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         let edit = EditProfileListTableViewController()
         
         var type : QuickViewCategory
+        var items : [UserDetail]? = nil
         switch indexPath.section - 1 {
-        case 0: type = .experience; break
-        case 1: type = .education; break
-        case 2: type = .skills; break
+        case 0: type = .experience; if UserResponse.current?.companies != nil { items = Array(UserResponse.current!.companies) }; break
+        case 1: type = .education; if UserResponse.current?.schools != nil { items = Array(UserResponse.current!.schools) }; break
+        case 2: type = .skills; if UserResponse.current?.interests != nil { items = Array(UserResponse.current!.interests) }; break
         default: type = .experience; break }
         edit.itemType = type
-        if items.count > 0 {
-            edit.items = [items[indexPath.section - 1]]
-        }
+        edit.items = items
         navigationController?.push(edit)
     }
     
     func editExperience() {
         let edit = EditProfileListTableViewController(); edit.itemType = .experience
-        if items.count > 0 { edit.items = [items[0]] }
+        if (UserResponse.current?.companies.count ?? 0) > 0 { edit.items = Array(UserResponse.current!.companies) }
         navigationController?.push(edit)
     }
     
     func editEducation() {
         let edit = EditProfileListTableViewController(); edit.itemType = .education
-        if items.count > 0 { edit.items = [items[1]] }
+        if (UserResponse.current?.schools.count ?? 0) > 0 { edit.items = Array(UserResponse.current!.schools) }
         navigationController?.push(edit)
     }
     
     func editSkills() {
         let edit = EditProfileListTableViewController(); edit.itemType = .skills
-        if items.count > 0 { edit.items = [items[2]] }
+        if (UserResponse.current?.interests.count ?? 0) > 0 { edit.items = Array(UserResponse.current!.interests) }
         navigationController?.push(edit)
     }
     

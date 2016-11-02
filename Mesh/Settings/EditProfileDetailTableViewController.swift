@@ -115,7 +115,7 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
         var request : ProfileRequest
         
         if item!.category == .education {
-            request = ProfileRequest()
+            request = ProfileRequest(schools: [SchoolModel(id: "7567656")])
         } else { // .experience
             var id = "", start_month = "", start_year = "", end_month = "", end_year = "", title = ""
             let current = switchView.isOn

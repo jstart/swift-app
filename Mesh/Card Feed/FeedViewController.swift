@@ -63,7 +63,11 @@ class FeedViewController: UIViewController {
         if Keychain.fetchLogin() != nil {
             navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "filtering"), target: self, action: #selector(sort))
             navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "qrCode"), target: self, action: #selector(qr))
-            Client.execute(ProfileRequest(profession: " "))
+            Client.execute(ProfileRequest(first_name: UserResponse.current?.first_name)) { response in
+                guard let JSON = response.result.value as? JSONDictionary else { return }
+                guard JSON["msg"] == nil else { NotificationCenter.default.post(name: .logout, object: nil); return }
+                UserResponse.current = UserResponse.create(JSON)
+            }
         } else {
             navigationController?.navigationBar.isTranslucent = false
             navigationItem.setHidesBackButton(true, animated: true)
@@ -84,11 +88,7 @@ class FeedViewController: UIViewController {
         }
 
         LocationManager.locationUpdate = { loc in
-            Client.execute(PositionRequest(lat: loc.coordinate.latitude, lon: loc.coordinate.longitude), complete: { response in
-                guard let JSON = response.result.value as? JSONDictionary else { return }
-                guard JSON["msg"] == nil else { NotificationCenter.default.post(name: .logout, object: nil); return }
-                UserResponse.current = UserResponse.create(JSON)
-            })
+            Client.execute(PositionRequest(lat: loc.coordinate.latitude, lon: loc.coordinate.longitude))
         }
         LocationManager.startTracking()
         
