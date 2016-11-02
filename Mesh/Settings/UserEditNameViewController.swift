@@ -10,9 +10,7 @@ import UIKit
 
 class UserEditNameViewController: UITableViewController {
     
-    let header = UILabel(translates: false).then {
-        $0.text = "Change Your Name"; $0.font = .gothamBold(ofSize: 20)
-    }
+    let header = UILabel(translates: false).then { $0.text = "Change Your Name"; $0.font = .gothamBold(ofSize: 20) }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
         $0.text = "Change the name that appears on your profile."
@@ -29,8 +27,7 @@ class UserEditNameViewController: UITableViewController {
         $0.clipsToBounds = true
         $0.constrain((.height, 70))
     }
-    let firstName = SkyFloatingLabelTextField.branded("First Name")
-    let lastName = SkyFloatingLabelTextField.branded("Last Name")
+    let firstName = SkyFloatingLabelTextField.branded("First Name"), lastName = SkyFloatingLabelTextField.branded("Last Name")
     
     override func viewDidLoad() {
         super.viewDidLoad()

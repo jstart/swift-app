@@ -90,8 +90,7 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
         let view = UIView().then { $0.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1) }
         let label = UILabel(translates: false).then {
             $0.text = sectionTitles[section]
-            $0.contentMode = .bottomLeft
-            $0.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
+            $0.contentMode = .bottomLeft; $0.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
             $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1); $0.font = .gothamBook(ofSize: 12)
         }
         view.addSubview(label)

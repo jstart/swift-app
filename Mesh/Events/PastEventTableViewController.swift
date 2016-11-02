@@ -44,12 +44,10 @@ class PastEventTableViewController: UITableViewController, UISearchControllerDel
             $0.backgroundColor = .white
             
             let name = UILabel().then {
-                $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 20)
-                $0.text = event?.name
+                $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 20); $0.text = event?.name
             }
             let subtitle = UILabel().then {
-                $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 12)
-                $0.text = event?.secondText
+                $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 12); $0.text = event?.secondText
             }
             let titleStack = UIStackView(name, subtitle, axis: .vertical, spacing: 5).then { $0.distribution = .fillProportionally; $0.alignment = UIStackViewAlignment.leading }
             
@@ -94,7 +92,7 @@ class PastEventTableViewController: UITableViewController, UISearchControllerDel
     open func updateSearchResults(for searchController: UISearchController) {
         if searchController.searchBar.text == "" {
             filteredUsers = users
-        }else {
+        } else {
             filteredUsers = users.filter({return $0.searchText().localizedCaseInsensitiveContains(searchController.searchBar.text!)})
         }
         tableView.reloadData()

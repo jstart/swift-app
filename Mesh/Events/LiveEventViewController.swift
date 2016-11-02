@@ -14,10 +14,7 @@ class LiveEventViewController: UIViewController {
     var pager : ViewPager?
     var event: EventResponse?
     let messageView = MessagesViewController()
-    let formatter = DateFormatter().then {
-        $0.dateFormat = "MMMM dd, yyyy - h a"
-        $0.locale = Locale.autoupdatingCurrent
-    }
+    let formatter = DateFormatter().then { $0.dateFormat = "MMMM dd, yyyy - h a"; $0.locale = Locale.autoupdatingCurrent }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -83,8 +80,6 @@ class LiveEventViewController: UIViewController {
         textView.becomeFirstResponder()
     }
 
-    func overflow() {
-        
-    }
+    func overflow() { }
     
 }

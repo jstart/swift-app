@@ -11,9 +11,7 @@ import UIKit
 class UserEditPhoneViewController: UITableViewController {
     
     var formatter = PhoneNumberFormatter()
-    let header = UILabel(translates: false).then {
-        $0.text = "Change Your Phone Number"; $0.font = .gothamBold(ofSize: 20)
-    }
+    let header = UILabel(translates: false).then { $0.text = "Change Your Phone Number"; $0.font = .gothamBold(ofSize: 20) }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
         $0.text = "This new phone number will replace the number that you're currently using in the app."
@@ -29,11 +27,7 @@ class UserEditPhoneViewController: UITableViewController {
         $0.constrain((.height, 70))
     }
     
-    let phone = SkyFloatingLabelTextField.branded("Phone Number").then {
-        $0.keyboardType = .phonePad
-        $0.autocapitalizationType = .none
-        $0.autocorrectionType = .no
-    }
+    let phone = SkyFloatingLabelTextField.branded("Phone Number").then { $0.keyboardType = .phonePad; $0.autocapitalizationType = .none;  $0.autocorrectionType = .no }
     
     override func viewDidLoad() {
         super.viewDidLoad()

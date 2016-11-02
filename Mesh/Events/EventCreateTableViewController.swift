@@ -22,18 +22,12 @@ class EventCreateTableViewController: UITableViewController, UITextFieldDelegate
         $0.translates = false
     }*/
     let imageHeader = UIImageView(translates: false).then {
-        $0.isUserInteractionEnabled = true
-        $0.clipsToBounds = true
-        $0.backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.8784313725, blue: 0.8784313725, alpha: 1)
-        $0.contentMode = .center
+        $0.isUserInteractionEnabled = true; $0.clipsToBounds = true
+        $0.backgroundColor = #colorLiteral(red: 0.8784313725, green: 0.8784313725, blue: 0.8784313725, alpha: 1); $0.contentMode = .center
         $0.image = #imageLiteral(resourceName: "enableCameraAccess").withRenderingMode(.alwaysTemplate)
-        $0.tintColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
-        $0.constrain((.height, 160))
+        $0.tintColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1); $0.constrain((.height, 160))
     }
-    let formatter = DateFormatter().then {
-        $0.dateFormat = "MMMM dd, yyyy - h a"
-        $0.locale = Locale.autoupdatingCurrent
-    }
+    let formatter = DateFormatter().then { $0.dateFormat = "MMMM dd, yyyy - h a"; $0.locale = Locale.autoupdatingCurrent }
     let locationDataSource = AutoCompleteLocationDataSource()
     let interestsDataSource = AutoCompleteDetailDataSource()
     let autoCompleteView = AutoCompleteView()
@@ -150,8 +144,7 @@ class EventCreateTableViewController: UITableViewController, UITextFieldDelegate
     }
     
     func imageUpload() {
-        let picker = UIImagePickerController(); picker.sourceType = .photoLibrary; picker.delegate = self
-        present(picker)
+        let picker = UIImagePickerController(); picker.sourceType = .photoLibrary; picker.delegate = self; present(picker)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -174,10 +167,8 @@ class EventCreateTableViewController: UITableViewController, UITextFieldDelegate
         }
 
         Client.execute(EventCreateRequest(name: name!, logo: UserResponse.current!.photos!.large!, description: description!, interests: [0], start_time: start_time!.timeIntervalSince1970, end_time: end_time!.timeIntervalSince1970)) { _ in
-            let alert = UIAlertController.alert(title: "Event Created")
-            let cancel = UIAlertAction.ok() { _ in self.navigationController?.pop() }
-            alert.addAction(cancel)
-            self.present(alert)
+            let alert = UIAlertController.alert(title: "Event Created"), cancel = UIAlertAction.ok() { _ in self.navigationController?.pop() }
+            alert.addAction(cancel); self.present(alert)
         }
     }
     

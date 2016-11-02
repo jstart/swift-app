@@ -10,9 +10,7 @@ import UIKit
 
 class UserEditPasswordViewController: UITableViewController {
     
-    let header = UILabel(translates: false).then {
-        $0.text = "Change Your Password"; $0.font = .gothamBold(ofSize: 20)
-    }
+    let header = UILabel(translates: false).then { $0.text = "Change Your Password"; $0.font = .gothamBold(ofSize: 20) }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
         $0.text = "This new phone number will replace the number that you’re currently using."
