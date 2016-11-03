@@ -12,17 +12,14 @@ class SplashViewController: UIViewController, UIViewControllerTransitioningDeleg
     
     weak var finishViewController : UIViewController?
     
-    let logo = UIImageView(image: #imageLiteral(resourceName: "icon")).then {
-        $0.translates = false
-    }
+    let logo = UIImageView(image: #imageLiteral(resourceName: "icon")).then { $0.translates = false }
     let titleLabel = UILabel(translates:  false).then {
         let attributedString = NSMutableAttributedString(string: "RIPPLE")
         attributedString.addAttribute(NSKernAttributeName, value: CGFloat(11), range: NSRange(location: 0, length: attributedString.length))
-        $0.attributedText = attributedString
-        $0.font = .gothamLight(ofSize: 18)
-        $0.textColor = .white
+        $0.attributedText = attributedString; $0.textColor = .white
     }
     let transition = FadeTransition()
+    let logoView = LogoView(translates: false).then { $0.backgroundColor = .clear; $0.clipsToBounds = false }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +32,10 @@ class SplashViewController: UIViewController, UIViewControllerTransitioningDeleg
         titleLabel.constrain(.top, constant: 20, toItem: logo, toAttribute: .bottom)
         logo.alpha = 0.0
         titleLabel.alpha = 0.0
+        
+        //view.addSubview(logoView)
+        //logoView.constrain((.centerX, 0), (.centerY, -40), toItem: view)
+        //logoView.constrain((.width, 10), (.height, 10), toItem: logo)
     }
     
     override func viewWillAppear(_ animated: Bool) {

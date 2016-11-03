@@ -45,6 +45,7 @@
 		238FBD6A1DC92F0D00D274E1 /* FadeTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238FBD691DC92F0D00D274E1 /* FadeTransition.swift */; };
 		239881481D95129E009466D8 /* MediumSDKManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239881471D95129E009466D8 /* MediumSDKManager.swift */; };
 		23AB1C901D9C891E00627371 /* RealmUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AB1C8F1D9C891E00627371 /* RealmUtilities.swift */; };
+		23AFDE651DCADFCE00B2FB98 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AFDE641DCADFCE00B2FB98 /* LogoView.swift */; };
 		23C51ADE1D88E61C00C926F1 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51ADD1D88E61C00C926F1 /* LaunchViewController.swift */; };
 		23C51AE01D88E6D400C926F1 /* SMSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51ADF1D88E6D400C926F1 /* SMSViewController.swift */; };
 		23C51AE21D88E6E000C926F1 /* SMSVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51AE11D88E6E000C926F1 /* SMSVerifyViewController.swift */; };
@@ -181,6 +182,7 @@
 		238FBD691DC92F0D00D274E1 /* FadeTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FadeTransition.swift; sourceTree = "<group>"; };
 		239881471D95129E009466D8 /* MediumSDKManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediumSDKManager.swift; sourceTree = "<group>"; };
 		23AB1C8F1D9C891E00627371 /* RealmUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmUtilities.swift; sourceTree = "<group>"; };
+		23AFDE641DCADFCE00B2FB98 /* LogoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		23C51ADD1D88E61C00C926F1 /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		23C51ADF1D88E6D400C926F1 /* SMSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSViewController.swift; sourceTree = "<group>"; };
 		23C51AE11D88E6E000C926F1 /* SMSVerifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSVerifyViewController.swift; sourceTree = "<group>"; };
@@ -461,6 +463,7 @@
 				23C51AE91D89019500C926F1 /* IndustriesCollectionViewDataSource.swift */,
 				23C51AE71D88FF5100C926F1 /* SkillCollectionViewCell.swift */,
 				238FBD671DC925EC00D274E1 /* SplashViewController.swift */,
+				23AFDE641DCADFCE00B2FB98 /* LogoView.swift */,
 				238FBD691DC92F0D00D274E1 /* FadeTransition.swift */,
 			);
 			path = Auth;
@@ -833,6 +836,7 @@
 				23383F4C1D9A2E2B0065C468 /* MGSwipeButton.m in Sources */,
 				234C4D1F1D8E56300075E470 /* UserEditEmailViewController.swift in Sources */,
 				23C8729B1D8377C000B21AB6 /* Colors.swift in Sources */,
+				23AFDE651DCADFCE00B2FB98 /* LogoView.swift in Sources */,
 				23C872781D83769C00B21AB6 /* AlertTransition.swift in Sources */,
 				234FA1791D83D45D00670E1D /* PhoneNumberFormatter.swift in Sources */,
 				23E3050B1DA319B0006AB7F3 /* LiveEventViewController.swift in Sources */,
