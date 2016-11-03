@@ -29,7 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         Fabric.with([Crashlytics.self, Twitter.self])
-        
         NotificationCenter.default.addObserver(self, selector: #selector(logout(_:)), name: .logout, object: nil)
 
         if Keychain.fetchLogin() != nil && demoFlag == false {
@@ -37,7 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserResponse.current = UserResponse.create(JSON)
             LaunchData.fetchLaunchData()
             SocketHandler.startListening()
-
             window?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
         } else if Keychain.fetchLogin() != nil && demoFlag == true {
             guard let JSON = StandardDefaults["CurrentUser"] as? JSONDictionary else { logout(); return true}
