@@ -114,6 +114,7 @@
 		23D6DBCA1DA5882D00B77700 /* PersonCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23D6DBC61DA5882D00B77700 /* PersonCardViewController.xib */; };
 		23D6DBCB1DA5882D00B77700 /* TweetCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D6DBC71DA5882D00B77700 /* TweetCardViewController.swift */; };
 		23D6DBCF1DA5971300B77700 /* NVActivityIndicatorShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D6DBCE1DA5971300B77700 /* NVActivityIndicatorShape.swift */; };
+		23D8083A1DCC052A00A3234C /* Gotham-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 23D808391DCC052A00A3234C /* Gotham-Medium.otf */; };
 		23DCE7471DB6F16700B461F1 /* Gotham-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23DCE7431DB6F16700B461F1 /* Gotham-Bold.ttf */; };
 		23DCE7481DB6F16700B461F1 /* Gotham-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23DCE7441DB6F16700B461F1 /* Gotham-Book.ttf */; };
 		23DCE7491DB6F16700B461F1 /* Gotham-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23DCE7451DB6F16700B461F1 /* Gotham-Light.ttf */; };
@@ -253,6 +254,7 @@
 		23D6DBC61DA5882D00B77700 /* PersonCardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonCardViewController.xib; sourceTree = "<group>"; };
 		23D6DBC71DA5882D00B77700 /* TweetCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetCardViewController.swift; sourceTree = "<group>"; };
 		23D6DBCE1DA5971300B77700 /* NVActivityIndicatorShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorShape.swift; sourceTree = "<group>"; };
+		23D808391DCC052A00A3234C /* Gotham-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Medium.otf"; sourceTree = "<group>"; };
 		23DCE7431DB6F16700B461F1 /* Gotham-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Bold.ttf"; sourceTree = "<group>"; };
 		23DCE7441DB6F16700B461F1 /* Gotham-Book.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Book.ttf"; sourceTree = "<group>"; };
 		23DCE7451DB6F16700B461F1 /* Gotham-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Light.ttf"; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 		23C51AD41D88C32800C926F1 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				23D808391DCC052A00A3234C /* Gotham-Medium.otf */,
 				23DCE7431DB6F16700B461F1 /* Gotham-Bold.ttf */,
 				23DCE7441DB6F16700B461F1 /* Gotham-Book.ttf */,
 				23DCE7451DB6F16700B461F1 /* Gotham-Light.ttf */,
@@ -720,6 +723,7 @@
 				23DCE7491DB6F16700B461F1 /* Gotham-Light.ttf in Resources */,
 				23C51AE61D88FCCA00C926F1 /* Localizable.strings in Resources */,
 				2338C1D81D9DBBD70044E751 /* Assets.xcassets in Resources */,
+				23D8083A1DCC052A00A3234C /* Gotham-Medium.otf in Resources */,
 				23C8724C1D83760300B21AB6 /* MessageTableViewCell.xib in Resources */,
 				23DCE7471DB6F16700B461F1 /* Gotham-Bold.ttf in Resources */,
 				23C872491D83760300B21AB6 /* MessagePreviewTableViewCell.xib in Resources */,

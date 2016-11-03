@@ -23,6 +23,8 @@ class SocketHandler {
     var typing : Date?
     
     static func startListening() {
+        shared.socket.disconnect()
+        shared.socket.removeAllHandlers()
         shared.socket.on("connect") { data, ack in print("socket connected"); shared.socket.emit("alive", with: [""]) }
         
         shared.socket.on("typing") { data, ack in DefaultNotification.post(name: .typing, object: data.first) }

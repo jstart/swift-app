@@ -104,11 +104,11 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
                 cell.textLabel?.text = UserResponse.current?.fullName(); break
             case 2:
                 cell.selectionStyle = .none; cell.textLabel?.textColor = #colorLiteral(red: 0.3490196078, green: 0.7490196078, blue: 0.4, alpha: 1)
-                cell.textLabel?.font = .gothamLight(ofSize: 15)
+                cell.textLabel?.font = .gothamMedium(ofSize: 15)
                 cell.textLabel?.text = "+15% Profile Rank"; break
             case 3:
                 cell.selectionStyle = .none; cell.textLabel?.textColor = #colorLiteral(red: 0.1647058824, green: 0.7098039216, blue: 0.9960784314, alpha: 1)
-                cell.textLabel?.font = .gothamLight(ofSize: 15)
+                cell.textLabel?.font = .gothamMedium(ofSize: 15)
                 cell.textLabel?.text = "+246 Interactions"; break
             default: break }
             return cell

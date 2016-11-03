@@ -173,16 +173,14 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         Client.execute(CardCreateRequest.new(), complete: { response in })//let array = (response.result.value as? JSONArray)?.map({ return CardResponse(JSON: $0) })
         
-        if cards.count == 3 { pager?.removeView(atIndex: 3) }
+        if cards.count >= 3 { pager?.removeView(atIndex: 3) }
             
         if pager!.previousPage == cards.count - 1 && cards.count == 3 {
             self.pager!.currentView().fadeIn()
             pager?.selectedIndex(pager!.previousPage, animated: true)
-        } else if pager!.previousPage == cards.count - 1 {
+        } else {
             self.pager!.currentView().fadeIn()
             pager?.selectedIndex(pager!.previousPage, animated: true)
-        } else {
-            pager?.selectedIndex(pager!.previousPage + 1, animated: true)
         }
     }
     
@@ -200,7 +198,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         editCard.removeConstraints(editCard.constraints)
         view.addSubview(editCard)
         
-        let card = cards[(pager?.previousPage)!]
+        guard let card = cards[safe: (pager?.previousPage)!] else { return }
         self.editCard.fields = card.fields
 
         editCard.constrain(.centerX, .centerY, .width, toItem: pager?.currentView())
@@ -239,14 +237,17 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     }
     
     func delete() {
+        if editMode { self.edit() }
         let index = pager?.previousPage ?? 0
-        pager?.removeView(atIndex: index)
-        cards.remove(at: index)
         
         guard let cardResponse = UserResponse.cards[safe: index] else { return }
+        cards.remove(at: index)
+        
         Snackbar(title: "Card Deleted", buttonTitle: "UNDO", dismissed: {
             Client.execute(CardDeleteRequest(_id: cardResponse.id), complete: { response in })
         }).presentIn(self.view)
+        
+        pager?.removeView(atIndex: index)
         
         pager?.stack.arrangedSubviews.forEach({ ($0 as? QRCardView)?.pageControl.numberOfPages = min(cards.count + 1, 3) })
         pager?.selectedIndex(index - 1, animated: true)

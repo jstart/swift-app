@@ -37,7 +37,7 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         profile.backgroundColor = .clear
         
         name.font = .gothamBook(ofSize: name.font.pointSize)
-        title.font = .gothamBook(ofSize: title.font.pointSize)
+        title.font = .gothamMedium(ofSize: title.font.pointSize)
     }
     
     override func awakeFromNib() {

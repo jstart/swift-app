@@ -43,7 +43,7 @@ class OutlineView: UIView {
         
         addSubview(name)
         name.constrain(.leading, constant: 10, toItem: image, toAttribute: .trailing)
-        name.constrain(.centerY, toItem: image)
+        name.constrain(.centerY, constant: -10, toItem: image)
         
         let title = UIView(translates: false).then {
             $0.backgroundColor = .white

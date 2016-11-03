@@ -42,9 +42,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         
         for view in stack.arrangedSubviews {
             view.translates = false
-            let width = view.constraint(.width, constant: -30, toItem: scroll)
-            width.priority = UILayoutPriorityDefaultHigh
-            width.isActive = true
+            view.constrain(.width, constant: -30, toItem: scroll)
         }
         
         super.init()
@@ -56,9 +54,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
     func insertView(_ view: UIView, atIndex: Int) {
         stack.insertArrangedSubview(view, at: atIndex)
         view.translates = false
-        let width = view.constraint(.width, constant: -30, toItem: scroll)
-        width.priority = UILayoutPriorityDefaultHigh
-        width.isActive = true
+        view.constrain(.width, constant: -30, toItem: scroll)
     }
     
     func currentView() -> UIView { return stack.arrangedSubviews[previousPage] }

@@ -40,7 +40,7 @@ class QRCardView: CardView {
         
         name.text = user.fullName()
         title.text = user.fullTitle()
-        email.text = user.email
+        email.text = "\(UserResponse.current!.first_name!).\(UserResponse.current!.last_name!)@ripple.com" //user.email
         
         if let number = UserResponse.current?.phone_number {
             phone.text = formatter.format(number)

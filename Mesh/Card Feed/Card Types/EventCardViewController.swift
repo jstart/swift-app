@@ -12,7 +12,7 @@ import SafariServices
 class EventCardViewController : BaseCardViewController {
 
     let name = UILabel().then { $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 20) }
-    let subtitle = UILabel().then { $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 12); $0.text = "Related to Tech and Java" }
+    let subtitle = UILabel().then { $0.textColor = .lightGray; $0.font = .gothamMedium(ofSize: 12); $0.text = "Related to Tech and Java" }
     let media = UIImageView(translates: false).then {
         $0.image = #imageLiteral(resourceName: "eventHeader")
         $0.contentMode = .scaleAspectFill

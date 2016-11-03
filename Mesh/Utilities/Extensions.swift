@@ -89,6 +89,7 @@ extension UIImage {
 extension UIFont {
     static func gothamBook(ofSize: CGFloat) -> UIFont { return UIFont(name: "Gotham Book", size: ofSize)! }
     static func gothamBold(ofSize: CGFloat) -> UIFont { return UIFont(name: "Gotham Bold", size: ofSize)! }
+    static func gothamMedium(ofSize: CGFloat) -> UIFont { return UIFont(name: "Gotham", size: ofSize)! }
     static func gothamLight(ofSize: CGFloat) -> UIFont { return UIFont(name: "Gotham Light", size: ofSize)! }
 }
 

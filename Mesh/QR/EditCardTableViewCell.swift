@@ -15,7 +15,7 @@ class EditCardTableViewCell : UITableViewCell {
         $0.textColor = Colors.brand
         $0.font = .gothamBook(ofSize: 17)
     }
-    let check = UIImageView(translates: false)
+    let check = UIImageView(translates: false).then { $0.tintColor = Colors.brand }
     
     required override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,7 +32,7 @@ class EditCardTableViewCell : UITableViewCell {
         check.constrain((.trailing, -16), (.centerY, 0), toItem: self)
     }
     
-    func setChecked(_ selected: Bool) { check.image = selected ? #imageLiteral(resourceName: "checkMark") : nil }
+    func setChecked(_ selected: Bool) { check.image = selected ? #imageLiteral(resourceName: "checkMark").withRenderingMode(.alwaysTemplate) : nil }
     
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 }
