@@ -66,7 +66,8 @@ class MessageTableViewCell: MGSwipeTableCell {
         leftExpansion.fillOnTrigger = true
         leftExpansion.buttonIndex = 0
 
-        leftSwipeSettings.transition = .drag
+        leftSwipeSettings.keepButtonsSwiped = false
+        leftSwipeSettings.transition = .static
         rightSwipeSettings.transition = .drag
     }
     

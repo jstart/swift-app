@@ -14,12 +14,12 @@ import SafariServices
 class TweetCardViewController : BaseCardViewController {
         
     let profile = UIImageView(translates: false).then {
-        $0.constrain(.width, .height, constant: 40)
+        $0.layer.cornerRadius = 10; $0.constrain(.width, .height, constant: 40)
         $0.image = .imageWithColor(.gray); $0.clipsToBounds = true
     }
     let name = UILabel().then { $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 18) }
     let subtitle = UILabel().then {
-        $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 15); $0.text = "Popular in your industry"
+        $0.textColor = #colorLiteral(red: 0.7333333333, green: 0.7333333333, blue: 0.7333333333, alpha: 1); $0.font = .gothamMedium(ofSize: 15); $0.text = "Popular in your industry"
     }
     let sourceIcon = UIImageView(translates: false).then {
         $0.constrain((.width, 25), (.height, 20)); $0.contentMode = .scaleAspectFit
@@ -31,7 +31,7 @@ class TweetCardViewController : BaseCardViewController {
         $0.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
     }
     let text = UILabel(translates: false).then {
-        $0.numberOfLines = 0; $0.textColor = .black; $0.font = .gothamBook(ofSize: 16)
+        $0.numberOfLines = 0; $0.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1); $0.font = .gothamBook(ofSize: 16)
         $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
     }
     let articleTitle = UILabel().then {
@@ -42,14 +42,14 @@ class TweetCardViewController : BaseCardViewController {
     }
     let retweet = UIButton(translates: false).then {
         $0.setImage(#imageLiteral(resourceName: "Retweet"), for: .normal)
-        $0.title = "3"; $0.titleColor = .lightGray; $0.titleLabel?.font = .gothamBook(ofSize: 18)
+        $0.title = "3"; $0.titleColor = .lightGray; $0.titleLabel?.font = .gothamMedium(ofSize: 18)
         $0.constrain((.height, 40))
         $0.contentEdgeInsets = UIEdgeInsetsMake(10, 0, 10, 0)
         $0.imageView?.contentMode = .scaleAspectFit
     }
     let like = UIButton(translates: false).then {
         $0.setImage(#imageLiteral(resourceName: "Heart"), for: .normal)
-        $0.title = "4"; $0.titleColor = .lightGray; $0.titleLabel?.font = .gothamBook(ofSize: 18)
+        $0.title = "4"; $0.titleColor = .lightGray; $0.titleLabel?.font = .gothamMedium(ofSize: 18)
         $0.titleEdgeInsets = UIEdgeInsetsMake(-10, 10, -10, 0)
         $0.contentEdgeInsets = UIEdgeInsetsMake(10, 0, 10, 0)
         $0.constrain((.height, 40), (.width, 63))
@@ -57,8 +57,8 @@ class TweetCardViewController : BaseCardViewController {
     }
     let reply = UIButton(translates: false).then {
         $0.setImage(#imageLiteral(resourceName: "Reply"), for: .normal)
-        $0.constrain((.height, 40))
-        $0.contentEdgeInsets = UIEdgeInsetsMake(10, 15, 10, 20)
+        $0.constrain((.height, 25))
+        //$0.contentEdgeInsets = UIEdgeInsetsMake(10, 15, 10, 20)
         $0.imageView?.contentMode = .scaleAspectFit
     }
     
@@ -88,7 +88,7 @@ class TweetCardViewController : BaseCardViewController {
             name.text = rec?.tweet?.name
             let attributedString = NSMutableAttributedString(string: rec!.tweet!.text)
             let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineSpacing = 5
+            paragraphStyle.lineSpacing = 8
             attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range: NSMakeRange(0, attributedString.length))
             text.attributedText = attributedString;
             text.constrain(.top, constant: 10, toItem: profile, toAttribute: .bottom)
@@ -105,7 +105,7 @@ class TweetCardViewController : BaseCardViewController {
         like.addTarget(self, action: #selector(likeAction), for: .touchUpInside)
         reply.addTarget(self, action: #selector(replyAction), for: .touchUpInside)
         
-        let actionStack = UIStackView(retweet, like, reply, spacing: 35)
+        let actionStack = UIStackView(retweet, like, reply, spacing: 20)
         actionStack.alignment = .center
         actionStack.distribution = .fillProportionally
         actionStack.translates = false

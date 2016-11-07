@@ -18,23 +18,23 @@ class LaunchViewController: UIViewController, CardDelegate {
         $0.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
     }
     let titleLabel = UILabel(translates: false).then {
-        $0.textColor = .white; $0.font = .gothamBook(ofSize: 19)
+        $0.textColor = .white; $0.font = .gothamBook(ofSize: 24)
         let attributedString = NSMutableAttributedString(string: "RIPPLE")
         attributedString.addAttribute(NSKernAttributeName, value: CGFloat(8), range: NSRange(location: 0, length: attributedString.length))
         $0.attributedText = attributedString
-        $0.constrain((.height, 22))
+        $0.constrain((.height, 26))
     }
     let subtitle = UILabel(translates: false).then {
-        $0.text = "Discover what you’re looking for."; $0.textColor = .white; $0.font = .gothamLight(ofSize: 13)
+        $0.text = "A Network Worth Having."; $0.textColor = .white; $0.font = .gothamLight(ofSize: 13)
         $0.constrain((.height, 15))
     }
     let getStarted = UIButton(translates: false).then {
-        $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
-        $0.title = "GET STARTED"; $0.titleLabel?.font = .gothamLight(ofSize: 20)
+        $0.setBackgroundImage(.imageWithColor(#colorLiteral(red: 0.1058823529, green: 0.1882352941, blue: 0.2666666667, alpha: 1)), for: .normal)
+        $0.title = "GET STARTED"; $0.titleLabel?.font = .gothamBook(ofSize: 20)
         $0.layer.cornerRadius = 5; $0.clipsToBounds = true
         $0.constrain((.height, 70))
     }
-    let signIn = UIButton(translates: false).then { $0.title = "SIGN IN"; $0.titleColor = Colors.brand; $0.titleLabel?.font = .gothamLight(ofSize: 20) }
+    let signIn = UIButton(translates: false).then { $0.title = "SIGN IN"; $0.titleColor = #colorLiteral(red: 0.7333333333, green: 0.7333333333, blue: 0.7333333333, alpha: 1); $0.titleLabel?.font = .gothamBook(ofSize: 20) }
     let legal = UITextView(translates: false).then {
         $0.textColor = .gray; $0.textAlignment = .center; $0.isHidden = true
         $0.attributedText = NSAttributedString(string: "By using Mesh you agree to the Privacy Policy and the Terms of Service", attributes: [:])
@@ -45,6 +45,7 @@ class LaunchViewController: UIViewController, CardDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationController?.setNavigationBarHidden(true, animated: false)
         view.backgroundColor = .white
         getStarted.addTarget(self, action: #selector(skills), for: .touchUpInside)

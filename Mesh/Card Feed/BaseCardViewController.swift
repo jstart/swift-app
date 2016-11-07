@@ -52,7 +52,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
         view.layer.cornerRadius = 10.0
         view.layer.shadowColor = UIColor.lightGray.cgColor
         view.layer.shadowOpacity = 1.0
-        view.layer.shadowRadius = 5
+        view.layer.shadowRadius = 10
         view.backgroundColor = .white
         
         gestureRec = UIPanGestureRecognizer(target: self, action: #selector(pan))

@@ -23,7 +23,6 @@ class SocketHandler {
     var typing : Date?
     
     static func startListening() {
-        shared.socket.disconnect()
         shared.socket.removeAllHandlers()
         shared.socket.on("connect") { data, ack in print("socket connected"); shared.socket.emit("alive", with: [""]) }
         
@@ -44,7 +43,8 @@ class SocketHandler {
             try! realm.write { realm.add(meshMessage, update: true); messageConnection?.read = false }
             UserResponse.messages = Array(realm.objects(MessageResponse.self)).sorted(by: { $0.ts > $1.ts });
             DefaultNotification.post(name: .message, object: message)
-            
+            TopAlert(title: "New Message", content: meshMessage.text!, imageURL: messageConnection!.user!.photos!.large!, duration: 5).presentIn(UIApplication.shared.delegate!.window!)
+
             /*if UIApplication.shared.applicationState == .background {
                 let notification = UILocalNotification()
                 notification.alertBody = (messageConnection?.user?.fullName())! + ": " + meshMessage.text!
@@ -64,6 +64,8 @@ class SocketHandler {
             try! realm.write { realm.add(meshConnection, update: true) }
             UserResponse.connections.append(meshConnection)
             DefaultNotification.post(name: .connection, object: meshConnection)
+            
+            TopAlert(title: "New Match", content: "You and \(meshConnection.user!.first_name!) are now connected!", imageURL: meshConnection.user!.photos!.large!, duration: 5).presentIn(UIApplication.shared.delegate!.window!)
         }
         
         shared.socket.on("alive") { data, ack in }
