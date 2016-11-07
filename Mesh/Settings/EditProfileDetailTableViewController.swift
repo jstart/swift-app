@@ -104,7 +104,7 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
             if picker.selectedRow(inComponent: 0) != month { picker.selectRow(month, inComponent: 0, animated: true) }
             if picker.selectedRow(inComponent: 1) != year { picker.selectRow(year, inComponent: 1, animated: true) }
         } else {
-            let index = years.index(of: cell.first.text!)!
+            guard let index = years.index(of: cell.first.text!) else { return }
             if picker.selectedRow(inComponent: 0) != index { picker.selectRow(index, inComponent: 0, animated: true) }
         }
     }

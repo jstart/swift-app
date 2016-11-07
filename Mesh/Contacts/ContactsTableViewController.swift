@@ -51,7 +51,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
 
         guard ContactsManager.authStatus != .authorized else { fetchContacts(); return }
         
-        emptyView = EmptyView([AlertAction(title: "Sync Contacts", backgroundColor: AlertAction.defaultBackground, titleColor: .white, handler: {
+        emptyView = EmptyView([AlertAction(title: "Sync Contacts", handler: {
             self.fetchContacts()
         })], image: #imageLiteral(resourceName: "connectionsAddContacts"))
         emptyView!.titleLabel.text = ContactsManager.authStatus == .denied ? "Permissions Are Turned Off" : "Add Contacts"
@@ -174,8 +174,8 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     }
 
     func addAll() {
-        let actions = [AlertAction(title: "Cancel", backgroundColor: .lightGray, titleColor: .white, handler: { self.dismiss() }),
-                       AlertAction(title: "ADD", backgroundColor: AlertAction.defaultBackground, titleColor: .white, handler: { self.dismiss() }) ]
+        let actions = [AlertAction(title: "Cancel", backgroundColor: .lightGray, handler: { self.dismiss() }),
+                       AlertAction(title: "ADD", handler: { self.dismiss() }) ]
         let alert = AlertViewController(actions, image: #imageLiteral(resourceName: "connectionsAddContacts"))
         alert.titleLabel.text = "Connect and Add All"
         alert.textLabel.text = "Are you sure you want to connect and invite everyone in your contact list?"

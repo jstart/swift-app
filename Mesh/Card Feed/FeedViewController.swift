@@ -111,7 +111,7 @@ class FeedViewController: UIViewController {
         if CameraManager.authStatus() == .authorized {
             self.present(ScanViewController().withNav()); return
         }
-        let alert = AlertViewController([AlertAction(title: "OKAY", backgroundColor: AlertAction.defaultBackground, titleColor: .white, handler: {
+        let alert = AlertViewController([AlertAction(title: "OKAY", handler: {
             self.dismiss(animated: true, completion: {
                 CameraManager.requestAccess(completionHandler: { access in
                     if access { self.present(ScanViewController().withNav()) }

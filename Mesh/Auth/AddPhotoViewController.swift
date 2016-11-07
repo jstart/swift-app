@@ -17,7 +17,11 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
     let header = UILabel(translates: false).then { $0.text = "Add Profile Picture"; $0.font = .gothamBold(ofSize: 20) }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
-        $0.text = "We’re almost there! In order to match with people on Mesh, we need you to do this last step to complete your profile."
+        let attributedString = NSMutableAttributedString(string: "We’re almost there! In order to match with people on Mesh, we need you to do this last step to complete your profile.")
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8
+        attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        $0.attributedText = attributedString
         $0.font = .gothamBook(ofSize: 16); $0.textColor = .gray; $0.textAlignment = .center
     }
     let upload = UIButton(translates: false).then {
@@ -62,7 +66,7 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
         header.constrain(.top, constant: 20, toItem: placeholder, toAttribute: .bottom)
         header.constrain(.centerX, toItem: view)
         
-        text.constrain(.top, toItem: header, toAttribute: .bottom)
+        text.constrain(.top, constant: 5, toItem: header, toAttribute: .bottom)
         text.constrain((.centerX, 0), (.leading, 40), (.trailing, -40), toItem: view)
 
         upload.addTarget(self, action: #selector(photoOptions), for: .touchUpInside)

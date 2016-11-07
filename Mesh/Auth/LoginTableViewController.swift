@@ -66,7 +66,8 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
                 Keychain.deleteLogin()
                 let _ = Keychain.addLogin(phone: self.phoneField!.text!, password: self.passwordField!.text!)
             } else {
-                let alert = UIAlertController.alert(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error")
+                let bodyString = NSString(data: response.data!, encoding: String.Encoding.ascii.rawValue) as! String
+                let alert = UIAlertController.alert(title: "Error", message: bodyString + " " + response.result.error!.localizedDescription)
                 alert.addAction(UIAlertAction.ok())
                 self.present(alert)
             }

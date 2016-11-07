@@ -50,7 +50,7 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         name.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
         
         button.layer.borderWidth = 1
-        button.layer.borderColor = AlertAction.defaultBackground.cgColor
+        button.layer.borderColor = Colors.brand.cgColor
         button.layer.cornerRadius = 5.0
         
         leftSwipeSettings.transition = .drag

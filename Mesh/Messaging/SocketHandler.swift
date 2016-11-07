@@ -65,7 +65,12 @@ class SocketHandler {
             UserResponse.connections.append(meshConnection)
             DefaultNotification.post(name: .connection, object: meshConnection)
             
-            TopAlert(title: "New Match", content: "You and \(meshConnection.user!.first_name!) are now connected!", imageURL: meshConnection.user!.photos!.large!, duration: 5).presentIn(UIApplication.shared.delegate!.window!)
+            let alert = TopAlert(title: "New Match", content: "You and \(meshConnection.user!.first_name!) are now connected!", imageURL: meshConnection.user!.photos!.large!, duration: 5)
+            alert.actions = [AlertAction(title: "View Profile", handler: {
+                let tab = UIApplication.shared.delegate?.window??.rootViewController as? UITabBarController
+                tab?.selectedIndex = 1
+            }), AlertAction(title: "Send A Message", handler: {})]
+            alert.presentIn(UIApplication.shared.delegate!.window!)
         }
         
         shared.socket.on("alive") { data, ack in }

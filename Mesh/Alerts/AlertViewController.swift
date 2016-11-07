@@ -10,8 +10,14 @@ import UIKit
 
 struct AlertAction {
     static let defaultBackground = Colors.brand
-    let title : String, backgroundColor, titleColor : UIColor
-    var handler : (() -> Void)
+    let title : String, backgroundColor, titleColor : UIColor, handler : (() -> Void)
+    
+    init(title: String, backgroundColor: UIColor = AlertAction.defaultBackground, titleColor: UIColor = .white, handler : @escaping (() -> Void) = {}) {
+        self.title = title
+        self.backgroundColor = backgroundColor
+        self.titleColor = titleColor
+        self.handler = handler
+    }
 }
 
 class AlertViewController: UIViewController, UIViewControllerTransitioningDelegate {

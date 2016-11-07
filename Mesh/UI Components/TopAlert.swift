@@ -30,7 +30,39 @@ class TopAlert : UIView {
     let button = UIButton(translates: false).then {
         $0.titleLabel?.font = .gothamLight(ofSize: 13); $0.titleColor = .white
     }
-    
+    var buttons = [UIButton]()
+    var actions = [AlertAction]() {
+        didSet {
+            for (index, action) in actions.enumerated() {
+                let button = UIButton(translates: false).then {
+                    $0.title = action.title; $0.titleColor = action.titleColor
+                    $0.titleLabel?.font = .gothamBold(ofSize: 20)
+                    $0.setBackgroundImage(.imageWithColor(action.backgroundColor), for: .normal)
+                    $0.addTarget(self, action: #selector(buttonPress(sender:)), for: .touchUpInside)
+                    $0.constrain(.height, constant: 50)
+                }
+                addSubview(button)
+                if actions.count == 1 {
+                    button.constrain(.width, toItem: self)
+                    button.constrain(.leading, .trailing , toItem: self)
+                    button.constrain(.top, toItem: self, toAttribute: .bottom)
+                } else {
+                    if index == 0 {
+                        button.constrain(.leading, toItem: self)
+                        button.constrain(.top, toItem: self, toAttribute: .bottom)
+                    } else {
+                        button.constrain(.leading, toItem: buttons[0], toAttribute: .trailing)
+                        button.constrain(.width, toItem: buttons[0])
+                        button.constrain(.trailing, toItem: self)
+                        button.constrain(.top, toItem: self, toAttribute: .bottom)
+                    }
+                }
+                
+                buttons.append(button)
+            }
+        }
+    }
+
     var timer : Timer?
     
     init(title: String) {
@@ -86,7 +118,8 @@ class TopAlert : UIView {
     }
     
     func pressed() { if handler() { dismiss(false) } }
-    
+    func buttonPress(sender: UIButton) { for action in actions {  if sender.titleLabel?.text == action.title { action.handler() } } }
+
     func dismissWithHandler() { dismiss() }
         
     func dismiss(_ callDismissHandler: Bool = true) {

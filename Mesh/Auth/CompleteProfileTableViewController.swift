@@ -24,7 +24,10 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
     let header = UILabel(translates: false).then { $0.text = "Add Your Basic Info"; $0.font = .gothamBold(ofSize: 20) }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
-        $0.text = "In order to match with people on Mesh, we need you to complete your profile."
+        let attributedString = NSMutableAttributedString(string: "In order to match with people on Mesh, we need you to complete your profile.")
+        let paragraphStyle = NSMutableParagraphStyle(); paragraphStyle.lineSpacing = 8
+        attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        $0.attributedText = attributedString
         $0.font = .gothamBook(ofSize: 16); $0.textColor = .gray; $0.textAlignment = .center
     }
     let linkedIn = UIButton().then { $0.setImage(#imageLiteral(resourceName: "LinkedIn"), for: .normal); $0.title = "LinkedIn"; $0.titleColor = Colors.brand; $0.imageView?.contentMode = .scaleAspectFit }
@@ -79,7 +82,7 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
         tableHeader.addSubviews(header, text)
         header.constrain((.top, 20), (.centerX, 0), toItem: tableHeader)
         
-        text.constrain(.top, toItem: header, toAttribute: .bottom)
+        text.constrain(.top, constant: 5, toItem: header, toAttribute: .bottom)
         text.constrain((.leading, 20), (.trailing, -20), (.bottom, -25), (.centerX, 0), toItem: tableHeader)
         
         tableView.tableHeaderView = tableHeader
