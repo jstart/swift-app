@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -21,43 +24,50 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="131"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="320" height="130"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="130.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lrb-Ml-jmo">
+                        <rect key="frame" x="8" y="8" width="304" height="114.5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DCL-t8-YnY">
+                        <rect key="frame" x="60" y="18" width="209" height="15.5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2mU-TT-Osi">
+                        <rect key="frame" x="60" y="33.5" width="175" height="62"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" name="GothamBook" family="Gotham Book" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rSr-KC-vzX">
+                        <rect key="frame" x="274" y="16" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="E4V-m5-9aX"/>
                             <constraint firstAttribute="height" constant="30" id="jQB-1c-74C"/>
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hoM-8z-5oi">
+                        <rect key="frame" x="18" y="16" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="830-wL-DMZ"/>
                             <constraint firstAttribute="width" constant="30" id="kG1-6H-Zpt"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fri 5:15 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="hHI-sl-g09">
+                        <rect key="frame" x="60" y="100.5" width="58.5" height="10"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" name="GothamBook" family="Gotham Book" pointSize="11"/>
                         <color key="textColor" red="0.63529411764705879" green="0.63529411764705879" blue="0.63529411764705879" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Qc-Mg-dUf">
+                        <rect key="frame" x="240" y="90.5" width="64" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="64" id="ZJ3-ew-Dt6"/>
                         </constraints>
@@ -79,7 +89,7 @@
                     <constraint firstItem="hHI-sl-g09" firstAttribute="leading" secondItem="2mU-TT-Osi" secondAttribute="leading" id="KSW-xw-zo9"/>
                     <constraint firstItem="4Qc-Mg-dUf" firstAttribute="top" relation="greaterThanOrEqual" secondItem="rSr-KC-vzX" secondAttribute="bottom" constant="5" id="KXf-j1-p2f"/>
                     <constraint firstAttribute="trailing" secondItem="rSr-KC-vzX" secondAttribute="trailing" constant="16" id="MqV-2V-chk"/>
-                    <constraint firstAttribute="bottom" secondItem="hHI-sl-g09" secondAttribute="bottom" constant="16" id="NKW-Ft-QIm"/>
+                    <constraint firstAttribute="bottom" secondItem="hHI-sl-g09" secondAttribute="bottom" constant="20" id="NKW-Ft-QIm"/>
                     <constraint firstItem="hHI-sl-g09" firstAttribute="top" secondItem="2mU-TT-Osi" secondAttribute="bottom" constant="5" id="SBS-bU-6JB"/>
                     <constraint firstAttribute="topMargin" secondItem="DCL-t8-YnY" secondAttribute="top" constant="-10" id="a3A-Cs-YYh"/>
                     <constraint firstItem="lrb-Ml-jmo" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="bAN-bJ-jk9"/>
@@ -93,6 +103,7 @@
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
                 <outlet property="company" destination="rSr-KC-vzX" id="TqC-Hg-WTH"/>
                 <outlet property="date" destination="hHI-sl-g09" id="eKt-2O-IOh"/>

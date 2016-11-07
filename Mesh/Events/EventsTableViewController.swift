@@ -11,8 +11,8 @@ import UIKit
 class EventsTableViewController : UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
     
     let attending = RealmUtilities.realm().objects(EventResponse.self)//[Event(name: "LA Hacks", date: "Starts October 21", isGoing: true), Event(name: "AWS re:Invent", date: "Starts October 25", isGoing: true)]
-    let recommended = RealmUtilities.realm().objects(EventResponse.self)
-    let previous = RealmUtilities.realm().objects(EventResponse.self)
+    let recommended = [EventResponse]()//RealmUtilities.realm().objects(EventResponse.self)
+    let previous = [EventResponse]()//RealmUtilities.realm().objects(EventResponse.self)
 
     let sectionTitles = ["    YOUR EVENTS", "    RECOMMENDED EVENTS", "    PREVIOUS EVENTS"]
 
@@ -116,14 +116,12 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
             vc.hidesBottomBarWhenPushed = true
             vc.event = attending[indexPath.row]
             navigationController?.push(vc)
-        }
-        if indexPath.section == 1 {
+        } else if indexPath.section == 1 {
             let vc = LiveEventViewController()
             vc.hidesBottomBarWhenPushed = true
             vc.event = recommended[indexPath.row]
             navigationController?.push(vc)
-        }
-        if indexPath.section == 2 {
+        } else if indexPath.section == 2 {
             let vc = PastEventTableViewController(style: .grouped)
             vc.event = previous[indexPath.row]
             navigationController?.push(vc)

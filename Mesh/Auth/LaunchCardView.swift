@@ -24,7 +24,11 @@ class LaunchCardViewController: BaseCardViewController {
         $0.textColor = .darkGray
     }
     let text = UILabel().then {
-        $0.text = "Connect and chat with people in your industry"
+        let attributedString = NSMutableAttributedString(string: "Connect and chat with people in your industry")
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8
+        attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        $0.attributedText = attributedString;
         $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray
         $0.textAlignment = .center
         $0.numberOfLines = 0

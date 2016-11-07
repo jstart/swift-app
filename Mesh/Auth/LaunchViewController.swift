@@ -29,7 +29,7 @@ class LaunchViewController: UIViewController, CardDelegate {
         $0.constrain((.height, 15))
     }
     let getStarted = UIButton(translates: false).then {
-        $0.setBackgroundImage(.imageWithColor(#colorLiteral(red: 0.1058823529, green: 0.1882352941, blue: 0.2666666667, alpha: 1)), for: .normal)
+        $0.setBackgroundImage(.imageWithColor(#colorLiteral(red: 0.1058823529, green: 0.1882352941, blue: 0.2666666667, alpha: 1)), for: .normal); $0.contentMode = .center; $0.contentVerticalAlignment = .center
         $0.title = "GET STARTED"; $0.titleLabel?.font = .gothamBook(ofSize: 20)
         $0.layer.cornerRadius = 5; $0.clipsToBounds = true
         $0.constrain((.height, 70))
@@ -45,7 +45,6 @@ class LaunchViewController: UIViewController, CardDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         navigationController?.setNavigationBarHidden(true, animated: false)
         view.backgroundColor = .white
         getStarted.addTarget(self, action: #selector(skills), for: .touchUpInside)

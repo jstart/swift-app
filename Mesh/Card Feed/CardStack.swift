@@ -19,12 +19,14 @@ class CardStack : UIViewController, CardDelegate {
     var cards : [RecommendationResponse]? = nil
     var bottomCard, currentCard : BaseCardViewController?
     var cardIndex = 0
-    
+
     func stopAnimation() {
         view.layer.sublayers?.removeAll()
     }
     
     func animate() {
+        view.layer.sublayers?.removeAll()
+
         let circleSpacing: CGFloat = 5
         let size = CGSize(width: 40, height: 40)
         let circleSize = (size.width - circleSpacing * 2) / 3

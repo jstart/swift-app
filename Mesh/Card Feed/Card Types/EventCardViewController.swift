@@ -49,7 +49,7 @@ class EventCardViewController : BaseCardViewController {
         headerStack.translates = false
         view.addSubview(headerStack)
         
-        headerStack.constrain((.height, 60))
+        headerStack.constrain((.height, 50))
         headerStack.constrain(.top, constant: 10, toItem: media, toAttribute: .bottom)
         headerStack.constrain((.leading, 12), (.trailing, -12), toItem: view)
         
@@ -75,19 +75,19 @@ class EventCardViewController : BaseCardViewController {
         location.contentMode = .scaleAspectFit
 
         descriptionStack = UIStackView(UIStackView(clock, date, spacing: 10),
-                                       UIStackView(location, UIStackView(self.location, address, axis: .vertical, spacing: 5), spacing: 10),
-                                       UIStackView(url, self.url, spacing: 10), axis: .vertical, spacing: 10)
+                                       UIStackView(location, UIStackView(self.location, address, axis: .vertical, spacing: 7), spacing: 10),
+                                       UIStackView(url, self.url, spacing: 10), axis: .vertical, spacing: 12)
         descriptionStack?.distribution = .fillProportionally
         descriptionStack?.alignment = .leading
         descriptionStack?.translates = false
         view.addSubview(descriptionStack!)
         descriptionStack?.constrain((.leading, 12), (.trailing, -12), toItem: view)
-        descriptionStack?.constrain(.top, constant: 8, toItem: barView, toAttribute: .bottom)
+        descriptionStack?.constrain(.top, constant: 10, toItem: barView, toAttribute: .bottom)
         descriptionStack?.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
 
         barView = bar()
         view.addSubview(barView)
-        barView.constrain(.top, constant: 8, toItem: descriptionStack, toAttribute: .bottom)
+        barView.constrain(.top, constant: 10, toItem: descriptionStack, toAttribute: .bottom)
         barView.constrain(.width, .centerX, toItem: view)
         
         let connectionView = QuickViewGenerator.quickView(RealmUtilities.objects(ConnectionResponse.self))
@@ -107,9 +107,9 @@ class EventCardViewController : BaseCardViewController {
         name.text = event.name
         let attributedString = NSMutableAttributedString(string: event.descriptionText)
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 5
+        paragraphStyle.lineSpacing = 8
         attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range: NSMakeRange(0, attributedString.length))
-        text.attributedText = attributedString;
+        text.attributedText = attributedString
         guard let logo = event.logo else { return }
 
         media.af_setImage(withURL: URL(string: logo)!)
