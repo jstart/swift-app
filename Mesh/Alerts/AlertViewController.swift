@@ -10,13 +10,14 @@ import UIKit
 
 struct AlertAction {
     static let defaultBackground = Colors.brand
-    let title : String, backgroundColor, titleColor : UIColor, handler : (() -> Void)
+    let title : String, icon: UIImage?, backgroundColor, titleColor : UIColor, handler : (() -> Void)
     
-    init(title: String, backgroundColor: UIColor = AlertAction.defaultBackground, titleColor: UIColor = .white, handler : @escaping (() -> Void) = {}) {
+    init(title: String, icon: UIImage? = nil, backgroundColor: UIColor = AlertAction.defaultBackground, titleColor: UIColor = .white, handler : @escaping (() -> Void) = {}) {
         self.title = title
         self.backgroundColor = backgroundColor
         self.titleColor = titleColor
         self.handler = handler
+        self.icon = icon
     }
 }
 

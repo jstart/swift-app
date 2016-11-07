@@ -31,7 +31,7 @@ class EditProfileListTableViewController: UITableViewController {
             let cell = tableView.dequeue(AddItemTableViewCell.self, indexPath: indexPath)
             cell.configure(itemType?.title())
             cell.constrain((.height, 85))
-            cell.separatorInset = UIEdgeInsetsMake(0, 1000, 0, 0);
+            cell.separatorInset = UIEdgeInsetsMake(0, 1000, 0, 0)
             return cell
         }
         

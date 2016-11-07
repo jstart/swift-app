@@ -43,7 +43,14 @@ class SocketHandler {
             try! realm.write { realm.add(meshMessage, update: true); messageConnection?.read = false }
             UserResponse.messages = Array(realm.objects(MessageResponse.self)).sorted(by: { $0.ts > $1.ts });
             DefaultNotification.post(name: .message, object: message)
-            TopAlert(title: "New Message", content: meshMessage.text!, imageURL: messageConnection!.user!.photos!.large!, duration: 5).presentIn(UIApplication.shared.delegate!.window!)
+            let alert = TopAlert(title: "New Message", content: meshMessage.text!, imageURL: messageConnection!.user!.photos!.large!, duration: 5)
+            alert.actions = [AlertAction(title: "Reply", handler: {
+                let tab = UIApplication.shared.delegate?.window??.rootViewController as? UITabBarController
+                tab?.presentedViewController?.dismiss()
+                tab?.selectedIndex = 1
+                alert.dismiss()
+            })]
+            alert.presentIn(UIApplication.shared.delegate!.window!)
 
             /*if UIApplication.shared.applicationState == .background {
                 let notification = UILocalNotification()
@@ -66,10 +73,12 @@ class SocketHandler {
             DefaultNotification.post(name: .connection, object: meshConnection)
             
             let alert = TopAlert(title: "New Match", content: "You and \(meshConnection.user!.first_name!) are now connected!", imageURL: meshConnection.user!.photos!.large!, duration: 5)
-            alert.actions = [AlertAction(title: "View Profile", handler: {
+            alert.actions = [AlertAction(title: "View Profile", icon: #imageLiteral(resourceName: "mainNavSettings"), handler: {
                 let tab = UIApplication.shared.delegate?.window??.rootViewController as? UITabBarController
+                tab?.presentedViewController?.dismiss()
                 tab?.selectedIndex = 1
-            }), AlertAction(title: "Send A Message", handler: {})]
+                alert.dismiss()
+            }), AlertAction(title: "Send A Message", icon: #imageLiteral(resourceName: "mainNavConnections"), handler: { alert.dismiss() })]
             alert.presentIn(UIApplication.shared.delegate!.window!)
         }
         

@@ -186,7 +186,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
 //                return cell
 //            }else {
             let cell = tableView.dequeue(MessageTableViewCell.self, indexPath: indexPath)
-            cell.separatorInset = UIEdgeInsets(top: 0, left: -1000, bottom: 0, right: 0)
+            cell.separatorInset = UIEdgeInsetsMake(0, 1000, 0, 0)
             cell.skip.callback = { sender in
                 let currentIndex = tableView.indexPath(for: sender!)!
                 self.todoMessages.remove(at: currentIndex.row)

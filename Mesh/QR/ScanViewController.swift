@@ -110,6 +110,8 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         if showOverlayFirstTime() { return }
         
         timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(refresh), userInfo: nil, repeats: true)
+        refresh();
+
         guard StandardDefaults["FirstScan"] == nil else { return }
         Snackbar(title: "Hover over another card to scan and connect", showUntilDismissed: true).presentIn(view)
     }
@@ -121,6 +123,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        UIApplication.shared.statusBarStyle = .default
         timer?.invalidate()
     }
     
@@ -344,7 +347,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         if overlay != nil { timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(refresh), userInfo: nil, repeats: true) }
         pager?.scroll.isScrollEnabled = true
         overlay?.fadeOut() { self.overlay?.removeFromSuperview() }
-        
+        refresh()
         guard StandardDefaults["FirstScan"] == nil else { return }
         Snackbar(title: "Hover over another card to scan and connect", showUntilDismissed: true).presentIn(view)
     }
