@@ -123,6 +123,7 @@
 		23DFB67C1D654B3C00D871A9 /* ProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DFB67B1D654B3C00D871A9 /* ProfileRequest.swift */; };
 		23E3050B1DA319B0006AB7F3 /* LiveEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E3050A1DA319B0006AB7F3 /* LiveEventViewController.swift */; };
 		23E85F591DCFFA1E00F0AEFF /* TopAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E85F581DCFFA1E00F0AEFF /* TopAlert.swift */; };
+		23E85F5B1DD11ADB00F0AEFF /* EventsSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E85F5A1DD11ADB00F0AEFF /* EventsSearchTableViewController.swift */; };
 		23EA22811D8A110C00CAB4A9 /* CompleteProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EA22801D8A110C00CAB4A9 /* CompleteProfileTableViewController.swift */; };
 		23EA228D1D8A1F4F00CAB4A9 /* SkyFloatingLabelTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EA228A1D8A1F4F00CAB4A9 /* SkyFloatingLabelTextField.swift */; };
 		23EA228E1D8A1F4F00CAB4A9 /* SkyFloatingLabelTextFieldWithIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EA228B1D8A1F4F00CAB4A9 /* SkyFloatingLabelTextFieldWithIcon.swift */; };
@@ -264,6 +265,7 @@
 		23DFB67B1D654B3C00D871A9 /* ProfileRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileRequest.swift; sourceTree = "<group>"; };
 		23E3050A1DA319B0006AB7F3 /* LiveEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveEventViewController.swift; sourceTree = "<group>"; };
 		23E85F581DCFFA1E00F0AEFF /* TopAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopAlert.swift; sourceTree = "<group>"; };
+		23E85F5A1DD11ADB00F0AEFF /* EventsSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsSearchTableViewController.swift; sourceTree = "<group>"; };
 		23EA22801D8A110C00CAB4A9 /* CompleteProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompleteProfileTableViewController.swift; sourceTree = "<group>"; };
 		23EA228A1D8A1F4F00CAB4A9 /* SkyFloatingLabelTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkyFloatingLabelTextField.swift; sourceTree = "<group>"; };
 		23EA228B1D8A1F4F00CAB4A9 /* SkyFloatingLabelTextFieldWithIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkyFloatingLabelTextFieldWithIcon.swift; sourceTree = "<group>"; };
@@ -505,6 +507,7 @@
 		23C872941D83776700B21AB6 /* Events */ = {
 			isa = PBXGroup;
 			children = (
+				23E85F5A1DD11ADB00F0AEFF /* EventsSearchTableViewController.swift */,
 				23E3050A1DA319B0006AB7F3 /* LiveEventViewController.swift */,
 				2338C1D91D9DDD350044E751 /* PastEventTableViewController.swift */,
 				237A2B411D9DAAD6003D9190 /* EventCreateTableViewController.swift */,
@@ -828,6 +831,7 @@
 				23C872701D83765700B21AB6 /* CameraManager.swift in Sources */,
 				AD4E2E201D5A760800130811 /* AuthRequest.swift in Sources */,
 				23C8728C1D8376EF00B21AB6 /* EditTableViewController.swift in Sources */,
+				23E85F5B1DD11ADB00F0AEFF /* EventsSearchTableViewController.swift in Sources */,
 				23F6EAFC1DA0A3D200D5132F /* EventsRequest.swift in Sources */,
 				234C4D231D8E5A570075E470 /* UserEditPhoneViewController.swift in Sources */,
 				23C8728D1D8376EF00B21AB6 /* SettingsTableViewController.swift in Sources */,

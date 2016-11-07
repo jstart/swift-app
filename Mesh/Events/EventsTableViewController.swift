@@ -18,8 +18,9 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
 
     var searchController : UISearchController?
     var quickCell : UIView?
-    let searchResults = InboxSearchTableViewController()
-    
+    let searchResults = EventsSearchTableViewController()
+    var recentSearches = (StandardDefaults["RecentEventsSearches"] as? [String]) ?? [String]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         searchController = UISearchController(searchResultsController: searchResults)
@@ -69,12 +70,24 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) { navigationItem.setRightBarButton(nil, animated: true) }
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) { navigationItem.setRightBarButton(UIBarButtonItem(#imageLiteral(resourceName: "add"), target: self, action: #selector(add)), animated: true) }
     
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        guard let text = searchBar.text else { return true }; guard text != "" else { return true }
+        if !recentSearches.contains(text) {
+            recentSearches.append(text)
+            searchResults.recentSearches = recentSearches
+            StandardDefaults.set(recentSearches, forKey: "RecentConnectionSearches")
+        }
+        return true
+    }
+    
     open func updateSearchResults(for searchController: UISearchController) {
-        let search = searchController.searchResultsController as! InboxSearchTableViewController
+        let search = searchController.searchResultsController as! EventsSearchTableViewController
         search.view.isHidden = false
         search.showRecents = searchController.searchBar.text == ""
+        search.filterBy(text: searchController.searchBar.text!)
         search.tableView.reloadData()
     }
+
     
     func add() { navigationController?.push(EventCreateTableViewController()) }
     
