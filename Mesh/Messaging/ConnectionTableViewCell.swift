@@ -72,7 +72,7 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         title.text = user?.fullTitle()
         if let url = user?.companies.first?.logo {
             company.af_setImage(withURL: URL(string: url)!)
-        }
+        } else { company.image = nil }
         guard let url = user?.photos?.large else { showInitials(firstName: (user?.first_name) ?? "", lastName: (user?.last_name) ?? ""); return }
         profile.af_setImage(withURL: URL(string: url)!)
     }

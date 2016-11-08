@@ -34,8 +34,8 @@ class MessagesViewController: JSQMessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(#imageLiteral(resourceName: "overflow"), target: self, action: #selector(overflow)),
-                                              UIBarButtonItem(#imageLiteral(resourceName: "chatMarkAsUnread"), target: self, action: #selector(toggleReadState))]
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(#imageLiteral(resourceName: "overflow"), target: self, action: #selector(overflow))]
+                                              //UIBarButtonItem(#imageLiteral(resourceName: "chatMarkAsUnread"), target: self, action: #selector(toggleReadState))]
         
         /*let imageButton = UIButton(translates: false)
         imageButton.addTarget(self, action: #selector(image), for: .touchUpInside)
@@ -47,7 +47,7 @@ class MessagesViewController: JSQMessagesViewController {
         inputToolbar.preferredDefaultHeight = 200
         
         collectionView?.collectionViewLayout.messageBubbleFont = .gothamBook(ofSize: 15)
-        collectionView?.collectionViewLayout.messageBubbleTextViewTextContainerInsets = UIEdgeInsetsMake(10, 7, 7, 0)
+        collectionView?.collectionViewLayout.messageBubbleTextViewTextContainerInsets = UIEdgeInsetsMake(10, 10, 7, 0)
         
         DefaultNotification.addObserver(self, selector: #selector(userIsTyping(notification:)), name: .typing, object: nil)
         DefaultNotification.addObserver(self, selector: #selector(receivedMessage(notification:)), name: .message, object: nil)
@@ -185,7 +185,14 @@ class MessagesViewController: JSQMessagesViewController {
         cell.cellBottomLabel?.font = .gothamBook(ofSize: 10)
         cell.avatarImageView?.layer.cornerRadius = 5
         cell.avatarImageView?.clipsToBounds = true
-        
+
+//        let attributedString = NSMutableAttributedString(attributedString: cell.textView!.attributedText!)
+//        let paragraphStyle = NSMutableParagraphStyle()
+//        paragraphStyle.lineSpacing = 8
+//        attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
+//        cell.textView?.attributedText = attributedString
+//        cell.textView?.layoutSubviews()
+//        cell.layoutSubviews()
         return cell
     }
 

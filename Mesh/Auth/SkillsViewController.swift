@@ -174,8 +174,8 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         if self.title == "Select Industry" {
             self.switchToSkills(indexPath)
         } else {
-            let pickerItem = dataSource.itemFor(indexPath: indexPath)
-            selectedPickerItems.append(pickerItem!)
+            guard let pickerItem = dataSource.itemFor(indexPath: indexPath) else { return }
+            selectedPickerItems.append(pickerItem)
             dataSource.selectedPickerItems = selectedPickerItems
         }
     }
@@ -238,7 +238,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     
     func animateCells(_ indexPath: IndexPath, reverse: Bool = false) {
         let visible = collectionView.indexPathsForVisibleItems
-        let row = indexPath.row/3
+        let row = indexPath.row / 3
         
         for path in visible {
             let cell = collectionView.cellForItem(at: path) as! SkillCollectionViewCell

@@ -16,25 +16,23 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
     var viewPager : ViewPager?
     let transition = CardDetailTransition()
     let imageView = UIImageView(image: .imageWithColor(.gray)).then {
-        $0.clipsToBounds = true
-        $0.contentMode = .scaleAspectFill
-        $0.translates = false
+        $0.clipsToBounds = true; $0.contentMode = .scaleAspectFill; $0.translates = false
         $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
     }
     let name = UILabel(translates: false).then {
-        $0.textColor = .black; $0.font = UIFont.gothamBook(ofSize: 20); $0.backgroundColor = .white
-        $0.constrain(.height, constant: 22)
+        $0.textColor = .black; $0.font = UIFont.gothamBook(ofSize: 20); $0.backgroundColor = .white; $0.constrain(.height, constant: 22)
     }
     let position = UILabel(translates: false).then {
-        $0.textColor = #colorLiteral(red: 0.7810397744, green: 0.7810582519, blue: 0.7810482979, alpha: 1); $0.font = UIFont.gothamBook(ofSize: 16); $0.backgroundColor = .white
-        $0.constrain(.height, constant: 20)
+        $0.textColor = #colorLiteral(red: 0.7810397744, green: 0.7810582519, blue: 0.7810482979, alpha: 1); $0.font = UIFont.gothamBook(ofSize: 16); $0.backgroundColor = .white; $0.constrain(.height, constant: 20)
     }
     let logo = UIImageView(image: .imageWithColor(.gray)).then {
-        $0.translates = false
-        $0.backgroundColor = .white
-        $0.clipsToBounds = true
-        $0.contentMode = .scaleAspectFit
-        $0.layer.cornerRadius = 5.0
+        $0.translates = false; $0.backgroundColor = .white
+        $0.clipsToBounds = true; $0.contentMode = .scaleAspectFit; $0.layer.cornerRadius = 5.0
+        $0.constrain(.width, .height, constant: 62)
+    }
+    let logoBackshadow = UIView(translates: false).then {
+        $0.backgroundColor = .white; $0.layer.cornerRadius = 5.0
+        $0.layer.shadowColor = UIColor.black.cgColor; $0.layer.shadowOpacity = 0.2; $0.layer.shadowRadius = 10
         $0.constrain(.width, .height, constant: 62)
     }
 
@@ -43,7 +41,6 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         
         transition.cardVC = self
         gestureRec?.delegate = self
-        
         let quickViewStack = UIStackView(bar(), control.stack!, bar())
         quickViewStack.distribution = .fillProportionally
         quickViewStack.alignment = .center
@@ -57,7 +54,6 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
             let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: [], experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: []))
             viewPager?.insertViews(quickViews)
             if let category = user.promoted_category {
-                
                 let categoryIndex = QuickViewCategory.index(category)
                 control.selectIndex(categoryIndex)
                 viewPager?.selectedIndex(categoryIndex, animated: true)
@@ -101,12 +97,16 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         
         imageView.constrain(.width, .centerX, toItem: view)
         
+        view.addSubview(logoBackshadow)
         view.addSubview(logo)
         
-        logo.translates = false
         logo.constrain(.width, .height, constant: 62)
         logo.constrain(.leading, constant: 15, toItem: view)
         logo.constrain(.bottom, constant: 62 - 15, toItem: imageView)
+        
+        logoBackshadow.constrain(.width, .height, constant: 62)
+        logoBackshadow.constrain(.leading, constant: 15, toItem: view)
+        logoBackshadow.constrain(.bottom, constant: 62 - 15, toItem: imageView)
 
         name.constrain(.top, constant: 11, toItem: namePositionContainer)
         name.constrain(.leading, constant: 15, toItem: logo, toAttribute: .trailing)
@@ -138,12 +138,10 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         overlayView.alpha = 0.0
         overlayView.isHidden = true
         
-        if let user = rec?.user {
-            if let category = user.promoted_category {
-                let categoryIndex = QuickViewCategory.index(category)
-                control.selectIndex(categoryIndex)
-                viewPager?.selectedIndex(categoryIndex, animated: true)
-            }
+        if let user = rec?.user, let category = user.promoted_category {
+            let categoryIndex = QuickViewCategory.index(category)
+            control.selectIndex(categoryIndex)
+            viewPager?.selectedIndex(categoryIndex, animated: true)
         } else {
             control.selectIndex(0)
             viewPager?.selectedIndex(0, animated: false)
@@ -162,17 +160,14 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if let user = rec?.user {
-            if let category = user.promoted_category {
-                let categoryIndex = QuickViewCategory.index(category)
-                control.selectIndex(categoryIndex)
-                viewPager?.selectedIndex(categoryIndex, animated: true)
-            }
+        if let user = rec?.user, let category = user.promoted_category {
+            let categoryIndex = QuickViewCategory.index(category)
+            control.selectIndex(categoryIndex)
+            viewPager?.selectedIndex(categoryIndex, animated: true)
         } else {
             control.selectIndex(0)
             viewPager?.selectedIndex(0, animated: false)
         }
-        
     }
     
     func bar() -> UIView {
@@ -181,8 +176,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
             $0.constrain(.height, constant: 1)
             $0.constrain(.width, relatedBy: .lessThanOrEqual, constant: 80)
             let greater = $0.constraint(.width, relatedBy: .greaterThanOrEqual, constant: 40)
-            greater.priority = UILayoutPriorityDefaultHigh
-            greater.isActive = true
+            greater.priority = UILayoutPriorityDefaultHigh; greater.isActive = true
         }
     }
     

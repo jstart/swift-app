@@ -32,7 +32,7 @@ class LaunchViewController: UIViewController, CardDelegate {
         $0.setBackgroundImage(.imageWithColor(#colorLiteral(red: 0.1058823529, green: 0.1882352941, blue: 0.2666666667, alpha: 1)), for: .normal); $0.contentMode = .center; $0.contentVerticalAlignment = .center
         $0.title = "GET STARTED"; $0.titleLabel?.font = .gothamBook(ofSize: 20)
         $0.layer.cornerRadius = 5; $0.clipsToBounds = true
-        $0.constrain((.height, 70))
+        $0.titleEdgeInsets = UIEdgeInsetsMake(5, 0, 0, 0); $0.constrain((.height, 70))
     }
     let signIn = UIButton(translates: false).then { $0.title = "SIGN IN"; $0.titleColor = #colorLiteral(red: 0.7333333333, green: 0.7333333333, blue: 0.7333333333, alpha: 1); $0.titleLabel?.font = .gothamBook(ofSize: 20) }
     let legal = UITextView(translates: false).then {

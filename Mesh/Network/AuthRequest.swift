@@ -150,6 +150,9 @@ class CompanyResponse : Object, UserDetail {
     static func create(_ JSON: JSONDictionary) -> CompanyResponse {
         return CompanyResponse().then {
             $0._id = JSON["_id"] as? String; $0.name = JSON["name"] as? String; $0.logo = JSON["logo"] as? String
+            if $0._id == nil {
+                $0._id = "\(JSON["_id"] as? Int)"
+            }
         }
     }
 

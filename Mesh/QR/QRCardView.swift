@@ -12,12 +12,8 @@ class QRCardView: CardView {
     
     var stackView : UIStackView?
     
-    let qrImage = UIImageView(translates: false).then {
-        $0.constrain(.width, .height, constant: 100); $0.backgroundColor = .white
-    }
-    let name = UILabel(translates: false).then {
-        $0.textColor = .black; $0.font = .gothamBold(ofSize: 22); $0.backgroundColor = .white
-    }
+    let qrImage = UIImageView(translates: false).then { $0.constrain(.width, .height, constant: 100); $0.backgroundColor = .white }
+    let name = UILabel(translates: false).then { $0.textColor = .black; $0.font = .gothamBold(ofSize: 22); $0.backgroundColor = .white }
     let pageControl = UIPageControl(translates: false).then {
         $0.currentPageIndicatorTintColor = Colors.brand
         $0.pageIndicatorTintColor = .lightGray
@@ -42,16 +38,12 @@ class QRCardView: CardView {
         title.text = user.fullTitle()
         email.text = "\(UserResponse.current!.first_name!).\(UserResponse.current!.last_name!)@ripple.com" //user.email
         
-        if let number = UserResponse.current?.phone_number {
-            phone.text = formatter.format(number)
-        }
+        if let number = UserResponse.current?.phone_number { phone.text = formatter.format(number) }
         
         viewsForFields(fields).forEach({ $0.isHidden = false })
 
-        stackView = UIStackView(name, title, email, phone, axis: .vertical, spacing: 2).then {
-            $0.distribution = .equalSpacing
-            $0.alignment = .leading
-            $0.translates = false
+        stackView = UIStackView(name, title, email, phone, axis: .vertical, spacing: 8).then {
+            $0.distribution = .equalSpacing; $0.alignment = .leading; $0.translates = false
         }
         addSubview(stackView!)
 
@@ -108,8 +100,7 @@ class QRCardView: CardView {
         return UILabel().then {
             $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 16)
             $0.text = text
-            $0.isHidden = true
-            $0.backgroundColor = .white
+            $0.backgroundColor = .white; $0.isHidden = true
         }
     }
 

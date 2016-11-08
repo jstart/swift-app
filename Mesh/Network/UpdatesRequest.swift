@@ -106,9 +106,12 @@ class EventResponse : Object, UserDetail {
     override class func indexedProperties() -> [String] { return ["name", "start_time"] }
 
     let category = QuickViewCategory.events
+    let formatter = DateFormatter().then { $0.dateFormat = "MMMM dd, yyyy - h a"; $0.locale = Locale.autoupdatingCurrent }
 
     var firstText : String { return name }
-    var secondText : String { return descriptionText }
+    var secondText : String {
+        return formatter.string(from: Date(timeIntervalSince1970: Double(start_time)!))
+    }
 
     static func create(_ JSON: JSONDictionary) -> EventResponse {
         return EventResponse().then {

@@ -120,7 +120,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     func sort() {
         return
         //TODO: Sorting
-        //navigationItem.rightBarButtonItems?[0].image = #imageLiteral(resourceName: "sortConnectionsClose")
+//        (navigationItem.rightBarButtonItems?[0].image = #imageLiteral(resourceName: "sortConnectionsClose"))!
 //        let pop = UITableViewController()
 //        pop.preferredContentSize = CGSize(width: view.frame.size.width - 20, height: 210)
 //        pop.modalPresentationStyle = .popover

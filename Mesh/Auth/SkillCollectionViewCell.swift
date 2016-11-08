@@ -18,7 +18,7 @@ class SkillCollectionViewCell: UICollectionViewCell {
         $0.font = .gothamBook(ofSize: 12); $0.textColor = .gray; $0.numberOfLines = 0; $0.textAlignment = .center
     }
     let popular = UILabel(translates: false).then { $0.isHidden = true }
-    let icon = UIImageView(translates: false).then { $0.contentMode = .scaleAspectFit; $0.tintColor = .white }
+    let icon = UIImageView(translates: false).then { $0.contentMode = .scaleAspectFit; $0.tintColor = .white; $0.constrain((.height, 50)) }
     let gradient = Colors.gradient
     
     required override init(frame: CGRect) {
@@ -54,9 +54,13 @@ class SkillCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         self.title.text = ""
         self.icon.image = nil
+        self.icon.isHidden = false
         self.popular.isHidden = true
         gradient.removeFromSuperlayer()
         self.title.alpha = 1.0; self.icon.alpha = 1.0
+        self.constraintFor(.bottom, toItem: self.title)?.isActive = true
+        self.constraintFor(.centerY, toItem: title)?.isActive = false
+        self.layoutIfNeeded()
     }
     
     func configure(_ title: String?, image: UIImage?, isPopular: Bool = false, searching: Bool = false) {
@@ -74,14 +78,17 @@ class SkillCollectionViewCell: UICollectionViewCell {
         guard let url = pickerItem.logo else { return }
         guard let logoURL = URL(string: url) else { return }
         if url == "text" {
-            icon.removeFromSuperview()
+            icon.isHidden = true
             self.title.constrain(.centerY, toItem: self)
             //self.title.numberOfLines = 0
             self.constraintFor(.bottom, toItem: self.title)?.isActive = false
             //self.title.heightConstraint?.isActive = false
             return
+        } else {
+            self.constraintFor(.bottom, toItem: self.title)?.isActive = true
+            self.icon.isHidden = false
+            icon.af_setImage(withURL: logoURL, imageTransition: .crossDissolve(0.2))
         }
-        icon.af_setImage(withURL: logoURL, imageTransition: .crossDissolve(0.2))
     }
     
     func animate(direction: SkillAnimationDirection = .left, row: Int = 0, distance: Int = 0, reverse: Bool = false) {

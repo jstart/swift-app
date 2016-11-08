@@ -11,37 +11,26 @@ import UIKit
 class LaunchCardViewController: BaseCardViewController {
     
     let bottom = UIView(translates: false).then {
-        $0.backgroundColor = .white
-        $0.constrain(.height, toItem: $0, toAttribute: .width, multiplier: 200/615)
+        $0.backgroundColor = .white; $0.constrain(.height, toItem: $0, toAttribute: .width, multiplier: 200/615)
     }
-    let top = UIImageView(translates: false).then {
-        $0.image = #imageLiteral(resourceName: "discover")
-        $0.contentMode = .scaleAspectFit
-    }
+    let top = UIImageView(translates: false).then { $0.image = #imageLiteral(resourceName: "discover"); $0.contentMode = .scaleAspectFit }
     let header = UILabel().then {
-        $0.text = "Network"
-        $0.font = .gothamBook(ofSize: 20)
-        $0.textColor = .darkGray
+        $0.text = "Network"; $0.font = .gothamBook(ofSize: 20); $0.textColor = .darkGray
     }
     let text = UILabel().then {
         let attributedString = NSMutableAttributedString(string: "Connect and chat with people in your industry")
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 8
+        let paragraphStyle = NSMutableParagraphStyle(); paragraphStyle.lineSpacing = 8
         attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range: NSMakeRange(0, attributedString.length))
         $0.attributedText = attributedString;
         $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray
-        $0.textAlignment = .center
-        $0.numberOfLines = 0
-        $0.adjustsFontSizeToFitWidth = true
+        $0.textAlignment = .center; $0.numberOfLines = 0; $0.adjustsFontSizeToFitWidth = true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0.7254901961, green: 0.9019607843, blue: 1, alpha: 1)
-        view.layer.cornerRadius = 10.0
-        view.layer.shadowColor = UIColor.lightGray.cgColor
-        view.layer.shadowOpacity = 1.0
-        view.layer.shadowRadius = 5
+        view.layer.cornerRadius = 10.0; view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowOpacity = 1.0; view.layer.shadowRadius = 5
 
         view.translates = false
         view.constrain((.height, 305))

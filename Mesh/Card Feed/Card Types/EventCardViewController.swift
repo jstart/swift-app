@@ -61,17 +61,12 @@ class EventCardViewController : BaseCardViewController {
         view.addSubview(text)
         text.constrain((.leading, 12), (.trailing, -12), toItem: view)
         text.constrain(.top, constant: 10, toItem: barView, toAttribute: .bottom)
-        
-        barView = bar()
-        view.addSubview(barView)
-        barView.constrain(.top, constant: 10, toItem: text, toAttribute: .bottom)
-        barView.constrain(.width, .centerX, toItem: view)
-        
+
         let clock = UIImageView(image: #imageLiteral(resourceName: "clock"))
         clock.contentMode = .scaleAspectFit
         let location = UIImageView(image: #imageLiteral(resourceName: "location"))
         location.contentMode = .scaleAspectFit
-        let url = UIImageView(image: #imageLiteral(resourceName: "location"))
+        let url = UIImageView(image: #imageLiteral(resourceName: "linkIcon"))
         location.contentMode = .scaleAspectFit
 
         descriptionStack = UIStackView(UIStackView(clock, date, spacing: 10),
@@ -82,7 +77,7 @@ class EventCardViewController : BaseCardViewController {
         descriptionStack?.translates = false
         view.addSubview(descriptionStack!)
         descriptionStack?.constrain((.leading, 12), (.trailing, -12), toItem: view)
-        descriptionStack?.constrain(.top, constant: 10, toItem: barView, toAttribute: .bottom)
+        descriptionStack?.constrain(.top, constant: 14, toItem: text, toAttribute: .bottom)
         descriptionStack?.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
 
         barView = bar()
@@ -95,7 +90,7 @@ class EventCardViewController : BaseCardViewController {
         connectionView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
         
         view.addSubview(connectionView)
-        connectionView.constrain(.top, toItem: barView, toAttribute: .bottom)
+        connectionView.constrain(.top, constant: 5, toItem: barView, toAttribute: .bottom)
         connectionView.constrain((.leading, 12), (.trailing, -12), toItem: view)
         connectionView.constrain(.bottom, constant: -10, toItem: view)
         

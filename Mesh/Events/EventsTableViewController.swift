@@ -141,8 +141,8 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
         }
     }
     
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        return [UITableViewRowAction(style: .default, title: "Unfollow", handler: {_,_ in })]
-    }
+//    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+//        return [UITableViewRowAction(style: .default, title: "Unfollow", handler: {_,_ in })]
+//    }
     
 }

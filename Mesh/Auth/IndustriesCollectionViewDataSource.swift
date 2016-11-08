@@ -12,13 +12,10 @@ class IndustriesCollectionViewDataSource: NSObject, UICollectionViewDataSource {
     
     var searching = false { didSet { if searching == true { filteredData = pickerItems } } }
 
-    var pickerItems = [PickerResponse]()
-    var filteredData = [PickerResponse]()
-    var selectedPickerItems = [PickerResponse]()
+    var pickerItems = [PickerResponse](), filteredData = [PickerResponse](), selectedPickerItems = [PickerResponse]()
 
     convenience init(_ collectionView: UICollectionView) {
-        self.init()
-        collectionView.registerClass(SkillCollectionViewCell.self)
+        self.init(); collectionView.registerClass(SkillCollectionViewCell.self)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int { return 1 }
@@ -30,9 +27,9 @@ class IndustriesCollectionViewDataSource: NSObject, UICollectionViewDataSource {
     
     func itemFor(indexPath: IndexPath) -> PickerResponse? {
         if filteredData.count < pickerItems.count && filteredData.count != 0 {
-            return filteredData[indexPath.row]
+            return filteredData[safe: indexPath.row]
         }
-        return pickerItems[indexPath.row]
+        return pickerItems[safe: indexPath.row]
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
