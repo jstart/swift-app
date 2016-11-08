@@ -29,8 +29,8 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         button.isHidden = true
         button.isSelected = false
         button.layer.borderWidth = 1
-//        profile.image = nil
-//        company.image = nil
+        profile.image = nil
+        company.image = nil
         buttonHandler = nil
         initials.isHidden = true
         initials.text = nil

@@ -112,7 +112,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         super.viewDidAppear(animated)
         let alert = TopAlert(title: "New Message", content: "Does Wednesday or Thursday work for you?", imageURL: "https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/13557660_10208640811569109_1312730316583649784_n.jpg?oh=b4744f845cf58e30f671951e43d9b799&oe=589244EB", duration: 5)
         alert.actions = [AlertAction(title: "Reply")]
-        alert.presentIn(UIApplication.shared.delegate!.window!)
+        //alert.presentIn(UIApplication.shared.delegate!.window!)
     }
     
     func pickerRequest() {
