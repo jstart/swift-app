@@ -82,8 +82,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         Client.execute(UpdatesRequest.latest(), complete: { response in
             //TODO: updates won't reflect read/unread state unless we fetch a fresh copy of everything
             UpdatesRequest.append(response) {
-                self.processToDo()
-                self.tableView.reloadData()
+                self.processToDo(); self.tableView.reloadData()
             }
         })
     }
@@ -192,7 +191,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 self.todoMessages.remove(at: currentIndex.row)
                 if self.todoMessages.count == 0 {
                     tableView.deleteSections([indexPath.section], with: .automatic)
-                }else {
+                } else {
                     tableView.deleteRows(at: [currentIndex], with: .automatic)
                 }
                 Client.execute(MarkReadRequest(read: !connection.read, id: connection.user!._id), complete: { _ in
@@ -212,8 +211,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             cell.mute.callback = { sender in return true }
             cell.block.callback = { sender in
                 Client.execute(ConnectionDeleteRequest(connection_id: connection._id))
-                UserResponse.connections.remove(at: indexPath.row)
-                connection.delete()
+                UserResponse.connections.remove(at: indexPath.row); connection.delete()
                 tableView.deleteRows(at: [indexPath], with: .automatic)
                 return true
             }
@@ -239,8 +237,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             cell.mute.callback = { sender in return true }
             cell.block.callback = { sender in
                 Client.execute(ConnectionDeleteRequest(connection_id: connection._id))
-                UserResponse.connections.remove(at: indexPath.row)
-                connection.delete()
+                UserResponse.connections.remove(at: indexPath.row); connection.delete()
                 tableView.deleteRows(at: [indexPath], with: .automatic)
                 return true
             }
@@ -259,11 +256,9 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         UIView.animate(withDuration: 0.2, animations: {
             cell?.frame.origin.y = 0
             }, completion: { _ in
-                UIView.animate(withDuration: 0.2, animations: {
-                        cell?.alpha = 0
-                    }, completion: { _ in
-                        cell?.removeFromSuperview(); self.refresh()
-                })
+                cell?.fadeOut {
+                    cell?.removeFromSuperview(); self.tableView.reloadRows(at: [index], with: .fade); self.refresh()
+                }
         })
         
         let quickReply = QuickReplyViewController(connection.user, text: message.text!, date: message.ts)
