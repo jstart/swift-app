@@ -43,7 +43,8 @@ class SocketHandler {
             try! realm.write { realm.add(meshMessage, update: true); messageConnection?.read = false }
             UserResponse.messages = Array(realm.objects(MessageResponse.self)).sorted(by: { $0.ts > $1.ts });
             DefaultNotification.post(name: .message, object: message)
-            let alert = TopAlert(title: "New Message", content: meshMessage.text!, imageURL: messageConnection!.user!.photos!.large!, duration: 5)
+            guard let text = meshMessage.text, let photo = messageConnection?.user?.photos?.large else { return }
+            let alert = TopAlert(title: "New Message", content: text, imageURL: photo, duration: 5)
             alert.actions = [AlertAction(title: "Reply", handler: {
                 let tab = UIApplication.shared.delegate?.window??.rootViewController as? UITabBarController
                 tab?.presentedViewController?.dismiss()

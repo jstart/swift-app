@@ -32,11 +32,11 @@ class LaunchViewController: UIViewController, CardDelegate {
         $0.layer.cornerRadius = 5; $0.clipsToBounds = true
         $0.titleEdgeInsets = UIEdgeInsetsMake(5, 0, 0, 0); $0.constrain((.height, 70))
     }
-    let signIn = UIButton(translates: false).then { $0.title = "SIGN IN"; $0.titleColor = #colorLiteral(red: 0.7333333333, green: 0.7333333333, blue: 0.7333333333, alpha: 1); $0.titleLabel?.font = .gothamBook(ofSize: 20) }
+    let signIn = UIButton(translates: false).then { $0.title = "SIGN IN"; $0.titleColor = #colorLiteral(red: 0.7333333333, green: 0.7333333333, blue: 0.7333333333, alpha: 1); $0.titleLabel?.font = .gothamBook(ofSize: 20); $0.constrain((.height, 40)) }
     let legal = UITextView(translates: false).then {
         $0.textColor = .gray; $0.textAlignment = .center; $0.isHidden = true
         $0.attributedText = NSAttributedString(string: "By using Mesh you agree to the Privacy Policy and the Terms of Service", attributes: [:])
-        $0.constrain((.height, 44))
+        $0.constrain((.height, 30))
     }
     var topTimer : Timer?
     var direction = UISwipeGestureRecognizerDirection.right
@@ -72,7 +72,9 @@ class LaunchViewController: UIViewController, CardDelegate {
         view.bringSubview(toFront: getStarted)
         
         signIn.constrain(.centerX, toItem: view)
-        signIn.constrain(.top, constant: 30, toItem: getStarted, toAttribute: .bottom)
+        signIn.constrain(.top, constant: 15, toItem: getStarted, toAttribute: .bottom)
+        signIn.constrain(.leading, relatedBy: .lessThanOrEqual, constant: 20, toItem: view, toAttribute: .leadingMargin)
+        signIn.constrain(.trailing, relatedBy: .lessThanOrEqual, constant: 20, toItem: view, toAttribute: .trailingMargin)
         
         legal.constrain(.centerX, toItem: view)
         legal.constrain(.leading, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .leadingMargin)

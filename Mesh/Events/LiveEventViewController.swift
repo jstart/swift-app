@@ -49,7 +49,7 @@ class LiveEventViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "overflow"), target: self, action: #selector(overflow))
         
         messageView.shouldReload = false
-        let message = JSQMessage(senderId: "1", senderDisplayName: "Event Creator", date: Date(timeIntervalSince1970: Date().timeIntervalSince1970), text: "Welcome to the start of LA Hacks 2016! Stay tuned for exciting news.")
+        let message = JSQMessage(senderId: "1", senderDisplayName: "Event Creator", date: Date(timeIntervalSince1970: Date().timeIntervalSince1970), text: "Welcome to the start of \(title!)! Stay tuned for exciting news.")
         messageView.messages.append(message)
         messageView.collectionView?.reloadData()
 

@@ -74,9 +74,10 @@ struct Client {
                     if request is AuthRequest || request is LoginRequest {
                         SocketHandler.startListening()
                         Token.persistToken(UserResponse.current?.token ?? "")
-                        Token.persistLogin((phone_number: UserResponse.current!.phone_number!, password: request.parameters()["password"] as! String))
+                        guard let phone = UserResponse.current?.phone_number, let password = request.parameters()["password"] as? String else { return }
+                        Token.persistLogin((phone_number: phone, password: password))
                         Keychain.deleteLogin()
-                        let _ = Keychain.addLogin(phone: UserResponse.current!.phone_number!, password: request.parameters()["password"] as! String)
+                        let _ = Keychain.addLogin(phone: phone, password: password)
                     }
                 }
                 
