@@ -21,12 +21,10 @@ class LaunchViewController: UIViewController, CardDelegate {
         $0.textColor = .white; $0.font = .gothamBook(ofSize: 24)
         let attributedString = NSMutableAttributedString(string: "RIPPLE")
         attributedString.addAttribute(NSKernAttributeName, value: CGFloat(8), range: NSRange(location: 0, length: attributedString.length))
-        $0.attributedText = attributedString
-        $0.constrain((.height, 26))
+        $0.attributedText = attributedString; $0.constrain((.height, 26))
     }
     let subtitle = UILabel(translates: false).then {
-        $0.text = "A Network Worth Having."; $0.textColor = .white; $0.font = .gothamLight(ofSize: 13)
-        $0.constrain((.height, 15))
+        $0.text = "A Network Worth Having."; $0.textColor = .white; $0.font = .gothamLight(ofSize: 13); $0.constrain((.height, 15))
     }
     let getStarted = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(#colorLiteral(red: 0.1058823529, green: 0.1882352941, blue: 0.2666666667, alpha: 1)), for: .normal); $0.contentMode = .center; $0.contentVerticalAlignment = .center
@@ -63,7 +61,6 @@ class LaunchViewController: UIViewController, CardDelegate {
         subtitle.constrain(.top, constant: 10, toItem: titleLabel, toAttribute: .bottom)
 
         cardStack.view.constrain(.bottom, constant: 10, toItem: getStarted, toAttribute: .top)
-
         cardStack.view.translates = false
         cardStack.view.constrain((.height, 205))
         cardStack.view.constrain((.centerY, -40), toItem: view)
@@ -119,7 +116,16 @@ class LaunchViewController: UIViewController, CardDelegate {
     
     func passCard(_ direction: UISwipeGestureRecognizerDirection) { }
     
-    func swiping(percent: CGFloat) { topTimer?.invalidate() }
+    func swiping(percent: CGFloat) { if percent != 0 { topTimer?.invalidate() }
+        else if !topTimer!.isValid { topTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(swipe), userInfo: nil, repeats: true) }
+        if percent == 0 {
+            UIView.animate(withDuration: 0.2, animations: {
+                var point = self.cardStack.view.center
+                point.y -= 80
+                self.cardStack.currentCard!.view.center = point
+            })
+        }
+    }
     
     func swipe() { if direction == .left { cardStack.passCard(.right) } else { cardStack.passCard(.left) } }
     

@@ -157,6 +157,8 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
     func animateOverlay(_ direction: UISwipeGestureRecognizerDirection) {
         if state.meetsPositionRequirements(direction) {
             rightStamp.alpha = direction == .right ? 1.0 : 0; leftStamp.alpha = direction == .left ? 1.0 : 0
+        } else {
+            rightStamp.alpha = 0.0; leftStamp.alpha = 0.0
         }
         var overlayAlpha : CGFloat = 0
         var screenProgress : CGFloat = 0

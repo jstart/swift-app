@@ -14,20 +14,15 @@ class EventCardViewController : BaseCardViewController {
     let name = UILabel().then { $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 20) }
     let subtitle = UILabel().then { $0.textColor = .lightGray; $0.font = .gothamMedium(ofSize: 12); $0.text = "Related to Tech and Java" }
     let media = UIImageView(translates: false).then {
-        $0.image = #imageLiteral(resourceName: "eventHeader")
-        $0.contentMode = .scaleAspectFill
-        $0.clipsToBounds = true
-        $0.backgroundColor = .white
+        $0.image = #imageLiteral(resourceName: "eventHeader"); $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true; $0.backgroundColor = .white
         $0.layer.borderWidth = 1; $0.layer.borderColor = UIColor.clear.cgColor
         $0.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
         $0.constrain(.height, relatedBy: .greaterThanOrEqual, constant: 80)
         $0.constrain(.height, relatedBy: .lessThanOrEqual, constant: 160)
     }
     let badge = UIImageView(translates: false).then {
-        $0.image = #imageLiteral(resourceName: "EventBadge")
-        $0.contentMode = .scaleAspectFit
-        $0.backgroundColor = .white
-        $0.constrain((.height, 50), (.width, 50))
+        $0.image = #imageLiteral(resourceName: "EventBadge"); $0.contentMode = .scaleAspectFit; $0.backgroundColor = .white; $0.constrain((.height, 50), (.width, 50))
     }
     let text = UILabel(translates: false).then { $0.textColor = #colorLiteral(red: 0.6, green: 0.6, blue: 0.6, alpha: 1); $0.font = .gothamBook(ofSize: 14); $0.numberOfLines = 0 }
     let date = UILabel(translates: false).then { $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 14); $0.text = "Tomorrow at 8 AM" }
@@ -62,12 +57,9 @@ class EventCardViewController : BaseCardViewController {
         text.constrain((.leading, 12), (.trailing, -12), toItem: view)
         text.constrain(.top, constant: 10, toItem: barView, toAttribute: .bottom)
 
-        let clock = UIImageView(image: #imageLiteral(resourceName: "clock"))
-        clock.contentMode = .scaleAspectFit
-        let location = UIImageView(image: #imageLiteral(resourceName: "location"))
-        location.contentMode = .scaleAspectFit
-        let url = UIImageView(image: #imageLiteral(resourceName: "linkIcon"))
-        location.contentMode = .scaleAspectFit
+        let clock = UIImageView(image: #imageLiteral(resourceName: "clock")); clock.contentMode = .scaleAspectFit
+        let location = UIImageView(image: #imageLiteral(resourceName: "location")); location.contentMode = .scaleAspectFit
+        let url = UIImageView(image: #imageLiteral(resourceName: "linkIcon")); url.contentMode = .scaleAspectFit
 
         descriptionStack = UIStackView(UIStackView(clock, date, spacing: 10),
                                        UIStackView(location, UIStackView(self.location, address, axis: .vertical, spacing: 7), spacing: 10),
@@ -101,8 +93,7 @@ class EventCardViewController : BaseCardViewController {
         guard let event = rec?.event else { return }
         name.text = event.name
         let attributedString = NSMutableAttributedString(string: event.descriptionText)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 8
+        let paragraphStyle = NSMutableParagraphStyle(); paragraphStyle.lineSpacing = 8
         attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range: NSMakeRange(0, attributedString.length))
         text.attributedText = attributedString
         guard let logo = event.logo else { return }
@@ -111,8 +102,7 @@ class EventCardViewController : BaseCardViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        media.round(corners: [.topLeft, .topRight])
+        super.viewDidLayoutSubviews(); media.round(corners: [.topLeft, .topRight])
     }
     
     func bar() -> UIView {
