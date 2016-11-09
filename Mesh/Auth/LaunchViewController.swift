@@ -49,9 +49,9 @@ class LaunchViewController: UIViewController, CardDelegate {
         signIn.addTarget(self, action: #selector(phone), for: .touchUpInside)
         view.addSubviews(background, titleLabel, subtitle, getStarted, signIn, legal)
         background.constrain(.width, constant: 5, toItem: view)
-        background.constrain(.top, constant: -40, toItem: view)
+        background.constrain(.top, constant: 0, toItem: view)
         background.constrain(.centerX, toItem: view)
-        titleLabel.constrain(.top, constant: 50, toItem: view)
+        titleLabel.constrain(.top, constant: 75, toItem: view)
         titleLabel.constrain(.centerX, toItem: view)
         subtitle.constrain(.centerX, toItem: view)
         
@@ -63,12 +63,12 @@ class LaunchViewController: UIViewController, CardDelegate {
         cardStack.view.constrain(.bottom, constant: 10, toItem: getStarted, toAttribute: .top)
         cardStack.view.translates = false
         cardStack.view.constrain((.height, 205))
-        cardStack.view.constrain((.centerY, -40), toItem: view)
+        cardStack.view.constrain((.centerY, -25), toItem: view)
         cardStack.view.constrain(.width, .centerX, toItem: view)
 
         getStarted.constrain(.centerX, toItem: view)
-        getStarted.constrain(.leading, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .leadingMargin)
-        getStarted.constrain(.trailing, relatedBy: .lessThanOrEqual, toItem: view, toAttribute: .trailingMargin)
+        getStarted.constrain(.leading, relatedBy: .lessThanOrEqual, constant: 20, toItem: view, toAttribute: .leadingMargin)
+        getStarted.constrain(.trailing, relatedBy: .lessThanOrEqual, constant: 20, toItem: view, toAttribute: .trailingMargin)
         view.bringSubview(toFront: getStarted)
         
         signIn.constrain(.centerX, toItem: view)
@@ -110,18 +110,19 @@ class LaunchViewController: UIViewController, CardDelegate {
         controller.view.translates = false
         controller.view.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         controller.view.center = cardStack.view.center
-        cardStack.addCard(controller, width: -120)
+        cardStack.addCard(controller, width: -70)
         cardStack.currentCard = controller
     }
     
     func passCard(_ direction: UISwipeGestureRecognizerDirection) { }
     
-    func swiping(percent: CGFloat) { if percent != 0 { topTimer?.invalidate() }
+    func swiping(percent: CGFloat) {
+        if percent != 0 { topTimer?.invalidate() }
         else if !topTimer!.isValid { topTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(swipe), userInfo: nil, repeats: true) }
         if percent == 0 {
             UIView.animate(withDuration: 0.2, animations: {
                 var point = self.cardStack.view.center
-                point.y -= 80
+                point.y -= 100
                 self.cardStack.currentCard!.view.center = point
             })
         }
