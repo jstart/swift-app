@@ -18,6 +18,8 @@ struct QuickViewGenerator {
         }
         if userDetails?.experiences.count == 0 {
             views.append(tempQuickView(.experience))
+        } else if userDetails?.experiences.count == 1 {
+            views.append(userDetailCell(userDetails!.experiences))
         } else {
             views.append(quickView(Array(userDetails!.experiences)))
         }

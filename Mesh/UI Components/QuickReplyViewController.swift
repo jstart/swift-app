@@ -50,17 +50,13 @@ class QuickReplyViewController: UIViewController, UIViewControllerTransitioningD
         super.viewDidLoad()
         
         cell = (MainBundle.loadNibNamed("MessageTableViewCell", owner: self, options: [:])!.first as! MessageTableViewCell).then {
-            $0.contentView.translates = false
-            $0.contentView.backgroundColor = .white
+            $0.contentView.translates = false; $0.contentView.backgroundColor = .white
             $0.reply.isHidden = true
-            $0.roundedView.layer.cornerRadius = 0
-            $0.roundedView.layer.shadowColor = UIColor.clear.cgColor
+            $0.roundedView.layer.cornerRadius = 0; $0.roundedView.layer.shadowColor = UIColor.clear.cgColor
             $0.message.numberOfLines = 2
             //$0.company.image = type! == .tweet ? #imageLiteral(resourceName: "twtr-icn-logo") : nil
             $0.configure(text, user: user!, read: false)
-            if date != 0 {
-                $0.date.text = JSQMessagesTimestampFormatter.shared().timestamp(for: Date(timeIntervalSince1970: Double(date!/1000)))
-            }
+            if date != 0 { $0.date.text = JSQMessagesTimestampFormatter.shared().timestamp(for: Date(timeIntervalSince1970: Double(date!/1000))) }
         }
 
         blurView.addSubview(cell!.contentView)
@@ -90,9 +86,7 @@ class QuickReplyViewController: UIViewController, UIViewControllerTransitioningD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         field.becomeFirstResponder()
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismiss(animated:)))
-        blurView.addGestureRecognizer(tapGesture)
+        blurView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismiss(animated:))))
     }
     
     override func viewWillDisappear(_ animated: Bool) {

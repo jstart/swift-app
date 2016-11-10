@@ -91,7 +91,7 @@
                                     <action selector="unhighlight:" destination="KGk-i7-Jjw" eventType="touchUpOutside" id="B9K-jV-vnE"/>
                                 </connections>
                             </button>
-                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="messageicon" translatesAutoresizingMaskIntoConstraints="NO" id="hym-mY-AcE">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="messageicon" translatesAutoresizingMaskIntoConstraints="NO" id="hym-mY-AcE">
                                 <rect key="frame" x="253" y="19.5" width="17" height="14"/>
                             </imageView>
                         </subviews>
