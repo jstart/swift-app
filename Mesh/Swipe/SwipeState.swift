@@ -119,6 +119,24 @@ struct SwipeState {
         }
     }
     
+    mutating func meetsPositionNoMarginRequirements(_ swipeDirection : UISwipeGestureRecognizerDirection) -> (Bool) {
+        if (!draggingInCurrentDirectionAllowed()) {
+            return false
+        }
+        switch (swipeDirection as UISwipeGestureRecognizerDirection) {
+        case UISwipeGestureRecognizerDirection.left:
+            return self.gesture!.view!.center.x < (self.gesture!.view!.superview!.center.x)
+        case UISwipeGestureRecognizerDirection.right:
+            return self.gesture!.view!.center.x > (self.gesture!.view!.superview!.center.x)
+        case UISwipeGestureRecognizerDirection.up:
+            return true
+        case UISwipeGestureRecognizerDirection.down:
+            return true
+        default:
+            return false;
+        }
+    }
+    
     mutating func meetsDragRequirements(_ swipeDirection : UISwipeGestureRecognizerDirection) -> (Bool) {
         if (!draggingInCurrentDirectionAllowed()) {
             return false
