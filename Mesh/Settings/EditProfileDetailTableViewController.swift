@@ -113,15 +113,14 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
     
     func save() {
         var request : ProfileRequest
-        guard let item = item else { return }
-        if item.category == .education {
+        if itemType == .education {
             request = ProfileRequest(schools: [SchoolModel(id: "7567656")])
         } else { // .experience
             var id = "", start_month = "", start_year = "", end_month = "", end_year = "", title = ""
             let current = switchView.isOn
             var company : CompanyModel?
 
-            for (index, _) in type(of: item).fields.enumerated() {
+            for (index, _) in itemType!.editFields().enumerated() {
                 guard let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? EditFieldsTableViewCell else { continue }
                 switch index {
                 case 0: id = "1681681"; break//cell.first.text ?? ""; break

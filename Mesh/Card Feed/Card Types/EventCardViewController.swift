@@ -94,7 +94,7 @@ class EventCardViewController : BaseCardViewController {
         name.text = event.name
         let attributedString = NSMutableAttributedString(string: event.descriptionText)
         let paragraphStyle = NSMutableParagraphStyle(); paragraphStyle.lineSpacing = 8
-        attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
         text.attributedText = attributedString
         guard let logo = event.logo else { return }
 

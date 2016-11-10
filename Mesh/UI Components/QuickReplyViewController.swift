@@ -54,7 +54,7 @@ class QuickReplyViewController: UIViewController, UIViewControllerTransitioningD
             $0.contentView.backgroundColor = .white
             $0.reply.isHidden = true
             $0.message.numberOfLines = 2
-            $0.company.image = type! == .tweet ? #imageLiteral(resourceName: "twtr-icn-logo") : nil
+            //$0.company.image = type! == .tweet ? #imageLiteral(resourceName: "twtr-icn-logo") : nil
             $0.configure(text, user: user!, read: false)
             if date != 0 {
                 $0.date.text = JSQMessagesTimestampFormatter.shared().timestamp(for: Date(timeIntervalSince1970: Double(date!/1000)))

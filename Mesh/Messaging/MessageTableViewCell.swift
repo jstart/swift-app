@@ -12,7 +12,6 @@ import JSQMessagesViewController
 class MessageTableViewCell: MGSwipeTableCell {
 
     @IBOutlet weak var profile: UIImageView!
-    @IBOutlet weak var company: UIImageView!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var message: UILabel!
     @IBOutlet weak var date: UILabel!
@@ -42,15 +41,13 @@ class MessageTableViewCell: MGSwipeTableCell {
         date.font = .gothamBook(ofSize: 11)
 
         profile.image = nil
-        company.image = nil
+        reply.backgroundColor = #colorLiteral(red: 0.168627451, green: 0.2901960784, blue: 0.462745098, alpha: 1)
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         profile.clipsToBounds = true
         profile.layer.cornerRadius = 5.0
-        company.clipsToBounds = true
-        company.layer.cornerRadius = 5.0
 
         roundedView.layer.cornerRadius = 5.0
         roundedView.layer.shadowOffset = .zero
@@ -78,7 +75,6 @@ class MessageTableViewCell: MGSwipeTableCell {
             message.font = .gothamBold(ofSize: message.font.pointSize)
         }
         profile.image = .imageWithColor(.gray)
-//        company.image = .imageWithColor(.gray)
         message.text = messageText
         guard let large = user.photos?.large else { return }
         profile.af_setImage(withURL: URL(string: large)!)
@@ -99,6 +95,10 @@ class MessageTableViewCell: MGSwipeTableCell {
         date.text = JSQMessagesTimestampFormatter.shared().timestamp(for: Date(timeIntervalSince1970: Double(message!.ts/1000)))
     }
     
-    @IBAction func pressed(_ sender: AnyObject) { pressedAction() }
+    @IBAction func pressed(_ sender: AnyObject) { reply.backgroundColor = #colorLiteral(red: 0.168627451, green: 0.2901960784, blue: 0.462745098, alpha: 1); pressedAction() }
     
+    @IBAction func drag(_ sender: Any) { reply.backgroundColor = #colorLiteral(red: 0.168627451, green: 0.2901960784, blue: 0.462745098, alpha: 1) }
+    @IBAction func highlight(_ sender: Any) { reply.backgroundColor = #colorLiteral(red: 0.05098039216, green: 0.09411764706, blue: 0.1176470588, alpha: 1) }
+    @IBAction func dragexit(_ sender: Any) { reply.backgroundColor = #colorLiteral(red: 0.168627451, green: 0.2901960784, blue: 0.462745098, alpha: 1) }
+    @IBAction func unhighlight(_ sender: Any) { reply.backgroundColor = #colorLiteral(red: 0.168627451, green: 0.2901960784, blue: 0.462745098, alpha: 1) }
 }
