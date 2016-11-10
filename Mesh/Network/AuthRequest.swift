@@ -157,7 +157,11 @@ class CompanyResponse : Object, UserDetail {
     }
 
     var firstText: String { return (name ?? "") }
-
+    
+    func fieldValues() -> [Any] {
+        return [name!]
+    }
+    
     let category = QuickViewCategory.experience
 }
 
@@ -186,6 +190,10 @@ class SchoolResponse : Object, UserDetail {
         return SchoolResponse().then {
             $0._id = JSON["_id"] as? String; $0.name = JSON["name"] as? String; $0.logo = JSON["logo"] as? String
         }
+    }
+    
+    func fieldValues() -> [Any] {
+        return [name!]
     }
     
     var firstText: String { return (name ?? "") }

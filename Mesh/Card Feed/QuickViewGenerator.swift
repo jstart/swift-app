@@ -45,7 +45,19 @@ struct QuickViewGenerator {
             $0.contentView.translates = false
             $0.configure(details.first!)
         }
-        return cell.contentView
+        let label = UILabel(translates: false).then {
+            $0.backgroundColor = .white
+            $0.text = details.first?.category.title(); $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray
+            $0.textAlignment = .center
+            $0.constrain(.height, constant: 20)
+        }
+        
+        return stackOf([label, cell.contentView]).then {
+            $0.spacing = 1
+            $0.axis = .vertical
+            $0.alignment = .leading
+            $0.distribution = .fill
+        }
     }
     
     static func quickView(_ details: [UserDetail]) -> UIStackView {

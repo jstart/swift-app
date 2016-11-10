@@ -34,7 +34,7 @@ class LaunchCardViewController: BaseCardViewController {
         //view.backgroundColor = #colorLiteral(red: 0.7254901961, green: 0.9019607843, blue: 1, alpha: 1)
         view.backgroundColor = .clear
         view.layer.cornerRadius = 10.0; view.layer.shadowColor = UIColor.gray.cgColor
-        view.layer.shadowOpacity = 1.0; view.layer.shadowRadius = 5
+        view.layer.shadowOpacity = 0.3; view.layer.shadowRadius = 5
 
         view.translates = false
         view.constrain((.height, 305))

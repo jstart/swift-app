@@ -68,7 +68,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         
         collectionView.constrain(.centerX, .centerY, .width, .height, toItem: view)
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search", style: .done, target: self, action: #selector(openSearch))
+        //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search", style: .done, target: self, action: #selector(openSearch))
         search.delegate = self
         search.showsCancelButton = true
         
@@ -143,7 +143,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
             search.resignFirstResponder()
             dataSource.searching = false
             collectionView.reloadSections(IndexSet(integer: 0))
-            navigationItem.setRightBarButtonItems([UIBarButtonItem(title: "Search", style: .done, target: self, action: #selector(openSearch))], animated: true)
+            //navigationItem.setRightBarButtonItems([UIBarButtonItem(title: "Search", style: .done, target: self, action: #selector(openSearch))], animated: true)
             navigationItem.titleView = nil
         } else {
             navigationItem.setRightBarButton(nil, animated: true)

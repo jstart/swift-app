@@ -46,7 +46,7 @@ class MessagesViewController: JSQMessagesViewController {
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(deleteMessage(_:)))
         inputToolbar.preferredDefaultHeight = 200
         
-        collectionView?.collectionViewLayout.messageBubbleFont = .gothamBook(ofSize: 15)
+        collectionView?.collectionViewLayout.messageBubbleFont = .gothamMedium(ofSize: 15)
         collectionView?.collectionViewLayout.messageBubbleTextViewTextContainerInsets = UIEdgeInsetsMake(10, 10, 7, 0)
         
         DefaultNotification.addObserver(self, selector: #selector(userIsTyping(notification:)), name: .typing, object: nil)
@@ -86,7 +86,7 @@ class MessagesViewController: JSQMessagesViewController {
         container.layoutIfNeeded()
         navigationController?.navigationBar.addSubview(container)
         container.constrain(.centerY, .centerX, toItem: navigationController?.navigationBar)
-        container.constrain((.width, 200))
+        container.constrain(.width, relatedBy: .greaterThanOrEqual, constant: 200)
         container.alpha = 0.0; container.fadeIn(duration: 0.2, delay: 0.2)
         
         container.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedUser)))

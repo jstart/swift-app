@@ -45,17 +45,17 @@ class EventCardViewController : BaseCardViewController {
         view.addSubview(headerStack)
         
         headerStack.constrain((.height, 50))
-        headerStack.constrain(.top, constant: 10, toItem: media, toAttribute: .bottom)
+        headerStack.constrain(.top, constant: 15, toItem: media, toAttribute: .bottom)
         headerStack.constrain((.leading, 12), (.trailing, -12), toItem: view)
         
         var barView = bar()
         view.addSubview(barView)
-        barView.constrain(.top, constant: 10, toItem: headerStack, toAttribute: .bottom)
+        barView.constrain(.top, constant: 15, toItem: headerStack, toAttribute: .bottom)
         barView.constrain(.width, .centerX, toItem: view)
         
         view.addSubview(text)
         text.constrain((.leading, 12), (.trailing, -12), toItem: view)
-        text.constrain(.top, constant: 10, toItem: barView, toAttribute: .bottom)
+        text.constrain(.top, constant: 15, toItem: barView, toAttribute: .bottom)
 
         let clock = UIImageView(image: #imageLiteral(resourceName: "clock")); clock.contentMode = .scaleAspectFit
         let location = UIImageView(image: #imageLiteral(resourceName: "location")); location.contentMode = .scaleAspectFit
@@ -74,7 +74,7 @@ class EventCardViewController : BaseCardViewController {
 
         barView = bar()
         view.addSubview(barView)
-        barView.constrain(.top, constant: 10, toItem: descriptionStack, toAttribute: .bottom)
+        barView.constrain(.top, constant: 15, toItem: descriptionStack, toAttribute: .bottom)
         barView.constrain(.width, .centerX, toItem: view)
         
         let connectionView = QuickViewGenerator.quickView(RealmUtilities.objects(ConnectionResponse.self))
@@ -82,7 +82,7 @@ class EventCardViewController : BaseCardViewController {
         connectionView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
         
         view.addSubview(connectionView)
-        connectionView.constrain(.top, constant: 5, toItem: barView, toAttribute: .bottom)
+        connectionView.constrain(.top, constant: 10, toItem: barView, toAttribute: .bottom)
         connectionView.constrain((.leading, 12), (.trailing, -12), toItem: view)
         connectionView.constrain(.bottom, constant: -10, toItem: view)
         
