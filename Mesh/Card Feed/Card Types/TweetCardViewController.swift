@@ -69,7 +69,7 @@ class TweetCardViewController : BaseCardViewController {
         media.constrain(.height, relatedBy: .greaterThanOrEqual, constant: 120)
         media.constrain(.height, relatedBy: .lessThanOrEqual, toItem: view, multiplier: 600/1052)
 
-        if let imageURL = rec?.user?.photos?.large { profile.af_setImage(withURL: URL(string: imageURL)!) }
+        if let imageURL = rec?.user?.photos?.large { profile.af_setImage(withURL: URL(string: imageURL)!, imageTransition: .crossDissolve(0.2)) }
         
         profile.constrain((.leading, 10), (.top, 10), toItem: view)
         sourceIcon.constrain((.trailing, -15), toItem: view)
@@ -142,7 +142,7 @@ class TweetCardViewController : BaseCardViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        media.af_setImage(withURL: URL(string: "https://cdn-images-2.medium.com/max/1200/1*j4hgf6wm_GrW-xgn3QnZWw.png")!)
+        media.af_setImage(withURL: URL(string: "https://cdn-images-2.medium.com/max/1200/1*j4hgf6wm_GrW-xgn3QnZWw.png")!, imageTransition: .crossDissolve(0.2))
     }
     
     func retweetAction() {

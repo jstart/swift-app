@@ -91,7 +91,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
                 cell.addSubview(profile)
                 profile.constrain(.leading, .trailing, .top, .bottom, toItem: cell)
                 guard let url = URL(string: UserResponse.current?.photos?.large ?? "") as URL! else { return cell }
-                profile.af_setImage(withURL: url)
+                profile.af_setImage(withURL: url, imageTransition: .crossDissolve(0.2))
                 
                 profile.addSubviews(editIcon, editLabel)
                 editLabel.constrain((.bottom, -5), (.trailing, -10), toItem: profile)
@@ -177,7 +177,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         if sender.title == "Import from Twitter"{
             TwitterProfile.prefillImage() { response in
                 guard let imageURL = response?.image_url else { return }
-                self.profile.af_setImage(withURL: URL(string: imageURL)!) { response in
+                self.profile.af_setImage(withURL: URL(string: imageURL)!, imageTransition: .crossDissolve(0.2)) { response in
                     guard let image = response.result.value else { return }; self.upload(image)
                 }
             }
@@ -185,7 +185,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
             GIDSignIn.sharedInstance().uiDelegate = self
             GoogleProfile.shared.prefillImage() { response in
                 guard response?.image_url != "" else { return }
-                self.profile.af_setImage(withURL: URL(string: response!.image_url)!) { response in
+                self.profile.af_setImage(withURL: URL(string: response!.image_url)!, imageTransition: .crossDissolve(0.2)) { response in
                     guard let image = response.result.value else { return }; self.upload(image)
                 }
             }

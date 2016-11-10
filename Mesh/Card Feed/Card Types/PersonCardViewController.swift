@@ -151,10 +151,10 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         position.text = rec?.user?.fullTitle() ?? ""
         
         guard let largeURL = rec?.user?.photos?.large else { imageView.image = .imageWithColor(.gray); return }
-        imageView.af_setImage(withURL: URL(string: largeURL)!)
+        imageView.af_setImage(withURL: URL(string: largeURL)!, imageTransition: .crossDissolve(0.2))
         
         guard let companyURL = rec?.user?.companies.first?.logo else { return }
-        logo.af_setImage(withURL: URL(string: companyURL)!)
+        logo.af_setImage(withURL: URL(string: companyURL)!, imageTransition: .crossDissolve(0.2))
     }
     
     override func viewDidAppear(_ animated: Bool) {

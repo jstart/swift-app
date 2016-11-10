@@ -65,7 +65,7 @@ class LiveEventViewController: UIViewController {
         //TODO: if not admin
 //        messageView.inputToolbar.isHidden = false
         
-        if let logoURL = event?.logo { logo.af_setImage(withURL: URL(string: logoURL)!) { _ in
+        if let logoURL = event?.logo { logo.af_setImage(withURL: URL(string: logoURL)!, imageTransition: .crossDissolve(0.2)) { _ in
             self.messageView.senderImage = logo.image
             self.messageView.collectionView?.reloadData()
         }}

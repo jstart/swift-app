@@ -101,7 +101,7 @@ class TopAlert : UIView {
         persist = showUntilDismissed
         self.dismissed = dismissed
         self.content.text = content
-        profile.af_setImage(withURL: URL(string: imageURL)!)
+        profile.af_setImage(withURL: URL(string: imageURL)!, imageTransition: .crossDissolve(0.2))
     }
     
     required init?(coder aDecoder: NSCoder) { fatalError() }

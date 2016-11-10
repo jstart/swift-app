@@ -149,7 +149,7 @@ struct QuickViewGenerator {
         icon.constrain(.leading, relatedBy: .greaterThanOrEqual, toItem: container)
         icon.constrain(.trailing, relatedBy: .lessThanOrEqual, toItem: container)
 
-        if let url = url { icon.af_setImage(withURL: URL(string: url)!) }
+        if let url = url { icon.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2)) }
         
         return UIStackView(container, label, axis: .vertical, spacing: 5)
     }
@@ -173,7 +173,7 @@ struct QuickViewGenerator {
             $0.constrain(.width, .height, constant: 50)
         }
         
-        if let url = url { icon.af_setImage(withURL: URL(string: url)!) }
+        if let url = url { icon.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2)) }
         
         return UIStackView(icon, label, axis: .vertical, spacing: 5)
     }

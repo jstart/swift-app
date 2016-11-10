@@ -77,7 +77,7 @@ class MessageTableViewCell: MGSwipeTableCell {
         profile.image = .imageWithColor(.gray)
         message.text = messageText
         guard let large = user.photos?.large else { return }
-        profile.af_setImage(withURL: URL(string: large)!)
+        profile.af_setImage(withURL: URL(string: large)!, imageTransition: .crossDissolve(0.2))
         date.font = .gothamBook(ofSize: 11)
     }
     

@@ -50,7 +50,7 @@ class SkillCardViewController : BaseCardViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        media.af_setImage(withURL: URL(string: "https://scontent.xx.fbcdn.net/t31.0-8/12829144_10207668383179007_4083742861292722789_o.jpg")!)
+        media.af_setImage(withURL: URL(string: "https://scontent.xx.fbcdn.net/t31.0-8/12829144_10207668383179007_4083742861292722789_o.jpg")!, imageTransition: .crossDissolve(0.2))
     }
     
 //    override func tap(_ sender: UITapGestureRecognizer) { navigationController?.safari("https://twitter.com/@iAmChrisTruman") }

@@ -71,10 +71,10 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         name.text = user?.fullName()
         title.text = user?.fullTitle()
         if let url = user?.companies.first?.logo {
-            company.af_setImage(withURL: URL(string: url)!)
+            company.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2))
         } else { company.image = nil }
         guard let url = user?.photos?.large else { showInitials(firstName: (user?.first_name) ?? "", lastName: (user?.last_name) ?? ""); return }
-        profile.af_setImage(withURL: URL(string: url)!)
+        profile.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2))
     }
     
     func configure(_ detail: UserDetail) {
@@ -85,7 +85,7 @@ class ConnectionTableViewCell: MGSwipeTableCell {
             profile.contentMode = .scaleAspectFit
         }
         guard let imageURL = detail.logo else { profile.backgroundColor = .gray; return }
-        profile.af_setImage(withURL: URL(string: imageURL)!)
+        profile.af_setImage(withURL: URL(string: imageURL)!, imageTransition: .crossDissolve(0.2))
     }
     
     func add(message: MessageResponse? = nil, read: Bool) {

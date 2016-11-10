@@ -54,7 +54,7 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
         preview(url: message.text!)
         
         guard let large = user.photos?.large else { profile.image = nil; return }
-        profile.af_setImage(withURL: URL(string: large)!)
+        profile.af_setImage(withURL: URL(string: large)!, imageTransition: .crossDissolve(0.2))
     }
     
     func preview(url: String) {
@@ -72,7 +72,7 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
                 guard var imageURL = result["image"] as? String else { self.articleImage.backgroundColor = .darkGray; return }
                 guard imageURL != "" else { self.articleImage.backgroundColor = .darkGray; return }
                 imageURL = imageURL.replace("http://", with: "https://")
-                self.articleImage.af_setImage(withURL: URL(string: imageURL)!, completion: { response in
+                self.articleImage.af_setImage(withURL: URL(string: imageURL)!, imageTransition: .crossDissolve(0.2), completion: { response in
                     if response.result.error != nil {
                         self.articleImage.backgroundColor = .darkGray
                     }

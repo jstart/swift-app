@@ -48,8 +48,8 @@ class UserDetailTableViewCell: UITableViewCell {
     func configure(_ detail: UserDetail) {        
         button.isHidden = !detail.hasButton
         if !detail.hasButton {
-            button.isHidden = true
-            button.widthConstraint?.constant = 0
+            button.removeFromSuperview()
+            delete.removeFromSuperview()
         }
         year.isHidden = !detail.hasDate
         
@@ -57,7 +57,7 @@ class UserDetailTableViewCell: UITableViewCell {
         bottom.text = detail.secondText
         year.text = detail.thirdText
         if let logo = detail.logo {
-            icon.af_setImage(withURL: URL(string: logo)!)
+            icon.af_setImage(withURL: URL(string: logo)!, imageTransition: .crossDissolve(0.2))
         }
     }
     

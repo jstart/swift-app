@@ -86,14 +86,14 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
         if sender.title == "Import from Twitter"{
             TwitterProfile.prefillImage() { response in
                 guard let imageURL = response?.image_url else { return }
-                self.profile.af_setImage(withURL: URL(string: imageURL )!)
+                self.profile.af_setImage(withURL: URL(string: imageURL)!, imageTransition: .crossDissolve(0.2))
                 self.changeToComplete()
             }
         } else if sender.title == "Import from Google" {
             GIDSignIn.sharedInstance().uiDelegate = self
             GoogleProfile.shared.prefillImage() { response in
                 guard let imageURL = response?.image_url else { return }
-                self.profile.af_setImage(withURL: URL(string: imageURL)!)
+                self.profile.af_setImage(withURL: URL(string: imageURL)!, imageTransition: .crossDissolve(0.2))
                 self.changeToComplete()
             }
         } else if sender.title == "Choose from Library" {

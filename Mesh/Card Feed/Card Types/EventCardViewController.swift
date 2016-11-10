@@ -98,7 +98,7 @@ class EventCardViewController : BaseCardViewController {
         text.attributedText = attributedString
         guard let logo = event.logo else { return }
 
-        media.af_setImage(withURL: URL(string: logo)!)
+        media.af_setImage(withURL: URL(string: logo)!, imageTransition: .crossDissolve(0.2))
     }
     
     override func viewDidLayoutSubviews() {

@@ -83,7 +83,7 @@ class MessagesViewController: JSQMessagesViewController {
         
         guard let url = recipient?.user?.photos?.large else { return }
         SocketHandler.currentUserID = recipient?.user?._id
-        imageView.af_setImage(withURL: URL(string: url)!)
+        imageView.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2))
         container.layoutIfNeeded()
         navigationController?.navigationBar.addSubview(container)
         container.constrain(.centerY, .centerX, toItem: navigationController?.navigationBar)

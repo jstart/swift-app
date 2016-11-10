@@ -88,7 +88,7 @@ class AutoCompleteDetailDataSource : NSObject, UITableViewDataSource, UITableVie
         let detail = details[indexPath.row]
         let cell = tableView.dequeue(DetailTableViewCell.self, indexPath: indexPath)
         cell.textLabel?.text = detail.firstText; cell.detailTextLabel?.text = detail.secondText
-        if let logo = detail.logo { cell.imageView?.af_setImage(withURL: URL(string: logo)!) }
+        if let logo = detail.logo { cell.imageView?.af_setImage(withURL: URL(string: logo)!, imageTransition: .crossDissolve(0.2)) }
         return cell
     }
     
