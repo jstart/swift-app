@@ -166,7 +166,11 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
             }
             dataSource.selectedPickerItems = selectedPickerItems
         } else {
-            //self.switchToSkills(indexPath)
+            if #available(iOS 10.0, *) {
+                // modern code
+            } else {
+                self.switchToSkills(indexPath)
+            }
         }
     }
 
@@ -198,6 +202,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         })
         title = "Select Industry"; swap()
         navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: navigationController!, action: #selector(UINavigationController.popViewController(animated:)))
+        collectionView.allowsMultipleSelection = true
         collectionView.allowsSelection = true
     }
     
@@ -205,7 +210,6 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         self.indexPath = indexPath
         search.resignFirstResponder()
         addSkills.isEnabled = true
-        collectionView.allowsSelection = false
         animateCells(indexPath)
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: self, action: #selector(self.switchToIndustries))
