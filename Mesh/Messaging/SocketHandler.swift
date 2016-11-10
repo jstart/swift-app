@@ -19,6 +19,7 @@ extension Notification.Name {
 class SocketHandler {
     
     static let shared = SocketHandler()
+    static var currentUserID : String?
     let socket = SocketIOClient(socketURL: URL(string: "http://dev.mesh.tinderventures.com:2222")!, config: [.extraHeaders(["token" : Token.retrieveToken() ?? ""])])
     var typing : Date?
     
@@ -44,6 +45,7 @@ class SocketHandler {
             UserResponse.messages = Array(realm.objects(MessageResponse.self)).sorted(by: { $0.ts > $1.ts });
             DefaultNotification.post(name: .message, object: message)
             guard let text = meshMessage.text, let photo = messageConnection?.user?.photos?.large else { return }
+            if SocketHandler.currentUserID == messageConnection!.user!._id { return }
             let alert = TopAlert(title: "New Message", content: text, imageURL: photo, duration: 5)
             alert.actions = [AlertAction(title: "Reply", handler: {
                 let tab = UIApplication.shared.delegate?.window??.rootViewController as? UITabBarController
@@ -67,7 +69,9 @@ class SocketHandler {
         
         shared.socket.on("connection") { data, ack in
             guard let connection = data.first as? JSONDictionary else { return }
-            let meshConnection = ConnectionResponse.create((connection["connections"] as! JSONArray).first!)
+            guard let connectionJSON = (connection["connections"] as? JSONArray)?.first else { return }
+
+            let meshConnection = ConnectionResponse.create(connectionJSON)
             let realm = RealmUtilities.realm()
             try! realm.write { realm.add(meshConnection, update: true) }
             UserResponse.connections.append(meshConnection)

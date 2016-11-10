@@ -136,11 +136,13 @@ class AddPhotoViewController: UIViewController, GIDSignInUIDelegate, UIImagePick
         activity.constrain(.centerX, .centerY, toItem: profile)
         activity.startAnimating()
         
+        upload.isUserInteractionEnabled = false
         Client.upload(PhotoRequest(file: data!), completionHandler: { response in
             if response.result.value != nil {
                 activity.stopAnimating()
                 self.navigationController?.push(SMSViewController())
             } else {
+                self.upload.isUserInteractionEnabled = true
                 let alert = UIAlertController(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error", preferredStyle: .alert)
                 alert.addAction(UIAlertAction.ok())
                 self.present(alert)

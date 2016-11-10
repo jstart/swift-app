@@ -47,7 +47,7 @@ class MessagesViewController: JSQMessagesViewController {
         inputToolbar.preferredDefaultHeight = 200
         
         collectionView?.collectionViewLayout.messageBubbleFont = .gothamMedium(ofSize: 15)
-        collectionView?.collectionViewLayout.messageBubbleTextViewTextContainerInsets = UIEdgeInsetsMake(10, 10, 7, 0)
+        collectionView?.collectionViewLayout.messageBubbleTextViewTextContainerInsets = UIEdgeInsetsMake(10, 10, 7, 10)
         
         DefaultNotification.addObserver(self, selector: #selector(userIsTyping(notification:)), name: .typing, object: nil)
         DefaultNotification.addObserver(self, selector: #selector(receivedMessage(notification:)), name: .message, object: nil)
@@ -82,11 +82,12 @@ class MessagesViewController: JSQMessagesViewController {
         label.constrain(.trailing, .centerY, toItem: container)
         
         guard let url = recipient?.user?.photos?.large else { return }
+        SocketHandler.currentUserID = recipient?.user?._id
         imageView.af_setImage(withURL: URL(string: url)!)
         container.layoutIfNeeded()
         navigationController?.navigationBar.addSubview(container)
         container.constrain(.centerY, .centerX, toItem: navigationController?.navigationBar)
-        container.constrain(.width, relatedBy: .greaterThanOrEqual, constant: 200)
+        container.constrain(.width, relatedBy: .lessThanOrEqual, constant: 200)
         container.alpha = 0.0; container.fadeIn(duration: 0.2, delay: 0.2)
         
         container.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedUser)))
@@ -95,6 +96,7 @@ class MessagesViewController: JSQMessagesViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        SocketHandler.currentUserID = nil
         container.fadeOut(duration: 0.1)
         typingTimer?.invalidate()
     }
