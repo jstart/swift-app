@@ -25,17 +25,22 @@ class LaunchCardViewController: BaseCardViewController {
         $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray
         $0.textAlignment = .center; $0.numberOfLines = 0; $0.adjustsFontSizeToFitWidth = true
     }
+    let image = UIImageView(image: #imageLiteral(resourceName: "networkIntro")).then {
+        $0.translates = false
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = #colorLiteral(red: 0.7254901961, green: 0.9019607843, blue: 1, alpha: 1)
+        //view.backgroundColor = #colorLiteral(red: 0.7254901961, green: 0.9019607843, blue: 1, alpha: 1)
+        view.backgroundColor = .clear
         view.layer.cornerRadius = 10.0; view.layer.shadowColor = UIColor.gray.cgColor
         view.layer.shadowOpacity = 1.0; view.layer.shadowRadius = 5
 
         view.translates = false
         view.constrain((.height, 305))
-        
-        view.addSubviews(top, bottom)
+        view.addSubview(image)
+        image.constrain(.centerX, .centerY, toItem: view)
+        /*view.addSubviews(top, bottom)
         top.constrain(.centerX, toItem: view)
         top.constrain(.bottom, constant: -30, toItem: bottom, toAttribute: .top)
         top.constrain((.top, 40), (.leading, 25), (.trailing, -25), toItem: view)
@@ -47,7 +52,7 @@ class LaunchCardViewController: BaseCardViewController {
         stack.alignment = .center
         bottom.addSubview(stack)
         stack.constrain(.centerX, .centerY, .leadingMargin, .trailingMargin, toItem: bottom)
-        stack.constrain((.bottom, -10), toItem: bottom)
+        stack.constrain((.bottom, -10), toItem: bottom)*/
     }
     
     override func viewWillAppear(_ animated: Bool) {

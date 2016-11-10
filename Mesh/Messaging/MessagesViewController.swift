@@ -86,7 +86,7 @@ class MessagesViewController: JSQMessagesViewController {
         container.layoutIfNeeded()
         navigationController?.navigationBar.addSubview(container)
         container.constrain(.centerY, .centerX, toItem: navigationController?.navigationBar)
-        container.constrain((.width, 150))
+        container.constrain((.width, 200))
         container.alpha = 0.0; container.fadeIn(duration: 0.2, delay: 0.2)
         
         container.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedUser)))
