@@ -46,18 +46,21 @@ class IndustriesCollectionViewDataSource: NSObject, UICollectionViewDataSource {
                 } else {
                     $0.configure(filteredData[indexPath.row], searching: searching)
                     if selectedPickerItems.contains(filteredData[indexPath.row]) {
+                        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
                         $0.isSelected = true
                     };  return
                 }
             }
-            $0.configure(pickerItems[indexPath.row], searching: searching)
+            guard let pickerItem = pickerItems[safe: indexPath.row] else { return }
+            $0.configure(pickerItem, searching: searching)
             var childrenSelected = false
-            for item in pickerItems[indexPath.row].children {
+            for item in pickerItem.children {
                 if selectedPickerItems.contains(item) {
                     childrenSelected = true; continue
                 }
             }
-            if selectedPickerItems.contains(pickerItems[indexPath.row]) || childrenSelected {
+            if selectedPickerItems.contains(pickerItem) || childrenSelected {
+                collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
                 $0.isSelected = true
             }
         }

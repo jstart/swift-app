@@ -153,29 +153,29 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         }
     }
     
-    //func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) { cell.scaleIn(delay: 0.5) }
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) { cell.scaleIn(delay: 0.5) }
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) { collectionView.cellForItem(at: indexPath)?.squeezeIn() }
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         collectionView.cellForItem(at: indexPath)?.squeezeOut()
-        if self.title != "Select Industry" {
-            let pickerItem = dataSource.itemFor(indexPath: indexPath)
-            for (index, item) in selectedPickerItems.enumerated() {
-                if item == pickerItem {
-                    selectedPickerItems.remove(at: index)
-                }
-            }
-            dataSource.selectedPickerItems = selectedPickerItems
-        } else {
-            if #available(iOS 10.0, *) {
-                // modern code
-            } else {
-                self.switchToSkills(indexPath)
-            }
-        }
+//        if self.title != "Select Industry" {
+//            let pickerItem = dataSource.itemFor(indexPath: indexPath)
+//            for (index, item) in selectedPickerItems.enumerated() {
+//                if item == pickerItem {
+//                    selectedPickerItems.remove(at: index)
+//                }
+//            }
+//            dataSource.selectedPickerItems = selectedPickerItems
+//        } else {
+//            guard let pickerItem = dataSource.itemFor(indexPath: indexPath) else { return }
+//            if pickerItem.children.count == 0 { collectionView.deselectItem(at: indexPath, animated: true); return }
+//            self.switchToSkills(indexPath)
+//        }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if self.title == "Select Industry" {
+            guard let pickerItem = dataSource.itemFor(indexPath: indexPath) else { return }
+            if pickerItem.children.count == 0 { collectionView.deselectItem(at: indexPath, animated: true); return }
             self.switchToSkills(indexPath)
         } else {
             guard let pickerItem = dataSource.itemFor(indexPath: indexPath) else { return }
@@ -186,6 +186,19 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         collectionView.cellForItem(at: indexPath)?.squeezeInOut()
+        if self.title != "Select Industry" {
+            let pickerItem = dataSource.itemFor(indexPath: indexPath)
+            for (index, item) in selectedPickerItems.enumerated() {
+                if item == pickerItem && selectedPickerItems.count >= index {
+                    selectedPickerItems.remove(at: index)
+                }
+            }
+            dataSource.selectedPickerItems = selectedPickerItems
+        } else {
+            guard let pickerItem = dataSource.itemFor(indexPath: indexPath) else { return }
+            if pickerItem.children.count == 0 { collectionView.deselectItem(at: indexPath, animated: true); return }
+            self.switchToSkills(indexPath)
+        }
     }
     
     func switchToIndustries() {
@@ -245,19 +258,22 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         let row = indexPath.row / 3
         
         for path in visible {
+            guard let pickerItem = dataSource.itemFor(indexPath: indexPath) else { return }
+            var fadeOut = false
+            if path.row >= pickerItem.children.count { fadeOut = !reverse }
             let cell = collectionView.cellForItem(at: path) as! SkillCollectionViewCell
             let cellRow = path.row / 3
             
             if cellRow > row {
-                if indexPath.row % 3 == path.row % 3 { cell.animate(direction: .down, row: cellRow - row, reverse: reverse)}
-                else if indexPath.row % 3 < path.row % 3 { cell.animate(direction: .leftDown, row: cellRow - row, distance: (path.row % 3) - (indexPath.row % 3), reverse: reverse) }
-                else if indexPath.row % 3 > path.row % 3 { cell.animate(direction: .rightDown, row: cellRow - row, distance: (path.row % 3) - (indexPath.row % 3), reverse: reverse) }
+                if indexPath.row % 3 == path.row % 3 { cell.animate(direction: .down, row: cellRow - row, reverse: reverse, fadeOut: fadeOut)}
+                else if indexPath.row % 3 < path.row % 3 { cell.animate(direction: .leftDown, row: cellRow - row, distance: (path.row % 3) - (indexPath.row % 3), reverse: reverse, fadeOut: fadeOut) }
+                else if indexPath.row % 3 > path.row % 3 { cell.animate(direction: .rightDown, row: cellRow - row, distance: (path.row % 3) - (indexPath.row % 3), reverse: reverse, fadeOut: fadeOut) }
             } else if cellRow < row {
-                if indexPath.row % 3 == path.row % 3 { cell.animate(direction: .up, row: row - cellRow, reverse: reverse) }
-                else if indexPath.row % 3 < path.row % 3 { cell.animate(direction: .leftUp, row: row - cellRow, distance: (indexPath.row % 3) - (path.row % 3), reverse: reverse) }
-                else if indexPath.row % 3 > path.row % 3 { cell.animate(direction: .rightUp, row: row - cellRow, distance: (indexPath.row % 3) - (path.row % 3), reverse: reverse) }
+                if indexPath.row % 3 == path.row % 3 { cell.animate(direction: .up, row: row - cellRow, reverse: reverse, fadeOut: fadeOut) }
+                else if indexPath.row % 3 < path.row % 3 { cell.animate(direction: .leftUp, row: row - cellRow, distance: (indexPath.row % 3) - (path.row % 3), reverse: reverse, fadeOut: fadeOut) }
+                else if indexPath.row % 3 > path.row % 3 { cell.animate(direction: .rightUp, row: row - cellRow, distance: (indexPath.row % 3) - (path.row % 3), reverse: reverse, fadeOut: fadeOut) }
             } else if cellRow == row && path != indexPath {
-                cell.animate(direction: indexPath.row < path.row ? .left : .right, distance: abs((indexPath.row % 3) - (path.row % 3)), reverse: reverse)
+                cell.animate(direction: indexPath.row < path.row ? .left : .right, distance: abs((indexPath.row % 3) - (path.row % 3)), reverse: reverse, fadeOut: fadeOut)
             }
         }
     }

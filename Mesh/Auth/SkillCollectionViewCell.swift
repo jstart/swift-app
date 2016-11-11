@@ -91,7 +91,7 @@ class SkillCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func animate(direction: SkillAnimationDirection = .left, row: Int = 0, distance: Int = 0, reverse: Bool = false) {
+    func animate(direction: SkillAnimationDirection = .left, row: Int = 0, distance: Int = 0, reverse: Bool = false, fadeOut: Bool = false) {
         var flipX : CGFloat = 0.0
         var flipY : CGFloat = 0.0
         switch direction {
@@ -106,7 +106,7 @@ class SkillCollectionViewCell: UICollectionViewCell {
         UIView.animate(withDuration: 0.1, animations: { self.title.alpha = 0.0; self.icon.alpha = 0.0 })
         let rotation = CAKeyframeAnimation(keyPath: "transform")
         rotation.beginTime = CACurrentMediaTime() + (0.1 * Double(row + abs(distance)))
-        rotation.duration = 0.6
+        rotation.duration = 0.5
         if reverse {
             var transform = CATransform3DRotate(layer.transform, CGFloat(M_PI), -flipX, -flipY, 0)
             transform.m34 = 1.0 / -150;
@@ -121,6 +121,16 @@ class SkillCollectionViewCell: UICollectionViewCell {
                                NSValue(caTransform3D: CATransform3DRotate(layer.transform, CGFloat(M_PI), -flipX, -flipY, 0))]
         }
         layer.add(rotation, forKey: "r1")
+        
+        if fadeOut {
+            UIView.animate(withDuration: 0.1, delay: 0.1 * Double(row + abs(distance)), animations: { self.alpha = 0.0 })
+
+//            let fade = CABasicAnimation(keyPath:"opacity")
+//            fade.beginTime = CACurrentMediaTime()// + (0.05 * Double(row + abs(distance)))
+//            fade.duration = 0.1
+//            fade.fromValue = NSNumber(value: 1.0); fade.toValue = NSNumber(value: 0.0)
+//            layer.add(fade, forKey: fade.keyPath)
+        }
         
         let scale = CABasicAnimation(keyPath:"transform.scale")
         scale.beginTime = CACurrentMediaTime() + (0.1 * Double(row + abs(distance)))
@@ -141,23 +151,6 @@ class SkillCollectionViewCell: UICollectionViewCell {
             } else {
                 self.title.textColor = .gray
                 gradient.removeFromSuperlayer()
-            }
-        }
-    }
-    
-    override var isHighlighted: Bool {
-        didSet {
-            if self.isHighlighted && !self.isSelected {
-                self.title.textColor = .white
-                gradient.frame = contentView.frame
-                contentView.layer.addSublayer(gradient)
-                let alpha = CABasicAnimation(keyPath: "opacity")
-                alpha.fromValue = 0; alpha.toValue = 1
-                alpha.duration = 0.2
-                gradient.add(alpha, forKey: "opacity")
-            } else {
-                gradient.removeFromSuperlayer()
-                self.title.textColor = .gray
             }
         }
     }
