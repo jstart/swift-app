@@ -97,7 +97,6 @@
                     <constraint firstItem="bYY-Fr-fp6" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="URF-v1-32V"/>
                     <constraint firstItem="3xe-pW-8jo" firstAttribute="leading" secondItem="hVu-Qn-bEn" secondAttribute="trailing" constant="13" id="bsl-38-Pdi"/>
                     <constraint firstItem="hVu-Qn-bEn" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="2" id="qEn-mh-d14"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="3xe-pW-8jo" secondAttribute="trailing" priority="999" constant="10" id="wL1-di-w27"/>
                     <constraint firstItem="hVu-Qn-bEn" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="y1s-mB-S56"/>
                 </constraints>
             </tableViewCellContentView>

@@ -49,6 +49,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     
     lazy var dataSource : IndustriesCollectionViewDataSource = { return IndustriesCollectionViewDataSource(self.collectionView) }()
     var pickerItems : [PickerResponse]?
+    var industryMode = true
     
     var selectedPickerItems = [PickerResponse]()
     let search = UISearchBar()
@@ -173,7 +174,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if self.title == "Select Industry" {
+        if industryMode {
             guard let pickerItem = dataSource.itemFor(indexPath: indexPath) else { return }
             if pickerItem.children.count == 0 { collectionView.deselectItem(at: indexPath, animated: true); return }
             self.switchToSkills(indexPath)
@@ -181,12 +182,17 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
             guard let pickerItem = dataSource.itemFor(indexPath: indexPath) else { return }
             selectedPickerItems.append(pickerItem)
             dataSource.selectedPickerItems = selectedPickerItems
+            if dataSource.selectedPickerItems.count == 1 {
+                title = "\(dataSource.selectedPickerItems.count) interest selected"
+            } else {
+                title = "\(dataSource.selectedPickerItems.count) interests selected"
+            }
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         collectionView.cellForItem(at: indexPath)?.squeezeInOut()
-        if self.title != "Select Industry" {
+        if !industryMode {
             let pickerItem = dataSource.itemFor(indexPath: indexPath)
             for (index, item) in selectedPickerItems.enumerated() {
                 if item == pickerItem && selectedPickerItems.count >= index {
@@ -194,6 +200,11 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
                 }
             }
             dataSource.selectedPickerItems = selectedPickerItems
+            if dataSource.selectedPickerItems.count == 1 {
+                title = "\(dataSource.selectedPickerItems.count) interest selected"
+            } else {
+                title = "\(dataSource.selectedPickerItems.count) interests selected"
+            }
         } else {
             guard let pickerItem = dataSource.itemFor(indexPath: indexPath) else { return }
             if pickerItem.children.count == 0 { collectionView.deselectItem(at: indexPath, animated: true); return }
@@ -213,7 +224,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
             self.collectionView.reloadSections(IndexSet(integer: 0))
         })
-        title = "Select Industry"; swap()
+        industryMode = true; swap()
         navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "backArrow"), target: navigationController!, action: #selector(UINavigationController.popViewController(animated:)))
         collectionView.allowsMultipleSelection = true
         collectionView.allowsSelection = true
@@ -248,7 +259,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
             collectionView.reloadSections(IndexSet(integer: 0))
         }
         
-        title = "Select Skills"; swap()
+        industryMode = false; swap()
         collectionView.allowsMultipleSelection = true
         collectionView.allowsSelection = true
     }

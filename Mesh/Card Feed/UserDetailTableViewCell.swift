@@ -49,6 +49,8 @@ class UserDetailTableViewCell: UITableViewCell {
         button.isHidden = !detail.hasButton
         if !detail.hasButton {
             button.isHidden = true
+            button.widthConstraint?.constant = 0
+            delete.widthConstraint?.constant = 0
             delete.isHidden = true
         }
         year.isHidden = !detail.hasDate

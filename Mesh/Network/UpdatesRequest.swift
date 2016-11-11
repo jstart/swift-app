@@ -101,7 +101,9 @@ class TweetResponse : Object {
 }
 
 class EventResponse : Object, UserDetail {
-    dynamic var _id = "", name = "", logo : String? = "", descriptionText = "", start_time = "", end_time = ""//, interests = RLMArray<Int>?
+    dynamic var _id = "", name = "", logo : String? = "", descriptionText = "", start_time = "", end_time = ""
+    let common_connections = List<UserResponse>()//, interests = RLMArray<Int>?
+    
     override class func primaryKey() -> String? { return "_id" }
     override class func indexedProperties() -> [String] { return ["name", "start_time"] }
 
@@ -121,6 +123,7 @@ class EventResponse : Object, UserDetail {
             $0.logo = (JSON["logo"] as? String)!
             $0.start_time = (JSON["start_time"] as? String)!
             $0.end_time = (JSON["end_time"] as? String)!
+            if let commonConnectionsJSON = JSON["common_connections"] as? JSONArray { $0.common_connections.append(objectsIn: commonConnectionsJSON.map({return UserResponse.create( $0)})) }
             //$0.interests = (JSON["interests"] as? [Int])!
         }
     }

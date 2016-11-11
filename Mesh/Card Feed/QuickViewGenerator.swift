@@ -15,6 +15,8 @@ struct QuickViewGenerator {
         
         if userDetails?.connections.count == 0 {
             views.append(tempQuickView(.connections))
+        } else {
+            views.append(quickView(Array(userDetails!.connections)))
         }
         if userDetails?.experiences.count == 0 {
             views.append(tempQuickView(.experience))
@@ -47,13 +49,13 @@ struct QuickViewGenerator {
         }
         let label = UILabel(translates: false).then {
             $0.backgroundColor = .white
-            $0.text = details.first?.category.title(); $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray
+            $0.text = details.first?.category.title().uppercased(); $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray
             $0.textAlignment = .center
-            $0.constrain(.height, constant: 20)
+            $0.constrain(.height, constant: 16)
         }
         
         return stackOf([label, cell.contentView]).then {
-            $0.spacing = 1
+            $0.spacing = 0
             $0.axis = .vertical
             $0.alignment = .leading
             $0.distribution = .fill
@@ -78,7 +80,7 @@ struct QuickViewGenerator {
         }
         let label = UILabel(translates: false).then {
             $0.backgroundColor = .white
-            $0.text = details.first?.category.title(); $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray
+            $0.text = details.first?.category.title().uppercased(); $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray
             $0.textAlignment = .center
             $0.constrain(.height, constant: 20)
         }
@@ -98,7 +100,7 @@ struct QuickViewGenerator {
         let stack = stackOf(views).then { $0.distribution = .fillEqually }
         let label = UILabel().then {
             $0.backgroundColor = .white
-            $0.text = category.title(); $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray
+            $0.text = category.title().uppercased(); $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray
             $0.textAlignment = .center
             $0.constrain(.height, constant: 20)
         }
