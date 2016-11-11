@@ -48,8 +48,8 @@ class UserDetailTableViewCell: UITableViewCell {
     func configure(_ detail: UserDetail) {        
         button.isHidden = !detail.hasButton
         if !detail.hasButton {
-            button.removeFromSuperview()
-            delete.removeFromSuperview()
+            button.isHidden = true
+            delete.isHidden = true
         }
         year.isHidden = !detail.hasDate
         

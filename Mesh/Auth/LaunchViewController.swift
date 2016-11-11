@@ -89,6 +89,7 @@ class LaunchViewController: UIViewController, CardDelegate {
         super.viewWillAppear(animated)
         UIApplication.shared.isStatusBarHidden = true
         navigationController?.setNavigationBarHidden(true, animated: true)
+        topTimer?.invalidate()
         topTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(swipe), userInfo: nil, repeats: true)
     }
     
@@ -120,7 +121,7 @@ class LaunchViewController: UIViewController, CardDelegate {
     
     func swiping(percent: CGFloat) {
         if percent != 0 { topTimer?.invalidate() }
-        else if !topTimer!.isValid { topTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(swipe), userInfo: nil, repeats: true) }
+        else if !topTimer!.isValid { topTimer?.invalidate(); topTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(swipe), userInfo: nil, repeats: true) }
         if percent == 0 {
             UIView.animate(withDuration: 0.2, animations: {
                 var point = self.cardStack.view.center

@@ -153,7 +153,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) { cell.scaleIn(delay: 0.5) }
+    //func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) { cell.scaleIn(delay: 0.5) }
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) { collectionView.cellForItem(at: indexPath)?.squeezeIn() }
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         collectionView.cellForItem(at: indexPath)?.squeezeOut()

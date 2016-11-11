@@ -14,9 +14,7 @@ enum SkillAnimationDirection {
 
 class SkillCollectionViewCell: UICollectionViewCell {
     
-    let title = UILabel(translates: false).then {
-        $0.font = .gothamBook(ofSize: 12); $0.textColor = .gray; $0.numberOfLines = 0; $0.textAlignment = .center
-    }
+    let title = UILabel(translates: false).then { $0.font = .gothamBook(ofSize: 12); $0.textColor = .gray; $0.numberOfLines = 0; $0.textAlignment = .center }
     let popular = UILabel(translates: false).then { $0.isHidden = true }
     let icon = UIImageView(translates: false).then { $0.contentMode = .scaleAspectFit; $0.tintColor = .white; $0.constrain((.height, 50)) }
     let gradient = Colors.gradient
@@ -124,12 +122,6 @@ class SkillCollectionViewCell: UICollectionViewCell {
         
         if fadeOut {
             UIView.animate(withDuration: 0.1, delay: 0.1 * Double(row + abs(distance)), animations: { self.alpha = 0.0 })
-
-//            let fade = CABasicAnimation(keyPath:"opacity")
-//            fade.beginTime = CACurrentMediaTime()// + (0.05 * Double(row + abs(distance)))
-//            fade.duration = 0.1
-//            fade.fromValue = NSNumber(value: 1.0); fade.toValue = NSNumber(value: 0.0)
-//            layer.add(fade, forKey: fade.keyPath)
         }
         
         let scale = CABasicAnimation(keyPath:"transform.scale")
