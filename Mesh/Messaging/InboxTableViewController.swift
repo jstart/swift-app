@@ -81,9 +81,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     func refresh() {
         Client.execute(UpdatesRequest.latest(), complete: { response in
             //TODO: updates won't reflect read/unread state unless we fetch a fresh copy of everything
-            UpdatesRequest.append(response) {
-                self.processToDo(); self.tableView.reloadData()
-            }
+            UpdatesRequest.append(response) { self.processToDo(); self.tableView.reloadData() }
         })
     }
     
@@ -118,15 +116,17 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
     }
     
     func sort() {
-        return
-        //TODO: Sorting
-//        (navigationItem.rightBarButtonItems?[0].image = #imageLiteral(resourceName: "sortConnectionsClose"))!
-//        let pop = UITableViewController()
-//        pop.preferredContentSize = CGSize(width: view.frame.size.width - 20, height: 210)
-//        pop.modalPresentationStyle = .popover
-//        pop.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItems?[0]
-//        pop.popoverPresentationController?.delegate = self
-//        present(pop)
+//        return
+        (navigationItem.rightBarButtonItems?[0].image = #imageLiteral(resourceName: "sortConnectionsClose"))!
+        let pop = SortTableViewController()
+        pop.dismiss = {
+            (self.navigationItem.rightBarButtonItems?[0].image = #imageLiteral(resourceName: "sorting"))!
+        }
+        pop.preferredContentSize = CGSize(width: view.frame.size.width - 20, height: 175)
+        pop.modalPresentationStyle = .popover
+        pop.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItems?[0]
+        pop.popoverPresentationController?.delegate = self
+        present(pop)
     }
     
     func add() { navigationController?.push(ContactsTableViewController(style: .grouped)) }

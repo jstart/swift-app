@@ -153,7 +153,16 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         guard let largeURL = rec?.user?.photos?.large else { imageView.image = .imageWithColor(.gray); return }
         imageView.af_setImage(withURL: URL(string: largeURL)!, imageTransition: .crossDissolve(0.2))
         
-        guard let companyURL = rec?.user?.companies.first?.logo else { return }
+        guard let companies = rec?.user?.companies else { return }
+        for company in companies {
+            if company.current == 1 {
+                guard let companyURL = company.logo else { return }
+                logo.af_setImage(withURL: URL(string: companyURL)!, imageTransition: .crossDissolve(0.2))
+                return
+            }
+        }
+        
+        guard let companyURL = companies.first?.logo else { return }
         logo.af_setImage(withURL: URL(string: companyURL)!, imageTransition: .crossDissolve(0.2))
     }
     

@@ -136,31 +136,40 @@ class PositionResponse : Object {
     dynamic var lat : Double = 0, lon : Double = 0
     
     static func create(_ JSON: JSONDictionary) -> PositionResponse {
-        return PositionResponse().then {
-                $0.lat = JSON["lat"] as! Double; $0.lon = JSON["lon"] as! Double
-            }
-        }
+        return PositionResponse().then { $0.lat = JSON["lat"] as! Double; $0.lon = JSON["lon"] as! Double }
+    }
 }
 
 class CompanyResponse : Object, UserDetail {
-    dynamic var _id, name, logo : String?
+    dynamic var _id, name, start_year, end_year, logo : String?, current = 0
     override class func primaryKey() -> String? { return "_id" }
     override class func indexedProperties() -> [String] { return ["name"] }
 
     static func create(_ JSON: JSONDictionary) -> CompanyResponse {
         return CompanyResponse().then {
-            $0._id = JSON["_id"] as? String; $0.name = JSON["name"] as? String; $0.logo = JSON["logo"] as? String
-            if $0._id == nil {
-                $0._id = "\(JSON["_id"] as? Int)"
+            $0._id = JSON["_id"] as? String; $0.name = JSON["name"] as? String; $0.logo = JSON["logo"] as? String;
+            if let start = JSON["start_year"] as? Int {
+                $0.start_year = "\(start)";
             }
+            if let end = JSON["end_year"] as? Int {
+                $0.end_year = "\(end)";
+            }
+            if let current = JSON["current"] as? Bool { $0.current = Int(current) }
+            if $0._id == nil { $0._id = "\(JSON["_id"] as? Int)" }
         }
     }
 
     var firstText: String { return (name ?? "") }
-    
-    func fieldValues() -> [Any] {
-        return [name!]
+    var secondText: String {
+        if start_year != nil && end_year == nil {
+            return "\(start_year!) - Present"
+        } else if start_year != nil && end_year != nil {
+            return "\(start_year!) - \(end_year!)"
+        }
+        return ""
     }
+    
+    func fieldValues() -> [Any] { return [name!] }
     
     let category = QuickViewCategory.experience
 }
@@ -182,22 +191,35 @@ class InterestResponse : Object, UserDetail {
 }
 
 class SchoolResponse : Object, UserDetail {
-    dynamic var _id, name, logo : String?
+    dynamic var _id, name, start_year, end_year, logo : String?
     override class func primaryKey() -> String? { return "_id" }
     override class func indexedProperties() -> [String] { return ["name"] }
 
     static func create(_ JSON: JSONDictionary) -> SchoolResponse {
         return SchoolResponse().then {
             $0._id = JSON["_id"] as? String; $0.name = JSON["name"] as? String; $0.logo = JSON["logo"] as? String
+
+            if let start = JSON["start_year"] as? Int {
+                $0.start_year = "\(start)";
+            }
+            if let end = JSON["end_year"] as? Int {
+                $0.end_year = "\(end)";
+            }
         }
     }
     
-    func fieldValues() -> [Any] {
-        return [name!]
-    }
+    func fieldValues() -> [Any] { return [name!] }
     
     var firstText: String { return (name ?? "") }
-    
+    var secondText: String {
+        if start_year != nil && end_year == nil {
+            return "\(start_year!) - Present"
+        } else if start_year != nil && end_year != nil {
+            return "\(start_year!) - \(end_year!)"
+        }
+        return ""
+    }
+
     let category = QuickViewCategory.education
 }
 

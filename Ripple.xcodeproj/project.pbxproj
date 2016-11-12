@@ -24,6 +24,7 @@
 		23383F4D1D9A2E2B0065C468 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 23383F4B1D9A2E2B0065C468 /* MGSwipeTableCell.m */; };
 		2338C1D81D9DBBD70044E751 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2338C1D71D9DBBD70044E751 /* Assets.xcassets */; };
 		2338C1DA1D9DDD350044E751 /* PastEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2338C1D91D9DDD350044E751 /* PastEventTableViewController.swift */; };
+		233EA90A1DD69210008170A3 /* SortTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233EA9091DD69210008170A3 /* SortTableViewController.swift */; };
 		234A6EDD1DA2E750005B8FDF /* AutoCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234A6EDC1DA2E750005B8FDF /* AutoCompleteView.swift */; };
 		234C4D1B1D8CE5530075E470 /* EditFieldsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234C4D1A1D8CE5530075E470 /* EditFieldsTableViewCell.swift */; };
 		234C4D1D1D8E51620075E470 /* UserEditPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234C4D1C1D8E51620075E470 /* UserEditPasswordViewController.swift */; };
@@ -163,6 +164,7 @@
 		23383F4B1D9A2E2B0065C468 /* MGSwipeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeTableCell.m; sourceTree = "<group>"; };
 		2338C1D71D9DBBD70044E751 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2338C1D91D9DDD350044E751 /* PastEventTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PastEventTableViewController.swift; sourceTree = "<group>"; };
+		233EA9091DD69210008170A3 /* SortTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortTableViewController.swift; sourceTree = "<group>"; };
 		234A6EDC1DA2E750005B8FDF /* AutoCompleteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoCompleteView.swift; sourceTree = "<group>"; };
 		234C4D1A1D8CE5530075E470 /* EditFieldsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditFieldsTableViewCell.swift; sourceTree = "<group>"; };
 		234C4D1C1D8E51620075E470 /* UserEditPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserEditPasswordViewController.swift; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 				23C8723B1D83760300B21AB6 /* ConnectionTableViewCell.xib */,
 				23C8723C1D83760300B21AB6 /* InboxSearchTableViewController.swift */,
 				23C8723D1D83760300B21AB6 /* InboxTableViewController.swift */,
+				233EA9091DD69210008170A3 /* SortTableViewController.swift */,
 				23C8723E1D83760300B21AB6 /* MessagePreviewTableViewCell.swift */,
 				23C8723F1D83760300B21AB6 /* MessagePreviewTableViewCell.xib */,
 				23C872401D83760300B21AB6 /* MessagesViewController.swift */,
@@ -881,6 +884,7 @@
 				23C872481D83760300B21AB6 /* MessagePreviewTableViewCell.swift in Sources */,
 				23C51AEA1D89019500C926F1 /* IndustriesCollectionViewDataSource.swift in Sources */,
 				23C872311D83759A00B21AB6 /* OutlineView.swift in Sources */,
+				233EA90A1DD69210008170A3 /* SortTableViewController.swift in Sources */,
 				23C51ADE1D88E61C00C926F1 /* LaunchViewController.swift in Sources */,
 				23C8725E1D83762900B21AB6 /* Card.swift in Sources */,
 				236878F61DC2897A006848C4 /* ObjC.m in Sources */,
@@ -1053,7 +1057,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
-				CURRENT_PROJECT_VERSION = 170;
+				CURRENT_PROJECT_VERSION = 171;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1078,7 +1082,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Mesh/Support Files/Mesh.entitlements";
-				CURRENT_PROJECT_VERSION = 170;
+				CURRENT_PROJECT_VERSION = 171;
 				DEVELOPMENT_TEAM = 6YTW2279GH;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Mesh/Support Files/Info.plist";
