@@ -68,10 +68,10 @@ struct QuickViewGenerator {
         for index in 0..<count {
             let detail = details[index]
             if count < 3 {
-                let squareStack = fillSquare(.imageWithColor(.darkGray), title: detail.firstText, url: detail.logo)
+                let squareStack = fillSquare(.imageWithColor(.clear), title: detail.firstText, url: detail.logo)
                 views.append(squareStack)
             } else {
-                let squareStack = square(.imageWithColor(.darkGray), title: detail.firstText, url: detail.logo)
+                let squareStack = square(.imageWithColor(.clear), title: detail.firstText, url: detail.logo)
                 views.append(squareStack)
             }
         }
@@ -82,7 +82,7 @@ struct QuickViewGenerator {
             $0.backgroundColor = .white
             $0.text = details.first?.category.title().uppercased(); $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray
             $0.textAlignment = .center
-            $0.constrain(.height, constant: 20)
+            $0.constrain(.height, constant: 15)
         }
         
         return stackOf([label, stack]).then {
