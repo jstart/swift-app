@@ -10,6 +10,10 @@ import UIKit
 
 struct QuickViewGenerator {
     
+    static let table = UITableView().then {
+        $0.registerNib(UserDetailTableViewCell.self)
+    }
+    
     static func viewsForDetails(_ userDetails: UserDetails?) -> [UIView] {
         var views : [UIView] = []
         
@@ -22,6 +26,7 @@ struct QuickViewGenerator {
             views.append(tempQuickView(.experience))
         } else if userDetails?.experiences.count == 1 {
             views.append(userDetailCell(userDetails!.experiences))
+            //views.append(quickView(Array(userDetails!.experiences)))
         } else {
             views.append(quickView(Array(userDetails!.experiences)))
         }
@@ -38,15 +43,61 @@ struct QuickViewGenerator {
         }
         if userDetails?.events.count == 0 {
             views.append(tempQuickView(.events))
+        } else {
+            views.append(quickView(Array(userDetails!.events)))
         }
+        
         return views
     }
     
     static func userDetailCell(_ details: [UserDetail]) -> UIView {
-        let cell = (MainBundle.loadNibNamed("UserDetailTableViewCell", owner: nil, options: [:])!.first as! UserDetailTableViewCell).then {
-            $0.contentView.translates = false
-            $0.configure(details.first!)
+//        let cell = (table.dequeueReusableCell(withIdentifier: "UserDetailTableViewCell") as! UserDetailTableViewCell).then {
+//            $0.contentView.translates = false
+//            $0.configure(details.first!)
+//        }
+        
+        let iconLabel = UILabel(translates: false).then {
+            $0.text = details.first!.firstText
+            $0.backgroundColor = .white; $0.textColor = .darkGray; $0.font = .gothamBook(ofSize: 14)
+            $0.textAlignment = .center
+            $0.constrain(.height, constant: 20)
+            $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         }
+        let subLabel = UILabel(translates: false).then {
+            $0.text = details.first!.secondText
+            $0.backgroundColor = .white; $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 12)
+            $0.textAlignment = .center
+            $0.constrain(.height, constant: 20)
+            $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        }
+        let icon = UIImageView(translates: false).then {
+            $0.layer.borderWidth = 1
+            $0.backgroundColor = .white
+            $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+            $0.layer.cornerRadius = 5
+            $0.clipsToBounds = true
+            $0.backgroundColor = .white
+            $0.contentMode = .scaleAspectFit
+            $0.constrain(.width, .height, constant: 50)
+            $0.constrain(.width, toItem: $0, toAttribute: .height)
+        }
+        let container = UIView()
+        
+        container.addSubviews(iconLabel, subLabel, icon)
+        
+        icon.constrain((.top, 10), (.bottom, -10), toItem: container)
+        icon.constrain(.leading, constant: 10, toItem: container)
+        icon.constrain(.trailing, relatedBy: .lessThanOrEqual, constant: -10, toItem: container)
+        icon.constrain(.centerY, toItem: container)
+        
+        iconLabel.constrain(.leading, constant: 13, toItem: icon, toAttribute: .trailing)
+        iconLabel.constrain(.top, constant: 13, toItem: container)
+        
+        subLabel.constrain(.leading, toItem: iconLabel)
+        subLabel.constrain(.top, constant: 5, toItem: iconLabel, toAttribute: .bottom)
+        
+        if let url = details.first?.logo { icon.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2)) }
+        
         let label = UILabel(translates: false).then {
             $0.backgroundColor = .white
             $0.text = details.first?.category.title().uppercased(); $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray
@@ -54,7 +105,7 @@ struct QuickViewGenerator {
             $0.constrain(.height, constant: 16)
         }
         
-        return stackOf([label, cell.contentView]).then {
+        return stackOf([label, container]).then {
             $0.spacing = 0
             $0.axis = .vertical
             $0.alignment = .leading
@@ -76,7 +127,8 @@ struct QuickViewGenerator {
             }
         }
         let stack = stackOf(views).then {
-            $0.distribution = .fillEqually
+            $0.distribution = .fill
+            //$0.constrain((.height, 50))
         }
         let label = UILabel(translates: false).then {
             $0.backgroundColor = .white
@@ -94,10 +146,10 @@ struct QuickViewGenerator {
     }
     
     static func tempQuickView(_ category: QuickViewCategory) -> UIStackView {
-        var views : [UIView] = []
-        
-        views.append(fillSquare(nil, title: ""))
-        let stack = stackOf(views).then { $0.distribution = .fillEqually }
+        let stack = stackOf([]).then {
+            $0.distribution = .fill
+            $0.constrain((.height, 75))
+        }
         let label = UILabel().then {
             $0.backgroundColor = .white
             $0.text = category.title().uppercased(); $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray
@@ -124,40 +176,8 @@ struct QuickViewGenerator {
         }
     }
     
-    static func fillSquare(_ image: UIImage?, title: String, url: String? = nil) -> UIStackView {
-        let label = UILabel().then {
-            $0.numberOfLines = 2
-            $0.text = title; $0.font = .gothamBook(ofSize: 12); $0.textColor = .lightGray
-            $0.backgroundColor = .white
-            $0.textAlignment = .center
-            $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-            $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-        }
-        let icon = UIImageView(image: image).then {
-            $0.translates = false
-            $0.layer.borderWidth = 1
-            $0.backgroundColor = .white
-            $0.layer.borderColor = image != nil ? UIColor.lightGray.withAlphaComponent(0.5).cgColor : UIColor.clear.cgColor
-            $0.layer.cornerRadius = 5
-            $0.clipsToBounds = true
-            $0.backgroundColor = .white
-            $0.contentMode = .scaleAspectFit
-            $0.constrain(.height, .width, constant: 50)
-        }
-        
-        let container = UIView()
-        container.addSubview(icon)
-        icon.constrain(.centerX, .centerY, .top, .bottom, toItem: container)
-        icon.constrain(.leading, relatedBy: .greaterThanOrEqual, toItem: container)
-        icon.constrain(.trailing, relatedBy: .lessThanOrEqual, toItem: container)
-
-        if let url = url { icon.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2)) }
-        
-        return UIStackView(container, label, axis: .vertical, spacing: 5)
-    }
-    
-    static func square(_ image: UIImage, title: String, url: String? = nil) -> UIStackView {
-        let label = UILabel().then {
+    static func fillSquare(_ image: UIImage?, title: String, url: String? = nil) -> UIView {
+        let label = UILabel(translates: false).then {
             $0.text = title
             $0.backgroundColor = .white; $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 12)
             $0.textAlignment = .center
@@ -165,6 +185,7 @@ struct QuickViewGenerator {
             $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         }
         let icon = UIImageView(image: image).then {
+            $0.translates = false
             $0.layer.borderWidth = 1
             $0.backgroundColor = .white
             $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
@@ -173,13 +194,61 @@ struct QuickViewGenerator {
             $0.backgroundColor = .white
             $0.contentMode = .scaleAspectFit
             $0.constrain(.width, .height, constant: 50)
+            $0.constrain(.width, toItem: $0, toAttribute: .height)
         }
         
         if let url = url { icon.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2)) }
         
-        return UIStackView(icon, label, axis: .vertical, spacing: 5)
+        return UIView(translates: false).then {
+            $0.addSubviews(label, icon)
+            $0.constrain((.height, 75))
+            icon.constrain(.top, toItem: $0)
+            icon.constrain(.leading, relatedBy: .lessThanOrEqual, toItem: $0)
+            icon.constrain(.trailing, relatedBy: .lessThanOrEqual, toItem: $0)
+            icon.constrain(.centerX, toItem: label)
+
+            label.constrain(.leading, .trailing, toItem: $0)
+            label.constrain(.top, constant: 5, toItem: icon, toAttribute: .bottom)
+        }
     }
     
+    static func square(_ image: UIImage, title: String, url: String? = nil) -> UIView {
+        let label = UILabel(translates: false).then {
+            $0.text = title
+            $0.backgroundColor = .white; $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 12)
+            $0.textAlignment = .center
+            $0.constrain(.height, constant: 20)
+            $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        }
+        let icon = UIImageView(image: image).then {
+            $0.translates = false
+            $0.layer.borderWidth = 1
+            $0.backgroundColor = .white
+            $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+            $0.layer.cornerRadius = 5
+            $0.clipsToBounds = true
+            $0.backgroundColor = .white
+            $0.contentMode = .scaleAspectFit
+            $0.constrain(.width, .height, constant: 50)
+            $0.constrain(.width, toItem: $0, toAttribute: .height)
+        }
+        
+        if let url = url { icon.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2)) }
+        
+        return UIView(translates: false).then {
+            $0.addSubviews(label, icon)
+            $0.constrain((.height, 75))
+            icon.constrain(.top, toItem: $0)
+            icon.constrain(.leading, relatedBy: .lessThanOrEqual, toItem: $0)
+            icon.constrain(.trailing, relatedBy: .lessThanOrEqual, toItem: $0)
+            icon.constrain(.centerX, toItem: label)
+            
+            label.constrain(.leading, .trailing, toItem: $0)
+            label.constrain(.top, constant: 5, toItem: icon, toAttribute: .bottom)
+        }
+    }
+    
+    //TODO: MORE 6+
     static func moreCircle(_ count: Int) -> UILabel {
         return UILabel().then {
             $0.text = "+\(count)"

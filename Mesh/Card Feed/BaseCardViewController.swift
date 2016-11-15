@@ -10,15 +10,14 @@ import UIKit
 
 class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
     var rec : RecommendationResponse?
-
+    
     var delegate : CardDelegate?
     var state = SwipeState()
-
+    
     var gestureRec : UIPanGestureRecognizer?
     var tapRec : UITapGestureRecognizer?
-    let overlayView  = UIView(translates: false).then {
-        $0.alpha = 1.0
-        $0.layer.cornerRadius = 10.0
+    let overlayView = UIView(translates: false).then {
+        $0.alpha = 0.0
     }
     let leftLabel = UILabel(translates: false).then {
         $0.text = "PASS"
@@ -59,7 +58,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
         gestureRec?.delegate = self
         tapRec = UITapGestureRecognizer(target: self, action: #selector(tap))
         view.addGestureRecognizer(gestureRec!); view.addGestureRecognizer(tapRec!)
-    
+        
         view.addSubview(overlayView)
         overlayView.constrain(.width, .height, .centerX, .centerY, toItem: view)
         
@@ -74,7 +73,6 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.bringSubview(toFront: overlayView)
-        overlayView.alpha = 0.0
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool { return true }
@@ -95,38 +93,39 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
                 !state.meetsFlingRequirements(swipeDirection)) ||
                 !state.meetsPositionRequirements(swipeDirection)) {
                 // Back to center
-                UIView.animate(withDuration: 0.2, animations: {
+                UIView.animate(withDuration: 0.1, animations: {
                     guard let superview = self.view?.superview else { return }
                     sender.view?.center = superview.center
                     sender.view?.transform = CGAffineTransform.identity
-
+                    
                     self.overlayView.alpha = 0.0
                     self.delegate?.swiping(percent: 0)
                     self.overlayView.isHidden = true
                 })
                 return
             }
-            UIView.animate(withDuration: 0.2, animations: {
-            switch swipeDirection {
-            case UISwipeGestureRecognizerDirection.up:
+            UIView.animate(withDuration: 0.1, animations: {
+                switch swipeDirection {
+                case UISwipeGestureRecognizerDirection.up:
                     self.delegate?.swiping(percent: 100)
                     sender.view?.frame.origin.y = -sender.view!.superview!.frame.height; break
-            case UISwipeGestureRecognizerDirection.left:
+                case UISwipeGestureRecognizerDirection.left:
                     self.delegate?.swiping(percent: 100)
                     sender.view?.frame.origin.x = -sender.view!.superview!.frame.width - 50; break
-            case UISwipeGestureRecognizerDirection.right:
+                case UISwipeGestureRecognizerDirection.right:
                     self.delegate?.swiping(percent: 100)
                     sender.view?.frame.origin.x = sender.view!.superview!.frame.width + 100; break
-            case UISwipeGestureRecognizerDirection.down:
+                case UISwipeGestureRecognizerDirection.down:
                     self.delegate?.swiping(percent: 100)
                     sender.view?.frame.origin.y = sender.view!.superview!.frame.height; break
-            default: sender.view?.center = (self.view?.superview?.center)!; break }
-                }, completion: { _ in
-                    self.removeSelf(swipeDirection) }); break
+                default: sender.view?.center = (self.view?.superview?.center)!; break }
+            }, completion: { _ in
+                self.removeSelf(swipeDirection) }); break
         case .cancelled : fallthrough
         case .failed :
+            print("Failed")
             // Back to center
-            UIView.animate(withDuration: 0.2, animations: {
+            UIView.animate(withDuration: 0.1, animations: {
                 self.delegate?.swiping(percent: 0)
                 sender.view?.center = (self.view?.superview?.center)!
             })
@@ -147,10 +146,9 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
         default: break }
     }
     
-    func removeSelf(_ direction : UISwipeGestureRecognizerDirection) {
-        viewWillDisappear(true); viewDidDisappear(true)
-        presentingViewController?.dismiss()
-        view.removeFromSuperview()
+    func removeSelf(_ direction: UISwipeGestureRecognizerDirection) {
+        view.isHidden = true
+        //view.removeFromSuperview()
         delegate?.swiped(direction)
     }
     
@@ -158,7 +156,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
         if state.meetsPositionNoMarginRequirements(direction) {
             rightStamp.alpha = direction == .right ? 1.0 : 0; leftStamp.alpha = direction == .left ? 1.0 : 0
         }
-
+        
         var overlayAlpha : CGFloat = 0
         var screenProgress : CGFloat = 0
         switch direction {

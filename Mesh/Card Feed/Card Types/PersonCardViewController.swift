@@ -35,6 +35,8 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         $0.layer.shadowColor = UIColor.black.cgColor; $0.layer.shadowOpacity = 0.2; $0.layer.shadowRadius = 10
         $0.constrain(.width, .height, constant: 62)
     }
+    
+    let activity = UIActivityIndicatorView(activityIndicatorStyle: .gray).then { $0.translates = false }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,19 +53,17 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         control.delegate = viewPager!
         viewPager?.delegate = control
         if let user = rec?.user {
-            let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: [], experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: []))
-            viewPager?.insertViews(quickViews)
             if let category = user.promoted_category {
                 let categoryIndex = QuickViewCategory.index(category)
                 control.selectIndex(categoryIndex)
-                viewPager?.selectedIndex(categoryIndex, animated: true)
+                viewPager?.selectedIndex(categoryIndex, animated: false)
             }
         } else {
             control.selectIndex(0)
             viewPager?.selectedIndex(0, animated: false)
         }
 
-        let namePositionContainer = UIView().then { $0.backgroundColor = .white }
+        let namePositionContainer = UIView().then { $0.backgroundColor = .white; $0.constrain((.height, 61)); $0.clipsToBounds = true }
         
         namePositionContainer.addSubviews(name, position)
         
@@ -81,6 +81,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         viewPager!.scroll.translates = false
         viewPager!.scroll.backgroundColor = .white
         viewPager!.scroll.constrain(.width, .centerX, toItem: view)
+        viewPager!.scroll.constrain(.height, constant: 91.5)
 
         imageView.constrain(.bottom, constant: -11, toItem: name, toAttribute: .top)
         imageView.constrain(.height, relatedBy: .equal, toItem: view, multiplier: 660/1052)
@@ -97,8 +98,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         
         imageView.constrain(.width, .centerX, toItem: view)
         
-        view.addSubview(logoBackshadow)
-        view.addSubview(logo)
+        view.addSubviews(logoBackshadow, logo)
         
         logo.constrain(.width, .height, constant: 62)
         logo.constrain(.leading, constant: 15, toItem: view)
@@ -109,15 +109,19 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         logoBackshadow.constrain(.bottom, constant: 62 - 15, toItem: imageView)
 
         name.constrain(.top, constant: 11, toItem: namePositionContainer)
-        name.constrain(.leading, constant: 15, toItem: logo, toAttribute: .trailing)
-        name.constrain(.trailing, toItem: namePositionContainer, toAttribute: .trailingMargin)
+        name.constrain(.leading, constant: 92, toItem: namePositionContainer)
+        if #available(iOS 10, *) {
+            name.constrain(.trailing, toItem: namePositionContainer, toAttribute: .trailingMargin)
+        } else {
+            name.constrain((.width, 210))
+        }
         
         position.constrain(.leading, .trailing, toItem: name)
         position.constrain(.top, constant: 0, toItem: name, toAttribute: .bottom)
         position.constrain(.bottom, constant: -8, toItem: namePositionContainer)
-
-        view.addSubview(overlayView)
-        overlayView.constrain(.width, .height, .centerX, .centerY, toItem: view)
+        
+//        view.addSubview(activity)
+//        activity.constrain(.centerX, .centerY, toItem: viewPager!.scroll)
     }
     
     override func viewDidLayoutSubviews() {
@@ -135,16 +139,40 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        overlayView.alpha = 0.0
-        overlayView.isHidden = true
         
-        if let user = rec?.user, let category = user.promoted_category {
-            let categoryIndex = QuickViewCategory.index(category)
-            control.selectIndex(categoryIndex)
-            viewPager?.selectedIndex(categoryIndex, animated: true)
-        } else {
-            control.selectIndex(0)
-            viewPager?.selectedIndex(0, animated: false)
+        if view.alpha == 1.0 {
+            viewPager?.scroll.alpha = 0.0
+            if let user = rec?.user, let category = user.promoted_category {
+                if viewPager?.stack.arrangedSubviews.count == 0 {
+                    tapRec?.isEnabled = false
+                   // DispatchQueue.main.asyncAfter(deadline: .now() + 1.2, execute: { [weak self] in
+                        //guard let strongSelf = self else { return }
+                        let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: Array(user.common_connections), experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: Array(user.events)))
+                        self.viewPager?.insertViews(quickViews)
+//                        self.activity.stopAnimating()
+                        self.tapRec?.isEnabled = true
+                   // })
+                }
+                let categoryIndex = QuickViewCategory.index(category)
+                control.selectIndex(categoryIndex)
+                viewPager?.selectedIndex(categoryIndex, animated: false)
+                self.viewPager?.scroll.fadeIn()
+            } else if let user = rec?.user {
+                if viewPager?.stack.arrangedSubviews.count == 0 {
+                    tapRec?.isEnabled = false
+                    //DispatchQueue.main.asyncAfter(deadline: .now() + 1.2, execute: { [weak self] in
+                        //guard let strongSelf = self else { return }
+                        let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: [], experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: []))
+                        self.viewPager?.scroll.fadeIn()
+                        self.viewPager?.insertViews(quickViews)
+//                        self.activity.stopAnimating()
+                        self.tapRec?.isEnabled = true
+                    //})
+                }
+                control.selectIndex(0)
+                viewPager?.selectedIndex(0, animated: false)
+                self.viewPager?.scroll.fadeIn()
+            }
         }
         
         name.text = rec?.user?.fullName() ?? ""
@@ -172,7 +200,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         if let user = rec?.user, let category = user.promoted_category {
             let categoryIndex = QuickViewCategory.index(category)
             control.selectIndex(categoryIndex)
-            viewPager?.selectedIndex(categoryIndex, animated: true)
+            viewPager?.selectedIndex(categoryIndex, animated: false)
         } else {
             control.selectIndex(0)
             viewPager?.selectedIndex(0, animated: false)
@@ -198,13 +226,14 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
     override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         let touchPoint = touch.location(in: gestureRecognizer.view)
         let subview = gestureRec?.view?.hitTest(touchPoint, with: nil)
-        return !(subview?.isDescendant(of: viewPager!.scroll))!
+        guard let isDescendant = (subview?.isDescendant(of: viewPager!.scroll)) else { return false }
+        return !isDescendant
     }
     
     override func tap(_ sender: UITapGestureRecognizer) {
         let details = CardDetailViewController()
         guard let user = rec?.user else { return }
-        details.details = UserDetails(connections: [], experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: [])
+        details.details = UserDetails(connections: Array(user.common_connections), experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: Array(user.events))
         details.delegate = self
         details.transistionToIndex = control.previousIndex
         details.control.selectIndex(control.previousIndex)

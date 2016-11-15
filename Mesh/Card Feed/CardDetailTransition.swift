@@ -10,16 +10,15 @@ import UIKit
 
 class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControllerAnimatedTransitioning {
     
-//    override var duration: CGFloat = 0.2
+    //    override var duration: CGFloat = 0.2
     var presenting  = true
     let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark)).then {
-        $0.layer.cornerRadius = 10.0
-        $0.translates = false
-        $0.alpha = 0.0
+        $0.layer.cornerRadius = 5.0
+        $0.translates = false; $0.alpha = 0.0
     }
     var cardVC : PersonCardViewController?
     
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?)-> TimeInterval {
         return TimeInterval(duration)
     }
     
@@ -35,8 +34,7 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
         containerView.addSubview(detail)
         
         detail.translates = false
-        detail.constrain(.width, .centerX, toItem: cardVC!.view)
-        detail.constrain((.height, -80), (.top, 375), toItem: cardVC!.view)
+        detail.constrain((.leading, 0), (.trailing, 0), (.height, -80), (.top, 375), toItem: cardVC!.view)
         detail.alpha = 0.0
         
         detail.addSubview(blurView)
@@ -51,28 +49,30 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
         UIView.animate(withDuration: 0.1, animations: {
             detail.alpha = 1.0
             self.blurView.alpha = 0.9
-            }, completion:{_ in
-                UIView.animate(withDuration: 0.2, animations: {
-                    detail.frame.origin.y = 81 * 2
-                    }, completion: { _ in context.completeTransition(true) })
+        }, completion:{_ in
+            UIView.animate(withDuration: 0.2, animations: {
+                detail.frame.origin.y = 81 * 2
+            }, completion: { _ in context.completeTransition(true) })
         })
     }
     
     func dismiss(_ context: UIViewControllerContextTransitioning) {
-        let containerView = context.containerView, detail = context.view(forKey: .from)!
+        let containerView = context.containerView
+        containerView.frame.size.height = (cardVC?.view.frame.size.height)! + 81
+        let detail = context.view(forKey: UITransitionContextViewKey.from)!
+        detail.frame.origin.y = 81 * 3
         containerView.addSubview(detail)
         
-        UIView.animate(withDuration: 0.2, animations: { [weak self] in
-            detail.topConstraint?.constant = 375
+        UIView.animate(withDuration: 0.2, animations: {
+            detail.frame.origin.y = 550
             detail.alpha = 0.0
-            self?.blurView.alpha = 0.0
-            }, completion:{_ in
-                self.blurView.removeFromSuperview()
-                containerView.removeFromSuperview()
-                context.completeTransition(true)
+            self.blurView.alpha = 0.0
+        }, completion:{_ in
+            self.blurView.removeFromSuperview()
+            containerView.removeFromSuperview()
+            context.completeTransition(true)
         })
     }
-
-    func tap(_ sender:UITapGestureRecognizer) { cardVC?.dismiss() }
     
+    func tap(_ sender:UITapGestureRecognizer) { cardVC?.dismiss() }
 }

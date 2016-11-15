@@ -75,7 +75,7 @@ class CardStack : UIViewController, CardDelegate {
             currentCard?.rec = card
             currentCard?.delegate = self
             addChildViewController(currentCard!)
-            bottomCard?.viewDidLayoutSubviews()
+            currentCard?.viewDidLayoutSubviews()
             currentCard?.viewWillAppear(true)
             currentCard?.view.alpha = 0
             let scale = CardFeedViewConfig().behindScale
@@ -92,22 +92,26 @@ class CardStack : UIViewController, CardDelegate {
         addChildViewController(bottomCard!)
         bottomCard?.viewDidLayoutSubviews()
         bottomCard?.view.alpha = 0
+        bottomCard?.view.isUserInteractionEnabled = false
         addCard(currentCard!)
     }
 
     func addCard(_ card: UIViewController, animated: Bool = true, width: CGFloat = -13) {
         view.addSubview(card.view)
+        card.view.translates = false
         addChildViewController(card)
         card.viewWillAppear(animated)
         card.view.constrain((.width, width), toItem: view)
         card.view.constrain(.height, relatedBy: .lessThanOrEqual, constant: -40, toItem: view)
         card.view.constrain(.centerX, .centerY, toItem: view)
-        card.view.translates = false
         card.view.layoutIfNeeded()
         card.viewDidAppear(animated)
+        if animated {
+            card.view.isUserInteractionEnabled = true
+        }
 
         if !animated { view.sendSubview(toBack: card.view); return }
-        UIView.animate(withDuration: 0.2, animations: { card.view.alpha = 1.0; card.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0) }, completion: { _ in
+        UIView.animate(withDuration: 0.1, animations: { card.view.alpha = 1.0; card.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0) }, completion: { _ in
             guard self.bottomCard != nil else { return }
             self.addCard(self.bottomCard!, animated: false)
         })
@@ -135,10 +139,11 @@ class CardStack : UIViewController, CardDelegate {
         case .event: if let id = card.event?._id { Client.execute(direction == .right ? EventLikeRequest(_id: id) : EventPassRequest(_id: id)) }
         default: break }
         
-        if cardIndex + 5 == cards?.count {
+        if self.cardIndex + 5 == self.cards?.count {
             Client.execute(RecommendationsRequest(), complete: { response in
                 guard let jsonArray = response.result.value as? JSONArray else { return }
                 let array = jsonArray.map({ return RecommendationResponse.create($0) })
+                
                 /*let realm = RealmUtilities.realm()
                 try! realm.write {
                     realm.delete(realm.objects(RecommendationResponse.self))

@@ -25,9 +25,9 @@ class LaunchCardViewController: BaseCardViewController {
         $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray
         $0.textAlignment = .center; $0.numberOfLines = 0; $0.adjustsFontSizeToFitWidth = true
     }
-    let image = UIImageView(image: #imageLiteral(resourceName: "networkIntro")).then {
-        $0.translates = false
-    }
+    let image = UIImageView(translates: false)
+    static var introCards = [#imageLiteral(resourceName: "networkCard"), #imageLiteral(resourceName: "introsCard"), #imageLiteral(resourceName: "stayCurrentCard"), #imageLiteral(resourceName: "eventsCard")]
+    static var introIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +53,11 @@ class LaunchCardViewController: BaseCardViewController {
         bottom.addSubview(stack)
         stack.constrain(.centerX, .centerY, .leadingMargin, .trailingMargin, toItem: bottom)
         stack.constrain((.bottom, -10), toItem: bottom)*/
+        if LaunchCardViewController.introIndex == 4 {
+            LaunchCardViewController.introIndex = 0
+        }
+        image.image = LaunchCardViewController.introCards[LaunchCardViewController.introIndex]
+        LaunchCardViewController.introIndex += 1
     }
     
     override func viewWillAppear(_ animated: Bool) {
