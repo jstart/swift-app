@@ -66,7 +66,9 @@ class ConnectionResponse : Object, UserDetail {
     }
 }
 
-class UserResponse : Object {
+class UserResponse : Object, UserDetail {
+    let category = QuickViewCategory.connections
+
     static var current : UserResponse?
     static var connections = [ConnectionResponse]()
     static var messages = [MessageResponse]()
@@ -75,11 +77,11 @@ class UserResponse : Object {
     
     dynamic var _id = "",
         phone_number, email, first_name, last_name, profession, title, token, promoted_category : String?
-//        companies : [CompanyModel]?,
     let companies = List<CompanyResponse>(),
         schools = List<SchoolResponse>(),
         interests = List<InterestResponse>(),
-        common_connections = List<UserResponse>()
+        common_connections = List<UserResponse>(),
+        events = List<EventResponse>()
     
     dynamic var photos : PhotoResponse?, position : PositionResponse?
     
@@ -105,6 +107,7 @@ class UserResponse : Object {
                 if JSON["photos"] != nil { $0.photos = PhotoResponse.create((JSON["photos"] as! JSONDictionary)) }
                 if JSON["position"] != nil { $0.position = PositionResponse.create((JSON["position"] as! JSONDictionary)) }
                 if let commonConnectionsJSON = JSON["common_connections"] as? JSONArray { $0.common_connections.append(objectsIn: commonConnectionsJSON.map({return UserResponse.create( $0)})) }
+                if let eventsJSON = JSON["events"] as? JSONArray { $0.events.append(objectsIn: eventsJSON.map({return EventResponse.create( $0)})) }
         }
     }
     
@@ -120,6 +123,10 @@ class UserResponse : Object {
         let companyNames = companies.flatMap({return $0.name}).joined(separator: " ")
         return fullName() + (title ?? "") + companyNames // profession?
     }
+    
+    var firstText: String { return (initialName()) }
+    var secondText: String { return fullTitle() }
+    var logo: String? { guard let photo = photos?.large else { return nil }; return photo }
 }
 
 class PhotoResponse : Object {

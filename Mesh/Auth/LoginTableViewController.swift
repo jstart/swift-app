@@ -22,7 +22,9 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated); navigationController?.setNavigationBarHidden(false, animated: true)
+        super.viewWillAppear(animated);
+        UIApplication.shared.isStatusBarHidden = false
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {

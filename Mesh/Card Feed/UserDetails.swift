@@ -115,11 +115,11 @@ struct Event : UserDetail {
 }
 
 struct UserDetails {
-    var connections : [ConnectionDetail]
+    var connections : [UserResponse]
     var experiences : [CompanyResponse]
     var educationItems : [SchoolResponse]
     var skills : [InterestResponse]
-    var events : [Event]
+    var events : [EventResponse]
     
     func details(forIndex: Int) -> [UserDetail]? {
         switch forIndex {

@@ -58,6 +58,8 @@ class SkillCollectionViewCell: UICollectionViewCell {
         self.title.alpha = 1.0; self.icon.alpha = 1.0
         self.constraintFor(.bottom, toItem: self.title)?.isActive = true
         self.constraintFor(.centerY, toItem: title)?.isActive = false
+        self.title.heightConstraint?.constant = 16
+
         self.layoutIfNeeded()
     }
     
@@ -69,7 +71,11 @@ class SkillCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(_ pickerItem: PickerResponse, isPopular: Bool = false, searching: Bool = false) {
-        self.title.text = pickerItem.name
+        let attributedString = NSMutableAttributedString(string: pickerItem.name!)
+        let paragraphStyle = NSMutableParagraphStyle(); paragraphStyle.lineSpacing = 8
+        paragraphStyle.alignment = .center
+        attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        self.title.attributedText = attributedString
         popular.isHidden = isPopular
         isSelected = isSelected ? true : false
         
@@ -78,9 +84,9 @@ class SkillCollectionViewCell: UICollectionViewCell {
         if url == "text" {
             icon.isHidden = true
             self.title.constrain(.centerY, toItem: self)
-            //self.title.numberOfLines = 0
+            self.title.numberOfLines = 0
             self.constraintFor(.bottom, toItem: self.title)?.isActive = false
-            //self.title.heightConstraint?.isActive = false
+            self.title.heightConstraint?.constant = 32
             return
         } else {
             self.constraintFor(.bottom, toItem: self.title)?.isActive = true

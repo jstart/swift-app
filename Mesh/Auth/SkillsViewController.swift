@@ -99,6 +99,7 @@ class SkillsViewController: UIViewController, UICollectionViewDelegate, UISearch
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        UIApplication.shared.isStatusBarHidden = false
         navigationController?.setNavigationBarHidden(false, animated: true)
 
         if Token.retrieveToken() == nil { Client.execute(TokenRequest()) { _ in

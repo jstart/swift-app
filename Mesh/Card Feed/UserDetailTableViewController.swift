@@ -17,8 +17,10 @@ class UserDetailTableViewController : UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.registerNib(UserDetailTableViewCell.self)
         view.layer.cornerRadius = 10.0
+        
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
@@ -31,7 +33,7 @@ class UserDetailTableViewController : UITableViewController {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return UILabel().then {
-            $0.text = "     " + (category?.title() ?? "")
+            $0.text = "     " + (category?.title().uppercased() ?? "")
             $0.textColor = .lightGray
             $0.backgroundColor = .white
         }

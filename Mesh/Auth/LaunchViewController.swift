@@ -95,7 +95,6 @@ class LaunchViewController: UIViewController, CardDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        UIApplication.shared.isStatusBarHidden = false
         topTimer?.invalidate()
     }
     
