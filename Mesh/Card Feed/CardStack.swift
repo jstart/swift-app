@@ -140,25 +140,30 @@ class CardStack : UIViewController, CardDelegate {
         default: break }
         
         if self.cardIndex + 5 == self.cards?.count {
-            Client.execute(RecommendationsRequest(), complete: { response in
-                guard let jsonArray = response.result.value as? JSONArray else { return }
-                let array = jsonArray.map({ return RecommendationResponse.create($0) })
-                
-                /*let realm = RealmUtilities.realm()
-                try! realm.write {
-                    realm.delete(realm.objects(RecommendationResponse.self))
-                    realm.add(array)
-                }*/
-                self.cards?.append(contentsOf: array)
-            })
+            fetchMore()
         }
         
         if cardIndex + 1 == cards?.count {
             // Last card special case?
+            fetchMore()
         } else {
             cardIndex += 1
             addNewCard()
         }
+    }
+    
+    func fetchMore() {
+        Client.execute(RecommendationsRequest(), complete: { response in
+            guard let jsonArray = response.result.value as? JSONArray else { return }
+            let array = jsonArray.map({ return RecommendationResponse.create($0) })
+            
+            /*let realm = RealmUtilities.realm()
+             try! realm.write {
+             realm.delete(realm.objects(RecommendationResponse.self))
+             realm.add(array)
+             }*/
+            self.cards?.append(contentsOf: array)
+        })
     }
     
     func swiping(percent: CGFloat) {

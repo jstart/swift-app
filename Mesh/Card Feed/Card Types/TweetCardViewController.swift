@@ -142,7 +142,12 @@ class TweetCardViewController : BaseCardViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        media.af_setImage(withURL: URL(string: "https://cdn-images-2.medium.com/max/1200/1*j4hgf6wm_GrW-xgn3QnZWw.png")!, imageTransition: .crossDissolve(0.2))
+        guard let media_url = rec?.tweet?.media_url else {
+            media.af_setImage(withURL: URL(string: "https://cdn-images-2.medium.com/max/1200/1*j4hgf6wm_GrW-xgn3QnZWw.png")!, imageTransition: .crossDissolve(0.2))
+            return
+        }
+        media.af_setImage(withURL: URL(string: media_url)!, imageTransition: .crossDissolve(0.2))
+
     }
     
     func retweetAction() {

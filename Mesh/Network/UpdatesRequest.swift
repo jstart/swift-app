@@ -85,7 +85,7 @@ class RecommendationResponse : Object {
 }
 
 class TweetResponse : Object {
-    dynamic var text = "", _id = "", name = "", screen_name : String? //, uid, created_at: String
+    dynamic var text = "", _id = "", name = "", media_url, screen_name : String? //, uid, created_at: String
     override class func primaryKey() -> String? { return "_id" }
 
     static func create(_ JSON: JSONDictionary) -> TweetResponse {
@@ -94,6 +94,11 @@ class TweetResponse : Object {
             $0.name = (JSON["name"] as? String)!
             $0.screen_name = JSON["screen_name"] as? String
             $0._id = (JSON["_id"] as? String)!
+            guard let entities = (JSON["extended_entities"] as? JSONDictionary) else { return }
+            guard let media = (entities["media"] as? JSONArray) else { return }
+            guard let object = media.first else { return }
+            guard let media_url = (object["media_url"] as? String) else { return }
+            $0.media_url = media_url
             //        uid = (JSON["uid"] as? String)!
             //        created_at = (JSON["created_at"] as? String)!
         }

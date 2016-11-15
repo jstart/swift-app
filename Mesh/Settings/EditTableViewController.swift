@@ -21,7 +21,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
     let editLabel = UILabel(translates: false).then {
         $0.text = "Edit"; $0.textColor = .white; $0.font = .gothamLight(ofSize: 14); $0.isHidden = false
     }
-    var items : [UserDetail?] = [UserResponse.current?.companies.first,
+    var items : [UserDetail?] = [UserResponse.current?.firstCompany,
                                 UserResponse.current?.schools.first,
                                 UserResponse.current?.interests.first]
 

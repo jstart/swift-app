@@ -59,6 +59,7 @@ class UserDetailTableViewCell: UITableViewCell {
         bottom.text = detail.secondText
         year.text = detail.thirdText
         if let logo = detail.logo {
+            if detail.category == .connections { icon.contentMode = .scaleAspectFill }
             icon.af_setImage(withURL: URL(string: logo)!, imageTransition: .crossDissolve(0.2))
         }
     }

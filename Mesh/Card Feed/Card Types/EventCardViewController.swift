@@ -109,7 +109,7 @@ class EventCardViewController : BaseCardViewController {
         return UIView(translates: false).then { $0.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1); $0.constrain(.height, constant: 1) }
     }
     
-    override func tap(_ sender: UITapGestureRecognizer) { navigationController?.safari("https://eventbrite.com", push: false) }
+    //override func tap(_ sender: UITapGestureRecognizer) { navigationController?.safari("https://eventbrite.com", push: false) }
     
     override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return !otherGestureRecognizer.isMember(of: UITapGestureRecognizer.self)

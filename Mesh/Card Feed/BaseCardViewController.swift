@@ -105,6 +105,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
                 return
             }
             UIView.animate(withDuration: 0.1, animations: {
+                sender.view?.alpha = 0.0
                 switch swipeDirection {
                 case UISwipeGestureRecognizerDirection.up:
                     self.delegate?.swiping(percent: 100)
@@ -147,6 +148,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
     }
     
     func removeSelf(_ direction: UISwipeGestureRecognizerDirection) {
+        view.alpha = 0.0
         view.isHidden = true
         //view.removeFromSuperview()
         delegate?.swiped(direction)

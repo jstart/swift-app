@@ -120,8 +120,8 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         position.constrain(.top, constant: 0, toItem: name, toAttribute: .bottom)
         position.constrain(.bottom, constant: -8, toItem: namePositionContainer)
         
-//        view.addSubview(activity)
-//        activity.constrain(.centerX, .centerY, toItem: viewPager!.scroll)
+        view.addSubview(activity)
+        activity.constrain(.centerX, .centerY, toItem: viewPager!.scroll)
     }
     
     override func viewDidLayoutSubviews() {
@@ -141,37 +141,41 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         super.viewWillAppear(animated)
         
         if view.alpha == 1.0 {
-            viewPager?.scroll.alpha = 0.0
             if let user = rec?.user, let category = user.promoted_category {
                 if viewPager?.stack.arrangedSubviews.count == 0 {
+                    viewPager?.scroll.alpha = 0.0
                     tapRec?.isEnabled = false
-                   // DispatchQueue.main.asyncAfter(deadline: .now() + 1.2, execute: { [weak self] in
-                        //guard let strongSelf = self else { return }
+                    activity.startAnimating()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.2, execute: { [weak self] in
+                        guard let strongSelf = self else { return }
+                        strongSelf.viewPager?.scroll.fadeIn()
                         let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: Array(user.common_connections), experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: Array(user.events)))
-                        self.viewPager?.insertViews(quickViews)
-//                        self.activity.stopAnimating()
-                        self.tapRec?.isEnabled = true
-                   // })
+                        strongSelf.viewPager?.resetStackWithViews(quickViews)
+                        strongSelf.activity.stopAnimating()
+                        strongSelf.tapRec?.isEnabled = true
+                    })
                 }
                 let categoryIndex = QuickViewCategory.index(category)
                 control.selectIndex(categoryIndex)
                 viewPager?.selectedIndex(categoryIndex, animated: false)
-                self.viewPager?.scroll.fadeIn()
             } else if let user = rec?.user {
                 if viewPager?.stack.arrangedSubviews.count == 0 {
+                    viewPager?.scroll.alpha = 0.0 
                     tapRec?.isEnabled = false
-                    //DispatchQueue.main.asyncAfter(deadline: .now() + 1.2, execute: { [weak self] in
-                        //guard let strongSelf = self else { return }
+                    activity.startAnimating()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.2, execute: { [weak self] in
+                        guard let strongSelf = self else { return }
+                        strongSelf
+                            .viewPager?.scroll.fadeIn()
                         let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: [], experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: []))
-                        self.viewPager?.scroll.fadeIn()
-                        self.viewPager?.insertViews(quickViews)
-//                        self.activity.stopAnimating()
-                        self.tapRec?.isEnabled = true
-                    //})
+                        strongSelf.viewPager?.scroll.fadeIn()
+                        strongSelf.viewPager?.insertViews(quickViews)
+                        strongSelf.activity.stopAnimating()
+                        strongSelf.tapRec?.isEnabled = true
+                    })
                 }
                 control.selectIndex(0)
                 viewPager?.selectedIndex(0, animated: false)
-                self.viewPager?.scroll.fadeIn()
             }
         }
         
@@ -181,16 +185,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         guard let largeURL = rec?.user?.photos?.large else { imageView.image = .imageWithColor(.gray); return }
         imageView.af_setImage(withURL: URL(string: largeURL)!, imageTransition: .crossDissolve(0.2))
         
-        guard let companies = rec?.user?.companies else { return }
-        for company in companies {
-            if company.current == 1 {
-                guard let companyURL = company.logo else { return }
-                logo.af_setImage(withURL: URL(string: companyURL)!, imageTransition: .crossDissolve(0.2))
-                return
-            }
-        }
-        
-        guard let companyURL = companies.first?.logo else { return }
+        guard let companyURL = rec?.user?.firstCompany?.logo else { return }
         logo.af_setImage(withURL: URL(string: companyURL)!, imageTransition: .crossDissolve(0.2))
     }
     

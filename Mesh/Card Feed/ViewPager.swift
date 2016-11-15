@@ -25,7 +25,7 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
     weak var delegate : ViewPagerDelegate?
     var views = [UIView]()
     var previousPage = 0
-    let stack : UIStackView
+    var stack : UIStackView
     let animation : ViewPagerAnimation
 
     init(views : [UIView], animation: ViewPagerAnimation = .none) {
@@ -48,6 +48,24 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
         super.init()
         scroll.delegate = self
     }
+    
+    func resetStackWithViews(_ views: [UIView]) {
+        stack.removeFromSuperview()
+        stack = UIStackView(arrangedSubviews: views).then {
+            $0.translates = false
+            $0.distribution = .fill; $0.alignment = .center; $0.spacing = 30
+        }
+        scroll.addSubview(stack)
+        
+        stack.constrain((.leading, 15), (.trailing, -15), toItem: scroll)
+        stack.constrain(.centerY, .height, toItem: scroll)
+        
+        for view in stack.arrangedSubviews {
+            view.translates = false
+            view.constrain(.width, constant: -30, toItem: scroll)
+        }
+    }
+
     
     func insertViews(_ views: [UIView]) { for (index, view) in views.enumerated() { insertView(view, atIndex: index) } }
     

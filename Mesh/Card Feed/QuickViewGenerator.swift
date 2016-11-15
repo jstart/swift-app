@@ -58,15 +58,13 @@ struct QuickViewGenerator {
         
         let iconLabel = UILabel(translates: false).then {
             $0.text = details.first!.firstText
-            $0.backgroundColor = .white; $0.textColor = .darkGray; $0.font = .gothamBook(ofSize: 14)
-            $0.textAlignment = .center
+            $0.backgroundColor = .white; $0.textColor = .darkGray; $0.font = .gothamBook(ofSize: 15)
             $0.constrain(.height, constant: 20)
             $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         }
         let subLabel = UILabel(translates: false).then {
             $0.text = details.first!.secondText
-            $0.backgroundColor = .white; $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 12)
-            $0.textAlignment = .center
+            $0.backgroundColor = .white; $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 13)
             $0.constrain(.height, constant: 20)
             $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         }
@@ -91,12 +89,15 @@ struct QuickViewGenerator {
         icon.constrain(.centerY, toItem: container)
         
         iconLabel.constrain(.leading, constant: 13, toItem: icon, toAttribute: .trailing)
+        iconLabel.constrain(.trailing, constant: -5, toItem: container, toAttribute: .trailing)
         iconLabel.constrain(.top, constant: 13, toItem: container)
         
-        subLabel.constrain(.leading, toItem: iconLabel)
+        subLabel.constrain(.leading, .trailing, toItem: iconLabel)
         subLabel.constrain(.top, constant: 5, toItem: iconLabel, toAttribute: .bottom)
         
-        if let url = details.first?.logo { icon.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2)) }
+        if let url = details.first?.logo {
+            icon.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2))
+        }
         
         let label = UILabel(translates: false).then {
             $0.backgroundColor = .white
@@ -118,11 +119,15 @@ struct QuickViewGenerator {
         let count = min(3, details.count)
         for index in 0..<count {
             let detail = details[index]
+            var contentMode = UIViewContentMode.scaleAspectFit
+            if details.first?.category == .connections {
+                contentMode = .scaleAspectFill
+            }
             if count < 3 {
-                let squareStack = fillSquare(.imageWithColor(.clear), title: detail.firstText, url: detail.logo)
+                let squareStack = fillSquare(.imageWithColor(.clear), title: detail.firstText, url: detail.logo, contentMode: contentMode)
                 views.append(squareStack)
             } else {
-                let squareStack = square(.imageWithColor(.clear), title: detail.firstText, url: detail.logo)
+                let squareStack = square(.imageWithColor(.clear), title: detail.firstText, url: detail.logo, contentMode: contentMode)
                 views.append(squareStack)
             }
         }
@@ -176,7 +181,7 @@ struct QuickViewGenerator {
         }
     }
     
-    static func fillSquare(_ image: UIImage?, title: String, url: String? = nil) -> UIView {
+    static func fillSquare(_ image: UIImage?, title: String, url: String? = nil, contentMode: UIViewContentMode = .scaleAspectFit) -> UIView {
         let label = UILabel(translates: false).then {
             $0.text = title
             $0.backgroundColor = .white; $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 12)
@@ -192,7 +197,7 @@ struct QuickViewGenerator {
             $0.layer.cornerRadius = 5
             $0.clipsToBounds = true
             $0.backgroundColor = .white
-            $0.contentMode = .scaleAspectFit
+            $0.contentMode = contentMode
             $0.constrain(.width, .height, constant: 50)
             $0.constrain(.width, toItem: $0, toAttribute: .height)
         }
@@ -212,7 +217,7 @@ struct QuickViewGenerator {
         }
     }
     
-    static func square(_ image: UIImage, title: String, url: String? = nil) -> UIView {
+    static func square(_ image: UIImage, title: String, url: String? = nil, contentMode: UIViewContentMode = .scaleAspectFit) -> UIView {
         let label = UILabel(translates: false).then {
             $0.text = title
             $0.backgroundColor = .white; $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 12)
@@ -228,7 +233,7 @@ struct QuickViewGenerator {
             $0.layer.cornerRadius = 5
             $0.clipsToBounds = true
             $0.backgroundColor = .white
-            $0.contentMode = .scaleAspectFit
+            $0.contentMode = contentMode
             $0.constrain(.width, .height, constant: 50)
             $0.constrain(.width, toItem: $0, toAttribute: .height)
         }

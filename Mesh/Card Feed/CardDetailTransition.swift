@@ -34,7 +34,11 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
         containerView.addSubview(detail)
         
         detail.translates = false
-        detail.constrain((.leading, 0), (.trailing, 0), (.height, -80), (.top, 375), toItem: cardVC!.view)
+//        NSLayoutConstraint(item: detail, attribute: .height, relatedBy: .equal, toItem: cardVC!.view, attribute: .height, multiplier: 1.0, constant: -80).isActive = true
+//        NSLayoutConstraint(item: detail, attribute: .top, relatedBy: .equal, toItem: cardVC!.view, attribute: .top, multiplier: 1.0, constant: 375).isActive = true
+        detail.constrain((.width, 362), (.height, 517 - 80))
+        detail.constrain(.top, constant: 375, toItem: containerView)
+        detail.constrain(.centerX, toItem: containerView)
         detail.alpha = 0.0
         
         detail.addSubview(blurView)
@@ -60,13 +64,13 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
         let containerView = context.containerView
         containerView.frame.size.height = (cardVC?.view.frame.size.height)! + 81
         let detail = context.view(forKey: UITransitionContextViewKey.from)!
-        detail.frame.origin.y = 81 * 3
         containerView.addSubview(detail)
         
         UIView.animate(withDuration: 0.2, animations: {
-            detail.frame.origin.y = 550
+            detail.topConstraint?.constant = 375
             detail.alpha = 0.0
             self.blurView.alpha = 0.0
+            detail.layoutIfNeeded()
         }, completion:{_ in
             self.blurView.removeFromSuperview()
             containerView.removeFromSuperview()

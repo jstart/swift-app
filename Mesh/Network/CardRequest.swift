@@ -33,7 +33,7 @@ struct CardCreateRequest : AuthenticatedRequest {
     func parameters() -> JSONDictionary { return ["fields" :["first_name" : first_name, "last_name" : last_name, "email" : email, "phone_number" : phone_number, "title" : title], "position" : position] }
     
     static func new() -> CardCreateRequest {
-        return CardCreateRequest(position: UserResponse.cards.count, first_name: true, last_name: true, email: false, phone_number: true, title: false)
+        return CardCreateRequest(position: UserResponse.cards.count, first_name: true, last_name: true, email: true, phone_number: true, title: true)
     }
 }
 
