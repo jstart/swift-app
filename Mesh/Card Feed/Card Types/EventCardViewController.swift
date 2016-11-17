@@ -17,7 +17,7 @@ class EventCardViewController : BaseCardViewController {
         $0.image = #imageLiteral(resourceName: "eventHeader"); $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true; $0.backgroundColor = .white
         $0.layer.borderWidth = 1; $0.layer.borderColor = UIColor.clear.cgColor
-        $0.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
+        $0.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
         $0.constrain(.height, relatedBy: .greaterThanOrEqual, constant: 80)
         $0.constrain(.height, relatedBy: .lessThanOrEqual, constant: 160)
     }

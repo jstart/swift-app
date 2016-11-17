@@ -226,16 +226,16 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
     }
     
     override func tap(_ sender: UITapGestureRecognizer) {
-        let details = CardDetailViewController()
-        guard let user = rec?.user else { return }
-        details.details = UserDetails(connections: Array(user.common_connections), experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: Array(user.events))
-        details.delegate = self
-        details.transistionToIndex = control.previousIndex
-        details.control.selectIndex(control.previousIndex)
-        details.modalPresentationStyle = .overCurrentContext
-        details.transitioningDelegate = self
-
-        present(details, animated: true, completion: nil)
+//        let details = CardDetailViewController()
+//        guard let user = rec?.user else { return }
+//        details.details = UserDetails(connections: Array(user.common_connections), experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: Array(user.events))
+//        details.delegate = self
+//        details.transistionToIndex = control.previousIndex
+//        details.control.selectIndex(control.previousIndex)
+//        details.modalPresentationStyle = .overCurrentContext
+//        details.transitioningDelegate = self
+//
+//        present(details, animated: true, completion: nil)
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {

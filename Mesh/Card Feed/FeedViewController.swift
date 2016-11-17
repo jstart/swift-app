@@ -117,8 +117,12 @@ class FeedViewController: UIViewController {
                 })
             })
         })], image: #imageLiteral(resourceName: "enableCameraAccess"))
+        let attributedString = NSMutableAttributedString(string: "We need access to your camera in order to use this feature and scan codes")
+        let paragraphStyle = NSMutableParagraphStyle(); paragraphStyle.lineSpacing = 8
+        paragraphStyle.alignment = .center
+        attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        alert.textLabel.attributedText = attributedString
         alert.titleLabel.text = "Camera Access"
-        alert.textLabel.text = "We need access to your camera in order to use this feature and scan codes"
         alert.modalPresentationStyle = .overFullScreen
         present(alert)
     }

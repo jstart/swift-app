@@ -177,8 +177,12 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
         let actions = [AlertAction(title: "Cancel", backgroundColor: .lightGray, handler: { self.dismiss() }),
                        AlertAction(title: "ADD", handler: { self.dismiss() }) ]
         let alert = AlertViewController(actions, image: #imageLiteral(resourceName: "connectionsAddContacts"))
+        let attributedString = NSMutableAttributedString(string: "Are you sure you want to connect and invite everyone in your contact list?")
+        let paragraphStyle = NSMutableParagraphStyle(); paragraphStyle.lineSpacing = 8
+        paragraphStyle.alignment = .center
+        attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        alert.textLabel.attributedText = attributedString
         alert.titleLabel.text = "Connect and Add All"
-        alert.textLabel.text = "Are you sure you want to connect and invite everyone in your contact list?"
         alert.modalPresentationStyle = .overFullScreen
         present(alert)
     }

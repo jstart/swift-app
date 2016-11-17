@@ -155,8 +155,8 @@ class PhotoResponse : Object {
     static func create(_ JSON: JSONDictionary) -> PhotoResponse {
         return PhotoResponse().then {
                 $0.small = (JSON["small"] as? String)!.trim; $0.medium = (JSON["medium"] as? String)!.trim; $0.large = (JSON["large"] as? String)!.trim
-            }
-         }
+        }
+    }
 }
 
 class PositionResponse : Object {

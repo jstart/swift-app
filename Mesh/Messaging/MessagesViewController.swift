@@ -286,9 +286,9 @@ class MessagesViewController: JSQMessagesViewController {
     }
     
     func tappedUser() {
-        let cardVC = PersonCardViewController(); cardVC.modalPresentationStyle = .overCurrentContext
-        let rec = RecommendationResponse(); rec.user = recipient?.user
-        cardVC.rec = rec; present(cardVC)
+//        let cardVC = PersonCardViewController(); cardVC.modalPresentationStyle = .overCurrentContext
+//        let rec = RecommendationResponse(); rec.user = recipient?.user
+//        cardVC.rec = rec; present(cardVC)
     }
     
     override func didPressAccessoryButton(_ sender: UIButton) { }

@@ -65,7 +65,7 @@ class AlertViewController: UIViewController, UIViewControllerTransitioningDelega
         
         textLabel.constrain(.centerX, toItem:view)
         textLabel.constrain(.width, constant: -40, toItem:view)
-        textLabel.constrain(.top, toItem: titleLabel, toAttribute: .bottom)
+        textLabel.constrain(.top, constant: 5, toItem: titleLabel, toAttribute: .bottom)
         //textLabel.constrain(.bottom, constant: -50, toItem: view)
 
         for (index, action) in actions.enumerated() {

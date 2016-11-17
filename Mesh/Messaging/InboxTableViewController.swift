@@ -277,12 +277,13 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         var connection: ConnectionResponse?
         if indexPath.section == 0 && todoMessages.count > 0 {
             guard let message = todoMessages[safe: indexPath.row] else { return }
-            connection = UserResponse.connections.filter({ return $0.user?._id == message.sender || $0.user?._id == message.recipient }).first
+            connection = UserResponse.connections.filter({ return $0.user?._id == message.sender}).first
         } else {
             connection = UserResponse.connections[safe: indexPath.row]
         }
+        guard let safeConnection = connection else { return }
         let conversationVC = MessagesViewController()
-        conversationVC.recipient = connection ?? nil
+        conversationVC.recipient = safeConnection
         
         conversationVC.hidesBottomBarWhenPushed = true
         navigationController?.push(conversationVC)
