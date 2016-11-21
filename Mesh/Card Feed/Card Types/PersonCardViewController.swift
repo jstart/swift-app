@@ -47,7 +47,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         quickViewStack.distribution = .fillProportionally
         quickViewStack.alignment = .center
         
-        viewPager = ViewPager(views: [])
+        viewPager = ViewPager()
         viewPager?.scroll.panGestureRecognizer.require(toFail: gestureRec!)
         viewPager?.scroll.backgroundColor = .white
         control.delegate = viewPager!
@@ -142,7 +142,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         
         if view.alpha == 1.0 {
             if let user = rec?.user, let category = user.promoted_category {
-                if viewPager?.stack.arrangedSubviews.count == 0 {
+                if viewPager?.stack?.arrangedSubviews.count == 0 {
                     viewPager?.scroll.alpha = 0.0
                     tapRec?.isEnabled = false
                     activity.startAnimating()
@@ -159,7 +159,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
                 control.selectIndex(categoryIndex)
                 viewPager?.selectedIndex(categoryIndex, animated: false)
             } else if let user = rec?.user {
-                if viewPager?.stack.arrangedSubviews.count == 0 {
+                if viewPager?.stack?.arrangedSubviews.count == 0 {
                     viewPager?.scroll.alpha = 0.0 
                     tapRec?.isEnabled = false
                     activity.startAnimating()
@@ -167,9 +167,9 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
                         guard let strongSelf = self else { return }
                         strongSelf
                             .viewPager?.scroll.fadeIn()
-                        let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: [], experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: []))
+                        let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: Array(user.common_connections), experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: Array(user.events)))
                         strongSelf.viewPager?.scroll.fadeIn()
-                        strongSelf.viewPager?.insertViews(quickViews)
+                        strongSelf.viewPager?.resetStackWithViews(quickViews)
                         strongSelf.activity.stopAnimating()
                         strongSelf.tapRec?.isEnabled = true
                     })

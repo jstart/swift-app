@@ -25,24 +25,26 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
     weak var delegate : ViewPagerDelegate?
     var views = [UIView]()
     var previousPage = 0
-    var stack : UIStackView
+    var stack : UIStackView?
     let animation : ViewPagerAnimation
 
-    init(views : [UIView], animation: ViewPagerAnimation = .none) {
+    init(views: [UIView]? = nil, animation: ViewPagerAnimation = .none) {
         self.animation = animation
-        stack = UIStackView(arrangedSubviews: views).then {
-            $0.translates = false
-            $0.distribution = .fill; $0.alignment = .center; $0.spacing = 30
-        }
-        
-        scroll.addSubview(stack)
-        
-        stack.constrain((.leading, 15), (.trailing, -15), toItem: scroll)
-        stack.constrain(.centerY, .height, toItem: scroll)
-        
-        for view in stack.arrangedSubviews {
-            view.translates = false
-            view.constrain(.width, constant: -30, toItem: scroll)
+        if let views = views {
+            stack = UIStackView(arrangedSubviews: views).then {
+                $0.translates = false
+                $0.distribution = .fill; $0.alignment = .center; $0.spacing = 30
+            }
+            
+            scroll.addSubview(stack!)
+            
+            stack!.constrain((.leading, 15), (.trailing, -15), toItem: scroll)
+            stack!.constrain(.centerY, .height, toItem: scroll)
+            
+            for view in stack!.arrangedSubviews {
+                view.translates = false
+                view.constrain(.width, constant: -30, toItem: scroll)
+            }
         }
         
         super.init()
@@ -50,17 +52,17 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
     }
     
     func resetStackWithViews(_ views: [UIView]) {
-        stack.removeFromSuperview()
+        stack?.removeFromSuperview()
         stack = UIStackView(arrangedSubviews: views).then {
             $0.translates = false
             $0.distribution = .fill; $0.alignment = .center; $0.spacing = 30
         }
-        scroll.addSubview(stack)
+        scroll.addSubview(stack!)
         
-        stack.constrain((.leading, 15), (.trailing, -15), toItem: scroll)
-        stack.constrain(.centerY, .height, toItem: scroll)
+        stack!.constrain((.leading, 15), (.trailing, -15), toItem: scroll)
+        stack!.constrain(.centerY, .height, toItem: scroll)
         
-        for view in stack.arrangedSubviews {
+        for view in stack!.arrangedSubviews {
             view.translates = false
             view.constrain(.width, constant: -30, toItem: scroll)
         }
@@ -70,15 +72,15 @@ class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
     func insertViews(_ views: [UIView]) { for (index, view) in views.enumerated() { insertView(view, atIndex: index) } }
     
     func insertView(_ view: UIView, atIndex: Int) {
-        stack.insertArrangedSubview(view, at: atIndex)
+        stack!.insertArrangedSubview(view, at: atIndex)
         view.translates = false
         view.constrain(.width, constant: -30, toItem: scroll)
     }
     
-    func currentView() -> UIView { return stack.arrangedSubviews[previousPage] }
+    func currentView() -> UIView { return stack!.arrangedSubviews[previousPage] }
     
-    func removeView(atIndex: Int) { stack.arrangedSubviews[atIndex].removeFromSuperview() }
-    func removeAllViews() { stack.arrangedSubviews.forEach { $0.removeFromSuperview() } }
+    func removeView(atIndex: Int) { stack!.arrangedSubviews[atIndex].removeFromSuperview() }
+    func removeAllViews() { stack!.arrangedSubviews.forEach { $0.removeFromSuperview() } }
 
     func selectedIndex(_ index: Int, animated: Bool = true) {
         guard index >= 0 else { return }

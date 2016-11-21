@@ -10,10 +10,6 @@ import UIKit
 
 struct QuickViewGenerator {
     
-    static let table = UITableView().then {
-        $0.registerNib(UserDetailTableViewCell.self)
-    }
-    
     static func viewsForDetails(_ userDetails: UserDetails?) -> [UIView] {
         var views : [UIView] = []
         
@@ -51,10 +47,6 @@ struct QuickViewGenerator {
     }
     
     static func userDetailCell(_ details: [UserDetail]) -> UIView {
-//        let cell = (table.dequeueReusableCell(withIdentifier: "UserDetailTableViewCell") as! UserDetailTableViewCell).then {
-//            $0.contentView.translates = false
-//            $0.configure(details.first!)
-//        }
         
         let iconLabel = UILabel(translates: false).then {
             $0.text = details.first!.firstText
@@ -96,7 +88,9 @@ struct QuickViewGenerator {
         subLabel.constrain(.top, constant: 5, toItem: iconLabel, toAttribute: .bottom)
         
         if let url = details.first?.logo {
-            icon.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2))
+            DispatchQueue.global(qos: .userInitiated).async {
+                icon.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2))
+            }
         }
         
         let label = UILabel(translates: false).then {
@@ -202,7 +196,9 @@ struct QuickViewGenerator {
             $0.constrain(.width, toItem: $0, toAttribute: .height)
         }
         
-        if let url = url { icon.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2)) }
+        DispatchQueue.global(qos: .userInitiated).async {
+            if let url = url { icon.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2)) }
+        }
         
         return UIView(translates: false).then {
             $0.addSubviews(label, icon)
@@ -238,7 +234,9 @@ struct QuickViewGenerator {
             $0.constrain(.width, toItem: $0, toAttribute: .height)
         }
         
-        if let url = url { icon.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2)) }
+        DispatchQueue.global(qos: .userInitiated).async {
+            if let url = url { icon.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2)) }
+        }
         
         return UIView(translates: false).then {
             $0.addSubviews(label, icon)

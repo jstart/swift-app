@@ -140,9 +140,9 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
             state.drag(gestureRec!)
             let translation = sender.translation(in: view)
             sender.view?.center = CGPoint(x: (sender.view?.center.x)! + translation.x, y: (sender.view?.center.y)! + translation.y)
-            if state.draggingInCurrentDirectionAllowed() {
+            //if state.draggingInCurrentDirectionAllowed() {
                 animateOverlay(state.getSwipeDirection())
-            }
+            //}
             sender.setTranslation(.zero, in: view)
         default: break }
     }
@@ -160,34 +160,39 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
         }
         
         var overlayAlpha : CGFloat = 0
-        var screenProgress : CGFloat = 0
+        let xProgress = view.center.x - view.superview!.center.x
+        let yProgress = view.center.y - view.superview!.center.y
+
+        let progress = min(1, (xProgress/200)) * 10
+        view.transform = CGAffineTransform(rotationAngle:(progress * CGFloat(M_PI)) / 180)
+        
         switch direction {
         case UISwipeGestureRecognizerDirection.up:
-            screenProgress = view.superview!.center.y - view.center.y
-            overlayAlpha = min(1, (screenProgress/50))
+            if view.center.y <= view.superview!.center.y {
+                overlayAlpha = min(1, ((view.superview!.center.y - view.center.y)/50))
+            } else {
+                overlayAlpha = min(1, (yProgress/50))
+            }
         case UISwipeGestureRecognizerDirection.down:
-            screenProgress = view.center.y - view.superview!.center.y
-            overlayAlpha = min(1, (screenProgress/50))
+            if view.center.y >= view.superview!.center.y {
+                overlayAlpha = min(1, ((view.center.y - view.superview!.center.y)/50))
+            } else {
+                overlayAlpha = min(1, (yProgress/50))
+            }
         case UISwipeGestureRecognizerDirection.left:
-            screenProgress = view.center.x - view.superview!.center.x
-            let progress = min(1, (screenProgress/200)) * 10
-            view.transform = CGAffineTransform(rotationAngle:(progress * CGFloat(M_PI)) / 180)
             if view.center.x <= view.superview!.center.x {
                 overlayAlpha = min(1, ((view.superview!.center.x - view.center.x)/50))
             } else {
-                overlayAlpha = min(1, (screenProgress/50))
+                overlayAlpha = min(1, (xProgress/50))
             }
         case UISwipeGestureRecognizerDirection.right:
-            screenProgress = view.center.x - view.superview!.center.x
-            let progress = min(1, (screenProgress/200)) * 10
-            view.transform = CGAffineTransform(rotationAngle:(progress * CGFloat(M_PI)) / 180)
             if view.center.x >= view.superview!.center.x {
-                overlayAlpha = min(1, (screenProgress/50))
+                overlayAlpha = min(1, (xProgress/50))
             } else {
                 overlayAlpha = min(1, ((view.superview!.center.x - view.center.x)/50))
             }
         default: return }
-        delegate?.swiping(percent: min(1, (screenProgress/100)))
+        delegate?.swiping(percent: min(1, (xProgress/100)))
         overlayView.alpha = overlayAlpha
     }
     

@@ -89,8 +89,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //UITableView.appearance().backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
     }
 
-//    override var canBecomeFirstResponder: Bool { return true }
-//    override var keyCommands: [UIKeyCommand]? { return [UIKeyCommand(input: "l", modifierFlags: [.command, .alternate], action: #selector(logout), discoverabilityTitle: "Convenience")] }
+    override var canBecomeFirstResponder: Bool { return true }
+    override var keyCommands: [UIKeyCommand]? { return [UIKeyCommand(input: "l", modifierFlags: [.command, .alternate], action: #selector(logout), discoverabilityTitle: "Convenience")] }
     
     func logout(_ command: UIKeyCommand? = nil) {
         SocketHandler.stopListening()

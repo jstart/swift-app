@@ -158,7 +158,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             guard let responseJSON = response.result.value as? JSONArray else { return }
             UserResponse.cards = responseJSON.map({ return CardResponse(JSON: $0) })
             self.cards = UserResponse.cards.map({ return QRCard(fields: ProfileFields.fields($0), token: $0.token) })
-            for (index, card) in self.pager!.stack.arrangedSubviews.enumerated() {
+            for (index, card) in (self.pager!.stack?.arrangedSubviews.enumerated())! {
                 (card as? QRCardView)?.setToken((UserResponse.current?._id ?? "") + "::" + (self.cards[safe: index]?.token ?? ""), animated: true)
             }
         })
@@ -166,7 +166,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     
     func add() {
         cards.append(QRCard(fields: [.name, .title], token: ""))
-        pager?.stack.arrangedSubviews.forEach({ ($0 as? QRCardView)?.pageControl.numberOfPages = min(cards.count + 1, 3) })
+        pager?.stack?.arrangedSubviews.forEach({ ($0 as? QRCardView)?.pageControl.numberOfPages = min(cards.count + 1, 3) })
         
         let qr = QRCardView(UserResponse.current!, fields: [.name, .title])
         qr.tapAction = { self.edit() }
@@ -252,14 +252,14 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         pager?.removeView(atIndex: index)
         
-        pager?.stack.arrangedSubviews.forEach({ ($0 as? QRCardView)?.pageControl.numberOfPages = min(cards.count + 1, 3) })
+        pager?.stack?.arrangedSubviews.forEach({ ($0 as? QRCardView)?.pageControl.numberOfPages = min(cards.count + 1, 3) })
         pager?.selectedIndex(index - 1, animated: true)
        
-        for view in pager!.stack.arrangedSubviews { if view is AddCardView { return } }
+        for view in (pager!.stack?.arrangedSubviews)! { if view is AddCardView { return } }
         pager?.insertView(AddCardView(touchHandler: { self.add() }), atIndex: cards.count)
     }
     
-    func selectedIndex(_ index: Int) { pager?.stack.arrangedSubviews.forEach { ($0 as? QRCardView)?.pageControl.currentPage = index } }
+    func selectedIndex(_ index: Int) { pager?.stack?.arrangedSubviews.forEach { ($0 as? QRCardView)?.pageControl.currentPage = index } }
     
     func overflow() {
         let add = UIAlertAction("Add Card") { _ in self.add() }, edit = UIAlertAction("Edit Card") { _ in self.edit() },
