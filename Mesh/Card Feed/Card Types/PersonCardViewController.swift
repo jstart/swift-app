@@ -15,8 +15,8 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
     let control = QuickPageControl(categories: [.connections, .experience, .education, .skills, .events])
     var viewPager : ViewPager?
     let transition = CardDetailTransition()
-    let imageView = UIImageView(image: .imageWithColor(.gray)).then {
-        $0.clipsToBounds = true; $0.contentMode = .scaleAspectFill; $0.translates = false
+    let imageView = UIImageView(image: .imageWithColor(.clear)).then {
+        $0.contentMode = .top; $0.translates = false
         $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
     }
     let name = UILabel(translates: false).then {
@@ -56,11 +56,9 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
             if let category = user.promoted_category {
                 let categoryIndex = QuickViewCategory.index(category)
                 control.selectIndex(categoryIndex)
-                viewPager?.selectedIndex(categoryIndex, animated: false)
             }
         } else {
             control.selectIndex(0)
-            viewPager?.selectedIndex(0, animated: false)
         }
 
         let namePositionContainer = UIView().then { $0.backgroundColor = .white; $0.constrain((.height, 61)); $0.clipsToBounds = true }
@@ -124,25 +122,12 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         activity.constrain(.centerX, .centerY, toItem: viewPager!.scroll)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        imageView.layer.mask = nil
-        imageView.layoutIfNeeded()
-        
-        var rect = imageView.bounds
-        rect.size.width = view.frame.size.width * (view.transform.d == CardFeedViewConfig().behindScale ? 2 : 1)
-        rect.size.height = imageView.frame.size.height + 100
-        let maskPath = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 10.0, height: 10.0))
-        
-        imageView.layer.mask = CAShapeLayer().then { $0.frame = rect; $0.path = maskPath.cgPath }
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if view.alpha == 1.0 {
             if let user = rec?.user, let category = user.promoted_category {
-                if viewPager?.stack?.arrangedSubviews.count == 0 {
+                if viewPager?.stack == nil {
                     viewPager?.scroll.alpha = 0.0
                     tapRec?.isEnabled = false
                     activity.startAnimating()
@@ -165,8 +150,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
                     activity.startAnimating()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.2, execute: { [weak self] in
                         guard let strongSelf = self else { return }
-                        strongSelf
-                            .viewPager?.scroll.fadeIn()
+                        strongSelf.viewPager?.scroll.fadeIn()
                         let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: Array(user.common_connections), experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: Array(user.events)))
                         strongSelf.viewPager?.scroll.fadeIn()
                         strongSelf.viewPager?.resetStackWithViews(quickViews)
@@ -182,9 +166,6 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         name.text = rec?.user?.fullName() ?? ""
         position.text = rec?.user?.fullTitle() ?? ""
         
-        guard let largeURL = rec?.user?.photos?.large else { imageView.image = .imageWithColor(.gray); return }
-        imageView.af_setImage(withURL: URL(string: largeURL)!, imageTransition: .crossDissolve(0.2))
-        
         guard let companyURL = rec?.user?.firstCompany?.logo else { return }
         logo.af_setImage(withURL: URL(string: companyURL)!, imageTransition: .crossDissolve(0.2))
     }
@@ -199,6 +180,13 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         } else {
             control.selectIndex(0)
             viewPager?.selectedIndex(0, animated: false)
+        }
+        
+        guard let largeURL = rec?.user?.photos?.large else { imageView.image = .imageWithColor(.clear); return }
+        if imageView.frame.size.width > 1 {
+            var size = imageView.frame.size
+            size.height += 10
+            imageView.af_setImage(withURL: URL(string: largeURL)!, filter: AspectScaledToFillSizeWithRoundedCornersFilter(size: size, radius: 10.0), imageTransition: .crossDissolve(0.1))
         }
     }
     

@@ -145,24 +145,21 @@ struct QuickViewGenerator {
     }
     
     static func tempQuickView(_ category: QuickViewCategory) -> UIStackView {
-        let stack = stackOf([]).then {
-            $0.distribution = .fill
-            $0.constrain((.height, 75))
-        }
+        let holder = UIView().then { $0.constrain((.height, 75)) }
         let label = UILabel().then {
             $0.backgroundColor = .white
             $0.text = category.title().uppercased(); $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray
             $0.textAlignment = .center
             $0.constrain(.height, constant: 20)
         }
-        let fullStack = stackOf([label, stack]).then {
+        let fullStack = stackOf([label, holder]).then {
             $0.spacing = 5
             $0.axis = .vertical
             $0.alignment = .leading
             $0.distribution = .fill
         }
         
-        stack.constrain(.width, relatedBy: .lessThanOrEqual, toItem: fullStack)
+        holder.constrain(.width, toItem: fullStack)
         
         return fullStack
     }

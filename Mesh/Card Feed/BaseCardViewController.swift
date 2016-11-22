@@ -17,7 +17,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
     var gestureRec : UIPanGestureRecognizer?
     var tapRec : UITapGestureRecognizer?
     let overlayView = UIView(translates: false).then {
-        $0.alpha = 0.0
+        $0.alpha = 0.0; $0.constrain((.height, 75 + 15))
     }
     let leftLabel = UILabel(translates: false).then {
         $0.text = "PASS"
@@ -60,7 +60,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
         view.addGestureRecognizer(gestureRec!); view.addGestureRecognizer(tapRec!)
         
         view.addSubview(overlayView)
-        overlayView.constrain(.width, .height, .centerX, .centerY, toItem: view)
+        overlayView.constrain(.width, .centerX, .centerY, toItem: view)
         
         rightStamp.addArrangedSubview(rightIcon); rightStamp.addArrangedSubview(rightLabel)
         leftStamp.addArrangedSubview(leftIcon); leftStamp.addArrangedSubview(leftLabel)
@@ -150,7 +150,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
     func removeSelf(_ direction: UISwipeGestureRecognizerDirection) {
         view.alpha = 0.0
         view.isHidden = true
-        //view.removeFromSuperview()
+        view.removeFromSuperview()
         delegate?.swiped(direction)
     }
     
