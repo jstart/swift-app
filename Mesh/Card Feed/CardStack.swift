@@ -74,9 +74,7 @@ class CardStack : UIViewController, CardDelegate {
             currentCard = card.cardType().viewController()
             currentCard?.rec = card
             currentCard?.delegate = self
-//            view.addSubview(currentCard!.view)
             addChildViewController(currentCard!)
-            currentCard?.view.layoutIfNeeded()
             currentCard?.viewWillAppear(true)
             currentCard?.view.alpha = 0
             let scale = CardFeedViewConfig().behindScale
@@ -141,10 +139,10 @@ class CardStack : UIViewController, CardDelegate {
                 guard let jsonArray = response.result.value as? JSONArray else { return }
                 let array = jsonArray.map({ return RecommendationResponse.create($0) })
                 /*let realm = RealmUtilities.realm()
-                 try! realm.write {
-                 realm.delete(realm.objects(RecommendationResponse.self))
-                 realm.add(array)
-                 }*/
+                try! realm.write {
+                    realm.delete(realm.objects(RecommendationResponse.self))
+                    realm.add(array)
+                }*/
                 self.cards?.append(contentsOf: array)
             })
         }

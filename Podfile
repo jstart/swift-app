@@ -18,6 +18,7 @@ pod 'Socket.IO-Client-Swift'
 pod 'TwitterKit'
 pod 'TwitterCore'
 pod 'GoogleSignIn'
+pod 'Firebase/Core'
 
 pod 'Crashlytics'
 pod 'Fabric'

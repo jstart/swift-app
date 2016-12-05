@@ -97,7 +97,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
                     guard let superview = self.view?.superview else { return }
                     sender.view?.center = superview.center
                     sender.view?.transform = CGAffineTransform.identity
-                    
+
                     self.overlayView.alpha = 0.0
                     self.delegate?.swiping(percent: 0)
                     self.overlayView.isHidden = true
@@ -105,7 +105,6 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
                 return
             }
             UIView.animate(withDuration: 0.1, animations: {
-                sender.view?.alpha = 0.0
                 switch swipeDirection {
                 case UISwipeGestureRecognizerDirection.up:
                     self.delegate?.swiping(percent: 100)

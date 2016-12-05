@@ -34,7 +34,6 @@
 		234F26FE1D9206A500B1F4E0 /* ConnectAccountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234F26FD1D9206A500B1F4E0 /* ConnectAccountRequest.swift */; };
 		234FA1791D83D45D00670E1D /* PhoneNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234FA1771D83D45D00670E1D /* PhoneNumberFormatter.swift */; };
 		234FA17A1D83D45D00670E1D /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234FA1781D83D45D00670E1D /* StringExtension.swift */; };
-		236878F61DC2897A006848C4 /* ObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 236878F51DC2897A006848C4 /* ObjC.m */; };
 		236E27B81D67C9D2002ABAB4 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E27B71D67C9D2002ABAB4 /* Token.swift */; };
 		237827231D7B50B20059AB37 /* CardRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237827221D7B50B20059AB37 /* CardRequest.swift */; };
 		237A2B421D9DAAD6003D9190 /* EventCreateTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237A2B411D9DAAD6003D9190 /* EventCreateTableViewController.swift */; };
@@ -887,7 +886,6 @@
 				233EA90A1DD69210008170A3 /* SortTableViewController.swift in Sources */,
 				23C51ADE1D88E61C00C926F1 /* LaunchViewController.swift in Sources */,
 				23C8725E1D83762900B21AB6 /* Card.swift in Sources */,
-				236878F61DC2897A006848C4 /* ObjC.m in Sources */,
 				ADECA8E81D51540900726AEF /* AppDelegate.swift in Sources */,
 				23C8724B1D83760300B21AB6 /* MessageTableViewCell.swift in Sources */,
 				23C872731D83767800B21AB6 /* ContactsManager.swift in Sources */,

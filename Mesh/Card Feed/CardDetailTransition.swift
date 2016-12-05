@@ -13,8 +13,7 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
     //    override var duration: CGFloat = 0.2
     var presenting  = true
     let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark)).then {
-        $0.layer.cornerRadius = 5.0
-        $0.translates = false; $0.alpha = 0.0
+        $0.layer.cornerRadius = 10.0; $0.clipsToBounds = false; $0.translates = false; $0.alpha = 0.0
     }
     var cardVC : PersonCardViewController?
     

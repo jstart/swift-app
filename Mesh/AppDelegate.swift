@@ -11,6 +11,7 @@ import Fabric
 import TwitterKit
 import Crashlytics
 import GoogleSignIn
+import Firebase
 import RealmSwift
 import AlamofireImage
 import Alamofire
@@ -25,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(); window?.tintColor = Colors.brand; appearance()
 
         if let path = MainBundle.path(forResource: "GoogleService-Info", ofType: "plist") {
+            FIRApp.configure()
             let info = NSDictionary(contentsOfFile: path)!; GIDSignIn.sharedInstance().clientID = info["CLIENT_ID"] as! String
         }
         
