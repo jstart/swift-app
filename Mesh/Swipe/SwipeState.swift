@@ -13,7 +13,7 @@ struct SwipeState {
     startX : CGFloat = 0.0,                 // the x pointer coord at the start of a swipe
     endX : CGFloat = 0.0,                   // the x pointer coord at the end of a swipe
     startY : CGFloat = 0.0,                 // the y pointer coord at the start of a swipe
-    endY : CGFloat = 0.0,                   // the y pointer coord at teh end of a swipe
+    endY : CGFloat = 0.0,                   // the y pointer coord at the end of a swipe
     changeX : CGFloat = 0.0,                // the current distance swiped on the x axis.
     changeY : CGFloat = 0.0,                // the current distance swiped on the y axis.
     velocityX : CGFloat = 0.0,              // the current velocity of the gesture on the X axis.

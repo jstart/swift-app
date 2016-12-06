@@ -11,12 +11,10 @@ import UIKit
 class SMSVerifyViewController: UIViewController {
 
     let header = UILabel(translates: false).then {
-        $0.text = "Enter your code"
-        $0.textColor = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1); $0.font = .gothamLight(ofSize: 30)
+        $0.text = "Enter your code"; $0.textColor = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1); $0.font = .gothamLight(ofSize: 30)
     }
     let text = UILabel(translates: false).then {
-        $0.text = "A text message was sent to "
-        $0.font = .gothamBook(ofSize: 18)
+        $0.text = "A text message was sent to "; $0.font = .gothamBook(ofSize: 18)
     }
     let code = SkyFloatingLabelTextField(translates: false).then {
         $0.keyboardType = .numberPad

@@ -41,7 +41,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         sortItem = UIBarButtonItem(#imageLiteral(resourceName: "sorting"), target: self, action: #selector(sort))
         addItem = UIBarButtonItem(#imageLiteral(resourceName: "addFriends"), target: self, action: #selector(add))
         navigationItem.rightBarButtonItems = [sortItem!, addItem!]
-        tableView.registerNib(ConnectionTableViewCell.self, MessageTableViewCell.self, MessagePreviewTableViewCell.self)
+        tableView.registerNib(ConnectionTableViewCell.self, MessageTableViewCell.self)//, MessagePreviewTableViewCell.self)
 
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension

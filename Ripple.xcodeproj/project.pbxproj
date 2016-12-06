@@ -69,12 +69,9 @@
 		23C872451D83760300B21AB6 /* ConnectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23C8723B1D83760300B21AB6 /* ConnectionTableViewCell.xib */; };
 		23C872461D83760300B21AB6 /* InboxSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8723C1D83760300B21AB6 /* InboxSearchTableViewController.swift */; };
 		23C872471D83760300B21AB6 /* InboxTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8723D1D83760300B21AB6 /* InboxTableViewController.swift */; };
-		23C872481D83760300B21AB6 /* MessagePreviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8723E1D83760300B21AB6 /* MessagePreviewTableViewCell.swift */; };
-		23C872491D83760300B21AB6 /* MessagePreviewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23C8723F1D83760300B21AB6 /* MessagePreviewTableViewCell.xib */; };
 		23C8724A1D83760300B21AB6 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872401D83760300B21AB6 /* MessagesViewController.swift */; };
 		23C8724B1D83760300B21AB6 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872411D83760300B21AB6 /* MessageTableViewCell.swift */; };
 		23C8724C1D83760300B21AB6 /* MessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23C872421D83760300B21AB6 /* MessageTableViewCell.xib */; };
-		23C8724D1D83760300B21AB6 /* TwitterMessageMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872431D83760300B21AB6 /* TwitterMessageMedia.swift */; };
 		23C8725E1D83762900B21AB6 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8724F1D83762900B21AB6 /* Card.swift */; };
 		23C8725F1D83762900B21AB6 /* CardDetailTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872501D83762900B21AB6 /* CardDetailTransition.swift */; };
 		23C872601D83762900B21AB6 /* CardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872511D83762900B21AB6 /* CardDetailViewController.swift */; };
@@ -734,7 +731,6 @@
 				23D8083A1DCC052A00A3234C /* Gotham-Medium.otf in Resources */,
 				23C8724C1D83760300B21AB6 /* MessageTableViewCell.xib in Resources */,
 				23DCE7471DB6F16700B461F1 /* Gotham-Bold.ttf in Resources */,
-				23C872491D83760300B21AB6 /* MessagePreviewTableViewCell.xib in Resources */,
 				23C8726A1D83762900B21AB6 /* UserDetailTableViewCell.xib in Resources */,
 				23C872451D83760300B21AB6 /* ConnectionTableViewCell.xib in Resources */,
 				23DCE74A1DB6F16700B461F1 /* Gotham-XLight.ttf in Resources */,
@@ -864,7 +860,6 @@
 				2380AFB81D9484C70042B041 /* QuickReplyViewController.swift in Sources */,
 				2380AFB71D9484C70042B041 /* QuickReplyTransition.swift in Sources */,
 				237A2B421D9DAAD6003D9190 /* EventCreateTableViewController.swift in Sources */,
-				23C8724D1D83760300B21AB6 /* TwitterMessageMedia.swift in Sources */,
 				AD4E2E241D5AAE4300130811 /* MessagesRequest.swift in Sources */,
 				23C872681D83762900B21AB6 /* UserDetails.swift in Sources */,
 				2338C1DA1D9DDD350044E751 /* PastEventTableViewController.swift in Sources */,
@@ -880,7 +875,6 @@
 				23C872301D83759A00B21AB6 /* EditCardView.swift in Sources */,
 				23C872441D83760300B21AB6 /* ConnectionTableViewCell.swift in Sources */,
 				23E85F591DCFFA1E00F0AEFF /* TopAlert.swift in Sources */,
-				23C872481D83760300B21AB6 /* MessagePreviewTableViewCell.swift in Sources */,
 				23C51AEA1D89019500C926F1 /* IndustriesCollectionViewDataSource.swift in Sources */,
 				23C872311D83759A00B21AB6 /* OutlineView.swift in Sources */,
 				233EA90A1DD69210008170A3 /* SortTableViewController.swift in Sources */,

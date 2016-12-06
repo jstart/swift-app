@@ -14,9 +14,7 @@ class LaunchCardViewController: BaseCardViewController {
         $0.backgroundColor = .white; $0.constrain(.height, toItem: $0, toAttribute: .width, multiplier: 200/615)
     }
     let top = UIImageView(translates: false).then { $0.image = #imageLiteral(resourceName: "discover"); $0.contentMode = .scaleAspectFit }
-    let header = UILabel().then {
-        $0.text = "Network"; $0.font = .gothamBook(ofSize: 20); $0.textColor = .darkGray
-    }
+    let header = UILabel().then { $0.text = "Network"; $0.font = .gothamBook(ofSize: 20); $0.textColor = .darkGray }
     let text = UILabel().then {
         let attributedString = NSMutableAttributedString(string: "Connect and chat with people in your industry")
         let paragraphStyle = NSMutableParagraphStyle(); paragraphStyle.lineSpacing = 8

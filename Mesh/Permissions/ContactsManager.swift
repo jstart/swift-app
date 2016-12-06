@@ -40,10 +40,7 @@ class ContactsManager : NSObject {
                 if authorizationStatus == .denied || authorizationStatus == .restricted {
                     DispatchQueue.main.async {
                         let message = "\(accessError!.localizedDescription)\n\nPlease allow the app to access your contacts through the Settings."
-                        let alertController = UIAlertController(
-                            title: "Contacts Access Disabled",
-                            message: message,
-                            preferredStyle: .alert)
+                        let alertController = UIAlertController(title: "Contacts Access Disabled", message: message, preferredStyle: .alert)
                         
                         let openAction = UIAlertAction("Open Settings") { (action) in
                             guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
@@ -51,8 +48,7 @@ class ContactsManager : NSObject {
                         }
                         alertController.addActions(UIAlertAction.cancel(), openAction)
                         guard let vc = self.viewController else {
-                            UIApplication.shared.keyWindow!.rootViewController!.present(alertController)
-                            return
+                            UIApplication.shared.keyWindow!.rootViewController!.present(alertController); return
                         }
                         vc.present(alertController)
                     }
@@ -73,7 +69,7 @@ class ContactsManager : NSObject {
                 var containerResults = try store.unifiedContacts(matching: fetchPredicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
                 containerResults = containerResults.filter({
                     if !$0.phoneNumbers.isEmpty {
-                        // Remove contact with our own phone
+                        // Remove contact with our own phone number
                         return ($0.phoneNumberStrings?.first)?.range(of: UserResponse.current?.phone_number ?? "") == nil
                     }
                     //TODO: Filter by email
