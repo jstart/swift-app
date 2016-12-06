@@ -36,5 +36,5 @@ struct MarkReadRequest : AuthenticatedRequest {
     
     let read : Bool, _id : String
     
-    init(read: Bool, id : String) { self.read = read; _id = id }
+    init(read : Bool, id : String) { self.read = read; _id = id }
 }

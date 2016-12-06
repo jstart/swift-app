@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		230320C91D9B04AD0089F339 /* SkillCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230320C81D9B04AD0089F339 /* SkillCardViewController.swift */; };
+		230C41491DF65A3400BB129E /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721D1D83753200B21AB6 /* Regex.swift */; };
 		230FA4AD1D8A256D00E2721C /* ImportProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230FA4AC1D8A256D00E2721C /* ImportProfile.swift */; };
 		230FA4AF1D8A32AE00E2721C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 230FA4AE1D8A32AE00E2721C /* GoogleService-Info.plist */; };
 		230FA4B31D8A90D900E2721C /* AddPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230FA4B21D8A90D900E2721C /* AddPhotoViewController.swift */; };
@@ -53,10 +54,6 @@
 		23C51AE81D88FF5100C926F1 /* SkillCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51AE71D88FF5100C926F1 /* SkillCollectionViewCell.swift */; };
 		23C51AEA1D89019500C926F1 /* IndustriesCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51AE91D89019500C926F1 /* IndustriesCollectionViewDataSource.swift */; };
 		23C51AEE1D89D92D00C926F1 /* SkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C51AED1D89D92D00C926F1 /* SkillsViewController.swift */; };
-		23C872201D83753200B21AB6 /* PreviewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721B1D83753200B21AB6 /* PreviewError.swift */; };
-		23C872211D83753200B21AB6 /* PreviewErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721C1D83753200B21AB6 /* PreviewErrorTypes.swift */; };
-		23C872221D83753200B21AB6 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721D1D83753200B21AB6 /* Regex.swift */; };
-		23C872241D83753200B21AB6 /* SwiftLinkPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C8721F1D83753200B21AB6 /* SwiftLinkPreview.swift */; };
 		23C8722D1D83759A00B21AB6 /* AddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872261D83759A00B21AB6 /* AddCardView.swift */; };
 		23C8722E1D83759A00B21AB6 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872271D83759A00B21AB6 /* CardView.swift */; };
 		23C8722F1D83759A00B21AB6 /* EditCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C872281D83759A00B21AB6 /* EditCardTableViewCell.swift */; };
@@ -818,7 +815,6 @@
 				23218E531D908A930033FFC8 /* InputToolbar.swift in Sources */,
 				23218E551D909C770033FFC8 /* LaunchCardView.swift in Sources */,
 				23DFB67A1D653E1E00D871A9 /* PositionRequest.swift in Sources */,
-				23C872201D83753200B21AB6 /* PreviewError.swift in Sources */,
 				23C872691D83762900B21AB6 /* UserDetailTableViewCell.swift in Sources */,
 				23C8722F1D83759A00B21AB6 /* EditCardTableViewCell.swift in Sources */,
 				23C872791D83769C00B21AB6 /* AlertViewController.swift in Sources */,
@@ -830,6 +826,7 @@
 				AD4E2E201D5A760800130811 /* AuthRequest.swift in Sources */,
 				23C8728C1D8376EF00B21AB6 /* EditTableViewController.swift in Sources */,
 				23E85F5B1DD11ADB00F0AEFF /* EventsSearchTableViewController.swift in Sources */,
+				230C41491DF65A3400BB129E /* Regex.swift in Sources */,
 				23F6EAFC1DA0A3D200D5132F /* EventsRequest.swift in Sources */,
 				234C4D231D8E5A570075E470 /* UserEditPhoneViewController.swift in Sources */,
 				23C8728D1D8376EF00B21AB6 /* SettingsTableViewController.swift in Sources */,
@@ -863,7 +860,6 @@
 				AD4E2E241D5AAE4300130811 /* MessagesRequest.swift in Sources */,
 				23C872681D83762900B21AB6 /* UserDetails.swift in Sources */,
 				2338C1DA1D9DDD350044E751 /* PastEventTableViewController.swift in Sources */,
-				23C872221D83753200B21AB6 /* Regex.swift in Sources */,
 				23C8729C1D8377C000B21AB6 /* Extensions.swift in Sources */,
 				23EA22811D8A110C00CAB4A9 /* CompleteProfileTableViewController.swift in Sources */,
 				23C872381D8375E200B21AB6 /* ContactsTableViewController.swift in Sources */,
@@ -891,8 +887,6 @@
 				23C8726B1D83762900B21AB6 /* UserDetailTableViewController.swift in Sources */,
 				23C8724A1D83760300B21AB6 /* MessagesViewController.swift in Sources */,
 				230320C91D9B04AD0089F339 /* SkillCardViewController.swift in Sources */,
-				23C872241D83753200B21AB6 /* SwiftLinkPreview.swift in Sources */,
-				23C872211D83753200B21AB6 /* PreviewErrorTypes.swift in Sources */,
 				233401731D86726A00E86D95 /* LaunchData.swift in Sources */,
 				23C872611D83762900B21AB6 /* CardStack.swift in Sources */,
 				23C8722D1D83759A00B21AB6 /* AddCardView.swift in Sources */,

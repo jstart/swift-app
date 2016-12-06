@@ -102,6 +102,7 @@ class CardStack : UIViewController, CardDelegate {
         card.view.constrain(.height, relatedBy: .lessThanOrEqual, constant: -40, toItem: view)
         card.view.constrain(.centerX, .centerY, toItem: view)
         card.view.translates = false
+        // serious performance problem
         card.view.layoutIfNeeded()
         card.viewDidAppear(animated)
 

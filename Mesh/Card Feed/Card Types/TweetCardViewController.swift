@@ -14,13 +14,10 @@ import SafariServices
 class TweetCardViewController : BaseCardViewController {
         
     let profile = UIImageView(translates: false).then {
-        $0.layer.cornerRadius = 10; $0.constrain(.width, .height, constant: 40)
-        $0.image = .imageWithColor(.gray); $0.clipsToBounds = true
+        $0.layer.cornerRadius = 10; $0.constrain(.width, .height, constant: 40); $0.image = .imageWithColor(.gray); $0.clipsToBounds = true
     }
     let name = UILabel().then { $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 18) }
-    let subtitle = UILabel().then {
-        $0.textColor = #colorLiteral(red: 0.7333333333, green: 0.7333333333, blue: 0.7333333333, alpha: 1); $0.font = .gothamMedium(ofSize: 15); $0.text = "Popular in your industry"
-    }
+    let subtitle = UILabel().then { $0.textColor = #colorLiteral(red: 0.7333333333, green: 0.7333333333, blue: 0.7333333333, alpha: 1); $0.font = .gothamMedium(ofSize: 15); $0.text = "Popular in your industry" }
     let sourceIcon = UIImageView(translates: false).then {
         $0.constrain((.width, 25), (.height, 20)); $0.contentMode = .scaleAspectFit
     }
@@ -171,13 +168,10 @@ class TweetCardViewController : BaseCardViewController {
     func likeAction() {
         like.isEnabled = false
         // https://dev.twitter.com/rest/reference/post/favorites/create
-
         let client = TWTRAPIClient.withCurrentUser()
         let request = client.urlRequest(withMethod: "POST", url: "https://api.twitter.com/1.1/favorites/create.json", parameters: ["id": rec!.tweet!._id], error: nil)
         client.sendTwitterRequest(request, completion: { [weak self] response, data, error in
-            if error != nil {
-                self?.delegate?.passCard(.left)
-            }
+            if error != nil { self?.delegate?.passCard(.left) }
         })
     }
     

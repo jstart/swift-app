@@ -52,7 +52,6 @@ extension SwiftLinkPreview {
     
     // Extract first URL from text
     static func extractURL(_ text: String) -> URL? {
-        
         let explosion = text.characters.split{$0 == " "}.map(String.init)
         let pieces = explosion.filter({ $0.trim.isValidURL() })
         guard var piece = pieces[safe: 0] else { return nil }
@@ -65,13 +64,11 @@ extension SwiftLinkPreview {
     fileprivate func extractInfo(_ completion: @escaping () -> (), onError: @escaping (NSError?) -> ()) {
         guard let url = URL(string: result["url"]!) else {
             fillRemainingInfo("", description: "", image: "")
-            completion()
-            return
+            completion(); return
         }
         if (url.absoluteString.isImage()) {
             fillRemainingInfo("", description: "", image: url.absoluteString)
-            completion()
-            return
+            completion(); return
         }
         
         task = session.dataTask(with: url, completionHandler: { data, response, error in
@@ -119,9 +116,7 @@ extension SwiftLinkPreview {
         let metatags = Regex.pregMatchAll(htmlCode, regex: Regex.metatagPattern, index: 1)
         
         for metatag in metatags {
-            
             for tag in possibleTags {
-                
                 if (metatag.range(of: "property=\"og:\(tag)") != nil ||
                     metatag.range(of: "property='og:\(tag)") != nil ||
                     metatag.range(of: "name=\"twitter:\(tag)") != nil ||

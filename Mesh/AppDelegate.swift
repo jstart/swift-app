@@ -6,15 +6,10 @@
 //  Copyright © 2016 Tinder. All rights reserved.
 //
 
-import UIKit
-import Fabric
-import TwitterKit
-import Crashlytics
-import GoogleSignIn
-import Firebase
+import Fabric; import TwitterKit; import Crashlytics
+import GoogleSignIn; import Firebase
 import RealmSwift
-import AlamofireImage
-import Alamofire
+import Alamofire; import AlamofireImage
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
