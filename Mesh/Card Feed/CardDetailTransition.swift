@@ -8,9 +8,9 @@
 
 import UIKit
 
-class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControllerAnimatedTransitioning {
+class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
     
-    //    override var duration: CGFloat = 0.2
+    let duration    = 1.0
     var presenting  = true
     let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark)).then {
         $0.layer.cornerRadius = 10.0; $0.clipsToBounds = true; $0.translates = false; $0.alpha = 0.0
@@ -35,7 +35,7 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
 //        NSLayoutConstraint(item: detail, attribute: .top, relatedBy: .equal, toItem: cardVC!.view, attribute: .top, multiplier: 1.0, constant: 375).isActive = true
         //(.width, 362),
         //detail.constrain((.height, 517 - 80))
-        detail.constrain(.height, toItem: cardVC!.view)
+        detail.constrain(.height, constant: -80, toItem: cardVC!.view)
         detail.constrain(.top, constant: 375, toItem: containerView)
         detail.constrain((.width, -13), (.centerX, 0), toItem: containerView)
         detail.alpha = 0.0
@@ -51,11 +51,11 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
         
         cardVC?.imageView.addSubview(blurView)
         
-        UIView.animate(withDuration: 0.1, animations: {
+        UIView.animate(withDuration: 1.2, animations: {
             detail.alpha = 1.0
             self.blurView.alpha = 0.9
         }, completion:{_ in
-            UIView.animate(withDuration: 0.2, animations: {
+            UIView.animate(withDuration: 1.2, animations: {
                 detail.frame.origin.y = 81 * 2
             }, completion: { _ in context.completeTransition(true) })
         })
@@ -67,7 +67,7 @@ class CardDetailTransition: UIPercentDrivenInteractiveTransition, UIViewControll
         let detail = context.view(forKey: UITransitionContextViewKey.from)!
         containerView.addSubview(detail)
         
-        UIView.animate(withDuration: 0.2, animations: {
+        UIView.animate(withDuration: 1.2, animations: {
             detail.topConstraint?.constant = 375
             detail.alpha = 0.0
             self.blurView.alpha = 0.0

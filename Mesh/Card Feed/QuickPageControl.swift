@@ -29,11 +29,11 @@ enum QuickViewCategory : String  {
 
     func editFields() -> [EditField] {
         switch self {
-        case .connections: return ConnectionDetail.fields
+        case .connections: return []
         case .experience: return Experience.fields
         case .education: return Education.fields
-        case .skills: return Skill.fields
-        case .events: return Event.fields }
+        case .skills: return []
+        case .events: return [] }
     }
     
     static func index(_ category: String) -> Int {

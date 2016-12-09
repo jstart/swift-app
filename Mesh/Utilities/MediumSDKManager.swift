@@ -44,7 +44,7 @@ public class MediumSDKManager: NSObject, SFSafariViewControllerDelegate {
 
     static func isAuthorized() -> Bool { return StandardDefaults.bool(forKey: "mediumIsAuthorized") }
 
-    public func signOutMedium(completionHandler: (Bool, String) -> Void) {
+    public func signOutMedium(completionHandler: ((Bool, String) -> Void) = {_, _ in }) {
         if StandardDefaults.bool(forKey: "mediumIsAuthorized") {
             StandardDefaults.set(false, forKey: "mediumIsAuthorized")
             completionHandler(true, "Signed out")

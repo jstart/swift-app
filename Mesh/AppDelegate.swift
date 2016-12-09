@@ -45,8 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.makeKeyAndVisible()
         
-        let splash = SplashViewController()
-        splash.modalPresentationStyle = .overFullScreen
+        let splash = SplashViewController(); splash.modalPresentationStyle = .overFullScreen
         window?.rootViewController?.present(SplashViewController(), animated: false)
         
         return true
@@ -99,7 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ImageDownloader.default.sessionManager.session.configuration.urlCache?.removeAllCachedResponses();
         ImageDownloader.default.imageCache?.removeAllImages()
         
-        MediumSDKManager.sharedInstance.signOutMedium(completionHandler: {_,_ in })
+        MediumSDKManager.sharedInstance.signOutMedium()
         GIDSignIn.sharedInstance().signOut()
         if let userID = Twitter.sharedInstance().sessionStore.session()?.userID {
             Twitter.sharedInstance().sessionStore.logOutUserID(userID)

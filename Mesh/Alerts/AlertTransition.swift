@@ -13,7 +13,7 @@ class AlertTransition: NSObject, UIViewControllerAnimatedTransitioning {
     let duration    = 0.25
     var presenting  = true
     
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?)-> TimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
     }
     
