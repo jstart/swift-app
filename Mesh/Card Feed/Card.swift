@@ -19,7 +19,6 @@ enum CardType : String {
         case .event: return EventCardViewController()
         default: return nil }
     }
-    
 }
 
 enum Content {

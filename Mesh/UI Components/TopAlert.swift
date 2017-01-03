@@ -24,8 +24,7 @@ class TopAlert : UIView {
         $0.backgroundColor = Colors.brand
     }
     let content = UILabel(translates: false).then {
-        $0.textColor = .white; $0.font = .gothamBook(ofSize: 15)
-        $0.numberOfLines = 0
+        $0.textColor = .white; $0.font = .gothamBook(ofSize: 15); $0.numberOfLines = 0
         $0.backgroundColor = Colors.brand
     }
     let button = UIButton(translates: false).then {

@@ -20,8 +20,7 @@ enum QuickViewCategory : String  {
             $0.setImage(UIImage(named: rawValue), for: .normal)
             let activeImage = UIImage(named: rawValue)?.withRenderingMode(.alwaysTemplate)
             $0.setImage(activeImage, for: .selected)
-            $0.tintColor = Colors.brand
-            $0.backgroundColor = .white
+            $0.tintColor = Colors.brand; $0.backgroundColor = .white
         }
     }
     

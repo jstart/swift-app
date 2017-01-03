@@ -11,9 +11,7 @@ import UIKit
 class UserDetailTableViewCell: UITableViewCell {
 
     @IBOutlet weak var icon: UIImageView!
-    @IBOutlet weak var top: UILabel!
-    @IBOutlet weak var bottom: UILabel!
-    @IBOutlet weak var year: UILabel!
+    @IBOutlet weak var top: UILabel!;  @IBOutlet weak var bottom: UILabel!; @IBOutlet weak var year: UILabel!
     @IBOutlet weak var button: UIButton!
     @IBOutlet weak var delete: UIButton!
     
@@ -37,12 +35,8 @@ class UserDetailTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         icon.image = nil
-        top.text = nil
-        bottom.text = nil
-        year.text = nil
-        button.isHidden = true
-        year.isHidden = true
-        delete.isHidden = true
+        top.text = nil; bottom.text = nil; year.text = nil
+        button.isHidden = true; year.isHidden = true; delete.isHidden = true
     }
     
     func configure(_ detail: UserDetail) {        

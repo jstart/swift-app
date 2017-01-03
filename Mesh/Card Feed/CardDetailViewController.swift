@@ -100,12 +100,12 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         transistionToIndex = table.index!
     }
     
-    func selectedIndex(_ index:Int, animated:Bool) {
+    func selectedIndex(_ index: Int, animated: Bool) {
         if index == control.previousIndex { return }
         delegate?.selectedIndex(index, animated: animated)
         pageController.setViewControllers([controllers[index]], direction: (control.previousIndex < index) ? .forward : .reverse, animated: animated, completion: nil)
     }
     
-    func tap(_ sender:UITapGestureRecognizer) { dismiss() }
+    func tap(_ sender: UITapGestureRecognizer) { dismiss() }
     
 }

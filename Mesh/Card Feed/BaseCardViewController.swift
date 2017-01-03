@@ -93,7 +93,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
                 !state.meetsFlingRequirements(swipeDirection)) ||
                 !state.meetsPositionRequirements(swipeDirection)) {
                 // Back to center
-                UIView.animate(withDuration: 0.5, animations: {
+                UIView.animate(withDuration: 0.1, animations: {
                     guard let superview = self.view?.superview else { return }
                     sender.view?.center = superview.center
                     sender.view?.transform = CGAffineTransform.identity
@@ -104,7 +104,7 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
                 })
                 return
             }
-            UIView.animate(withDuration: 0.5, animations: {
+            UIView.animate(withDuration: 0.1, animations: {
                 switch swipeDirection {
                 case UISwipeGestureRecognizerDirection.up:
                     self.delegate?.swiping(percent: 100)
@@ -149,8 +149,10 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
     func removeSelf(_ direction: UISwipeGestureRecognizerDirection) {
         view.alpha = 0.0
         view.isHidden = true
-//        view.removeFromSuperview()
+        view.removeFromSuperview()
         delegate?.swiped(direction)
+        // TODO: Hack http://stackoverflow.com/questions/19411675/ios-animations-stop-working-in-my-app-in-ios7
+        UIView.setAnimationsEnabled(true)
     }
     
     func animateOverlay(_ direction: UISwipeGestureRecognizerDirection) {

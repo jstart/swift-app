@@ -12,14 +12,10 @@ import SafariServices
 class SkillCardViewController : BaseCardViewController {
 
     let name = UILabel().then {
-        $0.textColor = .darkGray
-        $0.font = .gothamBold(ofSize: 18)
-        $0.text = "John Doe"
+        $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 18); $0.text = "John Doe"
     }
     let subtitle = UILabel().then {
-        $0.textColor = .lightGray
-        $0.font = .gothamBook(ofSize: 15)
-        $0.text = "Popular in your industry"
+        $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 15); $0.text = "Popular in your industry"
     }
     let media = UIImageView(translates: false).then {
         $0.contentMode = .scaleAspectFill

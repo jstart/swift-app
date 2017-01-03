@@ -18,9 +18,7 @@ enum ViewPagerAnimation {
 
 class ViewPager : NSObject, QuickPageControlDelegate, UIScrollViewDelegate {
     let scroll = UIScrollView().then {
-        $0.isPagingEnabled = true
-        $0.alwaysBounceHorizontal = true
-        $0.showsHorizontalScrollIndicator = false
+        $0.isPagingEnabled = true; $0.alwaysBounceHorizontal = true; $0.showsHorizontalScrollIndicator = false
     }
     weak var delegate : ViewPagerDelegate?
     var views = [UIView]()
