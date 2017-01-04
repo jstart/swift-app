@@ -24,6 +24,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
     }
     
     func present(_ context: UIViewControllerContextTransitioning) {
+        UIView.setAnimationsEnabled(true)
         let containerView = context.containerView
         containerView.clipsToBounds = true
         containerView.frame.size.height = (cardVC?.view.frame.size.height)! + 81
@@ -35,8 +36,8 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
 //        NSLayoutConstraint(item: detail, attribute: .top, relatedBy: .equal, toItem: cardVC!.view, attribute: .top, multiplier: 1.0, constant: 375).isActive = true
         //(.width, 362),
         //detail.constrain((.height, 517 - 80))
-        detail.constrain(.height, constant: -80, toItem: cardVC!.view)
-        detail.constrain(.top, constant: 375, toItem: containerView)
+        detail.constrain(.height, constant: 140)
+        detail.constrain(.top, constant: containerView.frame.size.height - 140, toItem: containerView)
         detail.constrain((.width, -13), (.centerX, 0), toItem: containerView)
         detail.alpha = 0.0
         
@@ -51,31 +52,37 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
         
         cardVC?.imageView.addSubview(blurView)
         
-        UIView.animate(withDuration: 1.2, animations: {
+        UIView.animate(withDuration: 0.1, animations: {
             detail.alpha = 1.0
             self.blurView.alpha = 0.9
         }, completion:{_ in
-            UIView.animate(withDuration: 1.2, animations: {
-                detail.frame.origin.y = 81 * 2
+            UIView.animate(withDuration: 0.2, animations: {
+                containerView.constraintFor(.top, toItem: detail)?.constant = 81 * 2
+                detail.heightConstraint?.constant = containerView.frame.size.height - 140
+                containerView.layoutIfNeeded()
             }, completion: { _ in context.completeTransition(true) })
         })
     }
     
     func dismiss(_ context: UIViewControllerContextTransitioning) {
+        UIView.setAnimationsEnabled(true)
         let containerView = context.containerView
         containerView.frame.size.height = (cardVC?.view.frame.size.height)! + 81
         let detail = context.view(forKey: UITransitionContextViewKey.from)!
         containerView.addSubview(detail)
         
-        UIView.animate(withDuration: 1.2, animations: {
-            detail.topConstraint?.constant = 375
-            detail.alpha = 0.0
+        UIView.animate(withDuration: 0.2, animations: {
             self.blurView.alpha = 0.0
-            detail.layoutIfNeeded()
-        }, completion:{_ in
-            self.blurView.removeFromSuperview()
-            containerView.removeFromSuperview()
-            context.completeTransition(true)
+            containerView.constraintFor(.top, toItem: detail)?.constant = containerView.frame.size.height - 140
+            containerView.layoutIfNeeded()
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.1, animations: {
+                containerView.alpha = 0.0
+            }, completion: { _ in
+//                self.blurView.removeFromSuperview()
+//                detail.removeFromSuperview()
+                context.completeTransition(true)
+            })
         })
     }
     
