@@ -32,10 +32,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
         containerView.addSubview(detail)
         
         detail.translates = false
-//        NSLayoutConstraint(item: detail, attribute: .height, relatedBy: .equal, toItem: cardVC!.view, attribute: .height, multiplier: 1.0, constant: -80).isActive = true
-//        NSLayoutConstraint(item: detail, attribute: .top, relatedBy: .equal, toItem: cardVC!.view, attribute: .top, multiplier: 1.0, constant: 375).isActive = true
-        //(.width, 362),
-        //detail.constrain((.height, 517 - 80))
+
         detail.constrain(.height, constant: 140)
         detail.constrain(.top, constant: containerView.frame.size.height - 140, toItem: containerView)
         detail.constrain((.width, -13), (.centerX, 0), toItem: containerView)
@@ -55,7 +52,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
         UIView.animate(withDuration: 0.1, animations: {
             detail.alpha = 1.0
             self.blurView.alpha = 0.9
-        }, completion:{_ in
+        }, completion:{ _ in
             UIView.animate(withDuration: 0.2, animations: {
                 containerView.constraintFor(.top, toItem: detail)?.constant = 81 * 2
                 detail.heightConstraint?.constant = containerView.frame.size.height - 140
@@ -75,12 +72,10 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
             self.blurView.alpha = 0.0
             containerView.constraintFor(.top, toItem: detail)?.constant = containerView.frame.size.height - 140
             containerView.layoutIfNeeded()
+            containerView.alpha = 0.0
         }, completion: { _ in
             UIView.animate(withDuration: 0.1, animations: {
-                containerView.alpha = 0.0
             }, completion: { _ in
-//                self.blurView.removeFromSuperview()
-//                detail.removeFromSuperview()
                 context.completeTransition(true)
             })
         })
