@@ -182,9 +182,10 @@ class TweetCardViewController : BaseCardViewController {
             Snackbar(title: "Replying To Tweet...", buttonTitle: "UNDO", buttonHandler: {
                 return true
                 }, dismissed: { [weak self] in
+                    guard let strong_self = self else { return }
                     let client = TWTRAPIClient.withCurrentUser()
                     // https://dev.twitter.com/rest/reference/post/statuses/update
-                    let request = client.urlRequest(withMethod: "POST", url: "https://api.twitter.com/1.1/statuses/update.json", parameters: ["status": "@" + (self?.rec?.tweet?.screen_name ?? "") + " " + string!, "in_reply_to_status_id": self!.rec!.tweet!._id], error: nil)
+                    let request = client.urlRequest(withMethod: "POST", url: "https://api.twitter.com/1.1/statuses/update.json", parameters: ["status": "@" + (strong_self.rec!.tweet!.screen_name!) + " " + string!, "in_reply_to_status_id": strong_self.rec!.tweet!._id], error: nil)
                     client.sendTwitterRequest(request, completion: { [weak self] response, data, error in
                         if error != nil {
                             self?.delegate?.passCard(.left)
