@@ -20,28 +20,18 @@ class BaseCardViewController : UIViewController, UIGestureRecognizerDelegate {
         $0.alpha = 0.0; $0.constrain((.height, 75 + 15))
     }
     let leftLabel = UILabel(translates: false).then {
-        $0.text = "PASS"
-        $0.font = .gothamBold(ofSize: 25); $0.textColor = .white
-        $0.textAlignment = .center
-        $0.constrain((.height, 25))
+        $0.text = "PASS"; $0.font = .gothamBold(ofSize: 25); $0.textColor = .white; $0.textAlignment = .center; $0.constrain((.height, 25))
     }
     let leftIcon = UIImageView(translates: false).then {
-        $0.image = #imageLiteral(resourceName: "pass_stamp")
-        $0.contentMode = .scaleAspectFit
-        $0.constrain(.height, .width, constant: 55)
+        $0.image = #imageLiteral(resourceName: "pass_stamp"); $0.contentMode = .scaleAspectFit; $0.constrain(.height, .width, constant: 55)
     }
     let leftStamp = UIStackView(translates: false).then { $0.axis = .vertical; $0.spacing = 15 }
     
     let rightIcon = UIImageView(translates: false).then {
-        $0.image = #imageLiteral(resourceName: "like_stamp")
-        $0.contentMode = .scaleAspectFit
-        $0.constrain(.height, .width, constant: 55)
+        $0.image = #imageLiteral(resourceName: "like_stamp"); $0.contentMode = .scaleAspectFit; $0.constrain(.height, .width, constant: 55)
     }
     let rightLabel = UILabel(translates: false).then {
-        $0.text = "LIKE"
-        $0.font = .gothamBold(ofSize: 25); $0.textColor = .white
-        $0.textAlignment = .center
-        $0.constrain((.height, 25))
+        $0.text = "LIKE"; $0.font = .gothamBold(ofSize: 25); $0.textColor = .white; $0.textAlignment = .center; $0.constrain((.height, 25))
     }
     let rightStamp = UIStackView(translates: false).then { $0.axis = .vertical; $0.spacing = 15 }
     
