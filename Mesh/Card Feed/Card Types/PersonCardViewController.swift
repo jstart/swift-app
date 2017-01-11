@@ -52,11 +52,9 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         viewPager?.scroll.backgroundColor = .white
         control.delegate = viewPager!
         viewPager?.delegate = control
-        if let user = rec?.user {
-            if let category = user.promoted_category {
+        if let user = rec?.user, let category = user.promoted_category {
                 let categoryIndex = QuickViewCategory.index(category)
                 control.selectIndex(categoryIndex)
-            }
         } else {
             control.selectIndex(0)
         }
