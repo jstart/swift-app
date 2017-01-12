@@ -22,9 +22,9 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.layer.cornerRadius = 10.0
-        view.layer.shadowColor = UIColor.lightGray.cgColor
-        view.layer.shadowOpacity = 0.5
+//        view.layer.cornerRadius = 10.0
+//        view.layer.shadowColor = UIColor.lightGray.cgColor
+//        view.layer.shadowOpacity = 0.5
         view.backgroundColor = .white
         
         tapRec = UITapGestureRecognizer(target: self, action: #selector(tap))
@@ -75,7 +75,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
     open func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         let table = viewController as! UserDetailTableViewController
         let index = table.index!
-        if index == 0 {  return nil }
+        if index == 0 { return nil }
 
         return controllers[index - 1]
     }

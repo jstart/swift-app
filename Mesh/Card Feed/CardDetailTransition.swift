@@ -42,16 +42,24 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
         blurView.constrain(.top, toItem: cardVC!.view)
         blurView.constrain(.width, toItem: cardVC!.view)
         blurView.constrain(.centerX, toItem: cardVC!.view)
-        blurView.constrain(.height, toItem: cardVC!.imageView)
+        blurView.constrain(.height, constant: 5, toItem: cardVC!.imageView)
         
         let tapRec = UITapGestureRecognizer(target: self, action: #selector(tap))
         containerView.addGestureRecognizer(tapRec)
         
         cardVC?.imageView.addSubview(blurView)
         
-        UIView.animate(withDuration: 0.1, animations: {
+        UIView.animate(withDuration: 0.2, animations: {
             detail.alpha = 1.0
+            detail.layer.cornerRadius = 10.0
+            detail.layer.shadowColor = UIColor.lightGray.cgColor
+            detail.layer.shadowOpacity = 0.5
             self.blurView.alpha = 0.9
+            self.cardVC?.name.alpha = 0.0
+            self.cardVC?.position.alpha = 0.0
+            self.cardVC?.logo.alpha = 0.0
+            self.cardVC?.logoBackshadow.alpha = 0.0
+            self.cardVC?.viewPager?.scroll.alpha = 0.0
         }, completion:{ _ in
             UIView.animate(withDuration: 0.2, animations: {
                 containerView.constraintFor(.top, toItem: detail)?.constant = 81 * 2
@@ -73,6 +81,11 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning {
             containerView.constraintFor(.top, toItem: detail)?.constant = containerView.frame.size.height - 140
             containerView.layoutIfNeeded()
             containerView.alpha = 0.0
+            self.cardVC?.name.alpha = 1.0
+            self.cardVC?.position.alpha = 1.0
+            self.cardVC?.logo.alpha = 1.0
+            self.cardVC?.logoBackshadow.alpha = 1.0
+            self.cardVC?.viewPager?.scroll.alpha = 1.0
         }, completion: { _ in
             UIView.animate(withDuration: 0.1, animations: {
             }, completion: { _ in
