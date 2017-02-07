@@ -43,7 +43,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         
         view.addSubview(control.stack!)
 
-        control.stack!.constrain((.top, 5), (.width, -80), (.leading, 40), (.trailing, -40), toItem: view)
+        control.stack!.constrain((.top, 5), (.width, -160), (.centerX, 0), toItem: view)
         control.stack!.constrain((.height, 40))
         
         control.delegate = self

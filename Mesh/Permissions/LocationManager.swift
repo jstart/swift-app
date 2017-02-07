@@ -70,7 +70,8 @@ class LocationManager : NSObject, CLLocationManagerDelegate, MKLocalSearchComple
         LocationManager.currentLocation = locations.first!
         LocationManager.locationUpdate?(locations.first!)
         geocoder.reverseGeocodeLocation(locations.first!, completionHandler: { placemark, error in
-            LocationManager.currentPlacemark = placemark!.first
+            guard let placemark = placemark?.first else { return }
+            LocationManager.currentPlacemark = placemark
         })
     }
     

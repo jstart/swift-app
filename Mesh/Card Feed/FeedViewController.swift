@@ -61,7 +61,7 @@ class FeedViewController: UIViewController {
         UIApplication.shared.statusBarStyle = .default
         
         if Keychain.fetchLogin() != nil {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "filtering"), target: self, action: #selector(sort))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "intro"), target: self, action: #selector(sort))
             navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "qrCode"), target: self, action: #selector(qr))
             Client.execute(ProfileRequest(first_name: UserResponse.current?.first_name)) { response in
                 guard let JSON = response.result.value as? JSONDictionary else { return }
@@ -103,7 +103,10 @@ class FeedViewController: UIViewController {
         navigationController?.push(CompleteProfileTableViewController(style: .grouped))
     }
     
-    func sort() { }
+    func sort() {
+        let intro = IntroStartViewController()
+        present(intro)
+    }
     
     func qr() {
         guard UserResponse.current != nil else { return }
