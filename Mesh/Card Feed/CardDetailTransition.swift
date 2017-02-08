@@ -44,7 +44,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning { //
         blurView.constrain(.top, toItem: cardVC!.view)
         blurView.constrain(.width, toItem: cardVC!.view)
         blurView.constrain(.centerX, toItem: cardVC!.view)
-        blurView.constrain(.height, toItem: cardVC!.imageView)
+        blurView.constrain(.height, constant: 10, toItem: cardVC!.imageView)
         
         let tapRec = UITapGestureRecognizer(target: self, action: #selector(tap))
         containerView.addGestureRecognizer(tapRec)
@@ -91,10 +91,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning { //
             detail.constraintFor(.width, toItem: detailVC.control.stack!)?.constant = -160
             detailVC.control.stack!.layoutIfNeeded()
         }, completion: { _ in
-            UIView.animate(withDuration: 0.1, animations: {
-            }, completion: { _ in
-                context.completeTransition(true)
-            })
+            context.completeTransition(true)
         })
     }
     
