@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func applicationDidBecomeActive(_ application: UIApplication) {
+    /*func applicationDidBecomeActive(_ application: UIApplication) {
         if Token.retrieveLogin().phone_number != nil {
             //SocketHandler.startListening()
         }
@@ -63,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillTerminate(_ application: UIApplication) {
         SocketHandler.stopListening()
-    }
+    }*/
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         let source = options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String

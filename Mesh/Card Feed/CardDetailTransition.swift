@@ -9,7 +9,6 @@
 import UIKit
 
 class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning { //UIViewControllerInteractiveTransitioning {
-
     
     let duration    = 1.0
     var presenting  = true
@@ -59,7 +58,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning { //
             self.cardVC?.logo.alpha = 0.0
             self.cardVC?.logoBackshadow.alpha = 0.0
             self.cardVC?.viewPager?.scroll.alpha = 0.0
-        }, completion:{ _ in
+        }, completion: { _ in
             UIView.animate(withDuration: 0.2, animations: {
                 containerView.constraintFor(.top, toItem: detail)?.constant = 81 * 2
                 detail.heightConstraint?.constant = containerView.frame.size.height - 145
@@ -90,9 +89,7 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning { //
             self.cardVC?.viewPager?.scroll.alpha = 1.0
             detail.constraintFor(.width, toItem: detailVC.control.stack!)?.constant = -160
             detailVC.control.stack!.layoutIfNeeded()
-        }, completion: { _ in
-            context.completeTransition(true)
-        })
+        }, completion: { _ in context.completeTransition(true) })
     }
     
 //    public func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
@@ -100,4 +97,5 @@ class CardDetailTransition: NSObject, UIViewControllerAnimatedTransitioning { //
 //    }
     
     func tap(_ sender: UITapGestureRecognizer) { cardVC?.dismiss() }
+    
 }
