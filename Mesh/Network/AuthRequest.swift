@@ -38,7 +38,6 @@ class MessageResponse : Object {
             $0.text = (JSON["text"] as? String) ?? ""
         }
     }
-    
 }
 
 class ConnectionResponse : Object, UserDetail {
@@ -137,9 +136,7 @@ class UserResponse : Object, UserDetail {
     
     var firstCompany: CompanyResponse? {
         for company in companies {
-            if company._id == first_company_id {
-                return company
-            }
+            if company._id == first_company_id { return company }
         }
         return companies.first
     }
@@ -154,7 +151,7 @@ class PhotoResponse : Object {
     
     static func create(_ JSON: JSONDictionary) -> PhotoResponse {
         return PhotoResponse().then {
-                $0.small = (JSON["small"] as? String)!.trim; $0.medium = (JSON["medium"] as? String)!.trim; $0.large = (JSON["large"] as? String)!.trim
+            $0.small = (JSON["small"] as? String)!.trim; $0.medium = (JSON["medium"] as? String)!.trim; $0.large = (JSON["large"] as? String)!.trim
         }
     }
 }
@@ -175,12 +172,8 @@ class CompanyResponse : Object, UserDetail {
     static func create(_ JSON: JSONDictionary) -> CompanyResponse {
         return CompanyResponse().then {
             $0._id = JSON["_id"] as? String; $0.name = JSON["name"] as? String; $0.logo = JSON["logo"] as? String;
-            if let start = JSON["start_year"] as? Int {
-                $0.start_year = "\(start)";
-            }
-            if let end = JSON["end_year"] as? Int {
-                $0.end_year = "\(end)";
-            }
+            if let start = JSON["start_year"] as? Int { $0.start_year = "\(start)" }
+            if let end = JSON["end_year"] as? Int { $0.end_year = "\(end)" }
             //if let current = JSON["current"] as? Bool { $0.current = Int(current) } else { $0.current = 0 }
             if $0._id == nil { $0._id = "\(JSON["_id"] as? Int)" }
         }
@@ -226,12 +219,8 @@ class SchoolResponse : Object, UserDetail {
         return SchoolResponse().then {
             $0._id = JSON["_id"] as? String; $0.name = JSON["name"] as? String; $0.logo = JSON["logo"] as? String
 
-            if let start = JSON["start_year"] as? Int {
-                $0.start_year = "\(start)";
-            }
-            if let end = JSON["end_year"] as? Int {
-                $0.end_year = "\(end)";
-            }
+            if let start = JSON["start_year"] as? Int { $0.start_year = "\(start)" }
+            if let end = JSON["end_year"] as? Int { $0.end_year = "\(end)" }
         }
     }
     
