@@ -26,15 +26,11 @@ struct MessagesDeleteRequest : AuthenticatedRequest {
     let method = HTTPMethod.delete
     
     let _id : String
-    
-    init(id : String) { _id = id }
 }
 
 struct MarkReadRequest : AuthenticatedRequest {
     var path : String { return "connection/" + (read ? "read" : "unread") }
     let method = HTTPMethod.post
     
-    let read : Bool, _id : String
-    
-    init(read : Bool, id : String) { self.read = read; _id = id }
+    let read : Bool, _id : String    
 }

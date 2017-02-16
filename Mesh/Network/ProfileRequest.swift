@@ -63,7 +63,6 @@ struct SchoolModel {
     
     static func create(_ JSON: JSONDictionary) -> SchoolModel {
         let id = JSON["id"] as? String ?? ""
-        
         return SchoolModel(id: id)
     }
 }
@@ -75,7 +74,6 @@ struct InterestModel {
     
     static func create(_ JSON: JSONDictionary) -> InterestModel {
         let id = JSON["id"] as? String ?? ""
-        
         return InterestModel(id: id)
     }
 }
@@ -85,4 +83,3 @@ struct PhotoRequest : AuthenticatedRequest {
     
     let file : Data
 }
-

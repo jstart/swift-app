@@ -68,7 +68,7 @@ class MessagesViewController: JSQMessagesViewController {
 
         if shouldReload {
             self.refresh()
-            Client.execute(MarkReadRequest(read: true, id: recipient?.user?._id ?? "")) { _ in
+            Client.execute(MarkReadRequest(read: true, _id: recipient?.user?._id ?? "")) { _ in
                 self.recipient?.write { $0.read = true }
             }
         }
@@ -137,7 +137,7 @@ class MessagesViewController: JSQMessagesViewController {
     
     func toggleReadState() {
         guard let recipient = recipient else { return }
-        Client.execute(MarkReadRequest(read: !recipient.read, id: (recipient.user?._id)!), complete: { _ in
+        Client.execute(MarkReadRequest(read: !recipient.read, _id: (recipient.user?._id)!), complete: { _ in
             self.recipient?.write { $0.read = !$0.read }
         })
         
@@ -251,7 +251,7 @@ class MessagesViewController: JSQMessagesViewController {
     
     func deleteMessage(_ indexPath: IndexPath) {
         guard let meshMessage = meshMessages?[indexPath.row] else { return }
-        Client.execute(MessagesDeleteRequest(id: meshMessage._id), complete: { response in
+        Client.execute(MessagesDeleteRequest(_id: meshMessage._id), complete: { response in
             meshMessage.delete()
             self.meshMessages?.remove(at: indexPath.row)
             self.messages.remove(at: indexPath.row)

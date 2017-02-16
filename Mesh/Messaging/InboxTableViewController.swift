@@ -194,7 +194,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
                 } else {
                     tableView.deleteRows(at: [currentIndex], with: .automatic)
                 }
-                Client.execute(MarkReadRequest(read: !connection.read, id: connection.user!._id), complete: { _ in
+                Client.execute(MarkReadRequest(read: !connection.read, _id: connection.user!._id), complete: { _ in
                     connection.write { $0.read = !$0.read }; self.refresh()
                 })
                 return false
@@ -203,7 +203,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             
             cell.read.callback = { _ in
                 cell.add(read: !connection.read)
-                Client.execute(MarkReadRequest(read: !connection.read, id: connection.user!._id), complete: { _ in
+                Client.execute(MarkReadRequest(read: !connection.read, _id: connection.user!._id), complete: { _ in
                     connection.write { $0.read = !$0.read }; self.refresh()
                 })
                 return true
@@ -229,7 +229,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
             cell.read.titleLabel?.text = title
             cell.read.callback = { _ in
                 cell.add(read: !connection.read)
-                Client.execute(MarkReadRequest(read: !connection.read, id: connection.user!._id), complete: { _ in
+                Client.execute(MarkReadRequest(read: !connection.read, _id: connection.user!._id), complete: { _ in
                     connection.write { $0.read = !$0.read }; self.refresh()
                 })
                 return true
@@ -264,7 +264,7 @@ class InboxTableViewController: UITableViewController, UISearchControllerDelegat
         let quickReply = QuickReplyViewController(connection.user, text: message.text!, date: message.ts)
         quickReply.modalPresentationStyle = .overFullScreen
         quickReply.action = { text in Client.execute(MessagesSendRequest(recipient: message.sender, text: text!), complete: { response in
-            Client.execute(MarkReadRequest(read: !connection.read, id: connection.user!._id), complete: { _ in
+            Client.execute(MarkReadRequest(read: !connection.read, _id: connection.user!._id), complete: { _ in
                 connection.write { $0.read = !$0.read }; self.refresh()
             })
             self.todoMessages.remove(at: index.row);
