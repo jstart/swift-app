@@ -17,6 +17,7 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     return false
   }
 }
+
 extension String {
     
     var URLEncoded : String {

@@ -20,16 +20,14 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
     var switchView = UISwitch(translates: false)
     var index : IndexPath?
     let delete = UIButton(type: .system).then {
-        $0.constrain((.height, 80))
-        $0.setTitleColor(.red, for: .normal)
-        $0.translates = false
+        $0.constrain((.height, 80)); $0.titleColor = .red; $0.translates = false
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         if let item = item {
             title = "Edit " + item.category.title()
-            delete.setTitle("Delete " + item.category.title(), for: .normal)
+            delete.title = "Delete " + item.category.title()
             delete.addTarget(self, action: #selector(deleteItem), for: .touchUpInside)
             tableView.addSubview(delete)
             delete.constrain(.leading, .width, toItem: tableView)
@@ -63,7 +61,7 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
             switchView.addTarget(self, action: #selector(switchChanged(sender:)), for: .valueChanged)
             cell.addSubview(switchView)
             switchView.constrain((.top, 15), (.bottom, -15), (.trailing, -10), toItem: cell)
-            if field.type == .toggle && item != nil { switchView.setOn(item?.fieldValues()[safe: indexPath.row] as! Bool, animated: false) }
+            if field.type == .toggle && item != nil { switchView.setOn((item?.fieldValues()[safe: indexPath.row] as? Bool) ?? false, animated: false) }
             return cell
         }
         
@@ -76,11 +74,11 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
         if field.type == .month || field.type == .year { cell.second.inputView = picker; cell.first.inputView = picker; type = field.type }
         
         guard let item = item as UserDetail! else { return cell }
-        if field.type == .text { cell.first.text = item.fieldValues()[indexPath.row] as? String }
-        if field.type == .year { cell.first.text = item.fieldValues()[indexPath.row] as? String }
+        if field.type == .text { cell.first.text = item.fieldValues()[safe: indexPath.row] as? String }
+        if field.type == .year { cell.first.text = item.fieldValues()[safe: indexPath.row] as? String }
         if field.type == .month {
-            let monthYear = item.fieldValues()[indexPath.row] as! [String]
-            cell.first.text = monthYear[0]; cell.second.text = monthYear[1]
+            let monthYear = item.fieldValues()[safe: indexPath.row] as? [String]
+            cell.first.text = monthYear?[safe: 0]; cell.second.text = monthYear?[safe: 1]
             fields.append(cell.second)
         }
 
@@ -106,7 +104,7 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
             if picker.selectedRow(inComponent: 0) != month { picker.selectRow(month, inComponent: 0, animated: true) }
             if picker.selectedRow(inComponent: 1) != year { picker.selectRow(year, inComponent: 1, animated: true) }
         } else {
-            let index = years.index(of: cell.first.text!)!
+            guard let index = years.index(of: cell.first.text!) else { return }
             if picker.selectedRow(inComponent: 0) != index { picker.selectRow(index, inComponent: 0, animated: true) }
         }
     }
@@ -115,15 +113,14 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
     
     func save() {
         var request : ProfileRequest
-        
-        if item!.category == .education {
-            request = ProfileRequest()
+        if itemType == .education {
+            request = ProfileRequest(schools: [SchoolModel(id: "7567656")])
         } else { // .experience
             var id = "", start_month = "", start_year = "", end_month = "", end_year = "", title = ""
             let current = switchView.isOn
             var company : CompanyModel?
 
-            for (index, _) in type(of:item!).fields.enumerated() {
+            for (index, _) in itemType!.editFields().enumerated() {
                 guard let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? EditFieldsTableViewCell else { continue }
                 switch index {
                 case 0: id = "1681681"; break//cell.first.text ?? ""; break
@@ -144,11 +141,11 @@ class EditProfileDetailTableViewController: UITableViewController, UIPickerViewD
     public func numberOfComponents(in pickerView: UIPickerView) -> Int { return type == .month ? 2 : 1 }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if type == .month { return component == 0 ?  months.count : years.count }
+        if type == .month { return component == 0 ? months.count : years.count }
         return years.count
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if type == .month { return component == 0 ?  months[row] : years[row] }
+        if type == .month { return component == 0 ? months[row] : years[row] }
         return years[row]
     }
     

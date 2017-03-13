@@ -29,15 +29,15 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         button.isHidden = true
         button.isSelected = false
         button.layer.borderWidth = 1
-//        profile.image = nil
-//        company.image = nil
+        profile.image = nil
+        company.image = nil
         buttonHandler = nil
         initials.isHidden = true
         initials.text = nil
         profile.backgroundColor = .clear
         
-        name.font = .proxima(ofSize: name.font.pointSize)
-        title.font = .proxima(ofSize: title.font.pointSize)
+        name.font = .gothamBook(ofSize: name.font.pointSize)
+        title.font = .gothamMedium(ofSize: title.font.pointSize)
     }
     
     override func awakeFromNib() {
@@ -50,14 +50,11 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         name.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1)
         
         button.layer.borderWidth = 1
-        button.layer.borderColor = AlertAction.defaultBackground.cgColor
+        button.layer.borderColor = Colors.brand.cgColor
         button.layer.cornerRadius = 5.0
         
         leftSwipeSettings.transition = .drag
         rightSwipeSettings.transition = .drag
-        
-        profile.backgroundColor = .gray
-        company.image = #imageLiteral(resourceName: "tesla")
         
         separatorInset = .zero
     }
@@ -70,29 +67,36 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         initials.text = ([firstInitial, lastInitial] as NSArray).componentsJoined(by: "").replace("\"", with: "").uppercased()
     }
 
-    func configure(_ user: UserResponse?){
+    func configure(_ user: UserResponse?) {
         name.text = user?.fullName()
         title.text = user?.fullTitle()
+        if let url = user?.firstCompany?.logo {
+            company.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2))
+        } else { company.image = nil }
         guard let url = user?.photos?.large else { showInitials(firstName: (user?.first_name) ?? "", lastName: (user?.last_name) ?? ""); return }
-        profile.af_setImage(withURL: URL(string: url)!)
+        profile.af_setImage(withURL: URL(string: url)!, imageTransition: .crossDissolve(0.2))
     }
     
-    func configure(_ detail: UserDetail){
+    func configure(_ detail: UserDetail) {
         name.text = detail.firstText
         title.text = detail.secondText
-        profile.backgroundColor = .gray
         company.image = nil
+        if detail is EventResponse {
+            profile.contentMode = .scaleAspectFit
+        }
+        guard let imageURL = detail.logo else { profile.backgroundColor = .gray; return }
+        profile.af_setImage(withURL: URL(string: imageURL)!, imageTransition: .crossDissolve(0.2))
     }
     
     func add(message: MessageResponse? = nil, read: Bool) {
         self.read.title = read ? "Mark Unread" : "Mark Read"
         
         if !read {
-            name.font = .boldProxima(ofSize: name.font.pointSize)
-            title.font = .boldProxima(ofSize: title.font.pointSize)
+            name.font = .gothamBold(ofSize: name.font.pointSize)
+            title.font = .gothamBold(ofSize: title.font.pointSize)
         } else {
-            name.font = .proxima(ofSize: name.font.pointSize)
-            title.font = .proxima(ofSize: title.font.pointSize)
+            name.font = .gothamBook(ofSize: name.font.pointSize)
+            title.font = .gothamBook(ofSize: title.font.pointSize)
         }
         if message?.text != nil { title.text = message?.text }
     }
@@ -103,4 +107,5 @@ class ConnectionTableViewCell: MGSwipeTableCell {
         button.setTitle(button.title(for: .selected), for: .normal)
         buttonHandler?()
     }
+    
 }

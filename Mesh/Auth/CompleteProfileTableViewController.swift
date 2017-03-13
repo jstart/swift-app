@@ -12,9 +12,7 @@ import GoogleSignIn
 extension SkyFloatingLabelTextField {
     static func branded(_ title: String) -> SkyFloatingLabelTextField {
         return SkyFloatingLabelTextField(translates: false).then {
-            $0.placeholder = title
-            $0.titleLabel.font = .proxima(ofSize: 10)
-            $0.placeholderFont = .proxima(ofSize: 20)
+            $0.placeholder = title; $0.titleLabel.font = .gothamBook(ofSize: 10); $0.placeholderFont = .gothamBook(ofSize: 20)
             $0.selectedTitleColor = Colors.brand; $0.selectedLineColor = Colors.brand
             $0.titleFormatter = { string in return string }
         }
@@ -23,15 +21,14 @@ extension SkyFloatingLabelTextField {
 
 class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDelegate {
     
-    let header = UILabel(translates: false).then {
-        $0.text = "Add Your Basic Info"; $0.font = .boldProxima(ofSize: 20)
-    }
+    let header = UILabel(translates: false).then { $0.text = "Add Your Basic Info"; $0.font = .gothamBold(ofSize: 20) }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
-        $0.text = "In order to match with people on Mesh, we need you to complete your profile."
-        $0.font = .proxima(ofSize: 16)
-        $0.textColor = .gray
-        $0.textAlignment = .center
+        let attributedString = NSMutableAttributedString(string: "In order to match with people on Mesh, we need you to complete your profile.")
+        let paragraphStyle = NSMutableParagraphStyle(); paragraphStyle.lineSpacing = 8
+        attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        $0.attributedText = attributedString
+        $0.font = .gothamBook(ofSize: 16); $0.textColor = .gray; $0.textAlignment = .center
     }
     let linkedIn = UIButton().then { $0.setImage(#imageLiteral(resourceName: "LinkedIn"), for: .normal); $0.title = "LinkedIn"; $0.titleColor = Colors.brand; $0.imageView?.contentMode = .scaleAspectFit }
     let twitter = UIButton().then { $0.setImage(#imageLiteral(resourceName: "Twitter"), for: .normal); $0.title = "Twitter"; $0.titleColor = Colors.brand; $0.imageView?.contentMode = .scaleAspectFit }
@@ -47,8 +44,7 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
         $0.isEnabled = false
-        $0.titleLabel?.font = .boldProxima(ofSize: 20); $0.titleColor = .white
-        $0.title = "NEXT"
+        $0.title = "NEXT"; $0.titleLabel?.font = .gothamBold(ofSize: 20); $0.titleColor = .white
         $0.layer.cornerRadius = 5; $0.clipsToBounds = true
         $0.constrain((.height, 70))
     }
@@ -86,7 +82,7 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
         tableHeader.addSubviews(header, text)
         header.constrain((.top, 20), (.centerX, 0), toItem: tableHeader)
         
-        text.constrain(.top, toItem: header, toAttribute: .bottom)
+        text.constrain(.top, constant: 5, toItem: header, toAttribute: .bottom)
         text.constrain((.leading, 20), (.trailing, -20), (.bottom, -25), (.centerX, 0), toItem: tableHeader)
         
         tableView.tableHeaderView = tableHeader
@@ -102,7 +98,7 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
         let title = section == 0 ? "    IMPORT YOUR PROFILE" : "    REQUIRED INFO"
         return UILabel().then {
             $0.text = title
-            $0.font = .proxima(ofSize:12); $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
+            $0.font = .gothamBook(ofSize:12); $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
             $0.contentMode = .top
         }
     }
@@ -152,7 +148,7 @@ class CompleteProfileTableViewController: UITableViewController, GIDSignInUIDele
     
     func complete() {
         let companies = [CompanyModel(id: "1681681", start_month: "January", start_year: "2014", end_month: "March", end_year: "2016", current: false)]
-        Client.execute(ProfileRequest(first_name: firstName.text, last_name: lastName.text, email: nil, title: titleField.text, profession: nil, companies: companies), complete: { _ in
+        Client.execute(ProfileRequest(first_name: firstName.text, last_name: lastName.text, email: nil, title: titleField.text, profession: " ", companies: companies), complete: { _ in
             self.navigationController?.push(AddPhotoViewController())
         })
     }

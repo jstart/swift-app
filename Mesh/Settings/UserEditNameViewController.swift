@@ -10,29 +10,24 @@ import UIKit
 
 class UserEditNameViewController: UITableViewController {
     
-    let header = UILabel(translates: false).then {
-        $0.text = "Change Your Name"; $0.font = .boldProxima(ofSize: 20)
-    }
+    let header = UILabel(translates: false).then { $0.text = "Change Your Name"; $0.font = .gothamBold(ofSize: 20) }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
         $0.text = "Change the name that appears on your profile."
-        $0.font = .proxima(ofSize: 16)
-        $0.textColor = .gray
+        $0.font = .gothamBook(ofSize: 16); $0.textColor = .gray
         $0.textAlignment = .center
     }
     let nextButton = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
         $0.isEnabled = true
-        $0.titleLabel?.font = .boldProxima(ofSize: 20)
-        $0.setTitle("CONTINUE", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
+        $0.titleLabel?.font = .gothamBold(ofSize: 20)
+        $0.title = "CONTINUE"; $0.titleColor = .white
         $0.layer.cornerRadius = 5
         $0.clipsToBounds = true
         $0.constrain((.height, 70))
     }
-    let firstName = SkyFloatingLabelTextField.branded("First Name")
-    let lastName = SkyFloatingLabelTextField.branded("Last Name")
+    let firstName = SkyFloatingLabelTextField.branded("First Name"), lastName = SkyFloatingLabelTextField.branded("Last Name")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,7 +92,7 @@ class UserEditNameViewController: UITableViewController {
         return cell
     }
     
-    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 90; nextButton.isEnabled = (firstName.text != "" && lastName.text != "") }
+    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height)?.constant = 90; nextButton.isEnabled = (firstName.text != "" && lastName.text != "") }
     
     func complete() {
         let request = ProfileRequest(first_name: firstName.text, last_name: lastName.text)

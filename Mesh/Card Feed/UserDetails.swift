@@ -41,14 +41,6 @@ extension UserDetail {
     func fieldValues() -> [Any] { return [Any]() }
 }
 
-struct ConnectionDetail : UserDetail {
-    var name : String
-    var position : String
-    var isConnected : Bool
-    
-    let category = QuickViewCategory.connections
-}
-
 struct Experience : UserDetail {
     var company : String
     var position : String
@@ -92,34 +84,12 @@ struct Education : UserDetail {
     let category = QuickViewCategory.education
 }
 
-struct Skill : UserDetail {
-    var name : String
-    var numberOfMembers : String
-    var isAdded : Bool
-    
-    var firstText : String { return name }
-    var secondText : String { return numberOfMembers }
-    
-    let category = QuickViewCategory.skills
-}
-
-struct Event : UserDetail {
-    var name : String
-    var date : String
-    var isGoing : Bool
-    
-    var firstText : String { return name }
-    var secondText : String { return date }
-    
-    let category = QuickViewCategory.events
-}
-
 struct UserDetails {
-    var connections : [ConnectionDetail]
+    var connections : [UserResponse]
     var experiences : [CompanyResponse]
     var educationItems : [SchoolResponse]
     var skills : [InterestResponse]
-    var events : [Event]
+    var events : [EventResponse]
     
     func details(forIndex: Int) -> [UserDetail]? {
         switch forIndex {

@@ -14,56 +14,48 @@ import SafariServices
 class TweetCardViewController : BaseCardViewController {
         
     let profile = UIImageView(translates: false).then {
-        $0.constrain(.width, .height, constant: 40)
-        $0.image = .imageWithColor(.gray)
-        $0.layer.cornerRadius = 5.0
-        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 10; $0.constrain(.width, .height, constant: 40); $0.image = .imageWithColor(.gray); $0.clipsToBounds = true
     }
-    let name = UILabel().then { $0.textColor = .darkGray; $0.font = .boldProxima(ofSize: 18) }
-    let subtitle = UILabel().then {
-        $0.textColor = .lightGray; $0.font = .proxima(ofSize: 15); $0.text = "Popular in your industry"
-    }
+    let name = UILabel().then { $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 18) }
+    let subtitle = UILabel().then { $0.textColor = #colorLiteral(red: 0.7333333333, green: 0.7333333333, blue: 0.7333333333, alpha: 1); $0.font = .gothamMedium(ofSize: 15); $0.text = "Popular in your industry" }
     let sourceIcon = UIImageView(translates: false).then {
         $0.constrain((.width, 25), (.height, 20)); $0.contentMode = .scaleAspectFit
     }
     let media = UIImageView(translates: false).then {
-        $0.contentMode = .scaleAspectFill
-        $0.clipsToBounds = true
+        $0.contentMode = .scaleAspectFill; $0.clipsToBounds = true
         $0.backgroundColor = .white
         $0.layer.borderWidth = 1; $0.layer.borderColor = UIColor.clear.cgColor
         $0.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
     }
     let text = UILabel(translates: false).then {
-        $0.numberOfLines = 0; $0.textColor = .black; $0.font = .proxima(ofSize: 16)
+        $0.numberOfLines = 0; $0.textColor = #colorLiteral(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1); $0.font = .gothamBook(ofSize: 16)
         $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
     }
     let articleTitle = UILabel().then {
-        $0.textColor = .darkGray; $0.font = .boldProxima(ofSize: 18); $0.text = "Now on Slack - Click, done."
+        $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 18); $0.text = "Now on Slack - Click, done."
     }
     let articleURL = UILabel().then {
-        $0.textColor = .lightGray; $0.font = .proxima(ofSize: 15); $0.text = "slackhq.com/get-more-done-with-message-buttons"
+        $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 15); $0.text = "slackhq.com/get-more-done-with-message-buttons"
     }
     let retweet = UIButton(translates: false).then {
         $0.setImage(#imageLiteral(resourceName: "Retweet"), for: .normal)
-        $0.title = "34"; $0.titleColor = .lightGray
-        $0.titleLabel?.font = .proxima(ofSize: 18)
+        $0.title = "3"; $0.titleColor = .lightGray; $0.titleLabel?.font = .gothamMedium(ofSize: 18)
         $0.constrain((.height, 40))
         $0.contentEdgeInsets = UIEdgeInsetsMake(10, 0, 10, 0)
         $0.imageView?.contentMode = .scaleAspectFit
     }
     let like = UIButton(translates: false).then {
         $0.setImage(#imageLiteral(resourceName: "Heart"), for: .normal)
-        $0.title = "34"; $0.titleColor = .lightGray
-        $0.titleLabel?.font = .proxima(ofSize: 18)
+        $0.title = "4"; $0.titleColor = .lightGray; $0.titleLabel?.font = .gothamMedium(ofSize: 18)
         $0.titleEdgeInsets = UIEdgeInsetsMake(-10, 10, -10, 0)
         $0.contentEdgeInsets = UIEdgeInsetsMake(10, 0, 10, 0)
-        $0.constrain((.height, 40  ), (.width, 63))
+        $0.constrain((.height, 40), (.width, 63))
         $0.imageView?.contentMode = .scaleAspectFit
     }
     let reply = UIButton(translates: false).then {
         $0.setImage(#imageLiteral(resourceName: "Reply"), for: .normal)
-        $0.constrain((.height, 40))
-        $0.contentEdgeInsets = UIEdgeInsetsMake(10, 15, 10, 20)
+        $0.constrain((.height, 25))
+        //$0.contentEdgeInsets = UIEdgeInsetsMake(10, 15, 10, 20)
         $0.imageView?.contentMode = .scaleAspectFit
     }
     
@@ -71,10 +63,10 @@ class TweetCardViewController : BaseCardViewController {
         super.viewDidLoad()
         view.addSubviews(profile, sourceIcon, media, text)
         
-        media.constrain(.height, relatedBy: .greaterThanOrEqual, constant: 80)
+        media.constrain(.height, relatedBy: .greaterThanOrEqual, constant: 120)
         media.constrain(.height, relatedBy: .lessThanOrEqual, toItem: view, multiplier: 600/1052)
 
-        if let imageURL = rec?.user?.photos?.large { profile.af_setImage(withURL: URL(string: imageURL)!) }
+        if let imageURL = rec?.user?.photos?.large { profile.af_setImage(withURL: URL(string: imageURL)!, imageTransition: .crossDissolve(0.2)) }
         
         profile.constrain((.leading, 10), (.top, 10), toItem: view)
         sourceIcon.constrain((.trailing, -15), toItem: view)
@@ -91,11 +83,15 @@ class TweetCardViewController : BaseCardViewController {
         
         if rec!.cardType() == .tweet {
             name.text = rec?.tweet?.name
-            text.text = rec?.tweet?.text
+            let attributedString = NSMutableAttributedString(string: rec!.tweet!.text)
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 8
+            attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range: NSMakeRange(0, attributedString.length))
+            text.attributedText = attributedString
             text.constrain(.top, constant: 10, toItem: profile, toAttribute: .bottom)
             text.constrain((.leading, 15), (.trailing, -15), toItem: view)
             media.constrain(.top, constant: 12, toItem: text, toAttribute: .bottom)
-        }else {
+        } else {
             text.removeFromSuperview()
             media.constrain(.top, constant: 12, toItem: titleStack, toAttribute: .bottom)
         }
@@ -106,7 +102,7 @@ class TweetCardViewController : BaseCardViewController {
         like.addTarget(self, action: #selector(likeAction), for: .touchUpInside)
         reply.addTarget(self, action: #selector(replyAction), for: .touchUpInside)
         
-        let actionStack = UIStackView(retweet, like, reply, spacing: 35)
+        let actionStack = UIStackView(retweet, like, reply, spacing: 20)
         actionStack.alignment = .center
         actionStack.distribution = .fillProportionally
         actionStack.translates = false
@@ -117,7 +113,7 @@ class TweetCardViewController : BaseCardViewController {
             actionStack.constrain((.leading, 15), (.bottom, 0), toItem: view)
         }
         
-        if rec!.contentType() == .article {
+        if rec!.contentType() != .article {
             let articleStack = UIStackView(articleTitle, articleURL, axis: .vertical, spacing: 5)
             articleStack.translates = false
             articleStack.constrain((.height, 50))
@@ -136,14 +132,19 @@ class TweetCardViewController : BaseCardViewController {
                 articleStack.constrain(.bottom, constant: -10, toItem: view)
             }
             media.constrain(.bottom, constant: -10, toItem: articleStack, toAttribute: .top)
-        } else if rec!.contentType() == .photo {
+        } else if true {//rec!.contentType() == .photo {
             media.constrain(.bottom, constant: 0, toItem: actionStack, toAttribute: .top)
         }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        media.af_setImage(withURL: URL(string: "https://cdn-images-2.medium.com/max/1200/1*j4hgf6wm_GrW-xgn3QnZWw.png")!)
+        guard let media_url = rec?.tweet?.media_url else {
+            media.af_setImage(withURL: URL(string: "https://cdn-images-2.medium.com/max/1200/1*j4hgf6wm_GrW-xgn3QnZWw.png")!, imageTransition: .crossDissolve(0.2))
+            return
+        }
+        media.af_setImage(withURL: URL(string: media_url)!, imageTransition: .crossDissolve(0.2))
+
     }
     
     func retweetAction() {
@@ -156,8 +157,10 @@ class TweetCardViewController : BaseCardViewController {
                 let client = TWTRAPIClient.withCurrentUser()
                 let request = client.urlRequest(withMethod: "POST", url: "https://api.twitter.com/1.1/statuses/retweet/" + self!.rec!.tweet!._id + ".json", parameters: [:], error: nil)
                 client.sendTwitterRequest(request, completion: { [weak self] response, data, error in
-                    self?.delegate?.passCard(.left)
-                    Snackbar(title: "Retweeted").presentIn(self?.view.superview)
+                    if error != nil {
+                        self?.delegate?.passCard(.left)
+                        Snackbar(title: "Retweeted").presentIn(self?.view.superview)
+                    }
                 })
         }).presentIn(view.superview)
     }
@@ -165,34 +168,40 @@ class TweetCardViewController : BaseCardViewController {
     func likeAction() {
         like.isEnabled = false
         // https://dev.twitter.com/rest/reference/post/favorites/create
-
         let client = TWTRAPIClient.withCurrentUser()
         let request = client.urlRequest(withMethod: "POST", url: "https://api.twitter.com/1.1/favorites/create.json", parameters: ["id": rec!.tweet!._id], error: nil)
         client.sendTwitterRequest(request, completion: { [weak self] response, data, error in
-            self?.delegate?.passCard(.left)
+            if error != nil { self?.delegate?.passCard(.left) }
         })
     }
     
     func replyAction() {
-        let quick = QuickReplyViewController(rec!.user!, text: rec!.tweet!.text, type: .tweet)
+        let quick = QuickReplyViewController(rec!.user!, text: rec!.tweet!.text, date: 0, type: .tweet)
         quick.modalPresentationStyle = .overFullScreen
         quick.action = { [weak self] string in
             Snackbar(title: "Replying To Tweet...", buttonTitle: "UNDO", buttonHandler: {
                 return true
                 }, dismissed: { [weak self] in
+                    guard let strong_self = self else { return }
                     let client = TWTRAPIClient.withCurrentUser()
                     // https://dev.twitter.com/rest/reference/post/statuses/update
-                    let request = client.urlRequest(withMethod: "POST", url: "https://api.twitter.com/1.1/statuses/update.json", parameters: ["status": "@" + self!.rec!.tweet!.screen_name! + " " + string!, "in_reply_to_status_id": self!.rec!.tweet!._id], error: nil)
+                    let request = client.urlRequest(withMethod: "POST", url: "https://api.twitter.com/1.1/statuses/update.json", parameters: ["status": "@" + (strong_self.rec!.tweet!.screen_name!) + " " + string!, "in_reply_to_status_id": strong_self.rec!.tweet!._id], error: nil)
                     client.sendTwitterRequest(request, completion: { [weak self] response, data, error in
-                        self?.delegate?.passCard(.left) })
-                    self?.delegate?.passCard(.left)
-                    Snackbar(title: "Replied To Tweet").presentIn(self?.view.superview)
+                        if error != nil {
+                            self?.delegate?.passCard(.left)
+                            Snackbar(title: "Replied To Tweet").presentIn(self?.view.superview)
+                        }
+                    })
             }).presentIn(self?.view.superview)
         }
         present(quick)
     }
     
-    override func tap(_ sender: UITapGestureRecognizer) { navigationController?.safari("https://twitter.com/@iAmChrisTruman", push: false) }
+    override func tap(_ sender: UITapGestureRecognizer) {
+        guard let username = rec?.tweet?.screen_name else { return }
+        guard let id = rec?.tweet?._id else { return }
+        navigationController?.safari("https://twitter.com/" + username + "/status/" + id, push: false)
+    }
     
     override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return !otherGestureRecognizer.isMember(of: UITapGestureRecognizer.self)

@@ -22,16 +22,16 @@ class QuickReplyTransition: NSObject, UIViewControllerAnimatedTransitioning {
         containerView.addSubview(detail)
         detail.translates = false
         detail.constrain(.centerX, .centerY, .width, .height, toItem: containerView)
-        UIApplication.shared.delegate?.window??.windowLevel = UIWindowLevelStatusBar + 1
-
-        containerView.fadeIn { context.completeTransition(true) }
+        containerView.fadeIn {
+            context.completeTransition(true);
+            UIApplication.shared.delegate?.window??.windowLevel = UIWindowLevelStatusBar + 1
+        }
     }
     
     func dismiss(_ context: UIViewControllerContextTransitioning) {
         let containerView = context.containerView
-        UIApplication.shared.delegate?.window??.windowLevel = UIWindowLevelNormal
 
-        containerView.fadeOut { context.completeTransition(true) }
+        containerView.fadeOut { context.completeTransition(true); UIApplication.shared.delegate?.window??.windowLevel = UIWindowLevelNormal }
     }
     
 }

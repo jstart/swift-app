@@ -19,7 +19,7 @@ platform :ios do
   before_all do
     # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
     # cocoapods
-  	update_fastlane
+  	# update_fastlane
   end
 
   desc "Runs all the tests"
@@ -35,13 +35,13 @@ platform :ios do
 	#changelog = prompt(text: "Enter the change log: ", multi_line_end_keyword: "END")
 	#match(type: "appstore") # more information: https://codesigning.guide
 	increment_build_number
-	gym(scheme:'Mesh') # Build your app - more options available
+	gym(scheme:'Ripple', include_bitcode: false) # Build your app - more options available
 	pilot(changelog: commit[:message])
   end
 
   desc "Deploy a new version to the App Store"
   lane :submit do
-	gym(scheme:'Mesh') # Build your app - more options available
+	gym(scheme:'Ripple') # Build your app - more options available
     deliver(force: true)
   end
 

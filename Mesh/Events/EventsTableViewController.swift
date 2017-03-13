@@ -11,30 +11,31 @@ import UIKit
 class EventsTableViewController : UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
     
     let attending = RealmUtilities.realm().objects(EventResponse.self)//[Event(name: "LA Hacks", date: "Starts October 21", isGoing: true), Event(name: "AWS re:Invent", date: "Starts October 25", isGoing: true)]
-    let recommended = RealmUtilities.realm().objects(EventResponse.self)
-    let previous = RealmUtilities.realm().objects(EventResponse.self)
+    let recommended = [EventResponse]()//RealmUtilities.realm().objects(EventResponse.self)
+    let previous = [EventResponse]()//RealmUtilities.realm().objects(EventResponse.self)
 
     let sectionTitles = ["    YOUR EVENTS", "    RECOMMENDED EVENTS", "    PREVIOUS EVENTS"]
 
-    var searchController : UISearchController!
+    var searchController : UISearchController?
     var quickCell : UIView?
-    let searchResults = InboxSearchTableViewController()
-    
+    let searchResults = EventsSearchTableViewController()
+    var recentSearches = (StandardDefaults["RecentEventsSearches"] as? [String]) ?? [String]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         searchController = UISearchController(searchResultsController: searchResults)
-        searchController.searchResultsUpdater = self
-        searchController.delegate = self
-        searchController.searchBar.placeholder = "Search for events"
-        searchController.searchBar.delegate = self
+        searchController?.searchResultsUpdater = self
+        searchController?.delegate = self
+        searchController?.searchBar.placeholder = "Search for events"
+        searchController?.searchBar.delegate = self
         
-        searchController.hidesNavigationBarDuringPresentation = false
+        searchController?.hidesNavigationBarDuringPresentation = false
         definesPresentationContext = true
         
-        navigationItem.titleView = searchController.searchBar
+        navigationItem.titleView = searchController?.searchBar
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "add"), target: self, action: #selector(add))
-        navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSFontAttributeName: UIFont.proxima(ofSize: 30)], for: .normal)
+        navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSFontAttributeName: UIFont.gothamBook(ofSize: 30)], for: .normal)
         tableView.registerNib(ConnectionTableViewCell.self)
         
         tableView.estimatedRowHeight = 100
@@ -42,7 +43,11 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
 
-        (searchController.searchBar.value(forKey: "_searchField") as? UITextField)?.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.8941176471, blue: 0.8941176471, alpha: 1)
+        let searchField = searchController?.searchBar.value(forKey: "_searchField") as? UITextField
+        searchField?.backgroundColor = .white
+        searchField?.layer.borderColor = #colorLiteral(red: 0.8, green: 0.8, blue: 0.8, alpha: 1).cgColor
+        searchField?.layer.borderWidth = 1
+        searchField?.layer.cornerRadius = 2.5
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,8 +57,8 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        searchController.searchBar.resignFirstResponder()
-        searchController.isActive = false
+        searchController?.searchBar.resignFirstResponder()
+        searchController?.isActive = false
     }
     
     func refresh() {
@@ -65,12 +70,24 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) { navigationItem.setRightBarButton(nil, animated: true) }
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) { navigationItem.setRightBarButton(UIBarButtonItem(#imageLiteral(resourceName: "add"), target: self, action: #selector(add)), animated: true) }
     
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        guard let text = searchBar.text else { return true }; guard text != "" else { return true }
+        if !recentSearches.contains(text) {
+            recentSearches.append(text)
+            searchResults.recentSearches = recentSearches
+            StandardDefaults.set(recentSearches, forKey: "RecentConnectionSearches")
+        }
+        return true
+    }
+    
     open func updateSearchResults(for searchController: UISearchController) {
-        let search = searchController.searchResultsController as! InboxSearchTableViewController
+        let search = searchController.searchResultsController as! EventsSearchTableViewController
         search.view.isHidden = false
         search.showRecents = searchController.searchBar.text == ""
+        search.filterBy(text: searchController.searchBar.text!)
         search.tableView.reloadData()
     }
+
     
     func add() { navigationController?.push(EventCreateTableViewController()) }
     
@@ -86,12 +103,11 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
         let view = UIView().then { $0.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1) }
         let label = UILabel(translates: false).then {
             $0.text = sectionTitles[section]
-            $0.contentMode = .bottomLeft
-            $0.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
-            $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1); $0.font = .proxima(ofSize: 12)
+            $0.contentMode = .bottomLeft; $0.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.968627451, alpha: 1)
+            $0.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1); $0.font = .gothamBook(ofSize: 12)
         }
         view.addSubview(label)
-        label.constrain((.leading, 0), (.trailing, 0), (.bottom, -10), toItem: view)
+        label.constrain((.leading, 0), (.trailing, 0), (.bottom, -8), toItem: view)
         
         return view
     }
@@ -113,22 +129,20 @@ class EventsTableViewController : UITableViewController, UISearchControllerDeleg
             vc.hidesBottomBarWhenPushed = true
             vc.event = attending[indexPath.row]
             navigationController?.push(vc)
-        }
-        if indexPath.section == 1 {
+        } else if indexPath.section == 1 {
             let vc = LiveEventViewController()
             vc.hidesBottomBarWhenPushed = true
             vc.event = recommended[indexPath.row]
             navigationController?.push(vc)
-        }
-        if indexPath.section == 2 {
+        } else if indexPath.section == 2 {
             let vc = PastEventTableViewController(style: .grouped)
             vc.event = previous[indexPath.row]
             navigationController?.push(vc)
         }
     }
     
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        return [UITableViewRowAction(style: .default, title: "Unfollow", handler: {_,_ in })]
-    }
+//    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+//        return [UITableViewRowAction(style: .default, title: "Unfollow", handler: {_,_ in })]
+//    }
     
 }

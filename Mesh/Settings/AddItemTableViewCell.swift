@@ -10,9 +10,7 @@ import UIKit
 
 class AddItemTableViewCell : UITableViewCell {
     
-    let label = UILabel(translates: false).then {
-        $0.text = "Add "; $0.textColor = Colors.brand
-    }
+    let label = UILabel(translates: false).then { $0.textColor = Colors.brand }
     
     let icon = UIImageView(translates: false).then {
         $0.image = #imageLiteral(resourceName: "addCard").withRenderingMode(.alwaysTemplate)
@@ -25,7 +23,7 @@ class AddItemTableViewCell : UITableViewCell {
         stack.constrain(.centerX, .centerY, toItem: self)
     }
     
-    func configure(_ itemType: String) { label.text?.append(itemType) }
+    func configure(_ itemType: String?) { label.text = "Add " + (itemType ?? "") }
     
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 }

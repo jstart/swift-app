@@ -15,43 +15,51 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
     let control = QuickPageControl(categories: [.connections, .experience, .education, .skills, .events])
     var viewPager : ViewPager?
     let transition = CardDetailTransition()
-    let imageView = UIImageView(image: .imageWithColor(.gray)).then {
-        $0.clipsToBounds = true
-        $0.contentMode = .scaleAspectFill
-        $0.translates = false
+    let imageView = UIImageView(image: .imageWithColor(.clear)).then {
+        $0.contentMode = .top; $0.translates = false
         $0.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
     }
     let name = UILabel(translates: false).then {
-        $0.textColor = .black
-        $0.backgroundColor = .white
-        $0.font = UIFont.proxima(ofSize: 20)
-        $0.constrain(.height, constant: 22)
+        $0.textColor = .black; $0.font = UIFont.gothamBold(ofSize: 20); $0.backgroundColor = .white; $0.constrain(.height, constant: 22)
     }
     let position = UILabel(translates: false).then {
-        $0.textColor = #colorLiteral(red: 0.7810397744, green: 0.7810582519, blue: 0.7810482979, alpha: 1)
-        $0.backgroundColor = .white
-        $0.font = UIFont.proxima(ofSize: 16)
-        $0.constrain(.height, constant: 20)
+        $0.textColor = #colorLiteral(red: 0.7810397744, green: 0.7810582519, blue: 0.7810482979, alpha: 1); $0.font = UIFont.gothamBook(ofSize: 16); $0.backgroundColor = .white; $0.constrain(.height, constant: 20)
     }
+    let logo = UIImageView(image: .imageWithColor(.gray)).then {
+        $0.translates = false; $0.backgroundColor = .white
+        $0.clipsToBounds = true; $0.contentMode = .scaleAspectFit; $0.layer.cornerRadius = 5.0
+        $0.constrain(.width, .height, constant: 62)
+    }
+    let logoBackshadow = UIView(translates: false).then {
+        $0.backgroundColor = .white; $0.layer.cornerRadius = 5.0
+        $0.layer.shadowColor = UIColor.black.cgColor; $0.layer.shadowOpacity = 0.2; $0.layer.shadowRadius = 10
+        $0.constrain(.width, .height, constant: 62)
+    }
+    
+    let activity = UIActivityIndicatorView(activityIndicatorStyle: .gray).then { $0.translates = false }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         transition.cardVC = self
         gestureRec?.delegate = self
-        
         let quickViewStack = UIStackView(bar(), control.stack!, bar())
         quickViewStack.distribution = .fillProportionally
         quickViewStack.alignment = .center
         
-        viewPager = ViewPager(views: [])
+        viewPager = ViewPager()
         viewPager?.scroll.panGestureRecognizer.require(toFail: gestureRec!)
         viewPager?.scroll.backgroundColor = .white
         control.delegate = viewPager!
         viewPager?.delegate = control
-        control.selectIndex(0)
+        if let user = rec?.user, let category = user.promoted_category {
+                let categoryIndex = QuickViewCategory.index(category)
+                control.selectIndex(categoryIndex)
+        } else {
+            control.selectIndex(0)
+        }
 
-        let namePositionContainer = UIView().then { $0.backgroundColor = .white }
+        let namePositionContainer = UIView().then { $0.backgroundColor = .white; $0.constrain((.height, 61)); $0.clipsToBounds = true }
         
         namePositionContainer.addSubviews(name, position)
         
@@ -69,11 +77,10 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         viewPager!.scroll.translates = false
         viewPager!.scroll.backgroundColor = .white
         viewPager!.scroll.constrain(.width, .centerX, toItem: view)
+        viewPager!.scroll.constrain(.height, constant: 91.5)
 
         imageView.constrain(.bottom, constant: -11, toItem: name, toAttribute: .top)
-        let height = imageView.constraint(.height, relatedBy: .equal, toItem: view, multiplier: 680/1052)
-        height.priority = UILayoutPriorityDefaultHigh
-        height.isActive = true
+        imageView.constrain(.height, relatedBy: .equal, toItem: view, multiplier: 660/1052)
         
         //imageView.constrain(.height, relatedBy: .greaterThanOrEqual, constant: 80)
 
@@ -87,66 +94,98 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
         
         imageView.constrain(.width, .centerX, toItem: view)
         
-        let logo = UIImageView(image: #imageLiteral(resourceName: "tesla"))
-        view.addSubview(logo)
+        view.addSubviews(logoBackshadow, logo)
         
-        logo.translates = false
         logo.constrain(.width, .height, constant: 62)
         logo.constrain(.leading, constant: 15, toItem: view)
         logo.constrain(.bottom, constant: 62 - 15, toItem: imageView)
+        
+        logoBackshadow.constrain(.width, .height, constant: 62)
+        logoBackshadow.constrain(.leading, constant: 15, toItem: view)
+        logoBackshadow.constrain(.bottom, constant: 62 - 15, toItem: imageView)
 
         name.constrain(.top, constant: 11, toItem: namePositionContainer)
-        name.constrain(.leading, constant: 15, toItem: logo, toAttribute: .trailing)
-        name.constrain(.trailing, toItem: namePositionContainer, toAttribute: .trailingMargin)
+        name.constrain(.leading, constant: 92, toItem: namePositionContainer)
+        if #available(iOS 10, *) {
+            name.constrain(.trailing, toItem: namePositionContainer, toAttribute: .trailingMargin)
+        } else {
+            name.constrain((.width, 210))
+        }
         
         position.constrain(.leading, .trailing, toItem: name)
         position.constrain(.top, constant: 0, toItem: name, toAttribute: .bottom)
         position.constrain(.bottom, constant: -8, toItem: namePositionContainer)
-
-        view.addSubview(overlayView)
-        overlayView.constrain(.width, .height, .centerX, .centerY, toItem: view)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        imageView.layer.mask = nil
-        imageView.layoutIfNeeded()
         
-        var rect = imageView.bounds
-        rect.size.width = view.frame.size.width * (view.transform.d == 0.5 ? 2 : 1)
-        rect.size.height = imageView.frame.size.height + 100
-        let maskPath = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 10.0, height: 10.0))
-        
-        imageView.layer.mask = CAShapeLayer().then { $0.frame = rect; $0.path = maskPath.cgPath }
+        view.addSubview(activity)
+        activity.constrain(.centerX, .centerY, toItem: viewPager!.scroll)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        overlayView.alpha = 0.0
-        overlayView.isHidden = true
         
-        imageView.layer.mask = nil
-        var rect = imageView.bounds
-        rect.size.width = view.frame.size.width * (view.transform.d == 0.5 ? 2 : 1)
-        rect.size.height = imageView.frame.size.height + 100
-        let maskPath = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 10.0, height: 10.0))
-        
-        imageView.layer.mask = CAShapeLayer().then { $0.frame = rect; $0.path = maskPath.cgPath }
-        
-        viewPager?.removeAllViews()
-        if let user = rec?.user {
-            let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: [], experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: []))
-            viewPager?.insertViews(quickViews)
+        if view.alpha == 1.0 {
+            if let user = rec?.user, let category = user.promoted_category {
+                if viewPager?.stack == nil {
+                    viewPager?.scroll.alpha = 0.0
+                    tapRec?.isEnabled = false
+                    activity.startAnimating()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.2, execute: { [weak self] in
+                        guard let strongSelf = self else { return }
+                        strongSelf.viewPager?.scroll.fadeIn()
+                        let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: Array(user.common_connections), experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: Array(user.events)))
+                        strongSelf.viewPager?.resetStackWithViews(quickViews)
+                        strongSelf.activity.stopAnimating()
+                        strongSelf.tapRec?.isEnabled = true
+                    })
+                }
+                let categoryIndex = QuickViewCategory.index(category)
+                control.selectIndex(categoryIndex)
+                viewPager?.selectedIndex(categoryIndex, animated: false)
+            } else if let user = rec?.user {
+                if viewPager?.stack?.arrangedSubviews.count == 0 {
+                    viewPager?.scroll.alpha = 0.0 
+                    tapRec?.isEnabled = false
+                    activity.startAnimating()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.2, execute: { [weak self] in
+                        guard let strongSelf = self else { return }
+                        strongSelf.viewPager?.scroll.fadeIn()
+                        let quickViews = QuickViewGenerator.viewsForDetails(UserDetails(connections: Array(user.common_connections), experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: Array(user.events)))
+                        strongSelf.viewPager?.scroll.fadeIn()
+                        strongSelf.viewPager?.resetStackWithViews(quickViews)
+                        strongSelf.activity.stopAnimating()
+                        strongSelf.tapRec?.isEnabled = true
+                    })
+                }
+                control.selectIndex(0)
+                viewPager?.selectedIndex(0, animated: false)
+            }
         }
         
-        control.selectIndex(0)
-        viewPager?.selectedIndex(0, animated: false)
+        name.text = rec?.user?.fullName() ?? ""
+        position.text = rec?.user?.fullTitle() ?? ""
         
-        name.text = rec?.user?.fullName() ?? "Test Name"
-        position.text = rec?.user?.fullTitle() ?? "Test Title"
+        guard let companyURL = rec?.user?.firstCompany?.logo else { return }
+        logo.af_setImage(withURL: URL(string: companyURL)!, imageTransition: .crossDissolve(0.2))
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        guard let largeURL = rec?.user?.photos?.large else { imageView.image = .imageWithColor(.gray); return }
-        imageView.af_setImage(withURL: URL(string: largeURL)!)
+        if let user = rec?.user, let category = user.promoted_category {
+            let categoryIndex = QuickViewCategory.index(category)
+            control.selectIndex(categoryIndex)
+            viewPager?.selectedIndex(categoryIndex, animated: false)
+        } else {
+            control.selectIndex(0)
+            viewPager?.selectedIndex(0, animated: false)
+        }
+        
+        guard let largeURL = rec?.user?.photos?.large else { imageView.image = .imageWithColor(.clear); return }
+        if imageView.frame.size.width > 1 {
+            var size = imageView.frame.size
+            size.height += 10
+            imageView.af_setImage(withURL: URL(string: largeURL)!, filter: AspectScaledToFillSizeWithRoundedCornersFilter(size: size, radius: 10.0), imageTransition: .crossDissolve(0.1))
+        }
     }
     
     func bar() -> UIView {
@@ -155,8 +194,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
             $0.constrain(.height, constant: 1)
             $0.constrain(.width, relatedBy: .lessThanOrEqual, constant: 80)
             let greater = $0.constraint(.width, relatedBy: .greaterThanOrEqual, constant: 40)
-            greater.priority = UILayoutPriorityDefaultHigh
-            greater.isActive = true
+            greater.priority = UILayoutPriorityDefaultHigh; greater.isActive = true
         }
     }
     
@@ -169,13 +207,14 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
     override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         let touchPoint = touch.location(in: gestureRecognizer.view)
         let subview = gestureRec?.view?.hitTest(touchPoint, with: nil)
-        return !(subview?.isDescendant(of: viewPager!.scroll))!
+        guard let isDescendant = (subview?.isDescendant(of: viewPager!.scroll)) else { return false }
+        return !isDescendant
     }
     
     override func tap(_ sender: UITapGestureRecognizer) {
         let details = CardDetailViewController()
         guard let user = rec?.user else { return }
-        details.details = UserDetails(connections: [], experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: [])
+        details.details = UserDetails(connections: Array(user.common_connections), experiences: Array(user.companies), educationItems: Array(user.schools), skills: Array(user.interests), events: Array(user.events))
         details.delegate = self
         details.transistionToIndex = control.previousIndex
         details.control.selectIndex(control.previousIndex)
@@ -195,7 +234,7 @@ class PersonCardViewController : BaseCardViewController, UIViewControllerTransit
 //    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
 //        transition.cardVC = self
 //        transition.presenting = true
-//        //TODO: return transition
+//        return transition
 //    }
 //    
 //    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {

@@ -3,49 +3,49 @@
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "ic_launcher-58x58-1.png",
+      "filename" : "AppIcon_2x copy-1.png",
       "scale" : "2x"
     },
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "ic_launcher-80x80-1.png",
+      "filename" : "AppIcon_2x copy.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "ic_launcher-58x58.png",
+      "filename" : "AppIcon_2x-4.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "ic_launcher-87x87.png",
+      "filename" : "AppIcon_2x-3.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "ic_launcher-80x80.png",
+      "filename" : "AppIcon_2x-1.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "ic_launcher-120x120.png",
+      "filename" : "AppIcon_2x.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "ic_launcher-120x120-1.png",
+      "filename" : "AppIcon_2x-2.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "ic_launcher-180x180.png",
+      "filename" : "Icon-60@3x.png",
       "scale" : "3x"
     }
   ],

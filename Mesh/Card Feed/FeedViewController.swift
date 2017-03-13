@@ -28,16 +28,13 @@ class FeedViewController: UIViewController {
             cardStack.view.constrain((.height, -46), (.centerY, -23), toItem: view)
             
             let completeProfile = UIView(translates: false).then {
-                $0.backgroundColor = Colors.brand
-                $0.constrain((.height, 46))
+                $0.backgroundColor = Colors.brand; $0.constrain((.height, 46))
             }
             view.addSubview(completeProfile)
             completeProfile.constrain(.width, .centerX, .bottom, toItem: view)
             
             let label = UILabel(translates: false).then {
-                $0.font = .proxima(ofSize: 17)
-                $0.textColor = .white
-                $0.text = "Complete Your Profile"
+                $0.font = .gothamBook(ofSize: 17); $0.textColor = .white; $0.text = "Complete Your Profile"
             }
             
             completeProfile.addSubview(label)
@@ -46,8 +43,7 @@ class FeedViewController: UIViewController {
             label.constrain(.centerY, toItem: completeProfile)
             let image = #imageLiteral(resourceName: "name").withRenderingMode(.alwaysTemplate)
             let profile = UIImageView(image: image).then {
-                $0.translates = false
-                $0.tintColor = .white
+                $0.translates = false; $0.tintColor = .white
             }
             
             completeProfile.addSubview(profile)
@@ -65,8 +61,13 @@ class FeedViewController: UIViewController {
         UIApplication.shared.statusBarStyle = .default
         
         if Keychain.fetchLogin() != nil {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "sorting"), target: self, action: #selector(sort))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "intro"), target: self, action: #selector(sort))
             navigationItem.leftBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "qrCode"), target: self, action: #selector(qr))
+            Client.execute(ProfileRequest(first_name: UserResponse.current?.first_name)) { response in
+                guard let JSON = response.result.value as? JSONDictionary else { return }
+                guard JSON["msg"] == nil else { NotificationCenter.default.post(name: .logout, object: nil); return }
+                UserResponse.current = UserResponse.create(JSON)
+            }
         } else {
             navigationController?.navigationBar.isTranslucent = false
             navigationItem.setHidesBackButton(true, animated: true)
@@ -79,29 +80,20 @@ class FeedViewController: UIViewController {
                     LocationManager.currentPlacemark = placemark
                 }
             })
-            Client.execute(PositionRequest(lat: 33.978359, lon: -118.368723), complete: { response in
-                guard let JSON = response.result.value as? JSONDictionary else { return }
-                guard JSON["msg"] == nil else { NotificationCenter.default.post(name: .logout, object: nil); return }
-                UserResponse.current = UserResponse.create(JSON)
-            })
+            Client.execute(PositionRequest(lat: 33.978359, lon: -118.368723))
         }
 
         LocationManager.locationUpdate = { loc in
-            Client.execute(PositionRequest(lat: loc.coordinate.latitude, lon: loc.coordinate.longitude), complete: { response in
-                guard let JSON = response.result.value as? JSONDictionary else { return }
-                guard JSON["msg"] == nil else { NotificationCenter.default.post(name: .logout, object: nil); return }
-                UserResponse.current = UserResponse.create(JSON)
-            })
+            Client.execute(PositionRequest(lat: loc.coordinate.latitude, lon: loc.coordinate.longitude))
         }
         LocationManager.startTracking()
         
         if cardStack.cards?.count != nil || cardStack.cards?.count == cardStack.cardIndex - 1 { return }
         cardStack.animate()
         Client.execute(RecommendationsRequest(), complete: { [weak self] response in
-            sleep(2)
-            guard let jsonArray = response.result.value as? JSONArray else { return }
+            guard let jsonArray = response.result.value as? JSONArray else { sleep(1); self?.cardStack.stopAnimation(); return }
             self?.cardStack.cards = jsonArray.map({return RecommendationResponse.create($0)})
-            self?.cardStack.stopAnimation()
+            sleep(1); self?.cardStack.stopAnimation()
             self?.cardStack.addNewCard()
         })
     }
@@ -111,22 +103,29 @@ class FeedViewController: UIViewController {
         navigationController?.push(CompleteProfileTableViewController(style: .grouped))
     }
     
-    func sort() { }
+    func sort() {
+        let intro = IntroStartViewController()
+        present(intro)
+    }
     
     func qr() {
         guard UserResponse.current != nil else { return }
         if CameraManager.authStatus() == .authorized {
             self.present(ScanViewController().withNav()); return
         }
-        let alert = AlertViewController([AlertAction(title: "OKAY", backgroundColor: AlertAction.defaultBackground, titleColor: .white, handler: {
+        let alert = AlertViewController([AlertAction(title: "OKAY", handler: {
             self.dismiss(animated: true, completion: {
                 CameraManager.requestAccess(completionHandler: { access in
                     if access { self.present(ScanViewController().withNav()) }
                 })
             })
         })], image: #imageLiteral(resourceName: "enableCameraAccess"))
+        let attributedString = NSMutableAttributedString(string: "We need access to your camera in order to use this feature and scan codes")
+        let paragraphStyle = NSMutableParagraphStyle(); paragraphStyle.lineSpacing = 8
+        paragraphStyle.alignment = .center
+        attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        alert.textLabel.attributedText = attributedString
         alert.titleLabel.text = "Camera Access"
-        alert.textLabel.text = "We need access to your camera in order to use this feature and scan codes"
         alert.modalPresentationStyle = .overFullScreen
         present(alert)
     }

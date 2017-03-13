@@ -15,12 +15,12 @@ class Snackbar : UIView {
     var handler = { return false }
     var dismissed = {}
     let message = UILabel(translates: false).then {
-        $0.textColor = .white; $0.font = .proxima(ofSize: 14)
+        $0.textColor = .white; $0.font = .gothamBook(ofSize: 14)
         $0.numberOfLines = 3
-        $0.backgroundColor = #colorLiteral(red: 0.1960784314, green: 0.1960784314, blue: 0.1960784314, alpha: 1)
+        $0.backgroundColor = Colors.brand
     }
     let button = UIButton(translates: false).then {
-        $0.titleLabel?.font = .semiboldProxima(ofSize: 13); $0.titleColor = #colorLiteral(red: 0.09803921569, green: 0.7058823529, blue: 1, alpha: 1)
+        $0.titleLabel?.font = .gothamLight(ofSize: 13); $0.titleColor = .white
     }
     
     var timer : Timer?
@@ -29,7 +29,7 @@ class Snackbar : UIView {
         super.init(frame: CGRect.zero)
         translates = false
         constrain((.height, 43))
-        backgroundColor = #colorLiteral(red: 0.1960784314, green: 0.1960784314, blue: 0.1960784314, alpha: 1)
+        backgroundColor = Colors.brand
         
         button.addTarget(self, action: #selector(pressed), for: .touchUpInside)
         message.text = title
@@ -42,7 +42,7 @@ class Snackbar : UIView {
         button.constrain(.top, .bottom, constant: 2, toItem: self)
     }
     
-    convenience init(title: String, buttonTitle: String = "", buttonHandler : @escaping (() -> Bool) = { return false }, duration: TimeInterval = 3.0, dismissed: @escaping (() -> Void) = {}, showUntilDismissed: Bool = false) {
+    convenience init(title: String, buttonTitle: String = "", buttonHandler: @escaping (() -> Bool) = { return false }, duration: TimeInterval = 3.0, dismissed: @escaping (() -> Void) = {}, showUntilDismissed: Bool = false) {
         self.init(title: title)
         button.setTitle(buttonTitle, for: .normal)
         handler = buttonHandler
@@ -60,7 +60,7 @@ class Snackbar : UIView {
         constrain(.top, toItem: view, toAttribute: .bottom)
         view.layoutIfNeeded()
         UIView.animate(withDuration: 0.2, animations: {
-            view.constraintFor(.top, toItem: self).constant = -self.frame.size.height
+            view.constraintFor(.top, toItem: self)?.constant = -self.frame.size.height
             view.layoutIfNeeded()
             }, completion: { _ in
                 guard !self.persist else { return }
@@ -74,7 +74,7 @@ class Snackbar : UIView {
         
     func dismiss(_ callDismissHandler: Bool = true) {
         UIView.animate(withDuration: 0.2, animations: {
-            self.superview?.constraintFor(.top, toItem: self).constant = 0
+            self.superview?.constraintFor(.top, toItem: self)?.constant = 0
             self.superview?.layoutIfNeeded()
             }, completion: { _ in if callDismissHandler { self.dismissed() }; self.removeFromSuperview() })
     }

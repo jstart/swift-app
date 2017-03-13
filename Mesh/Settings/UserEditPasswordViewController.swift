@@ -10,22 +10,19 @@ import UIKit
 
 class UserEditPasswordViewController: UITableViewController {
     
-    let header = UILabel(translates: false).then {
-        $0.text = "Change Your Password"; $0.font = .boldProxima(ofSize: 20)
-    }
+    let header = UILabel(translates: false).then { $0.text = "Change Your Password"; $0.font = .gothamBold(ofSize: 20) }
     let text = UILabel(translates: false).then {
         $0.numberOfLines = 0
         $0.text = "This new phone number will replace the number that you’re currently using."
-        $0.font = .proxima(ofSize: 16); $0.textColor = .gray
+        $0.font = .gothamBook(ofSize: 16); $0.textColor = .gray
         $0.textAlignment = .center
     }
     let nextButton = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
         $0.isEnabled = true
-        $0.titleLabel?.font = .boldProxima(ofSize: 20)
-        $0.setTitle("CONTINUE", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
+        $0.titleLabel?.font = .gothamBold(ofSize: 20)
+        $0.title = "CONTINUE"; $0.titleColor = .white
         $0.layer.cornerRadius = 5
         $0.clipsToBounds = true
         $0.constrain((.height, 70))
@@ -95,7 +92,7 @@ class UserEditPasswordViewController: UITableViewController {
         return cell
     }
     
-    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 90; nextButton.isEnabled = (current.text != "" && password.text != "" && confirmPassword.text != "") }
+    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height)?.constant = 90; nextButton.isEnabled = (current.text != "" && password.text != "" && confirmPassword.text != "") }
     
     func complete() { }
 

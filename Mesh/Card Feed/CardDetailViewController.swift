@@ -22,9 +22,9 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.layer.cornerRadius = 10.0
-        view.layer.shadowColor = UIColor.lightGray.cgColor
-        view.layer.shadowOpacity = 0.5
+//        view.layer.cornerRadius = 10.0
+//        view.layer.shadowColor = UIColor.lightGray.cgColor
+//        view.layer.shadowOpacity = 0.5
         view.backgroundColor = .white
         
         tapRec = UITapGestureRecognizer(target: self, action: #selector(tap))
@@ -43,7 +43,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         
         view.addSubview(control.stack!)
 
-        control.stack!.constrain((.top, 5), (.width, -80), (.leading, 40), (.trailing, -40), toItem: view)
+        control.stack!.constrain((.top, 5), (.width, -160), (.centerX, 0), toItem: view)
         control.stack!.constrain((.height, 40))
         
         control.delegate = self
@@ -75,7 +75,7 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
     open func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         let table = viewController as! UserDetailTableViewController
         let index = table.index!
-        if index == 0 {  return nil }
+        if index == 0 { return nil }
 
         return controllers[index - 1]
     }
@@ -100,14 +100,12 @@ class CardDetailViewController : UIViewController, UIPageViewControllerDelegate,
         transistionToIndex = table.index!
     }
     
-    func selectedIndex(_ index:Int, animated:Bool) {
-        if index == control.previousIndex {
-            return
-        }
+    func selectedIndex(_ index: Int, animated: Bool) {
+        if index == control.previousIndex { return }
         delegate?.selectedIndex(index, animated: animated)
         pageController.setViewControllers([controllers[index]], direction: (control.previousIndex < index) ? .forward : .reverse, animated: animated, completion: nil)
     }
     
-    func tap(_ sender:UITapGestureRecognizer) { dismiss() }
+    func tap(_ sender: UITapGestureRecognizer) { dismiss() }
     
 }

@@ -12,13 +12,18 @@ import GoogleSignIn
 class EditTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, GIDSignInUIDelegate {
     
     let profile = UIImageView(translates: false).then {
-        $0.contentMode = .scaleAspectFill
-        $0.clipsToBounds = true
+        $0.contentMode = .scaleAspectFill; $0.clipsToBounds = true
         $0.constrain(.height, constant: 325)
     }
-    var items : [UserDetail] = [Experience(company: "Tinder", position: "iOS", startMonth: "January", startYear: "2012", endMonth: "January", endYear: "2016"),
-                                Education(schoolName: "Harvard", degreeType: "Masters", startYear: "2012", endYear: "2016", field: "Engineering", graduated: true),
-                                Skill(name: "iOS Development", numberOfMembers: "2,000 Members", isAdded: true)]
+    let editIcon = UIImageView(image: #imageLiteral(resourceName: "edit").withRenderingMode(.alwaysTemplate)).then {
+        $0.translates = false; $0.tintColor = .white; $0.isHidden = false; $0.constrain(.width, .height, constant: 12)
+    }
+    let editLabel = UILabel(translates: false).then {
+        $0.text = "Edit"; $0.textColor = .white; $0.font = .gothamLight(ofSize: 14); $0.isHidden = false
+    }
+    var items : [UserDetail?] = [UserResponse.current?.firstCompany,
+                                UserResponse.current?.schools.first,
+                                UserResponse.current?.interests.first]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +33,13 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         tableView.contentInset = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
         tableView.registerClass(UITableViewCell.self); tableView.registerNib(UserDetailTableViewCell.self)
         tableView.estimatedRowHeight = 100
-        navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "mainNavSettings").withRenderingMode(.alwaysOriginal), style: .done, target: self, action: #selector(settings))
+        tableView.separatorStyle = .none
+        navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "settings").withRenderingMode(.alwaysTemplate), style: .done, target: self, action: #selector(settings))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     func settings() { navigationController?.push(SettingsTableViewController(style: .grouped)) }
@@ -40,7 +51,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         guard section != 0 else { return nil }
         let header = UIButton().then { $0.backgroundColor = .white }
         let icon = UIImageView(translates: false).then { $0.contentMode = .scaleAspectFit }
-        let title = UILabel(translates: false).then { $0.font = .proxima(ofSize: 14); $0.textColor = .lightGray }
+        let title = UILabel(translates: false).then { $0.font = .gothamBook(ofSize: 14); $0.textColor = .lightGray }
         let edit = UIImageView(translates: false).then { $0.image = #imageLiteral(resourceName: "edit") }
         header.addSubviews(icon, title, edit)
 
@@ -63,7 +74,14 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { if section == 0 { return 1.0 }; return 50 }
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return section == 0 ? 2 : 1 }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0: return 4
+        case 1: return UserResponse.current?.companies.count ?? 0
+        case 2: return UserResponse.current?.schools.count ?? 0
+        case 3: return UserResponse.current?.interests.count ?? 0
+        default: return 0 }
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
@@ -73,68 +91,85 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
                 cell.addSubview(profile)
                 profile.constrain(.leading, .trailing, .top, .bottom, toItem: cell)
                 guard let url = URL(string: UserResponse.current?.photos?.large ?? "") as URL! else { return cell }
-                profile.af_setImage(withURL: url)
+                profile.af_setImage(withURL: url, imageTransition: .crossDissolve(0.2))
+                
+                profile.addSubviews(editIcon, editLabel)
+                editLabel.constrain((.bottom, -5), (.trailing, -10), toItem: profile)
+                editIcon.constrain(.centerY, toItem: editLabel)
+                editIcon.constrain(.trailing, constant: -5, toItem: editLabel, toAttribute: .leading)
                 break
             case 1:
-                cell.selectionStyle = .none
-                cell.textLabel?.font = .boldProxima(ofSize: 20)
+                cell.selectionStyle = .none; cell.textLabel?.textColor = .black
+                cell.textLabel?.font = .gothamBold(ofSize: 20)
                 cell.textLabel?.text = UserResponse.current?.fullName(); break
+            case 2:
+                cell.selectionStyle = .none; cell.textLabel?.textColor = #colorLiteral(red: 0.3490196078, green: 0.7490196078, blue: 0.4, alpha: 1)
+                cell.textLabel?.font = .gothamMedium(ofSize: 15)
+                cell.textLabel?.text = "+15% Profile Rank"; break
+            case 3:
+                cell.selectionStyle = .none; cell.textLabel?.textColor = #colorLiteral(red: 0.1647058824, green: 0.7098039216, blue: 0.9960784314, alpha: 1)
+                cell.textLabel?.font = .gothamMedium(ofSize: 15)
+                cell.textLabel?.text = "+246 Interactions"; break
             default: break }
             return cell
         } else {
             let cell = tableView.dequeue(UserDetailTableViewCell.self, indexPath: indexPath)
-            
-            let item = items[indexPath.section - 1]
-            
-            cell.icon.image = #imageLiteral(resourceName: "tesla")
-            
-            cell.button.isHidden = true
-            cell.year.isHidden = !item.hasDate
-            
-            cell.top.text = item.firstText
-            cell.bottom.text = item.secondText
-            cell.year.text = item.thirdText
-            
-            switch indexPath.row {
-            case 0: break
+            var items : [UserDetail]? = nil
+            switch indexPath.section - 1 {
+            case 0: if UserResponse.current?.companies != nil { items = Array(UserResponse.current!.companies) }; break
+            case 1: if UserResponse.current?.schools != nil { items = Array(UserResponse.current!.schools) }; break
+            case 2: if UserResponse.current?.interests != nil { items = Array(UserResponse.current!.interests) }; break
             default: break }
+            
+            guard let item = items?[indexPath.row] else { return cell }
+            cell.configure(item)
+            
             return cell
         }
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 && indexPath.row == 1 {
+            return 35
+        }
+        if indexPath.section == 0 && indexPath.row > 1 {
+            return 20
+        }
+        return UITableViewAutomaticDimension
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 && indexPath.row == 0 { photoOptions(); return }
-        if indexPath.section == 0 && indexPath.row == 1 { return }
+        if indexPath.section == 0 { return }
         let edit = EditProfileListTableViewController()
         
         var type : QuickViewCategory
+        var items : [UserDetail]? = nil
         switch indexPath.section - 1 {
-        case 0: type = .experience; break
-        case 1: type = .education; break
-        case 2: type = .skills; break
+        case 0: type = .experience; if UserResponse.current?.companies != nil { items = Array(UserResponse.current!.companies) }; break
+        case 1: type = .education; if UserResponse.current?.schools != nil { items = Array(UserResponse.current!.schools) }; break
+        case 2: type = .skills; if UserResponse.current?.interests != nil { items = Array(UserResponse.current!.interests) }; break
         default: type = .experience; break }
         edit.itemType = type
-        if items.count > 0 {
-            edit.items = [items[indexPath.section - 1]]
-        }
+        edit.items = items
         navigationController?.push(edit)
     }
     
     func editExperience() {
         let edit = EditProfileListTableViewController(); edit.itemType = .experience
-        if items.count > 0 { edit.items = [items[0]] }
+        if (UserResponse.current?.companies.count ?? 0) > 0 { edit.items = Array(UserResponse.current!.companies) }
         navigationController?.push(edit)
     }
     
     func editEducation() {
         let edit = EditProfileListTableViewController(); edit.itemType = .education
-        if items.count > 0 { edit.items = [items[1]] }
+        if (UserResponse.current?.schools.count ?? 0) > 0 { edit.items = Array(UserResponse.current!.schools) }
         navigationController?.push(edit)
     }
     
     func editSkills() {
         let edit = EditProfileListTableViewController(); edit.itemType = .skills
-        if items.count > 0 { edit.items = [items[2]] }
+        if (UserResponse.current?.interests.count ?? 0) > 0 { edit.items = Array(UserResponse.current!.interests) }
         navigationController?.push(edit)
     }
     
@@ -142,7 +177,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
         if sender.title == "Import from Twitter"{
             TwitterProfile.prefillImage() { response in
                 guard let imageURL = response?.image_url else { return }
-                self.profile.af_setImage(withURL: URL(string: imageURL)!) { response in
+                self.profile.af_setImage(withURL: URL(string: imageURL)!, imageTransition: .crossDissolve(0.2)) { response in
                     guard let image = response.result.value else { return }; self.upload(image)
                 }
             }
@@ -150,7 +185,7 @@ class EditTableViewController: UITableViewController, UIImagePickerControllerDel
             GIDSignIn.sharedInstance().uiDelegate = self
             GoogleProfile.shared.prefillImage() { response in
                 guard response?.image_url != "" else { return }
-                self.profile.af_setImage(withURL: URL(string: response!.image_url)!) { response in
+                self.profile.af_setImage(withURL: URL(string: response!.image_url)!, imageTransition: .crossDissolve(0.2)) { response in
                     guard let image = response.result.value else { return }; self.upload(image)
                 }
             }

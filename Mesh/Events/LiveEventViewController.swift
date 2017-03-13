@@ -14,20 +14,20 @@ class LiveEventViewController: UIViewController {
     var pager : ViewPager?
     var event: EventResponse?
     let messageView = MessagesViewController()
-
+    let formatter = DateFormatter().then { $0.dateFormat = "MMMM dd, yyyy - h a"; $0.locale = Locale.autoupdatingCurrent }
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = event?.name
         view.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
         
-        let logo = UIImageView(image: .imageWithColor(.gray, width: 85, height: 85)).then { $0.layer.cornerRadius = 5; $0.clipsToBounds = true }
+        let logo = UIImageView(image: .imageWithColor(.gray, width: 85, height: 85)).then { $0.layer.cornerRadius = 5; $0.clipsToBounds = true; $0.contentMode = .scaleAspectFit }
         logo.constrain((.width, 85), (.height, 85))
         
         let header = UIView(translates: false).then { $0.backgroundColor = .white
-            let name = UILabel().then { $0.textColor = .darkGray; $0.font = .boldProxima(ofSize: 20); $0.text = event?.name }
+            let name = UILabel().then { $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 20); $0.text = event?.name }
             let time = Double(event!.start_time)!
-            let subtitle = UILabel().then { $0.textColor = .lightGray; $0.font = .proxima(ofSize: 12); $0.text = Date(timeIntervalSince1970: time).description }
+            let subtitle = UILabel().then { $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 12); $0.text = formatter.string(from: Date(timeIntervalSince1970: time)) }
             let titleStack = UIStackView(name, subtitle, axis: .vertical, spacing: 5).then { $0.distribution = .fillProportionally; $0.alignment = UIStackViewAlignment.leading }
             let stack = UIStackView(logo, titleStack, spacing: 10).then { $0.distribution = .fillProportionally }
             $0.addSubview(stack)
@@ -49,7 +49,7 @@ class LiveEventViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(#imageLiteral(resourceName: "overflow"), target: self, action: #selector(overflow))
         
         messageView.shouldReload = false
-        let message = JSQMessage(senderId: "1", senderDisplayName: "Event Creator", date: Date(timeIntervalSince1970: Date().timeIntervalSince1970), text: "Welcome to the start of LA Hacks 2016! Stay tuned for exciting news.")
+        let message = JSQMessage(senderId: "1", senderDisplayName: "Event Creator", date: Date(timeIntervalSince1970: Date().timeIntervalSince1970), text: "Welcome to the start of \(title!)! Stay tuned for exciting news.")
         messageView.messages.append(message)
         messageView.collectionView?.reloadData()
 
@@ -65,7 +65,7 @@ class LiveEventViewController: UIViewController {
         //TODO: if not admin
 //        messageView.inputToolbar.isHidden = false
         
-        if let logoURL = event?.logo { logo.af_setImage(withURL: URL(string: logoURL)!) { _ in
+        if let logoURL = event?.logo { logo.af_setImage(withURL: URL(string: logoURL)!, imageTransition: .crossDissolve(0.2)) { _ in
             self.messageView.senderImage = logo.image
             self.messageView.collectionView?.reloadData()
         }}
@@ -80,8 +80,6 @@ class LiveEventViewController: UIViewController {
         textView.becomeFirstResponder()
     }
 
-    func overflow() {
-        
-    }
+    func overflow() { }
     
 }

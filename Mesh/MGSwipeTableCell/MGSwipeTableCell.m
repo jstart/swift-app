@@ -1084,7 +1084,7 @@ static inline CGFloat mgEaseInOutBounce(CGFloat t, CGFloat b, CGFloat c) {
         if (buttonsView) {
             __weak MGSwipeButtonsView * expansionView = direction == MGSwipeDirectionLeftToRight ? _leftView : _rightView;
             __weak MGSwipeTableCell * weakself = self;
-            [self setSwipeOffset:buttonsView.bounds.size.width * s * expSetting.threshold * 2 animation:expSetting.triggerAnimation completion:^(BOOL finished){
+            [self setSwipeOffset:buttonsView.bounds.size.width * s * expSetting.threshold * 2 animation:expSetting.triggerAnimation completion:^(BOOL finished) {
                 [expansionView endExpansionAnimated:YES];
                 [weakself setSwipeOffset:0 animated:NO completion:nil];
             }];
@@ -1105,7 +1105,7 @@ static inline CGFloat mgEaseInOutBounce(CGFloat t, CGFloat b, CGFloat c) {
     self.swipeOffset = [_animationData.animation value:elapsed duration:_animationData.duration from:_animationData.from to:_animationData.to];
     
     //call animation completion and invalidate timer
-    if (completed){
+    if (completed) {
         [timer invalidate];
         _displayLink = nil;
         if (_animationCompletion) {
@@ -1235,7 +1235,7 @@ static inline CGFloat mgEaseInOutBounce(CGFloat t, CGFloat b, CGFloat c) {
                 backgroundColor = expansion.backgroundColorCopy; //keep expansion background color
                 expansion.backgroundColorCopy = expSettings.expansionColor;
             }
-            [self setSwipeOffset:_targetOffset animation:expSettings.triggerAnimation completion:^(BOOL finished){
+            [self setSwipeOffset:_targetOffset animation:expSettings.triggerAnimation completion:^(BOOL finished) {
                 if (!finished || self.hidden) {
                     return; //cell might be hidden after a delete row animation without being deallocated (to be reused later)
                 }

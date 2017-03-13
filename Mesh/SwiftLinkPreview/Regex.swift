@@ -31,7 +31,6 @@ class Regex {
     
     // Match first occurrence
     static func pregMatchFirst(_ string: String!, regex: String!, index: Int = 0) -> String? {
-        
         do {
             let rx = try NSRegularExpression(pattern: regex, options: [.caseInsensitive])
             

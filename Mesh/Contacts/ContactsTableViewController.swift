@@ -51,7 +51,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
 
         guard ContactsManager.authStatus != .authorized else { fetchContacts(); return }
         
-        emptyView = EmptyView([AlertAction(title: "Sync Contacts", backgroundColor: AlertAction.defaultBackground, titleColor: .white, handler: {
+        emptyView = EmptyView([AlertAction(title: "Sync Contacts", handler: {
             self.fetchContacts()
         })], image: #imageLiteral(resourceName: "connectionsAddContacts"))
         emptyView!.titleLabel.text = ContactsManager.authStatus == .denied ? "Permissions Are Turned Off" : "Add Contacts"
@@ -75,8 +75,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
             guard authorized else { return }
             DispatchQueue.main.async {
                 guard let empty = self.emptyView else { return }
-                empty.removeFromSuperview()
-                self.emptyView = nil
+                empty.removeFromSuperview(); self.emptyView = nil
             }
             ContactsManager().allContacts(results: { contactResults in
                 self.contacts = contactResults
@@ -111,7 +110,7 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     open func updateSearchResults(for searchController: UISearchController) {
         if searchController.searchBar.text == "" {
             filteredContacts = contacts
-        }else {
+        } else {
             filteredContacts = contacts.filter({return $0.searchText.localizedCaseInsensitiveContains(searchController.searchBar.text!)})
         }
         tableView.reloadData()
@@ -175,11 +174,15 @@ class ContactsTableViewController: UITableViewController, UISearchControllerDele
     }
 
     func addAll() {
-        let actions = [AlertAction(title: "Cancel", backgroundColor: .lightGray, titleColor: .white, handler: { self.dismiss() }),
-                       AlertAction(title: "ADD", backgroundColor: AlertAction.defaultBackground, titleColor: .white, handler: { self.dismiss() }) ]
+        let actions = [AlertAction(title: "Cancel", backgroundColor: .lightGray, handler: { self.dismiss() }),
+                       AlertAction(title: "ADD", handler: { self.dismiss() }) ]
         let alert = AlertViewController(actions, image: #imageLiteral(resourceName: "connectionsAddContacts"))
+        let attributedString = NSMutableAttributedString(string: "Are you sure you want to connect and invite everyone in your contact list?")
+        let paragraphStyle = NSMutableParagraphStyle(); paragraphStyle.lineSpacing = 8
+        paragraphStyle.alignment = .center
+        attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        alert.textLabel.attributedText = attributedString
         alert.titleLabel.text = "Connect and Add All"
-        alert.textLabel.text = "Are you sure you want to connect and invite everyone in your contact list?"
         alert.modalPresentationStyle = .overFullScreen
         present(alert)
     }

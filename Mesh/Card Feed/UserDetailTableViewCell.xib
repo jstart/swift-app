@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="proximanovasoft-bold.otf">
-            <string>ProximaNovaSoft-Bold</string>
-        </array>
-        <array key="proximanovasoft-medium.otf">
-            <string>ProximaNovaSoft-Medium</string>
+        <array key="Gotham-Book.ttf">
+            <string>GothamBook</string>
         </array>
         <array key="proximanovasoft-regular.otf">
             <string>ProximaNovaSoft-Regular</string>
@@ -20,39 +21,42 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserDetailTableViewCell" rowHeight="111" id="KGk-i7-Jjw" customClass="UserDetailTableViewCell" customModule="Mesh" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserDetailTableViewCell" rowHeight="111" id="KGk-i7-Jjw" customClass="UserDetailTableViewCell" customModule="Ripple" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="113"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="320" height="112.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="113"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hVu-Qn-bEn">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="9S1-Lu-jlT">
+                        <rect key="frame" x="103" y="21.5" width="133" height="25"/>
+                        <fontDescription key="fontDescription" name="GothamBook" family="Gotham Book" pointSize="17"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="K2i-5A-MnK">
+                        <rect key="frame" x="103" y="56.5" width="133" height="12.5"/>
+                        <fontDescription key="fontDescription" name="GothamBook" family="Gotham Book" pointSize="14"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="1990" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="vXS-is-Vgw">
+                        <rect key="frame" x="103" y="79" width="133" height="12.5"/>
+                        <fontDescription key="fontDescription" name="GothamBook" family="Gotham Book" pointSize="14"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="hVu-Qn-bEn">
+                        <rect key="frame" x="10" y="16.5" width="80" height="80"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="height" priority="750" constant="75" id="7jD-w1-XpU"/>
-                            <constraint firstAttribute="width" constant="75" id="lW5-3A-aNP"/>
+                            <constraint firstAttribute="height" priority="999" constant="80" id="Vwh-Jd-lzm"/>
+                            <constraint firstAttribute="width" priority="999" constant="80" id="e5i-J9-ZRB"/>
+                            <constraint firstAttribute="width" secondItem="hVu-Qn-bEn" secondAttribute="height" multiplier="1:1" id="gw3-w0-Cc3"/>
                         </constraints>
                     </imageView>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="3xe-pW-8jo">
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9S1-Lu-jlT">
-                                <fontDescription key="fontDescription" name="ProximaNovaSoft-Bold" family="Proxima Nova Soft" pointSize="17"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K2i-5A-MnK">
-                                <fontDescription key="fontDescription" name="ProximaNovaSoft-Medium" family="Proxima Nova Soft" pointSize="14"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vXS-is-Vgw">
-                                <fontDescription key="fontDescription" name="ProximaNovaSoft-Medium" family="Proxima Nova Soft" pointSize="11"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                    </stackView>
                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bYY-Fr-fp6">
+                        <rect key="frame" x="246" y="40.5" width="58" height="32"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="58" id="WTu-ok-PDQ"/>
                         </constraints>
@@ -63,6 +67,7 @@
                         </connections>
                     </button>
                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="McS-eq-F2M">
+                        <rect key="frame" x="252.5" y="41.5" width="45" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="1sT-ot-cIc"/>
                             <constraint firstAttribute="width" constant="45" id="6Qv-QC-yhF"/>
@@ -74,18 +79,25 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="topMargin" relation="greaterThanOrEqual" secondItem="3xe-pW-8jo" secondAttribute="top" constant="-15" id="0Cp-Rn-M3N"/>
-                    <constraint firstItem="McS-eq-F2M" firstAttribute="centerX" secondItem="bYY-Fr-fp6" secondAttribute="centerX" id="2CH-Ph-6hY"/>
+                    <constraint firstItem="bYY-Fr-fp6" firstAttribute="leading" secondItem="9S1-Lu-jlT" secondAttribute="trailing" constant="10" id="1Af-yL-FeZ"/>
+                    <constraint firstItem="McS-eq-F2M" firstAttribute="centerX" secondItem="bYY-Fr-fp6" secondAttribute="centerX" priority="999" id="2CH-Ph-6hY"/>
                     <constraint firstItem="hVu-Qn-bEn" firstAttribute="top" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="6Nu-5r-crv"/>
+                    <constraint firstItem="K2i-5A-MnK" firstAttribute="bottom" secondItem="vXS-is-Vgw" secondAttribute="top" constant="-10" id="8Rl-kl-VJH"/>
+                    <constraint firstItem="9S1-Lu-jlT" firstAttribute="leading" secondItem="hVu-Qn-bEn" secondAttribute="trailing" constant="13" id="AlI-UM-Wns"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="McS-eq-F2M" secondAttribute="trailing" constant="14.5" id="CLf-10-Djv"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="hVu-Qn-bEn" secondAttribute="bottom" constant="15" id="FfL-L6-nXi"/>
+                    <constraint firstItem="vXS-is-Vgw" firstAttribute="bottom" secondItem="hVu-Qn-bEn" secondAttribute="bottom" constant="-5" id="HIj-mD-PRr"/>
                     <constraint firstAttribute="trailingMargin" secondItem="bYY-Fr-fp6" secondAttribute="trailing" constant="8" id="OGz-4b-PXv"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="3xe-pW-8jo" secondAttribute="bottom" constant="15" id="OjJ-UI-H52"/>
                     <constraint firstItem="McS-eq-F2M" firstAttribute="centerY" secondItem="bYY-Fr-fp6" secondAttribute="centerY" id="Qhb-SG-wcn"/>
-                    <constraint firstItem="bYY-Fr-fp6" firstAttribute="leading" secondItem="3xe-pW-8jo" secondAttribute="trailing" constant="5" id="TcA-SL-1Wk"/>
                     <constraint firstItem="bYY-Fr-fp6" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="URF-v1-32V"/>
-                    <constraint firstItem="3xe-pW-8jo" firstAttribute="leading" secondItem="hVu-Qn-bEn" secondAttribute="trailing" constant="13" id="bsl-38-Pdi"/>
+                    <constraint firstItem="vXS-is-Vgw" firstAttribute="trailing" secondItem="9S1-Lu-jlT" secondAttribute="trailing" id="ZqG-iX-IYe"/>
+                    <constraint firstItem="9S1-Lu-jlT" firstAttribute="top" secondItem="hVu-Qn-bEn" secondAttribute="top" constant="5" id="cvg-3A-pWY"/>
+                    <constraint firstItem="K2i-5A-MnK" firstAttribute="top" secondItem="9S1-Lu-jlT" secondAttribute="bottom" constant="10" id="qDe-JG-hmr"/>
                     <constraint firstItem="hVu-Qn-bEn" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="2" id="qEn-mh-d14"/>
+                    <constraint firstItem="K2i-5A-MnK" firstAttribute="leading" secondItem="9S1-Lu-jlT" secondAttribute="leading" id="rMb-6v-r6y"/>
+                    <constraint firstItem="K2i-5A-MnK" firstAttribute="trailing" secondItem="9S1-Lu-jlT" secondAttribute="trailing" id="vYl-6i-5PC"/>
                     <constraint firstItem="hVu-Qn-bEn" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="y1s-mB-S56"/>
+                    <constraint firstItem="vXS-is-Vgw" firstAttribute="leading" secondItem="9S1-Lu-jlT" secondAttribute="leading" id="yXK-5u-Pig"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

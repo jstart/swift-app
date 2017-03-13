@@ -64,20 +64,19 @@ class LocationManager : NSObject, CLLocationManagerDelegate, MKLocalSearchComple
         default: break }
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { print(error) }
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         LocationManager.currentLocation = locations.first!
         LocationManager.locationUpdate?(locations.first!)
         geocoder.reverseGeocodeLocation(locations.first!, completionHandler: { placemark, error in
-            LocationManager.currentPlacemark = placemark!.first
+            guard let placemark = placemark?.first else { return }
+            LocationManager.currentPlacemark = placemark
         })
     }
     
     func search(_ text: String) {
-        if text == "" {
-            searchResults = [MKLocalSearchCompletion](); searchCompletion(); return
-        }
+        if text == "" { searchResults = [MKLocalSearchCompletion](); searchCompletion(); return }
         searchCompleter.delegate = self
         searchCompleter.queryFragment = text
     }
@@ -86,9 +85,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate, MKLocalSearchComple
         searchResults = completer.results; searchCompletion()
     }
     
-    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-        print(error)
-    }
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) { print(error) }
     
     func searchResultToPlacemark(_ result: MKLocalSearchCompletion, completion: @escaping ((PlacemarkResult?) -> Void)) {
         let searchRequest = MKLocalSearchRequest(completion: result)

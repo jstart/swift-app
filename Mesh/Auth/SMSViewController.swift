@@ -14,13 +14,13 @@ class SMSViewController: UITableViewController {
     
     let logo = UIImageView(image: #imageLiteral(resourceName: "logo")).then { $0.translates = false }
     let subtitle = UILabel(translates: false).then {
-        $0.text = "Tinder for Business"; $0.textColor = .black; $0.font = .boldProxima(ofSize: 20)
+        $0.text = "Tinder for Business"; $0.textColor = .black; $0.font = .gothamBold(ofSize: 20)
     }
     let nextButton = UIButton(translates: false).then {
         $0.setBackgroundImage(.imageWithColor(Colors.brand), for: .normal)
         $0.setBackgroundImage(.imageWithColor(.lightGray), for: .disabled)
         $0.isEnabled = true
-        $0.titleLabel?.font = .boldProxima(ofSize: 20)
+        $0.titleLabel?.font = .gothamBold(ofSize: 20)
         $0.title = "CONTINUE"; $0.titleColor = .white
         $0.layer.cornerRadius = 5; $0.clipsToBounds = true
         $0.constrain((.height, 70))
@@ -65,7 +65,7 @@ class SMSViewController: UITableViewController {
         tableHeader.addSubviews(logo, subtitle)
         logo.constrain((.top, 20), (.centerX, 0), toItem: tableHeader)
         
-        subtitle.constrain(.top, toItem: logo, toAttribute: .bottom)
+        subtitle.constrain(.top, constant: 5, toItem: logo, toAttribute: .bottom)
         subtitle.constrain((.leading, 20), (.trailing, -20), (.bottom, -25), (.centerX, 0), toItem: tableHeader)
         
         tableView.tableHeaderView = tableHeader
@@ -99,17 +99,20 @@ class SMSViewController: UITableViewController {
     
     func format() { phone.text = formatter.format(phone.text!) }
     
-    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height).constant = 90; nextButton.isEnabled = (phone.text != "" && password.text != "" && confirmPassword.text != "") }
+    func fieldEdited() { nextButton.superview?.superview?.constraintFor(.height)?.constant = 90; nextButton.isEnabled = (phone.text != "" && password.text != "" && confirmPassword.text != "") }
     
     func complete() {
-        Client.execute(AuthRequest(phone_number: phone.text!.onlyNumbers(), password: password.text!, password_verify: confirmPassword.text!), complete: { response in
+        Client.execute(AuthRequest(phone_number: "+1" + phone.text!.onlyNumbers(), password: password.text!, password_verify: confirmPassword.text!), complete: { response in
             if response.result.value == nil {
-                let alert = UIAlertController.alert(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error")
+                let bodyString = NSString(data: response.data!, encoding: String.Encoding.ascii.rawValue) as! String
+                let alert = UIAlertController.alert(title: "Error", message: bodyString + " " + response.result.error!.localizedDescription)
                 alert.addAction(UIAlertAction.ok())
                 self.present(alert)
+            } else {
+                LaunchData.fetchLaunchData()
+                self.navigationController?.push(SMSVerifyViewController())
             }
         })
-        navigationController?.push(SMSVerifyViewController())
     }
 
 }

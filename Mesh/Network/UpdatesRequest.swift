@@ -48,9 +48,10 @@ struct UpdatesRequest : AuthenticatedRequest {
             
             DispatchQueue.main.async {
                 let realm = RealmUtilities.realm()
+                realm.refresh()
                 UserResponse.connections = Array(realm.objects(ConnectionResponse.self));
-                UserResponse.messages = Array(realm.objects(MessageResponse.self));
-                UserResponse.events = Array(realm.objects(EventResponse.self));
+                UserResponse.messages = Array(realm.objects(MessageResponse.self)).sorted(by: { $0.ts > $1.ts });
+                UserResponse.events = Array(realm.objects(EventResponse.self)).sorted(by: { $0.start_time > $1.start_time });
                 callback()
             }
         }
@@ -84,7 +85,7 @@ class RecommendationResponse : Object {
 }
 
 class TweetResponse : Object {
-    dynamic var text = "", _id = "", name = "", screen_name : String? //, uid, created_at: String
+    dynamic var text = "", _id = "", name = "", media_url, screen_name : String? //, uid, created_at: String
     override class func primaryKey() -> String? { return "_id" }
 
     static func create(_ JSON: JSONDictionary) -> TweetResponse {
@@ -93,6 +94,11 @@ class TweetResponse : Object {
             $0.name = (JSON["name"] as? String)!
             $0.screen_name = JSON["screen_name"] as? String
             $0._id = (JSON["_id"] as? String)!
+            guard let entities = (JSON["extended_entities"] as? JSONDictionary) else { return }
+            guard let media = (entities["media"] as? JSONArray) else { return }
+            guard let object = media.first else { return }
+            guard let media_url = (object["media_url"] as? String) else { return }
+            $0.media_url = media_url
             //        uid = (JSON["uid"] as? String)!
             //        created_at = (JSON["created_at"] as? String)!
         }
@@ -100,23 +106,33 @@ class TweetResponse : Object {
 }
 
 class EventResponse : Object, UserDetail {
-    dynamic var _id = "", name = "", logo = "", descriptionText = "", start_time = "", end_time = ""//, interests = RLMArray<Int>?
+    dynamic var _id = "", name = "", logo : String? = "", descriptionText = "", start_time = "", end_time = ""
+    let common_connections = List<UserResponse>()//, interests = RLMArray<Int>?
+    
     override class func primaryKey() -> String? { return "_id" }
     override class func indexedProperties() -> [String] { return ["name", "start_time"] }
 
     let category = QuickViewCategory.events
+    static let formatter = DateFormatter().then { $0.dateFormat = "MMMM dd, yyyy - h a"; $0.locale = Locale.autoupdatingCurrent }
 
     var firstText : String { return name }
-    var secondText : String { return descriptionText }
-    
+    var secondText : String {
+        return EventResponse.formatter.string(from: Date(timeIntervalSince1970: Double(start_time)!))
+    }
+
     static func create(_ JSON: JSONDictionary) -> EventResponse {
         return EventResponse().then {
-            $0._id = (JSON["_id"] as? String)!
+            if let id = (JSON["_id"] as? String) {
+                $0._id = id
+            } else if let id = (JSON["_id"] as? Int) {
+                $0._id = "\(id)"
+            }
             $0.descriptionText = (JSON["description"] as? String)!
             $0.name = (JSON["name"] as? String)!
             $0.logo = (JSON["logo"] as? String)!
             $0.start_time = (JSON["start_time"] as? String)!
             $0.end_time = (JSON["end_time"] as? String)!
+            if let commonConnectionsJSON = JSON["common_connections"] as? JSONArray { $0.common_connections.append(objectsIn: commonConnectionsJSON.map({return UserResponse.create( $0)})) }
             //$0.interests = (JSON["interests"] as? [Int])!
         }
     }

@@ -39,23 +39,22 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
         name.text = nil
         message.text = nil
         
-        name.font = .proxima(ofSize: name.font.pointSize)
-        message.font = .proxima(ofSize: message.font.pointSize)
+        name.font = .gothamBook(ofSize: name.font.pointSize)
+        message.font = .gothamBook(ofSize: message.font.pointSize)
     }
     
     func configure(_ aMessage: MessageResponse, user: UserResponse, read: Bool) {
         name.text = user.fullName()
-        company.image = #imageLiteral(resourceName: "tesla")
         message.text = aMessage.text ?? ""
         if !read {
-            name.font = .boldProxima(ofSize: name.font.pointSize)
-            message.font = .boldProxima(ofSize: message.font.pointSize)
+            name.font = .gothamBold(ofSize: name.font.pointSize)
+            message.font = .gothamBold(ofSize: message.font.pointSize)
         }
         activity.startAnimating()
         preview(url: message.text!)
         
-        guard let small = user.photos?.small else { profile.image = nil; return }
-        profile.af_setImage(withURL: URL(string: small)!)
+        guard let large = user.photos?.large else { profile.image = nil; return }
+        profile.af_setImage(withURL: URL(string: large)!, imageTransition: .crossDissolve(0.2))
     }
     
     func preview(url: String) {
@@ -73,7 +72,7 @@ class MessagePreviewTableViewCell : MGSwipeTableCell {
                 guard var imageURL = result["image"] as? String else { self.articleImage.backgroundColor = .darkGray; return }
                 guard imageURL != "" else { self.articleImage.backgroundColor = .darkGray; return }
                 imageURL = imageURL.replace("http://", with: "https://")
-                self.articleImage.af_setImage(withURL: URL(string: imageURL)!, completion: { response in
+                self.articleImage.af_setImage(withURL: URL(string: imageURL)!, imageTransition: .crossDissolve(0.2), completion: { response in
                     if response.result.error != nil {
                         self.articleImage.backgroundColor = .darkGray
                     }

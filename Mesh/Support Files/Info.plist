@@ -29,7 +29,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>106</string>
+	<string>209</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -40,9 +40,9 @@
 				<key>KitInfo</key>
 				<dict>
 					<key>consumerKey</key>
-					<string>qMfcBmkawFEjhksKTQX8DZ55d</string>
+					<string>rPhJl6xOkdZyUnW3O0TpQXr5n</string>
 					<key>consumerSecret</key>
-					<string>kjIO0RBgykCp9M5cqeTsWVCPKg7Tmbk2Ij1oiNMwaN7xyRu3LC</string>
+					<string>5gxLwCMvkXoUO1yVGUbtht2L6xE4iIQVWgIxdtguwyArVLKtyu</string>
 				</dict>
 				<key>KitName</key>
 				<string>Twitter</string>
@@ -62,6 +62,10 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>MediumCallbackURL</key>
+	<string>http://dev.mesh.tinderventures.com:1337/account/medium</string>
+	<key>MediumClientID</key>
+	<string>4ab8973cb07b</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoadsInWebContent</key>
@@ -118,13 +122,22 @@
 	<string>Upload photos from your library</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>proximanovasoft-bold.otf</string>
-		<string>proximanovasoft-medium.otf</string>
-		<string>proximanovasoft-semibold.otf</string>
-		<string>proximanovasoft-regular.otf</string>
+		<string>Gotham-Bold.ttf</string>
+		<string>Gotham-Book.ttf</string>
+		<string>Gotham-Medium.otf</string>
+		<string>Gotham-Light.ttf</string>
+		<string>Gotham-XLight.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>location</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+	<key>UIStatusBarHidden</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -138,9 +151,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>MediumCallbackURL</key>
-	<string>http://dev.mesh.tinderventures.com:1337/account/medium</string>
-	<key>MediumClientID</key>
-	<string>4ab8973cb07b</string>
 </dict>
 </plist>

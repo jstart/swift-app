@@ -18,9 +18,9 @@ enum QuickViewCategory : String  {
     func button() -> UIButton {
         return UIButton().then {
             $0.setImage(UIImage(named: rawValue), for: .normal)
-            let activeImage = UIImage(named: rawValue + "Active")
+            let activeImage = UIImage(named: rawValue)?.withRenderingMode(.alwaysTemplate)
             $0.setImage(activeImage, for: .selected)
-            $0.backgroundColor = .white
+            $0.tintColor = Colors.brand; $0.backgroundColor = .white
         }
     }
     
@@ -28,11 +28,21 @@ enum QuickViewCategory : String  {
 
     func editFields() -> [EditField] {
         switch self {
-        case .connections: return ConnectionDetail.fields
+        case .connections: return []
         case .experience: return Experience.fields
         case .education: return Education.fields
-        case .skills: return Skill.fields
-        case .events: return Event.fields }
+        case .skills: return []
+        case .events: return [] }
+    }
+    
+    static func index(_ category: String) -> Int {
+        switch category {
+        case "connections" : return 0
+        case "experience" : return 1
+        case "schools" : return 2
+        case "interests" : return 3
+        case "events" : return 4
+        default: return 0 }
     }
 
 }
@@ -59,7 +69,7 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
         array.forEach({ $0.addTarget(self, action: #selector(selected), for: .touchUpInside) })
     }
     
-    func selectIndex(_ index: Int){
+    func selectIndex(_ index: Int) {
         for button in (stack?.subviews)! as! [UIButton] {
             if (stack?.subviews.index(of: button))! == index {
                 previousIndex = index
@@ -70,7 +80,7 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
         }
     }
     
-    func selected(_ sender: UIButton){
+    func selected(_ sender: UIButton) {
         for button in (stack?.subviews)! as! [UIButton] {
             button.isSelected = button == sender
         }
@@ -78,6 +88,6 @@ class QuickPageControl : NSObject, ViewPagerDelegate {
         previousIndex = (stack?.subviews.index(of: sender))!
     }
     
-    func selectedIndex(_ index: Int){ selectIndex(index) }
+    func selectedIndex(_ index: Int) { selectIndex(index) }
 
 }

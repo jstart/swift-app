@@ -87,10 +87,10 @@ extension UIImage {
 }
 
 extension UIFont {
-    static func proxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Medium", size: ofSize)! }
-    static func boldProxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Semibold", size: ofSize)! }
-    static func semiboldProxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Semibold", size: ofSize)! }
-    static func regularProxima(ofSize: CGFloat) -> UIFont { return UIFont(name: "ProximaNovaSoft-Regular", size: ofSize)! }
+    static func gothamBook(ofSize: CGFloat) -> UIFont { return UIFont(name: "Gotham Book", size: ofSize)! }
+    static func gothamBold(ofSize: CGFloat) -> UIFont { return UIFont(name: "Gotham Bold", size: ofSize)! }
+    static func gothamMedium(ofSize: CGFloat) -> UIFont { return UIFont(name: "Gotham", size: ofSize)! }
+    static func gothamLight(ofSize: CGFloat) -> UIFont { return UIFont(name: "Gotham Light", size: ofSize)! }
 }
 
 extension UIAlertController {
@@ -141,13 +141,13 @@ extension UIView {
     var translates: Bool { get { return translatesAutoresizingMaskIntoConstraints } set { translatesAutoresizingMaskIntoConstraints = newValue } }
     convenience init(translates: Bool) { self.init(); self.translates = translates }
     
-    func constrain(_ constants : (attr: NSLayoutAttribute, const: CGFloat)..., toItem: UIView? = nil){
+    func constrain(_ constants : (attr: NSLayoutAttribute, const: CGFloat)..., toItem: UIView? = nil) {
         for constantPair in constants {
             NSLayoutConstraint(item: self, attribute: constantPair.attr, relatedBy: .equal, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : constantPair.attr, multiplier: 1.0, constant:constantPair.const).isActive = true
         }
     }
     
-    func constrain(_ attributes: NSLayoutAttribute..., relatedBy: NSLayoutRelation = .equal, constant: CGFloat = 0.0, toItem: UIView? = nil, toAttribute: NSLayoutAttribute = .notAnAttribute, multiplier: CGFloat = 1.0){
+    func constrain(_ attributes: NSLayoutAttribute..., relatedBy: NSLayoutRelation = .equal, constant: CGFloat = 0.0, toItem: UIView? = nil, toAttribute: NSLayoutAttribute = .notAnAttribute, multiplier: CGFloat = 1.0) {
         for attribute in attributes {
             let toAttributeChoice = toAttribute == .notAnAttribute ? attribute : toAttribute
             NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : toAttributeChoice, multiplier: multiplier, constant:constant).isActive = true
@@ -159,13 +159,13 @@ extension UIView {
         return NSLayoutConstraint(item: self, attribute: attribute, relatedBy: relatedBy, toItem: toItem, attribute: (toItem == nil) ? .notAnAttribute : toAttributeChoice, multiplier: multiplier, constant:constant)
     }
     
-    var heightConstraint: NSLayoutConstraint { return constraintFor(.height) }; var widthConstraint: NSLayoutConstraint { return constraintFor(.width) }
-    var topConstraint: NSLayoutConstraint { return constraintFor(.top) }; var bottomConstraint: NSLayoutConstraint { return constraintFor(.bottom) }
-    var leadingConstraint: NSLayoutConstraint { return constraintFor(.leading) }; var trailingConstraint: NSLayoutConstraint { return constraintFor(.trailing) }
+    var heightConstraint: NSLayoutConstraint? { return constraintFor(.height) }; var widthConstraint: NSLayoutConstraint? { return constraintFor(.width) }
+    var topConstraint: NSLayoutConstraint? { return constraintFor(.top) }; var bottomConstraint: NSLayoutConstraint? { return constraintFor(.bottom) }
+    var leadingConstraint: NSLayoutConstraint? { return constraintFor(.leading) }; var trailingConstraint: NSLayoutConstraint? { return constraintFor(.trailing) }
     
-    func constraintFor(_ attribute: NSLayoutAttribute, toItem: UIView? = nil) -> NSLayoutConstraint {
-        guard let item = toItem as UIView! else { return constraints.filter({ return $0.firstAttribute == attribute }).first! }
-        return constraints.filter({ return $0.firstAttribute == attribute && $0.firstItem as! UIView == item }).first!
+    func constraintFor(_ attribute: NSLayoutAttribute, toItem: UIView? = nil) -> NSLayoutConstraint? {
+        guard let item = toItem as UIView! else { return constraints.filter({ return $0.firstAttribute == attribute }).first }
+        return constraints.filter({ return $0.firstAttribute == attribute && $0.firstItem as! UIView == item }).first
     }
     
     func addSubviews(_ views: UIView...) { views.forEach { self.addSubview($0) } }
@@ -190,7 +190,7 @@ extension UIView {
     func round(corners: UIRectCorner, radius: CGFloat = 10) {
         let rect = self.bounds
         let maskPath = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        let maskLayer = CAShapeLayer(); maskLayer.frame = rect; maskLayer.path = maskPath.cgPath
+        let maskLayer = CAShapeLayer(); maskLayer.frame = rect; maskLayer.path = maskPath.cgPath; maskLayer.frame.size.height = 5
         layer.mask = maskLayer
     }
 }
@@ -219,9 +219,7 @@ extension UserDefaults {
 extension Int {
     func perform(_ closure: () -> Void) { (0..<self).forEach { _ in closure() } }
     func performIndex(_ closure: @escaping (Int) -> Void) { (0..<self).forEach { index in closure(index) } }
-    init(_ bool: Bool){
-        self.init(bool ? 1 : 0)
-    }
+    init(_ bool: Bool) { self.init(bool ? 1 : 0) }
 }
 
 extension Collection {

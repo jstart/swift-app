@@ -12,9 +12,7 @@ import UIKit
 
 class CameraManager : NSObject {
     
-    static func authStatus() -> AVAuthorizationStatus {
-        return AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
-    }
+    static func authStatus() -> AVAuthorizationStatus { return AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) }
     
     static func requestAccess(completionHandler: @escaping ((Bool) -> Void)) {
         let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
@@ -23,11 +21,7 @@ class CameraManager : NSObject {
         case .authorized: completionHandler(true); break
         case .denied: fallthrough
         case .restricted:
-            let alertController = UIAlertController(
-                title: "Camera Access Disabled",
-                message: "In order to scan your card, we need to access the Camera. ",
-                preferredStyle: .alert)
-            
+            let alertController = UIAlertController(title: "Camera Access Disabled", message: "In order to scan your card, we need to access the Camera. ", preferredStyle: .alert)
             let openAction = UIAlertAction("Open Settings") { (action) in
                 guard let url = URL(string:UIApplicationOpenSettingsURLString) else { return }
                 UIApplication.shared.openURL(url as URL)
@@ -40,7 +34,7 @@ class CameraManager : NSObject {
         case .notDetermined:
             AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { granted in
                 completionHandler(granted)
-            })
+            }); break
         }
     }
     

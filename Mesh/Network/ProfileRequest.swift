@@ -13,7 +13,7 @@ struct ProfileRequest : AuthenticatedRequest {
     let path = "profile", method = HTTPMethod.post
     
     var first_name, last_name, email, title, profession : String?,
-        companies : [CompanyModel]?
+        companies : [CompanyModel]?, schools : [SchoolModel]?, interests : [InterestModel]?
     
     func parameters() -> JSONDictionary {
         var parameters = JSONDictionary()
@@ -23,14 +23,17 @@ struct ProfileRequest : AuthenticatedRequest {
         if title != nil { parameters["title"] = title! }
         if profession != nil { parameters["profession"] = profession! }
         if companies != nil { parameters["companies"] = companies!.map({$0.parameters()}) }
+        if schools != nil { parameters["schools"] = schools!.map({$0.parameters()}) }
+        if interests != nil { parameters["interests"] = interests!.map({$0.parameters()}) }
 
         return parameters
     }
     
-    init(first_name: String? = nil, last_name: String? = nil, email: String? = nil, title: String? = nil, profession: String? = nil, companies: [CompanyModel]? = nil) {
+    init(first_name: String? = nil, last_name: String? = nil, email: String? = nil, title: String? = nil, profession: String? = nil, companies: [CompanyModel]? = nil, schools: [SchoolModel]? = nil, interests: [InterestModel]? = nil) {
         self.first_name = first_name; self.last_name = last_name
         self.email = email; self.title = title
         self.profession = profession; self.companies = companies
+        self.schools = schools; self.interests = interests
     }
 }
 
@@ -41,7 +44,7 @@ struct CompanyModel {
     
     func parameters() -> [String : Any] { return ["_id" : id, "start_month" : start_month, "start_year" : start_year, "end_month" : end_month, "end_year" : end_year, "current" : current] }
     
-    static func create(_ JSON: JSONDictionary) -> CompanyModel{
+    static func create(_ JSON: JSONDictionary) -> CompanyModel {
         let id = JSON["id"] as? String ?? "",
             start_month = JSON["start_month"] as? String ?? "",
             start_year = JSON["start_year"] as? String ?? "",
@@ -53,9 +56,30 @@ struct CompanyModel {
     }
 }
 
+struct SchoolModel {
+    let id : String
+    
+    func parameters() -> [String : Any] { return ["_id" : id] }
+    
+    static func create(_ JSON: JSONDictionary) -> SchoolModel {
+        let id = JSON["id"] as? String ?? ""
+        return SchoolModel(id: id)
+    }
+}
+
+struct InterestModel {
+    let id : String
+    
+    func parameters() -> [String : Any] { return ["_id" : id] }
+    
+    static func create(_ JSON: JSONDictionary) -> InterestModel {
+        let id = JSON["id"] as? String ?? ""
+        return InterestModel(id: id)
+    }
+}
+
 struct PhotoRequest : AuthenticatedRequest {
     let path = "photo", method = HTTPMethod.post
     
     let file : Data
 }
-

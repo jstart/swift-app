@@ -12,12 +12,19 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
 
     var phoneField, passwordField : UITextField?,
         formatter = PhoneNumberFormatter()
+    let demoFlag = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Login"
         tableView.registerClass(UITableViewCell.self)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(login))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated);
+        UIApplication.shared.isStatusBarHidden = false
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -50,14 +57,19 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func login() {
-        Client.execute(LoginRequest(phone_number: phoneField!.text!.onlyNumbers(), password: passwordField!.text!), complete: { response in
+        Client.execute(LoginRequest(phone_number: "+1" + phoneField!.text!.onlyNumbers(), password: passwordField!.text!), complete: { response in
             if response.result.value != nil {
                 LaunchData.fetchLaunchData()
-                UIApplication.shared.delegate!.window??.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
+                if self.demoFlag {
+                    UIApplication.shared.delegate!.window??.rootViewController = LaunchViewController().withNav()
+                } else {
+                    UIApplication.shared.delegate!.window??.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
+                }
                 Keychain.deleteLogin()
                 let _ = Keychain.addLogin(phone: self.phoneField!.text!, password: self.passwordField!.text!)
             } else {
-                let alert = UIAlertController.alert(title: "Error", message: response.result.error?.localizedDescription ?? "Unknown Error")
+                let bodyString = NSString(data: response.data!, encoding: String.Encoding.ascii.rawValue) as! String
+                let alert = UIAlertController.alert(title: "Error", message: bodyString + " " + response.result.error!.localizedDescription)
                 alert.addAction(UIAlertAction.ok())
                 self.present(alert)
             }

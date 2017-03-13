@@ -18,7 +18,7 @@ open class PreviewError {
         self.message = type.rawValue + ": \"\(url.absoluteString)\""
     }
     
-    public init(type: PreviewErrorType, url: String){
+    public init(type: PreviewErrorType, url: String) {
         self.type = type
         self.message = type.rawValue + ": \"\(url)\""
     }

@@ -12,14 +12,10 @@ import SafariServices
 class SkillCardViewController : BaseCardViewController {
 
     let name = UILabel().then {
-        $0.textColor = .darkGray
-        $0.font = .boldProxima(ofSize: 18)
-        $0.text = "John Doe"
+        $0.textColor = .darkGray; $0.font = .gothamBold(ofSize: 18); $0.text = "John Doe"
     }
     let subtitle = UILabel().then {
-        $0.textColor = .lightGray
-        $0.font = .proxima(ofSize: 15)
-        $0.text = "Popular in your industry"
+        $0.textColor = .lightGray; $0.font = .gothamBook(ofSize: 15); $0.text = "Popular in your industry"
     }
     let media = UIImageView(translates: false).then {
         $0.contentMode = .scaleAspectFill
@@ -50,7 +46,7 @@ class SkillCardViewController : BaseCardViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        media.af_setImage(withURL: URL(string: "https://scontent.xx.fbcdn.net/t31.0-8/12829144_10207668383179007_4083742861292722789_o.jpg")!)
+        media.af_setImage(withURL: URL(string: "https://scontent.xx.fbcdn.net/t31.0-8/12829144_10207668383179007_4083742861292722789_o.jpg")!, imageTransition: .crossDissolve(0.2))
     }
     
 //    override func tap(_ sender: UITapGestureRecognizer) { navigationController?.safari("https://twitter.com/@iAmChrisTruman") }

@@ -42,46 +42,51 @@ struct Client {
     static var baseURL = "http://dev.mesh.tinderventures.com:1337/"
     
     static func upload(_ request : PhotoRequest, completionHandler: @escaping (DataResponse<Any>) -> Void) {
-        let fullPath = baseURL + request.path
+        DispatchQueue.global(qos: .userInitiated).async {
+            let fullPath = baseURL + request.path
 
-        Alamofire.upload(multipartFormData: { multipartFormData in
-            //multipartFormData.append(request.file, withName: "picture")
-            multipartFormData.append(request.file, withName: "picture", fileName: "file.jpg", mimeType: "image/jpeg")
-            }, to: fullPath, method: .post, headers: request.headers(), encodingCompletion: { result in
-                switch result {
-                case .success(let upload, _, _):
-                    upload.responseJSON(completionHandler: completionHandler).validate(); break
-                case .failure: break
-                }
-        })
+            Alamofire.upload(multipartFormData: { multipartFormData in
+                //multipartFormData.append(request.file, withName: "picture")
+                multipartFormData.append(request.file, withName: "picture", fileName: "file.jpg", mimeType: "image/jpeg")
+                }, to: fullPath, method: .post, headers: request.headers(), encodingCompletion: { result in
+                    switch result {
+                    case .success(let upload, _, _):
+                        upload.responseJSON(completionHandler: completionHandler).validate(); break
+                    case .failure: break }
+            })
+        }
     }
     
     static func execute(_ request : Request, complete: @escaping ((DataResponse<Any>) -> Void) = { _ in } ) {
-        let fullPath = baseURL + request.path
-
-        Alamofire.request(fullPath, method: request.method, parameters: request.parameters().count == 0 ? nil : request.parameters(), encoding: request.method == .post || request.method == .put ? JSONEncoding() : URLEncoding(), headers: request.headers())
-            .validate()
-            .responseJSON { response in
-                if request is LogoutRequest { NotificationCenter.default.post(name: .logout, object: nil) }
-                
-                if let errorText = response.result.error?.localizedDescription { if errorText.contains("401") { NotificationCenter.default.post(name: .logout, object: nil) } }
-                
-                if request is LoginRequest || request is AuthRequest || request is ProfileRequest {
-                    guard let JSON = response.result.value as? JSONDictionary else { complete(response); return }
-                    UserResponse.current = UserResponse.create(JSON)
-                    StandardDefaults.set(JSON, forKey: "CurrentUser")
-                    Crashlytics.sharedInstance().setUserName(UserResponse.current?.fullName()); Crashlytics.sharedInstance().setUserIdentifier(UserResponse.current?._id)
-                    if request is AuthRequest || request is LoginRequest {
-                        Token.persistToken(UserResponse.current?.token ?? "")
-                        Token.persistLogin((phone_number: UserResponse.current!.phone_number!, password: request.parameters()["password"] as! String))
-                        Keychain.deleteLogin()
-                        let _ = Keychain.addLogin(phone: UserResponse.current!.phone_number!, password: request.parameters()["password"] as! String)
+        DispatchQueue.global(qos: .userInitiated).async {
+            let fullPath = baseURL + request.path
+            
+            Alamofire.request(fullPath, method: request.method, parameters: request.parameters().count == 0 ? nil : request.parameters(), encoding: request.method == .post || request.method == .put ? JSONEncoding() : URLEncoding(), headers: request.headers())
+                .validate()
+                .responseJSON { response in
+                    if request is LogoutRequest { NotificationCenter.default.post(name: .logout, object: nil) }
+                    
+                    if let errorText = response.result.error?.localizedDescription { if errorText.contains("401") { NotificationCenter.default.post(name: .logout, object: nil) } }
+                    
+                    if request is LoginRequest || request is AuthRequest || request is ProfileRequest {
+                        guard let JSON = response.result.value as? JSONDictionary else { complete(response); return }
+                        UserResponse.current = UserResponse.create(JSON)
+                        StandardDefaults.set(JSON, forKey: "CurrentUser")
+                        Crashlytics.sharedInstance().setUserName(UserResponse.current?.fullName()); Crashlytics.sharedInstance().setUserIdentifier(UserResponse.current?._id)
+                        if request is AuthRequest || request is LoginRequest {
+                            SocketHandler.startListening()
+                            Token.persistToken(UserResponse.current?.token ?? "")
+                            guard let phone = UserResponse.current?.phone_number, let password = request.parameters()["password"] as? String else { return }
+                            Token.persistLogin((phone_number: phone, password: password))
+                            Keychain.deleteLogin()
+                            let _ = Keychain.addLogin(phone: phone, password: password)
+                        }
                     }
-                }
-                
-                if request is TokenRequest { Token.persistToken((response.result.value as? JSONDictionary)?["token"] as? String ?? "") }
-                
-                complete(response)
+                    
+                    if request is TokenRequest { Token.persistToken((response.result.value as? JSONDictionary)?["token"] as? String ?? "") }
+                    
+                    complete(response)
+            }
         }
     }
 }
